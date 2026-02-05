@@ -1,33 +1,206 @@
-Welcome to your new TanStack app! 
+# Compass Coaching
 
-# Getting Started
+A career guidance and assessment platform designed to help individuals navigate their professional journey with confidence.
 
-To run this application:
+## 🎯 Overview
+
+Compass Coaching provides:
+- **Career Assessment**: 5-step personality and aptitude assessment
+- **Resource Library**: 72+ career resources across 12 categories
+- **Personalized Results**: Tailored career recommendations based on assessment
+- **Progress Tracking**: Visual progress indicators throughout the assessment
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+ and npm
+- Modern browser (Chrome, Firefox, Safari, Edge)
+
+### Installation
 
 ```bash
+# Install dependencies
 npm install
+
+# Start development server
 npm run dev
 ```
 
-# Building For Production
+The app will be available at `http://localhost:3000`
 
-To build this application for production:
+### Development Commands
+
+```bash
+npm run dev         # Start dev server
+npm run build       # Build for production
+npm run preview     # Preview production build
+npm run format      # Format code with Biome
+npm run lint        # Lint code with Biome
+npm run check       # Run format + lint checks
+npm run test        # Run tests (when implemented)
+```
+
+## 📁 Project Structure
+
+```
+src/
+├── components/       # Reusable UI components
+│   ├── ui/          # Base primitives (Button, Card, Badge)
+│   ├── layout/      # Layout components (Container)
+│   └── Header.tsx   # Site navigation
+├── data/            # Centralized data and constants
+│   └── resources.ts # Resource definitions and helpers
+├── lib/             # Utility functions
+│   └── storage.ts   # LocalStorage wrapper
+├── routes/          # File-based routing
+│   ├── index.tsx    # Home page
+│   ├── intake/      # Assessment flow
+│   └── resources/   # Resource library
+└── types/           # Shared TypeScript types
+```
+
+## 📚 Documentation
+
+- **[ARCHITECTURE.md](./ARCHITECTURE.md)** - System design and technical decisions
+- **[BEST_PRACTICES.md](./BEST_PRACTICES.md)** - Coding standards and conventions
+- **[REFACTORING_TASKS.md](./REFACTORING_TASKS.md)** - Ongoing consolidation work
+
+## 🛠️ Tech Stack
+
+- **Framework**: React 19.2 + TypeScript 5.7
+- **Routing**: TanStack Router 1.132 (file-based)
+- **Styling**: Tailwind CSS 4.0
+- **Build Tool**: Vite 7.1
+- **Code Quality**: Biome 2.2 (formatting + linting)
+- **Storage**: LocalStorage (browser-based persistence)
+
+## 🎨 Key Features
+
+### 1. Career Assessment
+Multi-step assessment covering:
+- Basic information
+- Personality traits
+- Personal values
+- Career aptitudes
+- Challenges and concerns
+
+### 2. Resource Library
+12 categories with 6 resources each:
+- Career Exploration
+- Resume & Cover Letters
+- Interview Preparation
+- Job Search Strategies
+- Professional Development
+- Networking
+- Salary & Negotiation
+- Education & Training
+- Career Transitions
+- Industry Insights
+- Tools & Templates
+- Skills Development
+
+### 3. Smart Navigation
+- Progress tracking for assessments
+- "Continue Assessment" button
+- Collapsible resource menu
+- Search across all resources
+
+## 🔧 Configuration
+
+### Tailwind CSS
+Custom configuration in `tailwind.config.ts`:
+- Primary color: lime-500
+- Custom gradients
+- Extended spacing
+
+### TypeScript
+Strict mode enabled with:
+- No implicit any
+- Strict null checks
+- No unused locals/parameters
+
+### Biome
+Configuration in `biome.json`:
+- Line width: 100
+- Tab width: 2
+- Single quotes preferred
+
+## 🏗️ Building For Production
 
 ```bash
 npm run build
 ```
 
-## Testing
+Output will be in the `dist/` directory. Deploy to any static hosting service:
+- Vercel
+- Netlify
+- GitHub Pages
+- Cloudflare Pages
 
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
+## 🧪 Testing
 
 ```bash
-npm run test
+npm run test        # Run tests
 ```
 
-## Styling
+*Note: Test infrastructure is planned but not yet implemented. See [REFACTORING_TASKS.md](./REFACTORING_TASKS.md) for details.*
 
-This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
+## 📈 Development Status
+
+### Completed ✅
+- Core routing structure
+- Assessment flow (5 steps)
+- Resource library (72 resources)
+- Centralized data management
+- Navigation with progress tracking
+- Search functionality
+
+### In Progress 🚧
+- Dynamic resource category pages
+- Data consolidation refactoring
+
+### Planned 📋
+- Description field for resources
+- Custom hooks extraction
+- Accessibility audit
+- Comprehensive testing
+- Error boundaries
+
+See [REFACTORING_TASKS.md](./REFACTORING_TASKS.md) for complete roadmap.
+
+## 🤝 Contributing
+
+### Code Standards
+All code must:
+1. Pass TypeScript type checking
+2. Pass Biome formatting and linting
+3. Follow patterns in [BEST_PRACTICES.md](./BEST_PRACTICES.md)
+4. Include proper TypeScript types
+5. Use semantic HTML and accessibility features
+
+### Workflow
+1. Format code: `npm run format`
+2. Check for issues: `npm run check`
+3. Test manually in browser
+4. Commit with conventional commit messages
+
+## 📝 License
+
+This project is built for a non-profit career coaching organization.
+
+## 🙏 Acknowledgments
+
+Built with:
+- [React](https://react.dev/)
+- [TanStack Router](https://tanstack.com/router)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Lucide Icons](https://lucide.dev/)
+- [Biome](https://biomejs.dev/)
+
+---
+
+**Version**: 1.0.0
+**Last Updated**: February 4, 2026
 
 
 ## Linting & Formatting

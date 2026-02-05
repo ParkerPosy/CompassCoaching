@@ -13,18 +13,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ResourcesIndexRouteImport } from './routes/resources/index'
 import { Route as IntakeIndexRouteImport } from './routes/intake/index'
-import { Route as ResourcesToolsTemplatesRouteImport } from './routes/resources/tools-templates'
-import { Route as ResourcesSkillsDevelopmentRouteImport } from './routes/resources/skills-development'
-import { Route as ResourcesSalaryNegotiationRouteImport } from './routes/resources/salary-negotiation'
-import { Route as ResourcesResumeCoverLettersRouteImport } from './routes/resources/resume-cover-letters'
-import { Route as ResourcesProfessionalDevelopmentRouteImport } from './routes/resources/professional-development'
-import { Route as ResourcesNetworkingRouteImport } from './routes/resources/networking'
-import { Route as ResourcesJobSearchRouteImport } from './routes/resources/job-search'
-import { Route as ResourcesInterviewPrepRouteImport } from './routes/resources/interview-prep'
-import { Route as ResourcesIndustryInsightsRouteImport } from './routes/resources/industry-insights'
-import { Route as ResourcesEducationTrainingRouteImport } from './routes/resources/education-training'
-import { Route as ResourcesCareerTransitionsRouteImport } from './routes/resources/career-transitions'
-import { Route as ResourcesCareerExplorationRouteImport } from './routes/resources/career-exploration'
+import { Route as ResourcesCategorySlugRouteImport } from './routes/resources/$categorySlug'
 import { Route as IntakeValuesRouteImport } from './routes/intake/values'
 import { Route as IntakeReviewRouteImport } from './routes/intake/review'
 import { Route as IntakeResultsRouteImport } from './routes/intake/results'
@@ -53,74 +42,11 @@ const IntakeIndexRoute = IntakeIndexRouteImport.update({
   path: '/intake/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ResourcesToolsTemplatesRoute = ResourcesToolsTemplatesRouteImport.update({
-  id: '/resources/tools-templates',
-  path: '/resources/tools-templates',
+const ResourcesCategorySlugRoute = ResourcesCategorySlugRouteImport.update({
+  id: '/resources/$categorySlug',
+  path: '/resources/$categorySlug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ResourcesSkillsDevelopmentRoute =
-  ResourcesSkillsDevelopmentRouteImport.update({
-    id: '/resources/skills-development',
-    path: '/resources/skills-development',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ResourcesSalaryNegotiationRoute =
-  ResourcesSalaryNegotiationRouteImport.update({
-    id: '/resources/salary-negotiation',
-    path: '/resources/salary-negotiation',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ResourcesResumeCoverLettersRoute =
-  ResourcesResumeCoverLettersRouteImport.update({
-    id: '/resources/resume-cover-letters',
-    path: '/resources/resume-cover-letters',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ResourcesProfessionalDevelopmentRoute =
-  ResourcesProfessionalDevelopmentRouteImport.update({
-    id: '/resources/professional-development',
-    path: '/resources/professional-development',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ResourcesNetworkingRoute = ResourcesNetworkingRouteImport.update({
-  id: '/resources/networking',
-  path: '/resources/networking',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ResourcesJobSearchRoute = ResourcesJobSearchRouteImport.update({
-  id: '/resources/job-search',
-  path: '/resources/job-search',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ResourcesInterviewPrepRoute = ResourcesInterviewPrepRouteImport.update({
-  id: '/resources/interview-prep',
-  path: '/resources/interview-prep',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ResourcesIndustryInsightsRoute =
-  ResourcesIndustryInsightsRouteImport.update({
-    id: '/resources/industry-insights',
-    path: '/resources/industry-insights',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ResourcesEducationTrainingRoute =
-  ResourcesEducationTrainingRouteImport.update({
-    id: '/resources/education-training',
-    path: '/resources/education-training',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ResourcesCareerTransitionsRoute =
-  ResourcesCareerTransitionsRouteImport.update({
-    id: '/resources/career-transitions',
-    path: '/resources/career-transitions',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ResourcesCareerExplorationRoute =
-  ResourcesCareerExplorationRouteImport.update({
-    id: '/resources/career-exploration',
-    path: '/resources/career-exploration',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const IntakeValuesRoute = IntakeValuesRouteImport.update({
   id: '/intake/values',
   path: '/intake/values',
@@ -167,18 +93,7 @@ export interface FileRoutesByFullPath {
   '/intake/results': typeof IntakeResultsRoute
   '/intake/review': typeof IntakeReviewRoute
   '/intake/values': typeof IntakeValuesRoute
-  '/resources/career-exploration': typeof ResourcesCareerExplorationRoute
-  '/resources/career-transitions': typeof ResourcesCareerTransitionsRoute
-  '/resources/education-training': typeof ResourcesEducationTrainingRoute
-  '/resources/industry-insights': typeof ResourcesIndustryInsightsRoute
-  '/resources/interview-prep': typeof ResourcesInterviewPrepRoute
-  '/resources/job-search': typeof ResourcesJobSearchRoute
-  '/resources/networking': typeof ResourcesNetworkingRoute
-  '/resources/professional-development': typeof ResourcesProfessionalDevelopmentRoute
-  '/resources/resume-cover-letters': typeof ResourcesResumeCoverLettersRoute
-  '/resources/salary-negotiation': typeof ResourcesSalaryNegotiationRoute
-  '/resources/skills-development': typeof ResourcesSkillsDevelopmentRoute
-  '/resources/tools-templates': typeof ResourcesToolsTemplatesRoute
+  '/resources/$categorySlug': typeof ResourcesCategorySlugRoute
   '/intake/': typeof IntakeIndexRoute
   '/resources/': typeof ResourcesIndexRoute
 }
@@ -192,18 +107,7 @@ export interface FileRoutesByTo {
   '/intake/results': typeof IntakeResultsRoute
   '/intake/review': typeof IntakeReviewRoute
   '/intake/values': typeof IntakeValuesRoute
-  '/resources/career-exploration': typeof ResourcesCareerExplorationRoute
-  '/resources/career-transitions': typeof ResourcesCareerTransitionsRoute
-  '/resources/education-training': typeof ResourcesEducationTrainingRoute
-  '/resources/industry-insights': typeof ResourcesIndustryInsightsRoute
-  '/resources/interview-prep': typeof ResourcesInterviewPrepRoute
-  '/resources/job-search': typeof ResourcesJobSearchRoute
-  '/resources/networking': typeof ResourcesNetworkingRoute
-  '/resources/professional-development': typeof ResourcesProfessionalDevelopmentRoute
-  '/resources/resume-cover-letters': typeof ResourcesResumeCoverLettersRoute
-  '/resources/salary-negotiation': typeof ResourcesSalaryNegotiationRoute
-  '/resources/skills-development': typeof ResourcesSkillsDevelopmentRoute
-  '/resources/tools-templates': typeof ResourcesToolsTemplatesRoute
+  '/resources/$categorySlug': typeof ResourcesCategorySlugRoute
   '/intake': typeof IntakeIndexRoute
   '/resources': typeof ResourcesIndexRoute
 }
@@ -218,18 +122,7 @@ export interface FileRoutesById {
   '/intake/results': typeof IntakeResultsRoute
   '/intake/review': typeof IntakeReviewRoute
   '/intake/values': typeof IntakeValuesRoute
-  '/resources/career-exploration': typeof ResourcesCareerExplorationRoute
-  '/resources/career-transitions': typeof ResourcesCareerTransitionsRoute
-  '/resources/education-training': typeof ResourcesEducationTrainingRoute
-  '/resources/industry-insights': typeof ResourcesIndustryInsightsRoute
-  '/resources/interview-prep': typeof ResourcesInterviewPrepRoute
-  '/resources/job-search': typeof ResourcesJobSearchRoute
-  '/resources/networking': typeof ResourcesNetworkingRoute
-  '/resources/professional-development': typeof ResourcesProfessionalDevelopmentRoute
-  '/resources/resume-cover-letters': typeof ResourcesResumeCoverLettersRoute
-  '/resources/salary-negotiation': typeof ResourcesSalaryNegotiationRoute
-  '/resources/skills-development': typeof ResourcesSkillsDevelopmentRoute
-  '/resources/tools-templates': typeof ResourcesToolsTemplatesRoute
+  '/resources/$categorySlug': typeof ResourcesCategorySlugRoute
   '/intake/': typeof IntakeIndexRoute
   '/resources/': typeof ResourcesIndexRoute
 }
@@ -245,18 +138,7 @@ export interface FileRouteTypes {
     | '/intake/results'
     | '/intake/review'
     | '/intake/values'
-    | '/resources/career-exploration'
-    | '/resources/career-transitions'
-    | '/resources/education-training'
-    | '/resources/industry-insights'
-    | '/resources/interview-prep'
-    | '/resources/job-search'
-    | '/resources/networking'
-    | '/resources/professional-development'
-    | '/resources/resume-cover-letters'
-    | '/resources/salary-negotiation'
-    | '/resources/skills-development'
-    | '/resources/tools-templates'
+    | '/resources/$categorySlug'
     | '/intake/'
     | '/resources/'
   fileRoutesByTo: FileRoutesByTo
@@ -270,18 +152,7 @@ export interface FileRouteTypes {
     | '/intake/results'
     | '/intake/review'
     | '/intake/values'
-    | '/resources/career-exploration'
-    | '/resources/career-transitions'
-    | '/resources/education-training'
-    | '/resources/industry-insights'
-    | '/resources/interview-prep'
-    | '/resources/job-search'
-    | '/resources/networking'
-    | '/resources/professional-development'
-    | '/resources/resume-cover-letters'
-    | '/resources/salary-negotiation'
-    | '/resources/skills-development'
-    | '/resources/tools-templates'
+    | '/resources/$categorySlug'
     | '/intake'
     | '/resources'
   id:
@@ -295,18 +166,7 @@ export interface FileRouteTypes {
     | '/intake/results'
     | '/intake/review'
     | '/intake/values'
-    | '/resources/career-exploration'
-    | '/resources/career-transitions'
-    | '/resources/education-training'
-    | '/resources/industry-insights'
-    | '/resources/interview-prep'
-    | '/resources/job-search'
-    | '/resources/networking'
-    | '/resources/professional-development'
-    | '/resources/resume-cover-letters'
-    | '/resources/salary-negotiation'
-    | '/resources/skills-development'
-    | '/resources/tools-templates'
+    | '/resources/$categorySlug'
     | '/intake/'
     | '/resources/'
   fileRoutesById: FileRoutesById
@@ -321,18 +181,7 @@ export interface RootRouteChildren {
   IntakeResultsRoute: typeof IntakeResultsRoute
   IntakeReviewRoute: typeof IntakeReviewRoute
   IntakeValuesRoute: typeof IntakeValuesRoute
-  ResourcesCareerExplorationRoute: typeof ResourcesCareerExplorationRoute
-  ResourcesCareerTransitionsRoute: typeof ResourcesCareerTransitionsRoute
-  ResourcesEducationTrainingRoute: typeof ResourcesEducationTrainingRoute
-  ResourcesIndustryInsightsRoute: typeof ResourcesIndustryInsightsRoute
-  ResourcesInterviewPrepRoute: typeof ResourcesInterviewPrepRoute
-  ResourcesJobSearchRoute: typeof ResourcesJobSearchRoute
-  ResourcesNetworkingRoute: typeof ResourcesNetworkingRoute
-  ResourcesProfessionalDevelopmentRoute: typeof ResourcesProfessionalDevelopmentRoute
-  ResourcesResumeCoverLettersRoute: typeof ResourcesResumeCoverLettersRoute
-  ResourcesSalaryNegotiationRoute: typeof ResourcesSalaryNegotiationRoute
-  ResourcesSkillsDevelopmentRoute: typeof ResourcesSkillsDevelopmentRoute
-  ResourcesToolsTemplatesRoute: typeof ResourcesToolsTemplatesRoute
+  ResourcesCategorySlugRoute: typeof ResourcesCategorySlugRoute
   IntakeIndexRoute: typeof IntakeIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
 }
@@ -367,88 +216,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IntakeIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/resources/tools-templates': {
-      id: '/resources/tools-templates'
-      path: '/resources/tools-templates'
-      fullPath: '/resources/tools-templates'
-      preLoaderRoute: typeof ResourcesToolsTemplatesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/resources/skills-development': {
-      id: '/resources/skills-development'
-      path: '/resources/skills-development'
-      fullPath: '/resources/skills-development'
-      preLoaderRoute: typeof ResourcesSkillsDevelopmentRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/resources/salary-negotiation': {
-      id: '/resources/salary-negotiation'
-      path: '/resources/salary-negotiation'
-      fullPath: '/resources/salary-negotiation'
-      preLoaderRoute: typeof ResourcesSalaryNegotiationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/resources/resume-cover-letters': {
-      id: '/resources/resume-cover-letters'
-      path: '/resources/resume-cover-letters'
-      fullPath: '/resources/resume-cover-letters'
-      preLoaderRoute: typeof ResourcesResumeCoverLettersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/resources/professional-development': {
-      id: '/resources/professional-development'
-      path: '/resources/professional-development'
-      fullPath: '/resources/professional-development'
-      preLoaderRoute: typeof ResourcesProfessionalDevelopmentRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/resources/networking': {
-      id: '/resources/networking'
-      path: '/resources/networking'
-      fullPath: '/resources/networking'
-      preLoaderRoute: typeof ResourcesNetworkingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/resources/job-search': {
-      id: '/resources/job-search'
-      path: '/resources/job-search'
-      fullPath: '/resources/job-search'
-      preLoaderRoute: typeof ResourcesJobSearchRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/resources/interview-prep': {
-      id: '/resources/interview-prep'
-      path: '/resources/interview-prep'
-      fullPath: '/resources/interview-prep'
-      preLoaderRoute: typeof ResourcesInterviewPrepRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/resources/industry-insights': {
-      id: '/resources/industry-insights'
-      path: '/resources/industry-insights'
-      fullPath: '/resources/industry-insights'
-      preLoaderRoute: typeof ResourcesIndustryInsightsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/resources/education-training': {
-      id: '/resources/education-training'
-      path: '/resources/education-training'
-      fullPath: '/resources/education-training'
-      preLoaderRoute: typeof ResourcesEducationTrainingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/resources/career-transitions': {
-      id: '/resources/career-transitions'
-      path: '/resources/career-transitions'
-      fullPath: '/resources/career-transitions'
-      preLoaderRoute: typeof ResourcesCareerTransitionsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/resources/career-exploration': {
-      id: '/resources/career-exploration'
-      path: '/resources/career-exploration'
-      fullPath: '/resources/career-exploration'
-      preLoaderRoute: typeof ResourcesCareerExplorationRouteImport
+    '/resources/$categorySlug': {
+      id: '/resources/$categorySlug'
+      path: '/resources/$categorySlug'
+      fullPath: '/resources/$categorySlug'
+      preLoaderRoute: typeof ResourcesCategorySlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/intake/values': {
@@ -513,18 +285,7 @@ const rootRouteChildren: RootRouteChildren = {
   IntakeResultsRoute: IntakeResultsRoute,
   IntakeReviewRoute: IntakeReviewRoute,
   IntakeValuesRoute: IntakeValuesRoute,
-  ResourcesCareerExplorationRoute: ResourcesCareerExplorationRoute,
-  ResourcesCareerTransitionsRoute: ResourcesCareerTransitionsRoute,
-  ResourcesEducationTrainingRoute: ResourcesEducationTrainingRoute,
-  ResourcesIndustryInsightsRoute: ResourcesIndustryInsightsRoute,
-  ResourcesInterviewPrepRoute: ResourcesInterviewPrepRoute,
-  ResourcesJobSearchRoute: ResourcesJobSearchRoute,
-  ResourcesNetworkingRoute: ResourcesNetworkingRoute,
-  ResourcesProfessionalDevelopmentRoute: ResourcesProfessionalDevelopmentRoute,
-  ResourcesResumeCoverLettersRoute: ResourcesResumeCoverLettersRoute,
-  ResourcesSalaryNegotiationRoute: ResourcesSalaryNegotiationRoute,
-  ResourcesSkillsDevelopmentRoute: ResourcesSkillsDevelopmentRoute,
-  ResourcesToolsTemplatesRoute: ResourcesToolsTemplatesRoute,
+  ResourcesCategorySlugRoute: ResourcesCategorySlugRoute,
   IntakeIndexRoute: IntakeIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
 }
