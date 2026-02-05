@@ -36,6 +36,11 @@ interface IStorage {
  */
 class LocalStorageAdapter implements IStorage {
 	get<T>(key: StorageKey): T | null {
+		// Check if we're in a browser environment
+		if (typeof window === "undefined" || typeof localStorage === "undefined") {
+			return null;
+		}
+
 		try {
 			const item = localStorage.getItem(key);
 			return item ? JSON.parse(item) : null;
@@ -46,6 +51,11 @@ class LocalStorageAdapter implements IStorage {
 	}
 
 	set<T>(key: StorageKey, value: T): void {
+		// Check if we're in a browser environment
+		if (typeof window === "undefined" || typeof localStorage === "undefined") {
+			return;
+		}
+
 		try {
 			localStorage.setItem(key, JSON.stringify(value));
 		} catch (error) {
@@ -54,6 +64,11 @@ class LocalStorageAdapter implements IStorage {
 	}
 
 	remove(key: StorageKey): void {
+		// Check if we're in a browser environment
+		if (typeof window === "undefined" || typeof localStorage === "undefined") {
+			return;
+		}
+
 		try {
 			localStorage.removeItem(key);
 		} catch (error) {
@@ -62,6 +77,11 @@ class LocalStorageAdapter implements IStorage {
 	}
 
 	clear(): void {
+		// Check if we're in a browser environment
+		if (typeof window === "undefined" || typeof localStorage === "undefined") {
+			return;
+		}
+
 		try {
 			// Only clear assessment-related keys
 			const keys: StorageKey[] = [
