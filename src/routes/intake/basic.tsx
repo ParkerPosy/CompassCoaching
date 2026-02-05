@@ -5,6 +5,7 @@ import { NavigationButtons } from "@/components/assessment/NavigationButtons";
 import { SectionHeader } from "@/components/assessment/SectionHeader";
 import { Container } from "@/components/layout/container";
 import { Card, CardContent } from "@/components/ui/card";
+import { storage } from "@/lib/storage";
 
 export const Route = createFileRoute("/intake/basic")({
 	component: BasicInfoPage,
@@ -42,13 +43,9 @@ function BasicInfoPage() {
 
 	// Rehydrate form from localStorage on mount
 	useEffect(() => {
-		const saved = localStorage.getItem("assessment_basic");
+		const saved = storage.get<BasicFormData>("assessment_basic");
 		if (saved) {
-			try {
-				setFormData(JSON.parse(saved));
-			} catch (error) {
-				console.error("Failed to parse saved data:", error);
-			}
+			setFormData(saved);
 		}
 	}, []);
 
@@ -58,7 +55,7 @@ function BasicInfoPage() {
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		localStorage.setItem("assessment_basic", JSON.stringify(formData));
+		storage.save("assessment_basic", formData);
 		navigate({ to: "/intake/personality" });
 	};
 
@@ -216,10 +213,7 @@ function BasicInfoPage() {
 						nextDisabled={!isValid}
 						showSave
 						onSave={() => {
-							localStorage.setItem(
-								"assessment_basic",
-								JSON.stringify(formData),
-							);
+							storage.save("assessment_basic", formData);
 							alert("Progress saved!");
 						}}
 					/>

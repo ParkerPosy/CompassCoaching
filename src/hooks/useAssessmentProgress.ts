@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { storage } from "@/lib/storage";
 
 export interface AssessmentProgress {
@@ -13,58 +13,37 @@ export interface AssessmentProgress {
 }
 
 /**
- * Custom hook to track assessment completion progress
- * Checks localStorage for completed sections and determines the next step
- *
- * @returns Assessment progress state with completion status and next section
- *
- * @example
- * ```tsx
- * const progress = useAssessmentProgress();
- * console.log(progress.percentComplete); // 60
- * navigate({ to: progress.nextSection }); // "/intake/aptitude"
- * ```
+ * Subscribe to assessment data changes in localStorage
+ * This function is called by useSyncExternalStore to set up listeners
  */
-export function useAssessmentProgress(): AssessmentProgress {
-	const [progress, setProgress] = useState<AssessmentProgress>(() =>
-		calculateProgress(),
-	);
+function subscribeToAssessmentChanges(callback: () => void) {
+	// Listen for storage events from other tabs/windows
+	const handleStorageChange = (e: StorageEvent) => {
+		if (e.key?.startsWith("assessment_")) {
+			callback();
+		}
+	};
 
-	useEffect(() => {
-		// Update progress when component mounts or when localStorage changes
-		const updatedProgress = calculateProgress();
-		setProgress(updatedProgress);
+	// Listen for storage events in the same tab (custom implementation)
+	const handleLocalStorageChange = (e: Event) => {
+		if (e instanceof CustomEvent && e.detail?.key?.startsWith("assessment_")) {
+			callback();
+		}
+	};
 
-		// Optional: Listen for storage events from other tabs
-		const handleStorageChange = (e: StorageEvent) => {
-			if (e.key?.startsWith("assessment_")) {
-				setProgress(calculateProgress());
-			}
-		};
+	window.addEventListener("storage", handleStorageChange);
+	window.addEventListener("localStorageChange", handleLocalStorageChange);
 
-		window.addEventListener("storage", handleStorageChange);
-		return () => window.removeEventListener("storage", handleStorageChange);
-	}, []);
-
-	// Expose a refresh method for manual updates
-	useEffect(() => {
-		const refreshProgress = () => {
-			setProgress(calculateProgress());
-		};
-
-		// Create a custom event listener for manual refresh
-		window.addEventListener("assessmentUpdated", refreshProgress);
-		return () =>
-			window.removeEventListener("assessmentUpdated", refreshProgress);
-	}, []);
-
-	return progress;
+	return () => {
+		window.removeEventListener("storage", handleStorageChange);
+		window.removeEventListener("localStorageChange", handleLocalStorageChange);
+	};
 }
 
 /**
  * Helper function to calculate current assessment progress
  */
-function calculateProgress(): AssessmentProgress {
+function getAssessmentSnapshot(): AssessmentProgress {
 	// Check which sections are completed
 	const basic = !!storage.get("assessment_basic");
 	const personality = !!storage.get("assessment_personality");
@@ -105,9 +84,22 @@ function calculateProgress(): AssessmentProgress {
 }
 
 /**
- * Utility function to trigger a progress refresh across components
- * Call this after saving assessment data to localStorage
+ * Custom hook to track assessment completion progress
+ * Uses useSyncExternalStore to automatically sync with localStorage changes
+ *
+ * @returns Assessment progress state with completion status and next section
+ *
+ * @example
+ * ```tsx
+ * const progress = useAssessmentProgress();
+ * console.log(progress.percentComplete); // 60
+ * navigate({ to: progress.nextSection }); // "/intake/aptitude"
+ * ```
  */
-export function refreshAssessmentProgress(): void {
-	window.dispatchEvent(new CustomEvent("assessmentUpdated"));
+export function useAssessmentProgress(): AssessmentProgress {
+	return useSyncExternalStore(
+		subscribeToAssessmentChanges,
+		getAssessmentSnapshot,
+		getAssessmentSnapshot, // Server snapshot (same as client for SSR)
+	);
 }

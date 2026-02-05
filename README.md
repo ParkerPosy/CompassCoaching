@@ -1,12 +1,13 @@
 # Compass Coaching
 
-A career guidance and assessment platform designed to help individuals navigate their professional journey with confidence.
+A career and life guidance platform designed to help individuals navigate their professional journey and personal wellbeing with confidence.
 
 ## 🎯 Overview
 
 Compass Coaching provides:
 - **Career Assessment**: 5-step personality and aptitude assessment
-- **Resource Library**: 72+ career resources across 12 categories
+- **Resource Library**: 90+ resources across 15 categories covering career and life guidance
+- **Life Guidance**: Resources for mental wellbeing, relationships, and healthy living
 - **Personalized Results**: Tailored career recommendations based on assessment
 - **Progress Tracking**: Visual progress indicators throughout the assessment
 
@@ -85,7 +86,9 @@ Multi-step assessment covering:
 - Challenges and concerns
 
 ### 2. Resource Library
-12 categories with 6 resources each:
+15 categories with 6 resources each:
+
+**Career Guidance:**
 - Career Exploration
 - Resume & Cover Letters
 - Interview Preparation
@@ -95,9 +98,14 @@ Multi-step assessment covering:
 - Salary & Negotiation
 - Education & Training
 - Career Transitions
-- Industry Insights
-- Tools & Templates
+- Workplace Success
+- Financial Aid & Planning
 - Skills Development
+
+**Life Guidance:**
+- Mental Wellbeing
+- Relationships & Communication
+- Healthy Living
 
 ### 3. Smart Navigation
 - Progress tracking for assessments
@@ -150,7 +158,9 @@ npm run test        # Run tests
 ### Completed ✅
 - Core routing structure
 - Assessment flow (5 steps)
-- Resource library (72 resources)
+- Resource library (90 resources across 15 categories)
+- Career guidance resources (12 categories)
+- Life guidance resources (3 categories)
 - Centralized data management
 - Navigation with progress tracking
 - Search functionality
@@ -186,7 +196,7 @@ All code must:
 
 ## 📝 License
 
-This project is built for a non-profit career coaching organization.
+This project is built for a non-profit career and life coaching organization.
 
 ## 🙏 Acknowledgments
 

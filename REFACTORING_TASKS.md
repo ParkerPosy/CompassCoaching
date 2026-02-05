@@ -3,7 +3,9 @@
 ## Overview
 This document tracks the refactoring tasks to consolidate the codebase and ensure alignment with best practices.
 
-**Date**: February 4, 2026
+Compass Coaching is a career and life guidance platform. Resources span career guidance (12 categories) and life guidance (3 categories: mental wellbeing, relationships, healthy living).
+
+**Date**: February 5, 2026
 **Status**: In Progress
 
 ---
@@ -93,7 +95,7 @@ This document tracks the refactoring tasks to consolidate the codebase and ensur
 
 The centralized resource data doesn't include descriptions. We should:
 - [ ] Add `description` field to Resource interface
-- [ ] Populate descriptions for all 72 resources
+- [ ] Populate descriptions for all 90 resources
 - [ ] Update dynamic page to display descriptions
 
 ### 7. Extract Assessment Data

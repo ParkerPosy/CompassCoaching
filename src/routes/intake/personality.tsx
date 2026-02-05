@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { storage } from "@/lib/storage";
 
 export const Route = createFileRoute("/intake/personality")({
 	component: PersonalityPage,
@@ -109,13 +110,9 @@ function PersonalityPage() {
 
 	// Rehydrate form from localStorage on mount
 	useEffect(() => {
-		const saved = localStorage.getItem("assessment_personality");
+		const saved = storage.get<PersonalityAnswers>("assessment_personality");
 		if (saved) {
-			try {
-				setAnswers(JSON.parse(saved));
-			} catch (error) {
-				console.error("Failed to parse saved data:", error);
-			}
+			setAnswers(saved);
 		}
 	}, []);
 
@@ -125,7 +122,7 @@ function PersonalityPage() {
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		localStorage.setItem("assessment_personality", JSON.stringify(answers));
+		storage.save("assessment_personality", answers);
 		navigate({ to: "/intake/values" });
 	};
 

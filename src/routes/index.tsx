@@ -9,24 +9,30 @@ import {
 } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAssessmentProgress } from "@/hooks";
 
 export const Route = createFileRoute("/")({
 	component: HomePage,
 	head: () => ({
 		meta: [
 			{
-				title: "Compass Coaching - Free Career Assessment & Student Resources",
+				title: "Compass Coaching - Free Career & Life Guidance Assessment",
 			},
 			{
 				name: "description",
 				content:
-					"Discover your career path with our free assessment. Access 100+ resources for college applications, financial aid, and career exploration. Helping 1000+ students navigate their future.",
+					"Navigate your career and life with our free assessment. Access 90+ resources for career exploration, mental wellbeing, financial aid, and personal growth. Helping 1000+ individuals find their path.",
 			},
 		],
 	}),
 });
 
 function HomePage() {
+	const progress = useAssessmentProgress();
+	const hasStarted = progress.percentComplete > 0;
+	// For new users, go to intake intro page. For returning users, go directly to next section.
+	const assessmentDestination = hasStarted ? progress.nextSection : "/intake";
+
 	const features = [
 		{
 			icon: <Compass className="w-12 h-12 text-lime-400" />,
@@ -38,19 +44,19 @@ function HomePage() {
 			icon: <BookOpen className="w-12 h-12 text-lime-400" />,
 			title: "Access Free Resources",
 			description:
-				"Explore our library of guides, templates, and tools covering everything from financial aid to resume writing.",
+				"Explore our library of career and life guidance resources—from resume building to mental wellbeing and healthy living.",
 		},
 		{
 			icon: <Target className="w-12 h-12 text-lime-400" />,
 			title: "Create Your Plan",
 			description:
-				"Build a personalized action plan with clear steps to achieve your educational and career goals.",
+				"Build a personalized action plan with clear steps to achieve your professional and personal goals.",
 		},
 		{
 			icon: <Users className="w-12 h-12 text-lime-400" />,
 			title: "Get Expert Guidance",
 			description:
-				"Connect with experienced career coaches who can provide personalized support and accountability.",
+				"Connect with experienced coaches who can provide personalized support for your career and life journey.",
 		},
 		{
 			icon: <TrendingUp className="w-12 h-12 text-lime-400" />,
@@ -60,16 +66,16 @@ function HomePage() {
 		},
 		{
 			icon: <BookOpen className="w-12 h-12 text-lime-400" />,
-			title: "Explore All Paths",
+			title: "Whole-Person Support",
 			description:
-				"Whether college, trade school, business, or the arts—we help you evaluate all options equally.",
+				"Beyond careers—find resources for mental wellbeing, building relationships, and living a healthier life.",
 		},
 	];
 
 	const stats = [
-		{ value: "1000+", label: "Students Helped" },
+		{ value: "1000+", label: "People Helped" },
 		{ value: "50+", label: "Career Paths" },
-		{ value: "100+", label: "Free Resources" },
+		{ value: "90+", label: "Free Resources" },
 		{ value: "95%", label: "Satisfaction Rate" },
 	];
 
@@ -83,12 +89,12 @@ function HomePage() {
 							Navigate Your <span className="text-lime-600">Future</span>
 						</h1>
 						<p className="text-xl md:text-2xl text-stone-600 mb-8 max-w-2xl mx-auto leading-relaxed">
-							Discover your path with personalized career guidance, free
+							Discover your path with personalized career and life guidance, free
 							resources, and expert support—no matter your starting point.
 						</p>
 						<div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
 							<Link
-								to="/intake"
+								to={assessmentDestination}
 								className="inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-lime-400 text-stone-900 hover:bg-lime-500 focus:ring-lime-400 px-6 py-3 text-lg"
 							>
 								Get Started
@@ -132,7 +138,7 @@ function HomePage() {
 						</h2>
 						<p className="text-lg text-stone-600 max-w-2xl mx-auto">
 							A simple three-step process to help you discover your direction
-							and achieve your goals.
+							and build a fulfilling life.
 						</p>
 					</div>
 
@@ -159,7 +165,7 @@ function HomePage() {
 							</h3>
 							<p className="text-stone-600">
 								Access personalized resources and guidance tailored to your
-								unique path and challenges.
+							unique career path and life goals.
 							</p>
 						</Card>
 
@@ -187,8 +193,7 @@ function HomePage() {
 							Everything You Need
 						</h2>
 						<p className="text-lg text-stone-600 max-w-2xl mx-auto">
-							Comprehensive tools and resources to support your educational and
-							career journey.
+							Comprehensive tools and resources to support your career and personal growth journey.
 						</p>
 					</div>
 
@@ -222,11 +227,11 @@ function HomePage() {
 							Ready to Find Your Path?
 						</h2>
 						<p className="text-lg text-stone-800 mb-8 max-w-xl mx-auto">
-							Start your journey today with our free career assessment. No
-							credit card required.
+							Start your journey today with our free assessment. Discover your
+							career path and build a life you love.
 						</p>
 						<Link
-							to="/intake"
+							to={assessmentDestination}
 							className="inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-stone-900 text-lime-400 hover:bg-stone-800 focus:ring-stone-900 px-6 py-3 text-lg"
 						>
 							Start Your Assessment

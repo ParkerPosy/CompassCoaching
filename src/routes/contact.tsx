@@ -31,7 +31,7 @@ function ContactPage() {
 						</h1>
 						<p className="text-xl text-stone-700">
 							Have questions about Compass Coaching? We're here to help guide
-							you on your journey.
+							you on your career and life journey.
 						</p>
 					</div>
 				</Container>

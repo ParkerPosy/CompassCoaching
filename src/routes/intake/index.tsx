@@ -12,6 +12,7 @@ import {
 import { Container } from "@/components/layout/container";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAssessmentProgress } from "@/hooks";
 
 export const Route = createFileRoute("/intake/")({
 	component: IntakePage,
@@ -23,13 +24,18 @@ export const Route = createFileRoute("/intake/")({
 			{
 				name: "description",
 				content:
-					"Take our comprehensive 5-section career assessment covering personality, values, aptitudes, and challenges. Get personalized career recommendations and guidance. 100% free.",
+					"Take our comprehensive 5-section career assessment covering personality, values, aptitudes, and challenges. Get personalized career recommendations and life guidance resources. 100% free.",
 			},
 		],
 	}),
 });
 
 function IntakePage() {
+	const progress = useAssessmentProgress();
+	const hasStarted = progress.percentComplete > 0;
+	const buttonText = hasStarted ? "Continue Assessment" : "Start Assessment";
+	const buttonDestination = progress.nextSection;
+
 	const sections = [
 		{
 			icon: <CheckCircle className="w-6 h-6" />,
@@ -122,14 +128,16 @@ function IntakePage() {
 
 					<div className="text-center">
 						<Link
-							to="/intake/basic"
+							to={buttonDestination}
 							className="inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-lime-400 text-stone-900 hover:bg-lime-500 active:bg-lime-600 focus:ring-lime-400 px-6 py-3 text-lg mb-4"
 						>
-							Start Assessment
+							{buttonText}
 							<ArrowRight className="w-5 h-5" />
 						</Link>
 						<p className="text-sm text-stone-500">
-							You can save your progress and resume anytime
+							{hasStarted
+								? `${Math.round(progress.percentComplete)}% complete - Pick up where you left off`
+								: "You can save your progress and resume anytime"}
 						</p>
 					</div>
 				</Container>
@@ -265,10 +273,10 @@ function IntakePage() {
 							Your journey to clarity begins with one assessment.
 						</p>
 						<Link
-							to="/intake/basic"
+							to={buttonDestination}
 							className="inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-stone-200 text-stone-900 hover:bg-stone-300 active:bg-stone-400 focus:ring-stone-300 px-6 py-3 text-lg"
 						>
-							Begin Assessment
+							{buttonText}
 							<ArrowRight className="w-5 h-5" />
 						</Link>
 					</div>

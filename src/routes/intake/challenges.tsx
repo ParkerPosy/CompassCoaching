@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { storage } from "@/lib/storage";
 
 export const Route = createFileRoute("/intake/challenges")({
 	component: ChallengesPage,
@@ -44,13 +45,9 @@ function ChallengesPage() {
 
 	// Rehydrate form from localStorage on mount
 	useEffect(() => {
-		const saved = localStorage.getItem("assessment_challenges");
+		const saved = storage.get<ChallengesData>("assessment_challenges");
 		if (saved) {
-			try {
-				setFormData(JSON.parse(saved));
-			} catch (error) {
-				console.error("Failed to parse saved data:", error);
-			}
+			setFormData(saved);
 		}
 	}, []);
 
@@ -79,7 +76,7 @@ function ChallengesPage() {
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		localStorage.setItem("assessment_challenges", JSON.stringify(formData));
+		storage.save("assessment_challenges", formData);
 		navigate({ to: "/intake/review" });
 	};
 

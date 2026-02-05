@@ -1,7 +1,7 @@
 {
   "short_name": "Compass Coaching",
   "name": "Compass Coaching - Navigate Your Future",
-  "description": "Free career assessment and resources for students",
+  "description": "Free career and life guidance assessment with resources for wellbeing, relationships, and professional growth",
   "icons": [
     {
       "src": "favicon.ico",
@@ -23,6 +23,6 @@
   "display": "standalone",
   "theme_color": "#a3e635",
   "background_color": "#fafaf9",
-  "categories": ["education", "career", "counseling"],
+  "categories": ["education", "career", "counseling", "wellness", "lifestyle"],
   "lang": "en-US"
 }

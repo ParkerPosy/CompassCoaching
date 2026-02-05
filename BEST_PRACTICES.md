@@ -1,6 +1,6 @@
 # Compass Coaching - Code Best Practices
 
-This document outlines the coding standards and best practices for the Compass Coaching application.
+This document outlines the coding standards and best practices for the Compass Coaching application—a career and life guidance platform.
 
 ## Table of Contents
 
@@ -187,8 +187,8 @@ export default function MyComponent({ prop1, prop2 }: ComponentProps) {
 // ✅ Good: Centralized data with constants
 // src/data/resources.ts
 export const RESOURCE_TYPES = { ... } as const
-export const CATEGORY_NAMES = { ... } as const
-export const ALL_RESOURCES: Resource[] = [ ... ]
+export const CATEGORY_NAMES = { ... } as const  // career + life guidance categories
+export const ALL_RESOURCES: Resource[] = [ ... ] // 90 resources across 15 categories
 
 // Helper functions for data access
 export function getResourcesByCategory(category: string): Resource[] {

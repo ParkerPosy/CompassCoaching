@@ -1,5 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import {
+	Activity,
 	Award,
 	Book,
 	BookOpen,
@@ -7,10 +8,12 @@ import {
 	DollarSign,
 	FileText,
 	GraduationCap,
+	Heart,
+	Landmark,
+	Smile,
 	Target,
 	TrendingUp,
 	Users,
-	Wrench,
 } from "lucide-react";
 
 export interface Resource {
@@ -35,8 +38,7 @@ export const RESOURCE_TYPES = {
 	ARTICLE: "Article",
 	TEMPLATE: "Template",
 	WORKSHEET: "Worksheet",
-	RESOURCE: "Resource",
-	COURSE: "Course",
+	DIRECTORY: "Directory",
 } as const;
 
 // Category names
@@ -50,9 +52,12 @@ export const CATEGORY_NAMES = {
 	SALARY_NEGOTIATION: "Salary & Negotiation",
 	EDUCATION_TRAINING: "Education & Training",
 	CAREER_TRANSITIONS: "Career Transitions",
-	INDUSTRY_INSIGHTS: "Industry Insights",
-	TOOLS_TEMPLATES: "Tools & Templates",
+	WORKPLACE_SUCCESS: "Workplace Success",
+	FINANCIAL_AID: "Financial Aid & Planning",
 	SKILLS_DEVELOPMENT: "Skills Development",
+	MENTAL_WELLBEING: "Mental Wellbeing",
+	RELATIONSHIPS: "Relationships & Communication",
+	HEALTHY_LIVING: "Healthy Living",
 } as const;
 
 // Master list of all resources - single source of truth
@@ -116,7 +121,7 @@ export const ALL_RESOURCES: Resource[] = [
 	},
 	{
 		title: "Action Words & Phrases",
-		type: RESOURCE_TYPES.RESOURCE,
+		type: RESOURCE_TYPES.DIRECTORY,
 		duration: "10 min",
 		category: CATEGORY_NAMES.RESUME_COVER_LETTERS,
 	},
@@ -165,9 +170,9 @@ export const ALL_RESOURCES: Resource[] = [
 		category: CATEGORY_NAMES.INTERVIEW_PREPARATION,
 	},
 	{
-		title: "Interview Outfit Guide",
-		type: RESOURCE_TYPES.ARTICLE,
-		duration: "10 min",
+		title: "Interview Anxiety Strategies",
+		type: RESOURCE_TYPES.GUIDE,
+		duration: "15 min",
 		category: CATEGORY_NAMES.INTERVIEW_PREPARATION,
 	},
 
@@ -180,7 +185,7 @@ export const ALL_RESOURCES: Resource[] = [
 	},
 	{
 		title: "Job Board Directory",
-		type: RESOURCE_TYPES.RESOURCE,
+		type: RESOURCE_TYPES.DIRECTORY,
 		duration: "10 min",
 		category: CATEGORY_NAMES.JOB_SEARCH,
 	},
@@ -223,9 +228,9 @@ export const ALL_RESOURCES: Resource[] = [
 		category: CATEGORY_NAMES.PROFESSIONAL_DEVELOPMENT,
 	},
 	{
-		title: "Communication Skills Workshop",
-		type: RESOURCE_TYPES.COURSE,
-		duration: "2 hours",
+		title: "Workplace Technology Skills",
+		type: RESOURCE_TYPES.GUIDE,
+		duration: "20 min",
 		category: CATEGORY_NAMES.PROFESSIONAL_DEVELOPMENT,
 	},
 	{
@@ -241,8 +246,8 @@ export const ALL_RESOURCES: Resource[] = [
 		category: CATEGORY_NAMES.PROFESSIONAL_DEVELOPMENT,
 	},
 	{
-		title: "Certification Directory",
-		type: RESOURCE_TYPES.RESOURCE,
+		title: "Free Professional Certifications",
+		type: RESOURCE_TYPES.DIRECTORY,
 		duration: "10 min",
 		category: CATEGORY_NAMES.PROFESSIONAL_DEVELOPMENT,
 	},
@@ -294,7 +299,7 @@ export const ALL_RESOURCES: Resource[] = [
 	},
 	{
 		title: "Salary Research Tools",
-		type: RESOURCE_TYPES.RESOURCE,
+		type: RESOURCE_TYPES.DIRECTORY,
 		duration: "15 min",
 		category: CATEGORY_NAMES.SALARY_NEGOTIATION,
 	},
@@ -332,7 +337,7 @@ export const ALL_RESOURCES: Resource[] = [
 	},
 	{
 		title: "Online Learning Platforms",
-		type: RESOURCE_TYPES.RESOURCE,
+		type: RESOURCE_TYPES.DIRECTORY,
 		duration: "10 min",
 		category: CATEGORY_NAMES.EDUCATION_TRAINING,
 	},
@@ -381,7 +386,7 @@ export const ALL_RESOURCES: Resource[] = [
 		category: CATEGORY_NAMES.CAREER_TRANSITIONS,
 	},
 	{
-		title: "Gap Year Planning Guide",
+		title: "Career Change on a Budget",
 		type: RESOURCE_TYPES.GUIDE,
 		duration: "25 min",
 		category: CATEGORY_NAMES.CAREER_TRANSITIONS,
@@ -393,92 +398,92 @@ export const ALL_RESOURCES: Resource[] = [
 		category: CATEGORY_NAMES.CAREER_TRANSITIONS,
 	},
 	{
-		title: "Entrepreneurship Starter",
-		type: RESOURCE_TYPES.RESOURCE,
-		duration: "40 min",
+		title: "Side Hustle & Freelance Guide",
+		type: RESOURCE_TYPES.GUIDE,
+		duration: "25 min",
 		category: CATEGORY_NAMES.CAREER_TRANSITIONS,
 	},
 
-	// Industry Insights (6)
+	// Workplace Success (6)
 	{
-		title: "Tech Industry Overview",
-		type: RESOURCE_TYPES.ARTICLE,
-		duration: "20 min",
-		category: CATEGORY_NAMES.INDUSTRY_INSIGHTS,
-	},
-	{
-		title: "Healthcare Career Guide",
+		title: "First 90 Days Roadmap",
 		type: RESOURCE_TYPES.GUIDE,
 		duration: "25 min",
-		category: CATEGORY_NAMES.INDUSTRY_INSIGHTS,
+		category: CATEGORY_NAMES.WORKPLACE_SUCCESS,
 	},
 	{
-		title: "Finance & Banking Careers",
-		type: RESOURCE_TYPES.ARTICLE,
-		duration: "20 min",
-		category: CATEGORY_NAMES.INDUSTRY_INSIGHTS,
-	},
-	{
-		title: "Creative Industries Guide",
+		title: "Workplace Communication Skills",
 		type: RESOURCE_TYPES.GUIDE,
-		duration: "25 min",
-		category: CATEGORY_NAMES.INDUSTRY_INSIGHTS,
-	},
-	{
-		title: "Trade & Manufacturing",
-		type: RESOURCE_TYPES.ARTICLE,
 		duration: "20 min",
-		category: CATEGORY_NAMES.INDUSTRY_INSIGHTS,
+		category: CATEGORY_NAMES.WORKPLACE_SUCCESS,
 	},
 	{
-		title: "Emerging Industries",
-		type: RESOURCE_TYPES.RESOURCE,
+		title: "Know Your Rights at Work",
+		type: RESOURCE_TYPES.GUIDE,
 		duration: "30 min",
-		category: CATEGORY_NAMES.INDUSTRY_INSIGHTS,
+		category: CATEGORY_NAMES.WORKPLACE_SUCCESS,
+	},
+	{
+		title: "Managing Workplace Conflict",
+		type: RESOURCE_TYPES.ARTICLE,
+		duration: "15 min",
+		category: CATEGORY_NAMES.WORKPLACE_SUCCESS,
+	},
+	{
+		title: "Performance Review Preparation",
+		type: RESOURCE_TYPES.WORKSHEET,
+		duration: "15 min",
+		category: CATEGORY_NAMES.WORKPLACE_SUCCESS,
+	},
+	{
+		title: "Professional Etiquette Guide",
+		type: RESOURCE_TYPES.GUIDE,
+		duration: "20 min",
+		category: CATEGORY_NAMES.WORKPLACE_SUCCESS,
 	},
 
-	// Tools & Templates (6)
+	// Financial Aid & Planning (6)
 	{
-		title: "Career Planning Workbook",
-		type: RESOURCE_TYPES.TEMPLATE,
+		title: "FAFSA Application Guide",
+		type: RESOURCE_TYPES.GUIDE,
 		duration: "30 min",
-		category: CATEGORY_NAMES.TOOLS_TEMPLATES,
+		category: CATEGORY_NAMES.FINANCIAL_AID,
 	},
 	{
-		title: "Budget Calculator",
-		type: RESOURCE_TYPES.TOOL,
-		duration: "10 min",
-		category: CATEGORY_NAMES.TOOLS_TEMPLATES,
+		title: "Scholarship Search Strategy",
+		type: RESOURCE_TYPES.GUIDE,
+		duration: "25 min",
+		category: CATEGORY_NAMES.FINANCIAL_AID,
 	},
 	{
-		title: "Interview Prep Tracker",
-		type: RESOURCE_TYPES.TEMPLATE,
-		duration: "5 min",
-		category: CATEGORY_NAMES.TOOLS_TEMPLATES,
-	},
-	{
-		title: "Skills Inventory Worksheet",
+		title: "Education Budget Planner",
 		type: RESOURCE_TYPES.WORKSHEET,
-		duration: "20 min",
-		category: CATEGORY_NAMES.TOOLS_TEMPLATES,
-	},
-	{
-		title: "Goal Setting Template",
-		type: RESOURCE_TYPES.TEMPLATE,
 		duration: "15 min",
-		category: CATEGORY_NAMES.TOOLS_TEMPLATES,
+		category: CATEGORY_NAMES.FINANCIAL_AID,
 	},
 	{
-		title: "Professional Bio Generator",
-		type: RESOURCE_TYPES.TOOL,
+		title: "Student Loan Basics",
+		type: RESOURCE_TYPES.GUIDE,
+		duration: "20 min",
+		category: CATEGORY_NAMES.FINANCIAL_AID,
+	},
+	{
+		title: "Employer Tuition Assistance",
+		type: RESOURCE_TYPES.ARTICLE,
 		duration: "10 min",
-		category: CATEGORY_NAMES.TOOLS_TEMPLATES,
+		category: CATEGORY_NAMES.FINANCIAL_AID,
+	},
+	{
+		title: "Grant & Aid Directory",
+		type: RESOURCE_TYPES.DIRECTORY,
+		duration: "15 min",
+		category: CATEGORY_NAMES.FINANCIAL_AID,
 	},
 
 	// Skills Development (6)
 	{
-		title: "In-Demand Skills 2026",
-		type: RESOURCE_TYPES.ARTICLE,
+		title: "In-Demand Skills Guide",
+		type: RESOURCE_TYPES.GUIDE,
 		duration: "20 min",
 		category: CATEGORY_NAMES.SKILLS_DEVELOPMENT,
 	},
@@ -495,8 +500,8 @@ export const ALL_RESOURCES: Resource[] = [
 		category: CATEGORY_NAMES.SKILLS_DEVELOPMENT,
 	},
 	{
-		title: "Learning Resources Directory",
-		type: RESOURCE_TYPES.RESOURCE,
+		title: "Free Learning Resources",
+		type: RESOURCE_TYPES.DIRECTORY,
 		duration: "10 min",
 		category: CATEGORY_NAMES.SKILLS_DEVELOPMENT,
 	},
@@ -511,6 +516,119 @@ export const ALL_RESOURCES: Resource[] = [
 		type: RESOURCE_TYPES.WORKSHEET,
 		duration: "20 min",
 		category: CATEGORY_NAMES.SKILLS_DEVELOPMENT,
+	},
+	// Mental Wellbeing (6)
+	{
+		title: "Managing Stress & Anxiety",
+		type: RESOURCE_TYPES.GUIDE,
+		duration: "20 min",
+		category: CATEGORY_NAMES.MENTAL_WELLBEING,
+	},
+	{
+		title: "Building Resilience",
+		type: RESOURCE_TYPES.GUIDE,
+		duration: "25 min",
+		category: CATEGORY_NAMES.MENTAL_WELLBEING,
+	},
+	{
+		title: "Mindfulness & Self-Care Toolkit",
+		type: RESOURCE_TYPES.WORKSHEET,
+		duration: "15 min",
+		category: CATEGORY_NAMES.MENTAL_WELLBEING,
+	},
+	{
+		title: "Burnout Prevention Strategies",
+		type: RESOURCE_TYPES.ARTICLE,
+		duration: "15 min",
+		category: CATEGORY_NAMES.MENTAL_WELLBEING,
+	},
+	{
+		title: "Mental Health Resources Directory",
+		type: RESOURCE_TYPES.DIRECTORY,
+		duration: "10 min",
+		category: CATEGORY_NAMES.MENTAL_WELLBEING,
+	},
+	{
+		title: "Journal Prompts for Self-Reflection",
+		type: RESOURCE_TYPES.TEMPLATE,
+		duration: "10 min",
+		category: CATEGORY_NAMES.MENTAL_WELLBEING,
+	},
+
+	// Relationships & Communication (6)
+	{
+		title: "Healthy Boundaries Guide",
+		type: RESOURCE_TYPES.GUIDE,
+		duration: "20 min",
+		category: CATEGORY_NAMES.RELATIONSHIPS,
+	},
+	{
+		title: "Active Listening Skills",
+		type: RESOURCE_TYPES.GUIDE,
+		duration: "15 min",
+		category: CATEGORY_NAMES.RELATIONSHIPS,
+	},
+	{
+		title: "Conflict Resolution Strategies",
+		type: RESOURCE_TYPES.ARTICLE,
+		duration: "20 min",
+		category: CATEGORY_NAMES.RELATIONSHIPS,
+	},
+	{
+		title: "Building a Support System",
+		type: RESOURCE_TYPES.GUIDE,
+		duration: "15 min",
+		category: CATEGORY_NAMES.RELATIONSHIPS,
+	},
+	{
+		title: "Conversation Starters & Social Skills",
+		type: RESOURCE_TYPES.WORKSHEET,
+		duration: "10 min",
+		category: CATEGORY_NAMES.RELATIONSHIPS,
+	},
+	{
+		title: "Community & Volunteer Opportunities",
+		type: RESOURCE_TYPES.DIRECTORY,
+		duration: "10 min",
+		category: CATEGORY_NAMES.RELATIONSHIPS,
+	},
+
+	// Healthy Living (6)
+	{
+		title: "Movement for Mental Clarity",
+		type: RESOURCE_TYPES.GUIDE,
+		duration: "15 min",
+		category: CATEGORY_NAMES.HEALTHY_LIVING,
+	},
+	{
+		title: "Sleep & Energy Guide",
+		type: RESOURCE_TYPES.GUIDE,
+		duration: "20 min",
+		category: CATEGORY_NAMES.HEALTHY_LIVING,
+	},
+	{
+		title: "Nutrition on a Budget",
+		type: RESOURCE_TYPES.ARTICLE,
+		duration: "15 min",
+		category: CATEGORY_NAMES.HEALTHY_LIVING,
+	},
+	{
+		title: "Daily Wellness Routine Planner",
+		type: RESOURCE_TYPES.TEMPLATE,
+		duration: "10 min",
+		category: CATEGORY_NAMES.HEALTHY_LIVING,
+	},
+	{
+		title: "Screen Time & Digital Balance",
+		type: RESOURCE_TYPES.ARTICLE,
+		duration: "10 min",
+		category: CATEGORY_NAMES.HEALTHY_LIVING,
+	},
+	{
+		title: "Free Fitness & Wellness Apps",
+		type: RESOURCE_TYPES.DIRECTORY,
+		duration: "10 min",
+		category: CATEGORY_NAMES.HEALTHY_LIVING,
 	},
 ];
 
@@ -581,17 +699,17 @@ export const RESOURCE_CATEGORIES: ResourceCategory[] = [
 	},
 	{
 		icon: Award,
-		title: CATEGORY_NAMES.INDUSTRY_INSIGHTS,
-		description: "Trends and opportunities by sector",
-		path: "/resources/industry-insights",
-		slug: "industry-insights",
+		title: CATEGORY_NAMES.WORKPLACE_SUCCESS,
+		description: "Thrive in your new role from day one",
+		path: "/resources/workplace-success",
+		slug: "workplace-success",
 	},
 	{
-		icon: Wrench,
-		title: CATEGORY_NAMES.TOOLS_TEMPLATES,
-		description: "Downloadable resources for career planning",
-		path: "/resources/tools-templates",
-		slug: "tools-templates",
+		icon: Landmark,
+		title: CATEGORY_NAMES.FINANCIAL_AID,
+		description: "Navigate scholarships, grants, and education funding",
+		path: "/resources/financial-aid",
+		slug: "financial-aid",
 	},
 	{
 		icon: BookOpen,
@@ -599,6 +717,27 @@ export const RESOURCE_CATEGORIES: ResourceCategory[] = [
 		description: "Resources to build in-demand skills",
 		path: "/resources/skills-development",
 		slug: "skills-development",
+	},
+	{
+		icon: Smile,
+		title: CATEGORY_NAMES.MENTAL_WELLBEING,
+		description: "Tools and strategies for a healthier mind",
+		path: "/resources/mental-wellbeing",
+		slug: "mental-wellbeing",
+	},
+	{
+		icon: Heart,
+		title: CATEGORY_NAMES.RELATIONSHIPS,
+		description: "Strengthen your personal and professional connections",
+		path: "/resources/relationships",
+		slug: "relationships",
+	},
+	{
+		icon: Activity,
+		title: CATEGORY_NAMES.HEALTHY_LIVING,
+		description: "Simple habits to support your overall wellbeing",
+		path: "/resources/healthy-living",
+		slug: "healthy-living",
 	},
 ];
 

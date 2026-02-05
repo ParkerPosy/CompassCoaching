@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { storage } from "@/lib/storage";
 
 export const Route = createFileRoute("/intake/aptitude")({
 	component: AptitudeAssessmentPage,
@@ -130,13 +131,9 @@ function AptitudeAssessmentPage() {
 
 	// Rehydrate form from localStorage on mount
 	useEffect(() => {
-		const saved = localStorage.getItem("assessment_aptitude");
+		const saved = storage.get<AptitudeData>("assessment_aptitude");
 		if (saved) {
-			try {
-				setFormData(JSON.parse(saved));
-			} catch (error) {
-				console.error("Failed to parse saved data:", error);
-			}
+			setFormData(saved);
 		}
 	}, []);
 
@@ -153,7 +150,7 @@ function AptitudeAssessmentPage() {
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		localStorage.setItem("assessment_aptitude", JSON.stringify(formData));
+		storage.save("assessment_aptitude", formData);
 		navigate({ to: "/intake/challenges" });
 	};
 
@@ -199,7 +196,7 @@ function AptitudeAssessmentPage() {
 										{category.title}
 									</h3>
 									<div className="space-y-4">
-										{category.items.map((item) => (
+										{category.items.map((item, itemIndex) => (
 											<div key={item} className="space-y-2">
 												<label
 													htmlFor={`${category.key}-${item}`}
@@ -208,15 +205,15 @@ function AptitudeAssessmentPage() {
 													{item}
 												</label>
 												<div className="flex items-center gap-2">
-													{[1, 2, 3, 4, 5].map((rating, index) => (
+													{[1, 2, 3, 4, 5].map((rating) => (
 														<button
 															key={rating}
 															type="button"
 															onClick={() =>
-																handleRatingChange(category.key, index, rating)
+																handleRatingChange(category.key, itemIndex, rating)
 															}
 															className={`px-4 py-2 rounded-lg border-2 transition-all font-medium ${
-																formData[category.key][index] === rating
+																formData[category.key][itemIndex] === rating
 																	? "bg-lime-600 text-white border-lime-600"
 																	: "bg-white text-stone-700 border-stone-300 hover:border-lime-600"
 															}`}

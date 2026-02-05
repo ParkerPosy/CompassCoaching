@@ -1,5 +1,11 @@
 # Compass Coaching - Architecture Overview
 
+## Mission
+
+Compass Coaching is a career and life guidance platform. It provides resources across two pillars:
+- **Career Guidance**: Career exploration, job search, professional development, and financial planning
+- **Life Guidance**: Mental wellbeing, interpersonal relationships, and healthy living (framed as a wellbeing tool, not specialized fitness training)
+
 ## System Architecture
 
 ```
@@ -119,9 +125,9 @@ components/
 data/
 └── resources.ts            # Resource definitions
     ├── RESOURCE_TYPES      # Type constants
-    ├── CATEGORY_NAMES      # Category constants
-    ├── ALL_RESOURCES       # Master resource list
-    ├── RESOURCE_CATEGORIES # Category metadata
+    ├── CATEGORY_NAMES      # Category constants (career + life guidance)
+    ├── ALL_RESOURCES       # Master resource list (90 resources)
+    ├── RESOURCE_CATEGORIES # Category metadata (15 categories)
     └── Helper functions    # Data access functions
 ```
 
@@ -238,6 +244,7 @@ export default function Component({ title, onClick }: ComponentProps) {
 - **No tracking**: No analytics or third-party scripts
 - **No PII collection**: Assessment data is anonymous
 - **LocalStorage only**: Data never leaves the browser
+- **Wellbeing resources**: Life guidance content is educational and supportive, not clinical. Not a substitute for professional mental health services.
 
 ### Future Considerations
 - Content Security Policy (CSP) headers

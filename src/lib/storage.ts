@@ -58,6 +58,10 @@ class LocalStorageAdapter implements IStorage {
 
 		try {
 			localStorage.setItem(key, JSON.stringify(value));
+			// Dispatch custom event to notify subscribers in the same tab
+			window.dispatchEvent(
+				new CustomEvent("localStorageChange", { detail: { key } }),
+			);
 		} catch (error) {
 			console.error(`Error writing ${key} to localStorage:`, error);
 		}

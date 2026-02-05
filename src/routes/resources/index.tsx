@@ -58,7 +58,7 @@ function ResourcesIndexPage() {
 							Resource Library
 						</h1>
 						<p className="text-xl text-stone-600 mb-8">
-							Free guides, templates, and tools to support your career journey
+							Free guides, templates, and tools to support your career and personal growth
 						</p>
 
 						{/* Search Bar with Dropdown */}
