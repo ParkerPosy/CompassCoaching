@@ -68,7 +68,7 @@ const VALUE_LABELS: Record<string, string> = {
  */
 function analyzeAptitudes(aptitude: AptitudeData): Array<{ field: string; score: number; description: string }> {
   const scores = Object.entries(aptitude).map(([key, ratings]) => {
-    const average = ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length
+    const average = ratings.reduce((sum: number, rating: number) => sum + rating, 0) / ratings.length
     const fieldInfo = CAREER_FIELDS[key as keyof typeof CAREER_FIELDS]
 
     return {

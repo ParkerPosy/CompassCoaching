@@ -1,9 +1,10 @@
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
-import { useState } from 'react'
-import { ArrowRight, ArrowLeft, Save } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { useState, useEffect } from 'react'
+import { User } from 'lucide-react'
+import { Card, CardContent } from '@/components/ui/card'
 import { Container } from '@/components/layout/container'
+import { SectionHeader } from '@/components/assessment/SectionHeader'
+import { NavigationButtons } from '@/components/assessment/NavigationButtons'
 
 export const Route = createFileRoute('/intake/basic')({
   component: BasicInfoPage,
@@ -38,6 +39,18 @@ function BasicInfoPage() {
     primaryReason: '',
   })
 
+  // Rehydrate form from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('assessment_basic')
+    if (saved) {
+      try {
+        setFormData(JSON.parse(saved))
+      } catch (error) {
+        console.error('Failed to parse saved data:', error)
+      }
+    }
+  }, [])
+
   const handleChange = (field: keyof BasicFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
@@ -53,25 +66,15 @@ function BasicInfoPage() {
   return (
     <div className="min-h-screen bg-stone-50 py-12 px-6">
       <Container size="sm">
-        {/* Progress Bar */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-stone-600">Section 1 of 5</span>
-            <span className="text-sm font-medium text-stone-600">20% Complete</span>
-          </div>
-          <div className="w-full h-2 bg-stone-200 rounded-full overflow-hidden">
-            <div className="h-full bg-lime-600 transition-all duration-500" style={{ width: '20%' }} />
-          </div>
-        </div>
+        <SectionHeader
+          icon={User}
+          title="Basic Information"
+          subtitle="Let's start with some basic information about you."
+          estimatedTime="2 minutes"
+        />
 
         <form onSubmit={handleSubmit}>
           <Card>
-            <CardHeader>
-              <CardTitle className="text-2xl">Basic Information</CardTitle>
-              <p className="text-stone-600 mt-2">
-                Let's start with some basic information about you. This helps us personalize your experience.
-              </p>
-            </CardHeader>
             <CardContent className="space-y-6">
               {/* Name */}
               <div>
@@ -177,36 +180,17 @@ function BasicInfoPage() {
             </CardContent>
           </Card>
 
-          {/* Navigation */}
-          <div className="flex items-center justify-between mt-8">
-            <Link
-              to="/intake"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border-2 border-stone-300 text-stone-700 hover:bg-stone-50 transition-colors font-medium"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              Back to Overview
-            </Link>
-
-            <div className="flex items-center gap-4">
-              <button
-                type="button"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border-2 border-stone-300 text-stone-700 hover:bg-stone-50 transition-colors font-medium"
-              >
-                <Save className="w-5 h-5" />
-                Save Progress
-              </button>
-              <Button
-                type="submit"
-                variant="primary"
-                size="lg"
-                disabled={!isValid}
-                className="inline-flex items-center gap-2"
-              >
-                Next: Personality
-                <ArrowRight className="w-5 h-5" />
-              </Button>
-            </div>
-          </div>
+          <NavigationButtons
+            backTo="/intake"
+            backLabel="Back to Overview"
+            nextLabel="Next: Personality"
+            nextDisabled={!isValid}
+            showSave
+            onSave={() => {
+              localStorage.setItem('assessment_basic', JSON.stringify(formData))
+              alert('Progress saved!')
+            }}
+          />
         </form>
       </Container>
     </div>

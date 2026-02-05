@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ArrowRight, ArrowLeft, Save, CheckCircle2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -41,6 +41,18 @@ function ChallengesPage() {
     supportSystem: '',
     additionalNotes: '',
   })
+
+  // Rehydrate form from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('assessment_challenges')
+    if (saved) {
+      try {
+        setFormData(JSON.parse(saved))
+      } catch (error) {
+        console.error('Failed to parse saved data:', error)
+      }
+    }
+  }, [])
 
   const handleChange = (field: keyof ChallengesData, value: string | string[]) => {
     setFormData((prev) => ({ ...prev, [field]: value }))

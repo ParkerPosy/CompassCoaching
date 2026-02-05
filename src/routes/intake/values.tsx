@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ArrowRight, ArrowLeft, Save } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -86,6 +86,18 @@ const values = [
 function ValuesPage() {
   const navigate = useNavigate()
   const [ratings, setRatings] = useState<ValueRating>({})
+
+  // Rehydrate form from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('assessment_values')
+    if (saved) {
+      try {
+        setRatings(JSON.parse(saved))
+      } catch (error) {
+        console.error('Failed to parse saved data:', error)
+      }
+    }
+  }, [])
 
   const handleRating = (valueId: string, rating: number) => {
     setRatings((prev) => ({ ...prev, [valueId]: rating }))

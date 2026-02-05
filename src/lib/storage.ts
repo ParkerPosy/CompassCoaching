@@ -3,7 +3,14 @@
  * Currently uses localStorage, but can be easily swapped for API calls
  */
 
-import type { AssessmentResults } from '@/types/assessment'
+import type {
+  AssessmentResults,
+  BasicInfo,
+  PersonalityAnswers,
+  ValueRatings,
+  AptitudeData,
+  ChallengesData
+} from '@/types/assessment'
 
 export type StorageKey = 'assessment_basic' | 'assessment_personality' | 'assessment_values' | 'assessment_aptitude' | 'assessment_challenges' | 'assessment_results'
 
@@ -128,11 +135,11 @@ class StorageService {
    * Compile all assessment sections into final results
    */
   compileResults(): AssessmentResults | null {
-    const basic = this.get('assessment_basic')
-    const personality = this.get('assessment_personality')
-    const values = this.get('assessment_values')
-    const aptitude = this.get('assessment_aptitude')
-    const challenges = this.get('assessment_challenges')
+    const basic = this.get<BasicInfo>('assessment_basic')
+    const personality = this.get<PersonalityAnswers>('assessment_personality')
+    const values = this.get<ValueRatings>('assessment_values')
+    const aptitude = this.get<AptitudeData>('assessment_aptitude')
+    const challenges = this.get<ChallengesData>('assessment_challenges')
 
     // Validate all sections are complete
     if (!basic || !personality || !values || !aptitude || !challenges) {
@@ -140,11 +147,11 @@ class StorageService {
     }
 
     const results: AssessmentResults = {
-      basic,
-      personality,
-      values,
-      aptitude,
-      challenges,
+      basic: basic as BasicInfo,
+      personality: personality as PersonalityAnswers,
+      values: values as ValueRatings,
+      aptitude: aptitude as AptitudeData,
+      challenges: challenges as ChallengesData,
       completedAt: new Date().toISOString(),
       id: `assessment_${Date.now()}`,
     }

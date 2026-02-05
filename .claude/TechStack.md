@@ -31,15 +31,28 @@
 - **TanStack Query** (via react-router-ssr-query) - Server state management
 - **React Context** - For global UI state (theme, user session)
 - **URL State** - For shareable, bookmarkable state
-- **Local Storage** - For user preferences
+- **Storage Abstraction Layer** - Type-safe CRUD with pluggable adapters
+  - `IStorage` interface for adapter pattern
+  - `LocalStorageAdapter` for client-side persistence (currently implemented)
+  - `APIStorageAdapter` for server-side persistence (planned)
+  - Supports assessment data, user preferences, and session state
 
 ### Form Handling
-Recommended additions:
-- **React Hook Form** - Performant form handling with validation
-- **Zod** - Schema validation that works client and server-side
+- **React Hook Form** - Performant form handling with validation (to be added)
+- **Zod** - Schema validation that works client and server-side (to be added)
+- **Custom Form Components** - Built with controlled inputs and TypeScript types
 
-### Data Visualization (Future)
-- **Recharts** or **Chart.js** - For progress tracking visualizations
+### Data Processing & Analysis
+- **Assessment Analyzer** - Custom career matching algorithm
+  - Calculates field scores from aptitude ratings
+  - Ranks values and generates personality insights
+  - Creates personalized recommendations
+  - Generates actionable next steps
+- **Type System** - Complete TypeScript interfaces for all assessment data
+
+### Data Visualization
+- **Custom Progress Bars** - Built with Tailwind for score displays
+- **Recharts** or **Chart.js** (future) - For advanced progress tracking
 
 ## Backend Stack
 
@@ -200,19 +213,45 @@ npm install @tanstack/react-query    # Advanced data fetching
 ```bash
 npm install framer-motion            # Animations
 npm install react-hot-toast          # Toast notifications
-npm install zustand                  # Lightweight state management
-```
-
-## Architecture Patterns
-
-### File Structure
-```
-src/
-├── routes/              # File-based routing
+│   ├── __root.tsx      # Root layout
+│   ├── index.tsx       # Home page
+│   └── intake/         # Assessment flow
+│       ├── index.tsx   # Landing page (/intake/)
+│       ├── basic.tsx   # Basic info (5 questions)
+│       ├── personality.tsx  # Work style (8 questions)
+│       ├── values.tsx  # Values rating (12 items)
+│       ├── aptitude.tsx    # Career interests (32 items)
+│       ├── challenges.tsx  # Constraints (9 fields)
+│       ├── review.tsx      # Summary & submission
+│       └── results.tsx     # Analysis & recommendations
 ├── components/          # Reusable UI components
-│   ├── ui/             # Base UI components (buttons, inputs)
-│   ├── forms/          # Form components
+│   ├── ui/             # Base UI components
+│   │   ├── button.tsx  # Button with variants
+│   │   ├── card.tsx    # Card components
+│   │   └── badge.tsx   # Badge component
 │   ├── layout/         # Layout components
+│   │   └── container.tsx  # Responsive container
+│   ├── forms/          # Form components (planned)
+│   └── features/       # Feature-specific components (planned)
+├── lib/                # Utilities and core logic
+│   ├── storage.ts      # Storage abstraction layer
+│   │                   # - IStorage interface
+│   │                   # - LocalStorageAdapter
+│   │                   # - StorageService class
+│   ├── analyzer.ts     # Assessment analysis engine
+│   │                   # - Career field scoring
+│   │                   # - Values ranking
+│   │                   # - Personality insights
+│   │                   # - Recommendations generation
+│   ├── supabase.ts     # Database client (planned)
+│   ├── auth.ts         # Auth utilities (planned)
+│   └── utils.ts        # General utilities
+├── types/              # TypeScript types
+│   └── assessment.ts   # Complete assessment type system
+├── hooks/              # Custom React hooks (planned)
+├── server/             # Server functions (planned)
+└── styles/             # Global styles
+    └── styles.css      # Tailwind importnents
 │   └── features/       # Feature-specific components
 ├── lib/                # Utilities and helpers
 │   ├── supabase.ts    # Database client

@@ -81,7 +81,7 @@ CREATE POLICY "Coaches can view client profiles"
 
 ### 2. assessments
 
-Main assessment records (personality, values, aptitude)
+Main assessment records tracking user progress through the intake flow
 
 ```sql
 CREATE TABLE assessments (
@@ -89,24 +89,51 @@ CREATE TABLE assessments (
   user_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
 
   -- Assessment Type
-  assessment_type TEXT NOT NULL CHECK (
+  assessment_type TEXT NOT NULL DEFAULT 'full_intake' CHECK (
     assessment_type IN ('personality', 'values', 'aptitude', 'full_intake')
   ),
 
-  -- Progress
+  -- Progress Tracking
   status TEXT DEFAULT 'in_progress' CHECK (
     status IN ('not_started', 'in_progress', 'completed')
   ),
-  current_step INTEGER DEFAULT 1,
-  total_steps INTEGER,
-  completion_percentage INTEGER DEFAULT 0,
+  current_step TEXT, -- Current section: 'basic', 'personality', 'values', 'aptitude', 'challenges'
+  completed_sections TEXT[], -- Array of completed section names
 
-  -- Results (JSONB for flexibility)
-  results JSONB,
+  -- Basic Information
+  full_name TEXT,
+  age INTEGER,
+  education_level TEXT,
+  employment_status TEXT,
+  assessment_reason TEXT,
 
-  -- Computed Scores
-  career_matches JSONB, -- Array of {career: string, score: number}
-  recommended_paths JSONB, -- Array of path recommendations
+  -- Personality Answers (8 questions)
+  personality_data JSONB, -- { workStyle, interactionPreference, ... }
+
+  -- Values Ratings (12 values, 1-5 scale)
+  values_data JSONB, -- { helpingOthers: 5, financialSecurity: 4, ... }
+
+  -- Aptitude Ratings (32 items across 8 categories)
+  aptitude_data JSONB, -- { stem: [ratings...], arts: [ratings...], ... }
+
+  -- Challenges & Constraints
+  challenges_data JSONB, -- { financial, time, location, ... }
+
+  -- Analysis Results (computed from above data)
+  results JSONB, -- Full AssessmentResults object
+
+  -- Computed Analysis (from analyzer.ts)
+  analysis_data JSONB, -- {
+    -- careerFields: [{ name, score, description }],
+    -- topValues: [{ value, rating }],
+    -- personalityInsights: string[],
+    -- recommendations: string[],
+    -- nextSteps: string[]
+  -- }
+
+  -- Career Matches (top 5 fields with scores)
+  career_matches JSONB, -- [{ field: "Healthcare", score: 85 }, ...]
+  top_values JSONB, -- [{ value: "Helping Others", rating: 5 }, ...]
 
   -- Timestamps
   started_at TIMESTAMPTZ DEFAULT NOW(),
@@ -115,14 +142,22 @@ CREATE TABLE assessments (
 
   -- Metadata
   ip_address INET,
-  user_agent TEXT
+  user_agent TEXT,
+
+  -- Storage Keys (matching localStorage implementation)
+  -- Sections saved separately then compiled:
+  -- assessment_basic, assessment_personality, assessment_values,
+  -- assessment_aptitude, assessment_challenges, assessment_results
+  completion_percentage INTEGER DEFAULT 0
 );
 
 -- Indexes
 CREATE INDEX idx_assessments_user_id ON assessments(user_id);
 CREATE INDEX idx_assessments_type ON assessments(assessment_type);
 CREATE INDEX idx_assessments_status ON assessments(status);
+CREATE INDEX idx_assessments_completed_at ON assessments(completed_at DESC);
 CREATE INDEX idx_assessments_results_gin ON assessments USING GIN (results);
+CREATE INDEX idx_assessments_analysis_gin ON assessments USING GIN (analysis_data);
 
 -- Row Level Security
 ALTER TABLE assessments ENABLE ROW LEVEL SECURITY;
@@ -140,7 +175,9 @@ CREATE POLICY "Users can update own assessments"
   USING (auth.uid() = user_id);
 ```
 
-### 3. assessment_answers
+**Note:** The `assessment_answers` table below can be simplified or removed for the initial implementation since we're storing section data directly in the assessments table as JSONB. Keep for future granular tracking needs.
+
+### 3. assessment_answers (Optional - For Detailed Tracking)
 
 Individual answers for each assessment question
 

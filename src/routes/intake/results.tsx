@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Container } from '@/components/layout/container'
 import { Badge } from '@/components/ui/badge'
+import { SectionHeader } from '@/components/assessment/SectionHeader'
+import { ProgressBar } from '@/components/assessment/ProgressBar'
 import { storage } from '@/lib/storage'
 import { analyzeAssessment } from '@/lib/analyzer'
 import type { AssessmentResults, AssessmentAnalysis } from '@/types/assessment'
@@ -62,17 +64,12 @@ function ResultsPage() {
   return (
     <div className="min-h-screen bg-stone-50 py-12 px-6">
       <Container>
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-lime-400 rounded-full mb-6">
-            <Award className="w-10 h-10 text-stone-900" />
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-stone-900 mb-4">
-            Your Career Assessment Results
-          </h1>
-          <p className="text-xl text-stone-600 mb-2">
-            Hi {results.basic.name}! Here's what we discovered about you.
-          </p>
+        <SectionHeader
+          icon={Award}
+          iconBgColor="bg-lime-400"
+          title="Your Career Assessment Results"
+          subtitle={`Hi ${results.basic.name}! Here's what we discovered about you.`}
+        />
           <p className="text-sm text-stone-500">
             Completed on{' '}
             {new Date(results.completedAt).toLocaleDateString('en-US', {
@@ -81,7 +78,6 @@ function ResultsPage() {
               day: 'numeric',
             })}
           </p>
-        </div>
 
         {/* Top Career Fields */}
         <section className="mb-12">
@@ -90,7 +86,7 @@ function ResultsPage() {
             <h2 className="text-3xl font-bold text-stone-900">Your Top Career Fields</h2>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {analysis.topCareerFields.map((field, index) => (
+            {analysis?.topCareerFields.map((field, index) => (
               <Card key={index} className="border-2 border-lime-200 hover:border-lime-400 transition-colors">
                 <CardHeader>
                   <div className="flex items-start justify-between mb-2">
@@ -103,12 +99,7 @@ function ResultsPage() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-stone-600 mb-4">{field.description}</p>
-                  <div className="w-full bg-stone-200 rounded-full h-2">
-                    <div
-                      className="bg-lime-600 h-2 rounded-full transition-all duration-500"
-                      style={{ width: `${field.score}%` }}
-                    />
-                  </div>
+                  <ProgressBar value={field.score} color="lime" size="md" showPercentage={false} />
                 </CardContent>
               </Card>
             ))}
@@ -124,7 +115,7 @@ function ResultsPage() {
           <Card>
             <CardContent className="p-6">
               <div className="grid md:grid-cols-2 gap-6">
-                {analysis.topValues.map((value, index) => (
+                {analysis?.topValues.map((value, index) => (
                   <div key={index} className="flex items-center gap-4">
                     <div className="shrink-0 w-12 h-12 bg-lime-100 rounded-full flex items-center justify-center">
                       <span className="text-lg font-bold text-lime-700">{index + 1}</span>
@@ -157,7 +148,7 @@ function ResultsPage() {
           <Card>
             <CardContent className="p-6">
               <ul className="space-y-4">
-                {analysis.personalityInsights.map((insight, index) => (
+                {analysis?.personalityInsights.map((insight, index) => (
                   <li key={index} className="flex items-start gap-3">
                     <CheckCircle className="w-5 h-5 text-lime-600 shrink-0 mt-0.5" />
                     <span className="text-stone-700">{insight}</span>
@@ -177,7 +168,7 @@ function ResultsPage() {
           <Card className="bg-lime-50 border-2 border-lime-200">
             <CardContent className="p-6">
               <ul className="space-y-4">
-                {analysis.recommendations.map((recommendation, index) => (
+                {analysis?.recommendations.map((recommendation, index) => (
                   <li key={index} className="flex items-start gap-3">
                     <div className="shrink-0 w-6 h-6 bg-lime-600 rounded-full flex items-center justify-center mt-0.5">
                       <span className="text-xs font-bold text-white">{index + 1}</span>
@@ -199,7 +190,7 @@ function ResultsPage() {
           <Card>
             <CardContent className="p-6">
               <ol className="space-y-4">
-                {analysis.nextSteps.map((step, index) => (
+                {analysis?.nextSteps.map((step, index) => (
                   <li key={index} className="flex items-start gap-4">
                     <div className="shrink-0 w-8 h-8 bg-stone-200 rounded-full flex items-center justify-center">
                       <span className="font-semibold text-stone-700">{index + 1}</span>

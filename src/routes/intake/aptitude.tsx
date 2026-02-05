@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ArrowRight, ArrowLeft, Save } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -127,6 +127,18 @@ function AptitudeAssessmentPage() {
     law: [0, 0, 0, 0],
   })
 
+  // Rehydrate form from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('assessment_aptitude')
+    if (saved) {
+      try {
+        setFormData(JSON.parse(saved))
+      } catch (error) {
+        console.error('Failed to parse saved data:', error)
+      }
+    }
+  }, [])
+
   const handleRatingChange = (category: keyof AptitudeData, index: number, rating: number) => {
     setFormData((prev) => ({
       ...prev,
@@ -141,7 +153,7 @@ function AptitudeAssessmentPage() {
   }
 
   const allQuestionsAnswered = Object.values(formData).every((categoryRatings) =>
-    categoryRatings.every((rating) => rating > 0)
+    categoryRatings.every((rating: number) => rating > 0)
   )
 
   return (

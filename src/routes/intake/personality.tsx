@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ArrowRight, ArrowLeft, Save } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -106,6 +106,18 @@ const questions = [
 function PersonalityPage() {
   const navigate = useNavigate()
   const [answers, setAnswers] = useState<PersonalityAnswers>({})
+
+  // Rehydrate form from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('assessment_personality')
+    if (saved) {
+      try {
+        setAnswers(JSON.parse(saved))
+      } catch (error) {
+        console.error('Failed to parse saved data:', error)
+      }
+    }
+  }, [])
 
   const handleAnswer = (questionId: string, value: number) => {
     setAnswers((prev) => ({ ...prev, [questionId]: value }))

@@ -55,55 +55,44 @@ non-profit/
 │
 ├── src/
 │   ├── routes/                  # File-based routing
-│   │   ├── __root.tsx          # Root layout
+│   │   ├── __root.tsx          # Root layout with Header
 │   │   ├── index.tsx           # Home page
-│   │   ├── intake/             # Intake form routes
-│   │   │   ├── index.tsx       # Intake overview
-│   │   │   ├── personality.tsx
-│   │   │   ├── values.tsx
-│   │   │   ├── aptitude.tsx
-│   │   │   └── summary.tsx
-│   │   ├── resources/          # Resource library
-│   │   │   ├── index.tsx       # Resource hub
-│   │   │   ├── financial/      # Financial resources
-│   │   │   ├── careers/        # Career guides
-│   │   │   ├── education/      # College/trade info
-│   │   │   └── tools/          # Templates & tools
-│   │   ├── dashboard/          # User dashboard
+│   │   ├── intake/             # Assessment flow (complete)
+│   │   │   ├── index.tsx       # Landing page (/intake/)
+│   │   │   ├── basic.tsx       # Basic info (5 questions)
+│   │   │   ├── personality.tsx # Work style (8 questions)
+│   │   │   ├── values.tsx      # Values rating (12 items)
+│   │   │   ├── aptitude.tsx    # Career interests (32 items, 8 categories)
+│   │   │   ├── challenges.tsx  # Constraints (9 fields)
+│   │   │   ├── review.tsx      # Summary & submission
+│   │   │   └── results.tsx     # Analysis & recommendations
+│   │   ├── resources.tsx       # Resource library (basic)
+│   │   ├── dashboard/          # User dashboard (planned)
 │   │   │   ├── index.tsx
 │   │   │   ├── progress.tsx
 │   │   │   └── saved.tsx
-│   │   ├── auth/               # Auth pages
+│   │   ├── auth/               # Auth pages (planned)
 │   │   │   ├── login.tsx
 │   │   │   ├── signup.tsx
 │   │   │   └── reset-password.tsx
-│   │   └── api/                # API routes
+│   │   └── api/                # API routes (planned)
 │   │       ├── assessments/
 │   │       └── resources/
 │   │
 │   ├── components/              # React components
-│   │   ├── ui/                 # Base UI components
-│   │   │   ├── Button.tsx
-│   │   │   ├── Input.tsx
-│   │   │   ├── Card.tsx
-│   │   │   ├── Modal.tsx
-│   │   │   ├── Select.tsx
-│   │   │   ├── Checkbox.tsx
-│   │   │   ├── Radio.tsx
-│   │   │   ├── Progress.tsx
-│   │   │   ├── Badge.tsx
-│   │   │   └── Tooltip.tsx
-│   │   ├── layout/             # Layout components
-│   │   │   ├── Header.tsx
-│   │   │   ├── Footer.tsx
-│   │   │   ├── Sidebar.tsx
-│   │   │   └── Container.tsx
-│   │   ├── forms/              # Form components
+│   │   ├── ui/                 # Base UI components (complete)
+│   │   │   ├── button.tsx      # Button with variants & sizes
+│   │   │   ├── card.tsx        # Card, CardHeader, CardTitle, CardContent
+│   │   │   └── badge.tsx       # Badge with variants
+│   │   ├── layout/             # Layout components (complete)
+│   │   │   ├── Header.tsx      # Navigation header with menu
+│   │   │   └── container.tsx   # Responsive container
+│   │   ├── forms/              # Form components (planned)
 │   │   │   ├── AssessmentForm.tsx
 │   │   │   ├── MultiStepForm.tsx
 │   │   │   ├── FormProgress.tsx
 │   │   │   └── QuestionCard.tsx
-│   │   └── features/           # Feature-specific
+│   │   └── features/           # Feature-specific (planned)
 │   │       ├── intake/
 │   │       │   ├── PersonalityQuiz.tsx
 │   │       │   ├── ValuesSelector.tsx
@@ -117,37 +106,45 @@ non-profit/
 │   │           ├── SavedItems.tsx
 │   │           └── RecommendedActions.tsx
 │   │
-│   ├── lib/                     # Utilities & clients
-│   │   ├── supabase.ts         # Supabase client
-│   │   ├── auth.ts             # Auth helpers
-│   │   ├── api.ts              # API utilities
-│   │   ├── utils.ts            # General utilities
-│   │   ├── constants.ts        # App constants
-│   │   └── validation.ts       # Zod schemas
+│   ├── lib/                     # Utilities & core logic (complete)
+│   │   ├── storage.ts          # Storage abstraction layer
+│   │   │                       # - IStorage interface
+│   │   │                       # - LocalStorageAdapter (implemented)
+│   │   │                       # - StorageService with CRUD methods
+│   │   ├── analyzer.ts         # Assessment analysis engine
+│   │   │                       # - Career field scoring algorithm
+│   │   │                       # - Values ranking
+│   │   │                       # - Personality insights generation
+│   │   │                       # - Recommendations & next steps
+│   │   ├── supabase.ts         # Supabase client (planned)
+│   │   ├── auth.ts             # Auth helpers (planned)
+│   │   ├── api.ts              # API utilities (planned)
+│   │   ├── utils.ts            # General utilities (planned)
+│   │   ├── constants.ts        # App constants (planned)
+│   │   └── validation.ts       # Zod schemas (planned)
 │   │
-│   ├── hooks/                   # Custom React hooks
+│   ├── hooks/                   # Custom React hooks (planned)
 │   │   ├── useAuth.ts          # Authentication hook
 │   │   ├── useUser.ts          # User data hook
 │   │   ├── useAssessment.ts    # Assessment state
 │   │   ├── useResources.ts     # Resources fetching
 │   │   └── useLocalStorage.ts  # Local storage hook
 │   │
-│   ├── types/                   # TypeScript types
-│   │   ├── database.ts         # Database types
-│   │   ├── user.ts             # User types
-│   │   ├── assessment.ts       # Assessment types
-│   │   ├── resource.ts         # Resource types
-│   │   └── api.ts              # API types
+│   ├── types/                   # TypeScript types (complete)
+│   │   └── assessment.ts       # Complete assessment type system
+│   │                           # - BasicInfo, PersonalityAnswers
+│   │                           # - ValueRatings, AptitudeData
+│   │                           # - ChallengesData, AssessmentResults
+│   │                           # - AssessmentAnalysis with scoring
 │   │
-│   ├── server/                  # Server functions
+│   ├── server/                  # Server functions (planned)
 │   │   ├── auth/               # Auth logic
 │   │   ├── assessments/        # Assessment handlers
 │   │   ├── resources/          # Resource handlers
 │   │   └── users/              # User management
 │   │
 │   ├── styles/                  # Global styles
-│   │   ├── styles.css          # Main stylesheet
-│   │   └── themes.css          # Theme variables
+│   │   └── styles.css          # Tailwind imports & custom styles
 │   │
 │   ├── router.tsx               # Router configuration
 │   └── routeTree.gen.ts         # Generated route tree
@@ -163,7 +160,149 @@ non-profit/
 
 ## Data Flow Patterns
 
-### 1. Server Function Pattern (Preferred)
+### Current Implementation: Client-Side Storage with Abstraction Layer
+
+The application currently uses a storage abstraction layer for maximum flexibility:
+
+```typescript
+// src/lib/storage.ts - Storage Abstraction
+export interface IStorage {
+  get<T>(key: string): T | null
+  save<T>(key: string, value: T): void
+  remove(key: string): void
+  clearAll(): void
+}
+
+export class LocalStorageAdapter implements IStorage {
+  get<T>(key: string): T | null {
+    const item = localStorage.getItem(key)
+    return item ? JSON.parse(item) : null
+  }
+
+  save<T>(key: string, value: T): void {
+    localStorage.setItem(key, JSON.stringify(value))
+  }
+
+  remove(key: string): void {
+    localStorage.removeItem(key)
+  }
+
+  clearAll(): void {
+    // Clear only assessment keys
+    const keysToRemove = Object.keys(localStorage).filter(
+      key => key.startsWith('assessment_')
+    )
+    keysToRemove.forEach(key => localStorage.removeItem(key))
+  }
+}
+
+// StorageService provides high-level CRUD operations
+export class StorageService {
+  constructor(private adapter: IStorage) {}
+
+  // Section-specific methods
+  get<T>(key: StorageKey): T | null
+  save<T>(key: StorageKey, value: T): void
+
+  // Assessment flow methods
+  compileResults(): AssessmentResults
+  getResults(): AssessmentResults | null
+  isComplete(section: string): boolean
+  getProgress(): { completed: string[], total: number }
+}
+```
+
+**Data Flow Through Assessment:**
+
+```
+User Input → Form State → StorageService.save()
+→ LocalStorageAdapter → localStorage
+→ Review Page (StorageService.get())
+→ StorageService.compileResults()
+→ Analyzer.analyzeAssessment()
+→ Results Page Display
+```
+
+**Storage Keys:**
+- `assessment_basic` - BasicInfo (5 fields)
+- `assessment_personality` - PersonalityAnswers (8 questions)
+- `assessment_values` - ValueRatings (12 values, 1-5 scale)
+- `assessment_aptitude` - AptitudeData (32 items across 8 categories)
+- `assessment_challenges` - ChallengesData (9 constraint fields)
+- `assessment_results` - AssessmentResults (compiled with analysis)
+
+### Assessment Analysis Engine
+
+```typescript
+// src/lib/analyzer.ts
+export function analyzeAssessment(results: AssessmentResults): AssessmentAnalysis {
+  // 1. Analyze aptitudes - calculate field scores
+  const aptitudeAnalysis = analyzeAptitudes(results.aptitude)
+  // Returns: { fieldName: score 0-100 }[] sorted by score
+
+  // 2. Rank values - top 5 most important
+  const valuesAnalysis = analyzeValues(results.values)
+  // Returns: { value: string, rating: number }[] top 5
+
+  // 3. Generate personality insights
+  const personalityInsights = analyzePersonality(results.personality)
+  // Returns: string[] of interpretive statements
+
+  // 4. Create recommendations based on all factors
+  const recommendations = generateRecommendations(/* all analyses */)
+  // Returns: string[] personalized to user's profile
+
+  // 5. Generate actionable next steps
+  const nextSteps = generateNextSteps(/* challenges + top fields */)
+  // Returns: string[] prioritized actions
+
+  return {
+    careerFields: aptitudeAnalysis,
+    topValues: valuesAnalysis,
+    personalityInsights,
+    recommendations,
+    nextSteps,
+    completedAt: new Date().toISOString()
+  }
+}
+```
+
+**Career Scoring Algorithm:**
+- Groups 32 aptitude items into 8 career categories
+- Calculates average rating per category
+- Converts to 0-100 scale (rating 1-5 → 0-100)
+- Sorts fields by score, returns top 5 matches
+
+### Future: Server Function Pattern (Planned)
+
+When backend API is ready, replace LocalStorageAdapter with APIStorageAdapter:
+
+```typescript
+// src/lib/storage.ts - Future API Adapter
+export class APIStorageAdapter implements IStorage {
+  async get<T>(key: string): Promise<T | null> {
+    const response = await fetch(`/api/storage/${key}`)
+    return response.ok ? response.json() : null
+  }
+
+  async save<T>(key: string, value: T): Promise<void> {
+    await fetch(`/api/storage/${key}`, {
+      method: 'POST',
+      body: JSON.stringify(value)
+    })
+  }
+  // ... other methods
+}
+
+// Switch adapters via environment variable
+const adapter = process.env.USE_API_STORAGE
+  ? new APIStorageAdapter()
+  : new LocalStorageAdapter()
+
+export const storage = new StorageService(adapter)
+```
+
+For future features that require server-side processing:
 
 ```typescript
 // src/server/assessments/save.ts
@@ -198,6 +337,10 @@ function Assessment() {
 - Simple, RPC-style API
 
 ### 2. API Route Pattern (For External Access)
+
+### 2. API Route Pattern (For External Access)
+
+For webhooks and external integrations:
 
 ```typescript
 // src/routes/api/webhooks/stripe.ts
