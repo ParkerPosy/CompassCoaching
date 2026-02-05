@@ -9,10 +9,22 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ResourcesIndexRouteImport } from './routes/resources/index'
 import { Route as IntakeIndexRouteImport } from './routes/intake/index'
+import { Route as ResourcesToolsTemplatesRouteImport } from './routes/resources/tools-templates'
+import { Route as ResourcesSkillsDevelopmentRouteImport } from './routes/resources/skills-development'
+import { Route as ResourcesSalaryNegotiationRouteImport } from './routes/resources/salary-negotiation'
+import { Route as ResourcesResumeCoverLettersRouteImport } from './routes/resources/resume-cover-letters'
+import { Route as ResourcesProfessionalDevelopmentRouteImport } from './routes/resources/professional-development'
+import { Route as ResourcesNetworkingRouteImport } from './routes/resources/networking'
+import { Route as ResourcesJobSearchRouteImport } from './routes/resources/job-search'
+import { Route as ResourcesInterviewPrepRouteImport } from './routes/resources/interview-prep'
+import { Route as ResourcesIndustryInsightsRouteImport } from './routes/resources/industry-insights'
+import { Route as ResourcesEducationTrainingRouteImport } from './routes/resources/education-training'
+import { Route as ResourcesCareerTransitionsRouteImport } from './routes/resources/career-transitions'
+import { Route as ResourcesCareerExplorationRouteImport } from './routes/resources/career-exploration'
 import { Route as IntakeValuesRouteImport } from './routes/intake/values'
 import { Route as IntakeReviewRouteImport } from './routes/intake/review'
 import { Route as IntakeResultsRouteImport } from './routes/intake/results'
@@ -21,11 +33,6 @@ import { Route as IntakeChallengesRouteImport } from './routes/intake/challenges
 import { Route as IntakeBasicRouteImport } from './routes/intake/basic'
 import { Route as IntakeAptitudeRouteImport } from './routes/intake/aptitude'
 
-const ResourcesRoute = ResourcesRouteImport.update({
-  id: '/resources',
-  path: '/resources',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -36,11 +43,84 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResourcesIndexRoute = ResourcesIndexRouteImport.update({
+  id: '/resources/',
+  path: '/resources/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IntakeIndexRoute = IntakeIndexRouteImport.update({
   id: '/intake/',
   path: '/intake/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResourcesToolsTemplatesRoute = ResourcesToolsTemplatesRouteImport.update({
+  id: '/resources/tools-templates',
+  path: '/resources/tools-templates',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResourcesSkillsDevelopmentRoute =
+  ResourcesSkillsDevelopmentRouteImport.update({
+    id: '/resources/skills-development',
+    path: '/resources/skills-development',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ResourcesSalaryNegotiationRoute =
+  ResourcesSalaryNegotiationRouteImport.update({
+    id: '/resources/salary-negotiation',
+    path: '/resources/salary-negotiation',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ResourcesResumeCoverLettersRoute =
+  ResourcesResumeCoverLettersRouteImport.update({
+    id: '/resources/resume-cover-letters',
+    path: '/resources/resume-cover-letters',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ResourcesProfessionalDevelopmentRoute =
+  ResourcesProfessionalDevelopmentRouteImport.update({
+    id: '/resources/professional-development',
+    path: '/resources/professional-development',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ResourcesNetworkingRoute = ResourcesNetworkingRouteImport.update({
+  id: '/resources/networking',
+  path: '/resources/networking',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResourcesJobSearchRoute = ResourcesJobSearchRouteImport.update({
+  id: '/resources/job-search',
+  path: '/resources/job-search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResourcesInterviewPrepRoute = ResourcesInterviewPrepRouteImport.update({
+  id: '/resources/interview-prep',
+  path: '/resources/interview-prep',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResourcesIndustryInsightsRoute =
+  ResourcesIndustryInsightsRouteImport.update({
+    id: '/resources/industry-insights',
+    path: '/resources/industry-insights',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ResourcesEducationTrainingRoute =
+  ResourcesEducationTrainingRouteImport.update({
+    id: '/resources/education-training',
+    path: '/resources/education-training',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ResourcesCareerTransitionsRoute =
+  ResourcesCareerTransitionsRouteImport.update({
+    id: '/resources/career-transitions',
+    path: '/resources/career-transitions',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ResourcesCareerExplorationRoute =
+  ResourcesCareerExplorationRouteImport.update({
+    id: '/resources/career-exploration',
+    path: '/resources/career-exploration',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const IntakeValuesRoute = IntakeValuesRouteImport.update({
   id: '/intake/values',
   path: '/intake/values',
@@ -80,7 +160,6 @@ const IntakeAptitudeRoute = IntakeAptitudeRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
-  '/resources': typeof ResourcesRoute
   '/intake/aptitude': typeof IntakeAptitudeRoute
   '/intake/basic': typeof IntakeBasicRoute
   '/intake/challenges': typeof IntakeChallengesRoute
@@ -88,12 +167,24 @@ export interface FileRoutesByFullPath {
   '/intake/results': typeof IntakeResultsRoute
   '/intake/review': typeof IntakeReviewRoute
   '/intake/values': typeof IntakeValuesRoute
+  '/resources/career-exploration': typeof ResourcesCareerExplorationRoute
+  '/resources/career-transitions': typeof ResourcesCareerTransitionsRoute
+  '/resources/education-training': typeof ResourcesEducationTrainingRoute
+  '/resources/industry-insights': typeof ResourcesIndustryInsightsRoute
+  '/resources/interview-prep': typeof ResourcesInterviewPrepRoute
+  '/resources/job-search': typeof ResourcesJobSearchRoute
+  '/resources/networking': typeof ResourcesNetworkingRoute
+  '/resources/professional-development': typeof ResourcesProfessionalDevelopmentRoute
+  '/resources/resume-cover-letters': typeof ResourcesResumeCoverLettersRoute
+  '/resources/salary-negotiation': typeof ResourcesSalaryNegotiationRoute
+  '/resources/skills-development': typeof ResourcesSkillsDevelopmentRoute
+  '/resources/tools-templates': typeof ResourcesToolsTemplatesRoute
   '/intake/': typeof IntakeIndexRoute
+  '/resources/': typeof ResourcesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
-  '/resources': typeof ResourcesRoute
   '/intake/aptitude': typeof IntakeAptitudeRoute
   '/intake/basic': typeof IntakeBasicRoute
   '/intake/challenges': typeof IntakeChallengesRoute
@@ -101,13 +192,25 @@ export interface FileRoutesByTo {
   '/intake/results': typeof IntakeResultsRoute
   '/intake/review': typeof IntakeReviewRoute
   '/intake/values': typeof IntakeValuesRoute
+  '/resources/career-exploration': typeof ResourcesCareerExplorationRoute
+  '/resources/career-transitions': typeof ResourcesCareerTransitionsRoute
+  '/resources/education-training': typeof ResourcesEducationTrainingRoute
+  '/resources/industry-insights': typeof ResourcesIndustryInsightsRoute
+  '/resources/interview-prep': typeof ResourcesInterviewPrepRoute
+  '/resources/job-search': typeof ResourcesJobSearchRoute
+  '/resources/networking': typeof ResourcesNetworkingRoute
+  '/resources/professional-development': typeof ResourcesProfessionalDevelopmentRoute
+  '/resources/resume-cover-letters': typeof ResourcesResumeCoverLettersRoute
+  '/resources/salary-negotiation': typeof ResourcesSalaryNegotiationRoute
+  '/resources/skills-development': typeof ResourcesSkillsDevelopmentRoute
+  '/resources/tools-templates': typeof ResourcesToolsTemplatesRoute
   '/intake': typeof IntakeIndexRoute
+  '/resources': typeof ResourcesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
-  '/resources': typeof ResourcesRoute
   '/intake/aptitude': typeof IntakeAptitudeRoute
   '/intake/basic': typeof IntakeBasicRoute
   '/intake/challenges': typeof IntakeChallengesRoute
@@ -115,14 +218,26 @@ export interface FileRoutesById {
   '/intake/results': typeof IntakeResultsRoute
   '/intake/review': typeof IntakeReviewRoute
   '/intake/values': typeof IntakeValuesRoute
+  '/resources/career-exploration': typeof ResourcesCareerExplorationRoute
+  '/resources/career-transitions': typeof ResourcesCareerTransitionsRoute
+  '/resources/education-training': typeof ResourcesEducationTrainingRoute
+  '/resources/industry-insights': typeof ResourcesIndustryInsightsRoute
+  '/resources/interview-prep': typeof ResourcesInterviewPrepRoute
+  '/resources/job-search': typeof ResourcesJobSearchRoute
+  '/resources/networking': typeof ResourcesNetworkingRoute
+  '/resources/professional-development': typeof ResourcesProfessionalDevelopmentRoute
+  '/resources/resume-cover-letters': typeof ResourcesResumeCoverLettersRoute
+  '/resources/salary-negotiation': typeof ResourcesSalaryNegotiationRoute
+  '/resources/skills-development': typeof ResourcesSkillsDevelopmentRoute
+  '/resources/tools-templates': typeof ResourcesToolsTemplatesRoute
   '/intake/': typeof IntakeIndexRoute
+  '/resources/': typeof ResourcesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/contact'
-    | '/resources'
     | '/intake/aptitude'
     | '/intake/basic'
     | '/intake/challenges'
@@ -130,12 +245,24 @@ export interface FileRouteTypes {
     | '/intake/results'
     | '/intake/review'
     | '/intake/values'
+    | '/resources/career-exploration'
+    | '/resources/career-transitions'
+    | '/resources/education-training'
+    | '/resources/industry-insights'
+    | '/resources/interview-prep'
+    | '/resources/job-search'
+    | '/resources/networking'
+    | '/resources/professional-development'
+    | '/resources/resume-cover-letters'
+    | '/resources/salary-negotiation'
+    | '/resources/skills-development'
+    | '/resources/tools-templates'
     | '/intake/'
+    | '/resources/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/contact'
-    | '/resources'
     | '/intake/aptitude'
     | '/intake/basic'
     | '/intake/challenges'
@@ -143,12 +270,24 @@ export interface FileRouteTypes {
     | '/intake/results'
     | '/intake/review'
     | '/intake/values'
+    | '/resources/career-exploration'
+    | '/resources/career-transitions'
+    | '/resources/education-training'
+    | '/resources/industry-insights'
+    | '/resources/interview-prep'
+    | '/resources/job-search'
+    | '/resources/networking'
+    | '/resources/professional-development'
+    | '/resources/resume-cover-letters'
+    | '/resources/salary-negotiation'
+    | '/resources/skills-development'
+    | '/resources/tools-templates'
     | '/intake'
+    | '/resources'
   id:
     | '__root__'
     | '/'
     | '/contact'
-    | '/resources'
     | '/intake/aptitude'
     | '/intake/basic'
     | '/intake/challenges'
@@ -156,13 +295,25 @@ export interface FileRouteTypes {
     | '/intake/results'
     | '/intake/review'
     | '/intake/values'
+    | '/resources/career-exploration'
+    | '/resources/career-transitions'
+    | '/resources/education-training'
+    | '/resources/industry-insights'
+    | '/resources/interview-prep'
+    | '/resources/job-search'
+    | '/resources/networking'
+    | '/resources/professional-development'
+    | '/resources/resume-cover-letters'
+    | '/resources/salary-negotiation'
+    | '/resources/skills-development'
+    | '/resources/tools-templates'
     | '/intake/'
+    | '/resources/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContactRoute: typeof ContactRoute
-  ResourcesRoute: typeof ResourcesRoute
   IntakeAptitudeRoute: typeof IntakeAptitudeRoute
   IntakeBasicRoute: typeof IntakeBasicRoute
   IntakeChallengesRoute: typeof IntakeChallengesRoute
@@ -170,18 +321,24 @@ export interface RootRouteChildren {
   IntakeResultsRoute: typeof IntakeResultsRoute
   IntakeReviewRoute: typeof IntakeReviewRoute
   IntakeValuesRoute: typeof IntakeValuesRoute
+  ResourcesCareerExplorationRoute: typeof ResourcesCareerExplorationRoute
+  ResourcesCareerTransitionsRoute: typeof ResourcesCareerTransitionsRoute
+  ResourcesEducationTrainingRoute: typeof ResourcesEducationTrainingRoute
+  ResourcesIndustryInsightsRoute: typeof ResourcesIndustryInsightsRoute
+  ResourcesInterviewPrepRoute: typeof ResourcesInterviewPrepRoute
+  ResourcesJobSearchRoute: typeof ResourcesJobSearchRoute
+  ResourcesNetworkingRoute: typeof ResourcesNetworkingRoute
+  ResourcesProfessionalDevelopmentRoute: typeof ResourcesProfessionalDevelopmentRoute
+  ResourcesResumeCoverLettersRoute: typeof ResourcesResumeCoverLettersRoute
+  ResourcesSalaryNegotiationRoute: typeof ResourcesSalaryNegotiationRoute
+  ResourcesSkillsDevelopmentRoute: typeof ResourcesSkillsDevelopmentRoute
+  ResourcesToolsTemplatesRoute: typeof ResourcesToolsTemplatesRoute
   IntakeIndexRoute: typeof IntakeIndexRoute
+  ResourcesIndexRoute: typeof ResourcesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/resources': {
-      id: '/resources'
-      path: '/resources'
-      fullPath: '/resources'
-      preLoaderRoute: typeof ResourcesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -196,11 +353,102 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/resources/': {
+      id: '/resources/'
+      path: '/resources'
+      fullPath: '/resources/'
+      preLoaderRoute: typeof ResourcesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/intake/': {
       id: '/intake/'
       path: '/intake'
       fullPath: '/intake/'
       preLoaderRoute: typeof IntakeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources/tools-templates': {
+      id: '/resources/tools-templates'
+      path: '/resources/tools-templates'
+      fullPath: '/resources/tools-templates'
+      preLoaderRoute: typeof ResourcesToolsTemplatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources/skills-development': {
+      id: '/resources/skills-development'
+      path: '/resources/skills-development'
+      fullPath: '/resources/skills-development'
+      preLoaderRoute: typeof ResourcesSkillsDevelopmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources/salary-negotiation': {
+      id: '/resources/salary-negotiation'
+      path: '/resources/salary-negotiation'
+      fullPath: '/resources/salary-negotiation'
+      preLoaderRoute: typeof ResourcesSalaryNegotiationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources/resume-cover-letters': {
+      id: '/resources/resume-cover-letters'
+      path: '/resources/resume-cover-letters'
+      fullPath: '/resources/resume-cover-letters'
+      preLoaderRoute: typeof ResourcesResumeCoverLettersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources/professional-development': {
+      id: '/resources/professional-development'
+      path: '/resources/professional-development'
+      fullPath: '/resources/professional-development'
+      preLoaderRoute: typeof ResourcesProfessionalDevelopmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources/networking': {
+      id: '/resources/networking'
+      path: '/resources/networking'
+      fullPath: '/resources/networking'
+      preLoaderRoute: typeof ResourcesNetworkingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources/job-search': {
+      id: '/resources/job-search'
+      path: '/resources/job-search'
+      fullPath: '/resources/job-search'
+      preLoaderRoute: typeof ResourcesJobSearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources/interview-prep': {
+      id: '/resources/interview-prep'
+      path: '/resources/interview-prep'
+      fullPath: '/resources/interview-prep'
+      preLoaderRoute: typeof ResourcesInterviewPrepRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources/industry-insights': {
+      id: '/resources/industry-insights'
+      path: '/resources/industry-insights'
+      fullPath: '/resources/industry-insights'
+      preLoaderRoute: typeof ResourcesIndustryInsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources/education-training': {
+      id: '/resources/education-training'
+      path: '/resources/education-training'
+      fullPath: '/resources/education-training'
+      preLoaderRoute: typeof ResourcesEducationTrainingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources/career-transitions': {
+      id: '/resources/career-transitions'
+      path: '/resources/career-transitions'
+      fullPath: '/resources/career-transitions'
+      preLoaderRoute: typeof ResourcesCareerTransitionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources/career-exploration': {
+      id: '/resources/career-exploration'
+      path: '/resources/career-exploration'
+      fullPath: '/resources/career-exploration'
+      preLoaderRoute: typeof ResourcesCareerExplorationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/intake/values': {
@@ -258,7 +506,6 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactRoute: ContactRoute,
-  ResourcesRoute: ResourcesRoute,
   IntakeAptitudeRoute: IntakeAptitudeRoute,
   IntakeBasicRoute: IntakeBasicRoute,
   IntakeChallengesRoute: IntakeChallengesRoute,
@@ -266,7 +513,20 @@ const rootRouteChildren: RootRouteChildren = {
   IntakeResultsRoute: IntakeResultsRoute,
   IntakeReviewRoute: IntakeReviewRoute,
   IntakeValuesRoute: IntakeValuesRoute,
+  ResourcesCareerExplorationRoute: ResourcesCareerExplorationRoute,
+  ResourcesCareerTransitionsRoute: ResourcesCareerTransitionsRoute,
+  ResourcesEducationTrainingRoute: ResourcesEducationTrainingRoute,
+  ResourcesIndustryInsightsRoute: ResourcesIndustryInsightsRoute,
+  ResourcesInterviewPrepRoute: ResourcesInterviewPrepRoute,
+  ResourcesJobSearchRoute: ResourcesJobSearchRoute,
+  ResourcesNetworkingRoute: ResourcesNetworkingRoute,
+  ResourcesProfessionalDevelopmentRoute: ResourcesProfessionalDevelopmentRoute,
+  ResourcesResumeCoverLettersRoute: ResourcesResumeCoverLettersRoute,
+  ResourcesSalaryNegotiationRoute: ResourcesSalaryNegotiationRoute,
+  ResourcesSkillsDevelopmentRoute: ResourcesSkillsDevelopmentRoute,
+  ResourcesToolsTemplatesRoute: ResourcesToolsTemplatesRoute,
   IntakeIndexRoute: IntakeIndexRoute,
+  ResourcesIndexRoute: ResourcesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
