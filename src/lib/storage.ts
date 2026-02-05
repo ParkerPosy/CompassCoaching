@@ -4,12 +4,12 @@
  */
 
 import type {
+	AptitudeData,
 	AssessmentResults,
 	BasicInfo,
+	ChallengesData,
 	PersonalityAnswers,
 	ValueRatings,
-	AptitudeData,
-	ChallengesData,
 } from "@/types/assessment";
 
 export type StorageKey =
@@ -72,7 +72,9 @@ class LocalStorageAdapter implements IStorage {
 				"assessment_challenges",
 				"assessment_results",
 			];
-			keys.forEach((key) => localStorage.removeItem(key));
+			for (const key of keys) {
+				localStorage.removeItem(key);
+			}
 		} catch (error) {
 			console.error("Error clearing localStorage:", error);
 		}

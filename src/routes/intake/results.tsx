@@ -1,24 +1,24 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
 	ArrowLeft,
-	Download,
-	CheckCircle,
-	TrendingUp,
-	Heart,
 	Award,
+	CheckCircle,
+	Download,
+	Heart,
 	Lightbulb,
 	Target,
+	TrendingUp,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useEffect, useState } from "react";
+import { ProgressBar } from "@/components/assessment/ProgressBar";
+import { SectionHeader } from "@/components/assessment/SectionHeader";
 import { Container } from "@/components/layout/container";
 import { Badge } from "@/components/ui/badge";
-import { SectionHeader } from "@/components/assessment/SectionHeader";
-import { ProgressBar } from "@/components/assessment/ProgressBar";
-import { storage } from "@/lib/storage";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { analyzeAssessment } from "@/lib/analyzer";
-import type { AssessmentResults, AssessmentAnalysis } from "@/types/assessment";
+import { storage } from "@/lib/storage";
+import type { AssessmentAnalysis, AssessmentResults } from "@/types/assessment";
 
 export const Route = createFileRoute("/intake/results")({
 	component: ResultsPage,

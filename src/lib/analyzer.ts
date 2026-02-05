@@ -4,9 +4,9 @@
  */
 
 import type {
-	AssessmentResults,
-	AssessmentAnalysis,
 	AptitudeData,
+	AssessmentAnalysis,
+	AssessmentResults,
 	ValueRatings,
 } from "@/types/assessment";
 

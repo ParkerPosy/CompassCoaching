@@ -112,6 +112,73 @@ export default function MyComponent({ prop1, prop2 }: ComponentProps) {
 - Extract complex logic into **custom hooks**
 - Use **TypeScript** for all props (no PropTypes)
 
+### Button Best Practices
+
+```typescript
+// ❌ Bad: Missing type attribute (defaults to "submit")
+<button onClick={handleClick}>Click me</button>
+
+// ✅ Good: Explicit type="button" for non-submit buttons
+<button type="button" onClick={handleClick}>Click me</button>
+
+// ✅ Good: type="submit" for form submission buttons
+<button type="submit">Submit Form</button>
+```
+
+**Rule**: Always specify `type="button"` for buttons that shouldn't submit forms. This prevents unexpected form submissions when buttons are placed inside `<form>` elements.
+
+### React Keys in Lists
+
+```typescript
+// ❌ Bad: Using array index as key
+{items.map((item, index) => (
+  <div key={index}>{item.name}</div>
+))}
+
+// ✅ Good: Using stable, unique identifier
+{items.map((item) => (
+  <div key={item.id}>{item.name}</div>
+))}
+
+// ✅ Good: Using the content itself if it's unique and stable
+{tags.map((tag) => (
+  <span key={tag}>{tag}</span>
+))}
+```
+
+**Rule**: Never use array indices as keys. Use stable unique identifiers (IDs, titles, or the content itself if unique). Index keys cause React reconciliation issues when list order changes.
+
+### Keyboard Accessibility
+
+```typescript
+// ❌ Bad: Interactive div without keyboard support
+<div onClick={handleClose}>
+  Close
+</div>
+
+// ✅ Good: Proper semantic HTML or full accessibility
+<button type="button" onClick={handleClose}>
+  Close
+</button>
+
+// ✅ Good: If you must use div, add full accessibility
+<div
+  role="button"
+  tabIndex={0}
+  onClick={handleClose}
+  onKeyDown={(e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      handleClose();
+    }
+  }}
+  aria-label="Close"
+>
+  Close
+</div>
+```
+
+**Rule**: Interactive elements must be keyboard accessible. Prefer semantic HTML (`<button>`, `<a>`). If using divs, add `role`, `tabIndex`, `onKeyDown`, and `aria-label`.
+
 ## Data Management
 
 ### Single Source of Truth
@@ -359,6 +426,26 @@ const percentage = (completedCount / items.length) * 100
 
 <div style={{ width: `${percentage}%` }} className="h-2 bg-lime-500" />
 ```
+
+### Array Iteration Best Practices
+
+```typescript
+// ❌ Bad: forEach with callback that returns a value
+keys.forEach((key) => localStorage.removeItem(key));
+
+// ✅ Good: for...of loop for side effects
+for (const key of keys) {
+  localStorage.removeItem(key);
+}
+
+// ✅ Good: map for transformations
+const names = users.map((user) => user.name);
+
+// ✅ Good: filter for selecting items
+const active = users.filter((user) => user.isActive);
+```
+
+**Rule**: Use `for...of` for side effects, `map` for transformations, `filter` for selection. Avoid `forEach` when the callback implicitly returns a value (confusing intent).
 
 ## Git Workflow
 

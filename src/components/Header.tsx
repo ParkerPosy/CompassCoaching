@@ -1,75 +1,32 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
 import {
-	Home,
-	Menu,
-	X,
-	Compass,
-	BookOpen,
-	Mail,
-	BarChart3,
-	User,
-	Brain,
-	Heart,
-	Target,
 	AlertCircle,
+	BarChart3,
+	BookOpen,
+	Brain,
 	CheckCircle2,
-	Circle,
 	ChevronDown,
 	ChevronRight,
+	Circle,
+	Compass,
+	Heart,
+	Home,
+	Mail,
+	Menu,
+	Target,
+	User,
+	X,
 } from "lucide-react";
-import { storage } from "@/lib/storage";
+import { useState } from "react";
 import { RESOURCE_CATEGORIES } from "@/data/resources";
-
-interface AssessmentProgress {
-	basic: boolean;
-	personality: boolean;
-	values: boolean;
-	aptitude: boolean;
-	challenges: boolean;
-	nextSection: string;
-}
+import { useAssessmentProgress } from "@/hooks";
 
 export default function Header() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [showAssessmentMenu, setShowAssessmentMenu] = useState(false);
 	const [showResourcesMenu, setShowResourcesMenu] = useState(false);
-	const [progress, setProgress] = useState<AssessmentProgress>({
-		basic: false,
-		personality: false,
-		values: false,
-		aptitude: false,
-		challenges: false,
-		nextSection: "/intake/basic",
-	});
+	const progress = useAssessmentProgress();
 	const navigate = useNavigate();
-
-	useEffect(() => {
-		// Check which sections are completed
-		const basic = !!storage.get("assessment_basic");
-		const personality = !!storage.get("assessment_personality");
-		const values = !!storage.get("assessment_values");
-		const aptitude = !!storage.get("assessment_aptitude");
-		const challenges = !!storage.get("assessment_challenges");
-
-		// Determine next section
-		let nextSection = "/intake/basic";
-		if (!basic) nextSection = "/intake/basic";
-		else if (!personality) nextSection = "/intake/personality";
-		else if (!values) nextSection = "/intake/values";
-		else if (!aptitude) nextSection = "/intake/aptitude";
-		else if (!challenges) nextSection = "/intake/challenges";
-		else nextSection = "/intake/review";
-
-		setProgress({
-			basic,
-			personality,
-			values,
-			aptitude,
-			challenges,
-			nextSection,
-		});
-	}, [isOpen]); // Re-check when menu opens
 
 	const handleContinueAssessment = () => {
 		navigate({ to: progress.nextSection });
@@ -122,6 +79,7 @@ export default function Header() {
 			<header className="p-4 flex items-center justify-between bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm">
 				<div className="flex items-center gap-6">
 					<button
+						type="button"
 						onClick={() => setIsOpen(true)}
 						className="p-2 hover:bg-stone-100 rounded-lg transition-colors"
 						aria-label="Open menu"
@@ -164,6 +122,7 @@ export default function Header() {
 				<div className="flex items-center justify-between p-4 border-b border-stone-200">
 					<h2 className="text-xl font-bold text-stone-900">Navigation</h2>
 					<button
+						type="button"
 						onClick={() => setIsOpen(false)}
 						className="p-2 hover:bg-stone-100 rounded-lg transition-colors"
 						aria-label="Close menu"
@@ -191,6 +150,7 @@ export default function Header() {
 						{/* Resources with Submenu */}
 						<div className="mb-1">
 							<button
+								type="button"
 								onClick={() => setShowResourcesMenu(!showResourcesMenu)}
 								className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-stone-50 transition-colors text-stone-700"
 							>
@@ -259,6 +219,7 @@ export default function Header() {
 					{/* Assessment Section */}
 					<div className="border-t border-stone-200 pt-4">
 						<button
+							type="button"
 							onClick={() => setShowAssessmentMenu(!showAssessmentMenu)}
 							className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-stone-50 transition-colors mb-2 text-stone-900 font-medium"
 						>
@@ -292,6 +253,7 @@ export default function Header() {
 						{/* Continue Assessment Button */}
 						{completedCount < totalCount && (
 							<button
+								type="button"
 								onClick={handleContinueAssessment}
 								className="w-full mb-3 px-4 py-2.5 bg-lime-500 hover:bg-lime-600 text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
 							>
@@ -342,8 +304,16 @@ export default function Header() {
 			{/* Overlay */}
 			{isOpen && (
 				<div
+					role="button"
+					tabIndex={0}
 					className="fixed inset-0 bg-black/20 z-40"
 					onClick={() => setIsOpen(false)}
+					onKeyDown={(e) => {
+						if (e.key === "Escape" || e.key === "Enter") {
+							setIsOpen(false);
+						}
+					}}
+					aria-label="Close menu"
 				/>
 			)}
 		</>

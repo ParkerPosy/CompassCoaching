@@ -1,17 +1,17 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
 import { ArrowLeft, CheckCircle2, Edit2, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useEffect, useState } from "react";
 import { Container } from "@/components/layout/container";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { storage } from "@/lib/storage";
 import type {
+	AptitudeData,
 	BasicInfo,
+	ChallengesData,
 	PersonalityAnswers,
 	ValueRatings,
-	AptitudeData,
-	ChallengesData,
 } from "@/types/assessment";
 
 export const Route = createFileRoute("/intake/review")({

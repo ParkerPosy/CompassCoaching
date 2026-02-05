@@ -1,9 +1,9 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
-import { ArrowRight, ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, ArrowRight, Save } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Container } from "@/components/layout/container";
 
 export const Route = createFileRoute("/intake/aptitude")({
 	component: AptitudeAssessmentPage,
@@ -199,13 +199,16 @@ function AptitudeAssessmentPage() {
 										{category.title}
 									</h3>
 									<div className="space-y-4">
-										{category.items.map((item, index) => (
-											<div key={index} className="space-y-2">
-												<label className="block text-sm font-medium text-stone-700">
+										{category.items.map((item) => (
+											<div key={item} className="space-y-2">
+												<label
+													htmlFor={`${category.key}-${item}`}
+													className="block text-sm font-medium text-stone-700"
+												>
 													{item}
 												</label>
 												<div className="flex items-center gap-2">
-													{[1, 2, 3, 4, 5].map((rating) => (
+													{[1, 2, 3, 4, 5].map((rating, index) => (
 														<button
 															key={rating}
 															type="button"

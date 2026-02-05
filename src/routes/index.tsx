@@ -1,14 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
-	Compass,
-	BookOpen,
-	Target,
-	Users,
-	TrendingUp,
 	ArrowRight,
+	BookOpen,
+	Compass,
+	Target,
+	TrendingUp,
+	Users,
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Container } from "@/components/layout/container";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const Route = createFileRoute("/")({
 	component: HomePage,
@@ -109,8 +109,8 @@ function HomePage() {
 			<section className="py-12 bg-white border-y border-stone-200">
 				<Container>
 					<div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-						{stats.map((stat, index) => (
-							<div key={index} className="text-center">
+						{stats.map((stat) => (
+							<div key={stat.label} className="text-center">
 								<div className="text-3xl md:text-4xl font-bold text-lime-600 mb-2">
 									{stat.value}
 								</div>
@@ -193,9 +193,9 @@ function HomePage() {
 					</div>
 
 					<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-						{features.map((feature, index) => (
+						{features.map((feature) => (
 							<Card
-								key={index}
+								key={feature.title}
 								variant="outlined"
 								className="hover:border-lime-300 transition-colors"
 							>

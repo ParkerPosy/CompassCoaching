@@ -35,55 +35,59 @@ This document tracks the refactoring tasks to consolidate the codebase and ensur
 - [x] Documented React patterns
 - [x] Documented styling guidelines
 - [x] Created this refactoring task list
+- [x] Created `ARCHITECTURE.md` system documentation
+- [x] Updated `README.md` with comprehensive project info
+
+### 5. Dynamic Resource Category Pages
+- [x] Created dynamic route: `src/routes/resources/$categorySlug.tsx`
+- [x] Deleted 12 individual category page files (~1,200 lines)
+- [x] Updated routing to use dynamic parameter
+- [x] Tested all category pages work correctly
+- [x] Verified navigation and search functionality
+
+### 6. Code Quality & Formatting
+- [x] Fixed all TypeScript warnings
+- [x] Removed unused imports
+- [x] Applied Biome formatting to all files
+- [x] Organized import statements
+
+### 7. Biome Linting Improvements (Feb 5, 2026)
+- [x] Fixed 6 button type warnings in Header.tsx
+  - Added `type="button"` to prevent unintended form submissions
+- [x] Fixed overlay accessibility issues
+  - Added `role="button"`, `tabIndex={0}`, `onKeyDown` handler
+  - Added `aria-label` for screen readers
+- [x] Replaced array index keys with unique identifiers
+  - Used `resource.title`, `stat.label`, `section.title` as keys
+  - Prevents React reconciliation issues
+- [x] Fixed forEach callback return warning in storage.ts
+  - Replaced with `for...of` loop for clarity
+- [x] Reduced Biome warnings from 72 to 37
+  - All critical accessibility and React best practice issues resolved
+  - Remaining warnings are mostly form element IDs (acceptable trade-off)
+- [x] Fixed Tailwind CSS class names for v4.0
+- [x] Applied Biome formatting to entire codebase
+- [x] Verified all code passes `npm run check`
+
+### 7. Create Custom Hooks
+- [x] Created `useClickOutside()` hook for dropdown/modal click detection
+- [x] Created `useLocalStorage()` hook for type-safe localStorage management
+- [x] Created `useAssessmentProgress()` hook for tracking assessment completion
+- [x] Updated Header component to use `useAssessmentProgress()`
+- [x] Updated resources index to use `useClickOutside()`
+- [x] Added JSDoc documentation to all hooks
 
 ---
 
 ## In Progress 🚧
 
-### 5. Dynamic Resource Category Pages
-**Priority**: HIGH
-**Effort**: Medium
-
-Currently, we have 12 separate files for resource categories, each with duplicated code and hardcoded data:
-- `career-exploration.tsx`
-- `resume-cover-letters.tsx`
-- `interview-prep.tsx`
-- etc.
-
-**Action Items**:
-- [x] Create dynamic route: `src/routes/resources/$categorySlug.tsx`
-- [ ] Delete 12 individual category page files
-- [ ] Update routing to use dynamic parameter
-- [ ] Test all category pages work correctly
-- [ ] Verify navigation and search still work
-
-**Benefits**:
-- Reduces ~1,200 lines of duplicated code
-- Single source of truth for category pages
-- Automatic updates when data changes
-- Easier to maintain and extend
-
-**Files to Delete** (after testing):
-```
-src/routes/resources/career-exploration.tsx
-src/routes/resources/resume-cover-letters.tsx
-src/routes/resources/interview-prep.tsx
-src/routes/resources/job-search.tsx
-src/routes/resources/professional-development.tsx
-src/routes/resources/networking.tsx
-src/routes/resources/salary-negotiation.tsx
-src/routes/resources/education-training.tsx
-src/routes/resources/career-transitions.tsx
-src/routes/resources/industry-insights.tsx
-src/routes/resources/tools-templates.tsx
-src/routes/resources/skills-development.tsx
-```
+*No tasks currently in progress*
 
 ---
 
 ## Pending 📋
 
-### 6. Add Resource Descriptions
+### 7. Add Resource Descriptions
 **Priority**: MEDIUM
 **Effort**: Low
 
@@ -102,16 +106,7 @@ Similar to resources, assessment sections should be centralized:
 - [ ] Update Header component to use centralized data
 - [ ] Update assessment routes to use shared types
 
-### 8. Create Custom Hooks
-**Priority**: LOW
-**Effort**: Medium
-
-Extract repeated logic into custom hooks:
-- [ ] `useAssessmentProgress()` - Track assessment completion
-- [ ] `useLocalStorage()` - Type-safe localStorage wrapper
-- [ ] `useClickOutside()` - Click outside detection for dropdowns
-
-### 9. Component Library Consolidation
+### 8. Extract Assessment Data
 **Priority**: LOW
 **Effort**: Low
 
@@ -119,7 +114,7 @@ Ensure UI components follow consistent patterns:
 - [ ] Audit all components in `src/components/ui/`
 - [ ] Ensure consistent prop naming (variant, size, etc.)
 - [ ] Add JSDoc comments to components
-- [ ] Create Storybook or component documentation
+- [ ] Create component documentation
 
 ### 10. Type Safety Improvements
 **Priority**: MEDIUM
@@ -234,7 +229,30 @@ A refactoring task is complete when:
    - Accessibility fixes
    - Documentation
 
+### Code Quality Lessons Learned
+
+**Always specify button types**:
+- Default button type is `submit`, causing unexpected form submissions
+- Use `type="button"` for all non-submit buttons
+- Use `type="submit"` explicitly for form submission
+
+**React key prop guidelines**:
+- Never use array indices as keys (causes reconciliation bugs)
+- Use stable unique identifiers (id, title, or unique content)
+- Keys should remain consistent across re-renders
+
+**Keyboard accessibility requirements**:
+- Interactive divs need `role`, `tabIndex`, `onKeyDown`, `aria-label`
+- Prefer semantic HTML (`<button>`) over styled `<div>` elements
+- Support Enter and Space keys for activation
+
+**Iteration patterns**:
+- Use `for...of` for side effects (clear intent)
+- Use `map` for transformations (returns new array)
+- Use `filter` for selecting subset (returns filtered array)
+- Avoid `forEach` with callbacks that return values
+
 ---
 
-**Last Updated**: February 4, 2026
+**Last Updated**: February 5, 2026
 **Next Review**: Weekly until Phase 1 complete

@@ -1,11 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Container } from "@/components/layout/container";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Clock, Download } from "lucide-react";
+import { Container } from "@/components/layout/container";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-	RESOURCE_CATEGORIES,
 	getResourcesByCategory,
+	RESOURCE_CATEGORIES,
 	type Resource,
 } from "@/data/resources";
 
@@ -59,9 +59,9 @@ function ResourceCategoryPage() {
 			<section className="py-16 px-6">
 				<Container>
 					<div className="grid md:grid-cols-2 gap-6">
-						{resources.map((resource: Resource, index: number) => (
+						{resources.map((resource: Resource) => (
 							<Card
-								key={index}
+								key={resource.title}
 								variant="outlined"
 								className="hover:border-lime-300 transition-all hover:shadow-md cursor-pointer"
 							>

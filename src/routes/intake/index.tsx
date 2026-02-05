@@ -1,17 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
-	Compass,
-	CheckCircle,
-	ArrowRight,
-	Clock,
-	BarChart3,
-	Heart,
-	Briefcase,
 	AlertCircle,
+	ArrowRight,
+	BarChart3,
+	Briefcase,
+	CheckCircle,
+	Clock,
+	Compass,
+	Heart,
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Container } from "@/components/layout/container";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const Route = createFileRoute("/intake/")({
 	component: IntakePage,
@@ -111,8 +111,8 @@ function IntakePage() {
 							What You'll Learn
 						</h2>
 						<ul className="space-y-3">
-							{benefits.map((benefit, index) => (
-								<li key={index} className="flex items-start gap-3">
+							{benefits.map((benefit) => (
+								<li key={benefit} className="flex items-start gap-3">
 									<CheckCircle className="w-5 h-5 text-lime-600 shrink-0 mt-0.5" />
 									<span className="text-stone-700">{benefit}</span>
 								</li>
@@ -149,9 +149,9 @@ function IntakePage() {
 					</div>
 
 					<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-						{sections.map((section, index) => (
+						{sections.map((section) => (
 							<Card
-								key={index}
+								key={section.title}
 								variant="outlined"
 								className="hover:border-lime-300 transition-colors"
 							>

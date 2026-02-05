@@ -1,10 +1,10 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
 import { User } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Container } from "@/components/layout/container";
-import { SectionHeader } from "@/components/assessment/SectionHeader";
+import { useEffect, useState } from "react";
 import { NavigationButtons } from "@/components/assessment/NavigationButtons";
+import { SectionHeader } from "@/components/assessment/SectionHeader";
+import { Container } from "@/components/layout/container";
+import { Card, CardContent } from "@/components/ui/card";
 
 export const Route = createFileRoute("/intake/basic")({
 	component: BasicInfoPage,

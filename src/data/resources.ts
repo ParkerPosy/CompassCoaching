@@ -1,16 +1,16 @@
 import type { LucideIcon } from "lucide-react";
 import {
-	BookOpen,
-	DollarSign,
-	GraduationCap,
-	FileText,
-	Wrench,
-	TrendingUp,
-	Briefcase,
-	Users,
-	Target,
-	Book,
 	Award,
+	Book,
+	BookOpen,
+	Briefcase,
+	DollarSign,
+	FileText,
+	GraduationCap,
+	Target,
+	TrendingUp,
+	Users,
+	Wrench,
 } from "lucide-react";
 
 export interface Resource {

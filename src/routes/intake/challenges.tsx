@@ -1,9 +1,9 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
-import { ArrowRight, ArrowLeft, Save, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Save } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Container } from "@/components/layout/container";
 
 export const Route = createFileRoute("/intake/challenges")({
 	component: ChallengesPage,

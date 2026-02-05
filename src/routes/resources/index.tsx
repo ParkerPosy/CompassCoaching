@@ -1,16 +1,17 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState, useMemo, useRef, useEffect } from "react";
-import { BookOpen, Search, ArrowRight, Clock } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowRight, BookOpen, Clock, Search } from "lucide-react";
+import { useMemo, useRef, useState } from "react";
 import { Container } from "@/components/layout/container";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
 	ALL_RESOURCES,
-	RESOURCE_CATEGORIES,
-	getResourceCountByCategory,
 	getCategoryPath,
+	getResourceCountByCategory,
+	RESOURCE_CATEGORIES,
 } from "@/data/resources";
+import { useClickOutside } from "@/hooks";
 
 export const Route = createFileRoute("/resources/")({
 	component: ResourcesIndexPage,
@@ -23,19 +24,7 @@ function ResourcesIndexPage() {
 	const dropdownRef = useRef<HTMLDivElement>(null);
 
 	// Close dropdown when clicking outside
-	useEffect(() => {
-		const handleClickOutside = (event: MouseEvent) => {
-			if (
-				dropdownRef.current &&
-				!dropdownRef.current.contains(event.target as Node)
-			) {
-				setShowDropdown(false);
-			}
-		};
-
-		document.addEventListener("mousedown", handleClickOutside);
-		return () => document.removeEventListener("mousedown", handleClickOutside);
-	}, []);
+	useClickOutside(dropdownRef, () => setShowDropdown(false));
 
 	const filteredResources = useMemo(() => {
 		if (!searchQuery.trim()) return [];
