@@ -19,6 +19,7 @@ import {
   ChevronRight,
 } from 'lucide-react'
 import { storage } from '@/lib/storage'
+import { RESOURCE_CATEGORIES } from '@/data/resources'
 
 interface AssessmentProgress {
   basic: boolean
@@ -32,6 +33,7 @@ interface AssessmentProgress {
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [showAssessmentMenu, setShowAssessmentMenu] = useState(false)
+  const [showResourcesMenu, setShowResourcesMenu] = useState(false)
   const [progress, setProgress] = useState<AssessmentProgress>({
     basic: false,
     personality: false,
@@ -155,18 +157,55 @@ export default function Header() {
               <span>Home</span>
             </Link>
 
-            <Link
-              to="/resources"
-              onClick={() => setIsOpen(false)}
-              className="flex items-center gap-3 p-3 rounded-lg hover:bg-stone-50 transition-colors mb-1 text-stone-700"
-              activeProps={{
-                className:
-                  'flex items-center gap-3 p-3 rounded-lg bg-lime-50 text-lime-700 transition-colors mb-1 font-medium',
-              }}
-            >
-              <BookOpen size={20} />
-              <span>Resources</span>
-            </Link>
+            {/* Resources with Submenu */}
+            <div className="mb-1">
+              <button
+                onClick={() => setShowResourcesMenu(!showResourcesMenu)}
+                className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-stone-50 transition-colors text-stone-700"
+              >
+                <div className="flex items-center gap-3">
+                  <BookOpen size={20} />
+                  <span>Resources</span>
+                </div>
+                {showResourcesMenu ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
+              </button>
+
+              {showResourcesMenu && (
+                <div className="ml-3 mt-1 space-y-1 border-l-2 border-stone-200 pl-3">
+                  <Link
+                    to="/resources"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center gap-2 p-2 rounded-lg hover:bg-stone-50 transition-colors text-sm text-stone-700"
+                    activeProps={{
+                      className:
+                        'flex items-center gap-2 p-2 rounded-lg bg-lime-50 text-lime-700 transition-colors text-sm font-medium',
+                    }}
+                  >
+                    <BookOpen size={16} />
+                    <span>All Resources</span>
+                  </Link>
+
+                  {RESOURCE_CATEGORIES.map((category) => {
+                    const Icon = category.icon
+                    return (
+                      <Link
+                        key={category.slug}
+                        to={category.path}
+                        onClick={() => setIsOpen(false)}
+                        className="flex items-center gap-2 p-2 rounded-lg hover:bg-stone-50 transition-colors text-sm text-stone-700"
+                        activeProps={{
+                          className:
+                            'flex items-center gap-2 p-2 rounded-lg bg-lime-50 text-lime-700 transition-colors text-sm font-medium',
+                        }}
+                      >
+                        <Icon size={16} className="shrink-0" />
+                        <span className="line-clamp-1">{category.title}</span>
+                      </Link>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
 
             <Link
               to="/intake/results"
