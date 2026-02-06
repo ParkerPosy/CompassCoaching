@@ -151,7 +151,7 @@ export default function Header() {
 						<div className="mb-1">
 							<button
 								type="button"
-								onClick={() => setShowResourcesMenu(!showResourcesMenu)}
+							onClick={() => setShowResourcesMenu((prev) => !prev)}
 								className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-stone-50 transition-colors text-stone-700"
 							>
 								<div className="flex items-center gap-3">
@@ -220,7 +220,7 @@ export default function Header() {
 					<div className="border-t border-stone-200 pt-4">
 						<button
 							type="button"
-							onClick={() => setShowAssessmentMenu(!showAssessmentMenu)}
+						onClick={() => setShowAssessmentMenu((prev) => !prev)}
 							className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-stone-50 transition-colors mb-2 text-stone-900 font-medium"
 						>
 							<div className="flex items-center gap-3">

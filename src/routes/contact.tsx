@@ -1,7 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { Container } from "@/components/layout/container";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+	Card,
+	CardContent,
+	CardHeader,
+	CardTitle,
+	Input,
+	Textarea,
+} from "@/components/ui";
 
 export const Route = createFileRoute("/contact")({
 	component: ContactPage,
@@ -108,11 +115,10 @@ function ContactPage() {
 									>
 										Name
 									</label>
-									<input
-										type="text"
-										id="name"
-										name="name"
-										className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-lime-400 focus:border-transparent outline-none transition-all"
+								<Input
+									type="text"
+									id="name"
+									name="name"
 										placeholder="Your name"
 									/>
 								</div>
@@ -124,11 +130,10 @@ function ContactPage() {
 									>
 										Email
 									</label>
-									<input
-										type="email"
-										id="email"
-										name="email"
-										className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-lime-400 focus:border-transparent outline-none transition-all"
+								<Input
+									type="email"
+									id="email"
+									name="email"
 										placeholder="your.email@example.com"
 									/>
 								</div>
@@ -140,11 +145,10 @@ function ContactPage() {
 									>
 										Subject
 									</label>
-									<input
-										type="text"
-										id="subject"
-										name="subject"
-										className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-lime-400 focus:border-transparent outline-none transition-all"
+								<Input
+									type="text"
+									id="subject"
+									name="subject"
 										placeholder="How can we help?"
 									/>
 								</div>
@@ -156,11 +160,10 @@ function ContactPage() {
 									>
 										Message
 									</label>
-									<textarea
-										id="message"
-										name="message"
-										rows={6}
-										className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-lime-400 focus:border-transparent outline-none transition-all resize-none"
+								<Textarea
+									id="message"
+									name="message"
+									rows={6}
 										placeholder="Tell us what you're thinking..."
 									/>
 								</div>

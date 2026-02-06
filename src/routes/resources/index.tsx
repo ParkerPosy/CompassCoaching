@@ -2,9 +2,15 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, BookOpen, Clock, Search } from "lucide-react";
 import { useMemo, useRef, useState } from "react";
 import { Container } from "@/components/layout/container";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+	Badge,
+	Button,
+	Card,
+	CardContent,
+	CardHeader,
+	CardTitle,
+	Input,
+} from "@/components/ui";
 import {
 	ALL_RESOURCES,
 	getCategoryPath,
@@ -64,20 +70,20 @@ function ResourcesIndexPage() {
 						{/* Search Bar with Dropdown */}
 						<div className="relative max-w-2xl mx-auto" ref={dropdownRef}>
 							<Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-400 z-10" />
-							<input
-								type="text"
-								placeholder="Search all resources..."
-								value={searchQuery}
-								onChange={(e) => {
-									setSearchQuery(e.target.value);
-									setShowDropdown(true);
-								}}
-								onFocus={() => searchQuery && setShowDropdown(true)}
-								className="w-full pl-12 pr-4 py-3 rounded-lg border-2 border-stone-200 focus:border-lime-400 focus:outline-none focus:ring-2 focus:ring-lime-400/20 transition-colors"
-							/>
+				<Input
+					type="text"
+					placeholder="Search all resources..."
+					value={searchQuery}
+					onChange={(e) => {
+						setSearchQuery(e.target.value);
+						setShowDropdown(true);
+					}}
+					onFocus={() => searchQuery && setShowDropdown(true)}
+					className="pl-12"
+				/>
 
-							{/* Dropdown Results */}
-							{showDropdown && searchQuery && (
+				{/* Dropdown Results */}
+				{showDropdown && searchQuery && (
 								<div className="absolute top-full left-0 right-0 bg-white border-2 border-stone-200 rounded-lg shadow-lg max-h-96 overflow-y-auto z-50">
 									{filteredResources.length > 0 ? (
 										<div className="py-2">

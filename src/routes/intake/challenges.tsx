@@ -2,8 +2,19 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, CheckCircle2, Save } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Container } from "@/components/layout/container";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+	Button,
+	Card,
+	CardContent,
+	CardHeader,
+	CardTitle,
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+	Textarea,
+} from "@/components/ui";
 import { storage } from "@/lib/storage";
 
 export const Route = createFileRoute("/intake/challenges")({
@@ -31,6 +42,7 @@ interface ChallengesData {
 
 function ChallengesPage() {
 	const navigate = useNavigate();
+	const [renderKey, setRenderKey] = useState(0);
 	const [formData, setFormData] = useState<ChallengesData>({
 		financial: "",
 		timeAvailability: "",
@@ -48,6 +60,7 @@ function ChallengesPage() {
 		const saved = storage.get<ChallengesData>("assessment_challenges");
 		if (saved) {
 			setFormData(saved);
+			setRenderKey(prev => prev + 1);
 		}
 	}, []);
 
@@ -134,28 +147,28 @@ function ChallengesPage() {
 									What's your current financial situation for
 									education/training? <span className="text-error-500">*</span>
 								</label>
-								<select
-									id="financial"
-									value={formData.financial}
-									onChange={(e) => handleChange("financial", e.target.value)}
-									className="w-full px-4 py-3 border-2 border-stone-200 rounded-lg focus:border-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-600/20 transition-all bg-white"
-									required
+								<Select								key={`financial-${renderKey}`}									value={formData.financial}
+									onValueChange={(value) => handleChange("financial", value)}
 								>
-									<option value="">Select option</option>
-									<option value="no-constraints">
-										No major financial constraints
-									</option>
-									<option value="some-savings">Some savings available</option>
-									<option value="need-financial-aid">
-										Will need financial aid/loans
-									</option>
-									<option value="limited-funds">
-										Very limited funds available
-									</option>
-									<option value="working-while-learning">
-										Must work while learning
-									</option>
-								</select>
+									<SelectTrigger className="w-full">
+										<SelectValue placeholder="Select option" />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value="no-constraints">
+											No major financial constraints
+										</SelectItem>
+										<SelectItem value="some-savings">Some savings available</SelectItem>
+										<SelectItem value="need-financial-aid">
+											Will need financial aid/loans
+										</SelectItem>
+										<SelectItem value="limited-funds">
+											Very limited funds available
+										</SelectItem>
+										<SelectItem value="working-while-learning">
+											Must work while learning
+										</SelectItem>
+									</SelectContent>
+								</Select>
 							</div>
 
 							{/* Time Availability */}
@@ -167,28 +180,28 @@ function ChallengesPage() {
 									How much time can you dedicate to training/education?{" "}
 									<span className="text-error-500">*</span>
 								</label>
-								<select
-									id="timeAvailability"
-									value={formData.timeAvailability}
-									onChange={(e) =>
-										handleChange("timeAvailability", e.target.value)
+								<Select								key={`timeAvailability-${renderKey}`}									value={formData.timeAvailability}
+									onValueChange={(value) =>
+										handleChange("timeAvailability", value)
 									}
-									className="w-full px-4 py-3 border-2 border-stone-200 rounded-lg focus:border-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-600/20 transition-all bg-white"
-									required
 								>
-									<option value="">Select option</option>
-									<option value="full-time">Full-time (40+ hours/week)</option>
-									<option value="part-time">
-										Part-time (20-40 hours/week)
-									</option>
-									<option value="evenings-weekends">
-										Evenings and weekends only
-									</option>
-									<option value="very-limited">
-										Very limited (under 10 hours/week)
-									</option>
-									<option value="flexible">Flexible schedule</option>
-								</select>
+									<SelectTrigger className="w-full">
+										<SelectValue placeholder="Select option" />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value="full-time">Full-time (40+ hours/week)</SelectItem>
+										<SelectItem value="part-time">
+											Part-time (20-40 hours/week)
+										</SelectItem>
+										<SelectItem value="evenings-weekends">
+											Evenings and weekends only
+										</SelectItem>
+										<SelectItem value="very-limited">
+											Very limited (under 10 hours/week)
+										</SelectItem>
+										<SelectItem value="flexible">Flexible schedule</SelectItem>
+									</SelectContent>
+								</Select>
 							</div>
 
 							{/* Location Flexibility */}
@@ -200,27 +213,27 @@ function ChallengesPage() {
 									Are you able to relocate for work or education?{" "}
 									<span className="text-error-500">*</span>
 								</label>
-								<select
-									id="locationFlexibility"
-									value={formData.locationFlexibility}
-									onChange={(e) =>
-										handleChange("locationFlexibility", e.target.value)
+								<Select								key={`locationFlexibility-${renderKey}`}									value={formData.locationFlexibility}
+									onValueChange={(value) =>
+										handleChange("locationFlexibility", value)
 									}
-									className="w-full px-4 py-3 border-2 border-stone-200 rounded-lg focus:border-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-600/20 transition-all bg-white"
-									required
 								>
-									<option value="">Select option</option>
-									<option value="yes-anywhere">
-										Yes, willing to relocate anywhere
-									</option>
-									<option value="same-region">
-										Yes, within same region/state
-									</option>
-									<option value="local-only">Must stay in current area</option>
-									<option value="remote-preferred">
-										Prefer remote opportunities
-									</option>
-								</select>
+									<SelectTrigger className="w-full">
+										<SelectValue placeholder="Select option" />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value="yes-anywhere">
+											Yes, willing to relocate anywhere
+										</SelectItem>
+										<SelectItem value="same-region">
+											Yes, within same region/state
+										</SelectItem>
+										<SelectItem value="local-only">Must stay in current area</SelectItem>
+										<SelectItem value="remote-preferred">
+											Prefer remote opportunities
+										</SelectItem>
+									</SelectContent>
+								</Select>
 							</div>
 
 							{/* Family Obligations */}
@@ -231,23 +244,24 @@ function ChallengesPage() {
 								>
 									Do you have significant family or caregiving responsibilities?
 								</label>
-								<select
-									id="familyObligations"
-									value={formData.familyObligations}
-									onChange={(e) =>
-										handleChange("familyObligations", e.target.value)
+								<Select								key={`familyObligations-${renderKey}`}									value={formData.familyObligations}
+									onValueChange={(value) =>
+										handleChange("familyObligations", value)
 									}
-									className="w-full px-4 py-3 border-2 border-stone-200 rounded-lg focus:border-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-600/20 transition-all bg-white"
 								>
-									<option value="">Select option</option>
-									<option value="none">No significant obligations</option>
-									<option value="childcare">Childcare responsibilities</option>
-									<option value="elder-care">
-										Elder care responsibilities
-									</option>
-									<option value="both">Both childcare and elder care</option>
-									<option value="other">Other family obligations</option>
-								</select>
+									<SelectTrigger className="w-full">
+										<SelectValue placeholder="Select option" />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value="none">No significant obligations</SelectItem>
+										<SelectItem value="childcare">Childcare responsibilities</SelectItem>
+										<SelectItem value="elder-care">
+											Elder care responsibilities
+										</SelectItem>
+										<SelectItem value="both">Both childcare and elder care</SelectItem>
+										<SelectItem value="other">Other family obligations</SelectItem>
+									</SelectContent>
+								</Select>
 							</div>
 
 							{/* Transportation */}
@@ -258,24 +272,25 @@ function ChallengesPage() {
 								>
 									What's your transportation situation?
 								</label>
-								<select
-									id="transportation"
-									value={formData.transportation}
-									onChange={(e) =>
-										handleChange("transportation", e.target.value)
+								<Select								key={`transportation-${renderKey}`}									value={formData.transportation}
+									onValueChange={(value) =>
+										handleChange("transportation", value)
 									}
-									className="w-full px-4 py-3 border-2 border-stone-200 rounded-lg focus:border-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-600/20 transition-all bg-white"
 								>
-									<option value="">Select option</option>
-									<option value="own-vehicle">Own reliable vehicle</option>
-									<option value="public-transit">
-										Rely on public transportation
-									</option>
-									<option value="limited">
-										Limited transportation options
-									</option>
-									<option value="none">No reliable transportation</option>
-								</select>
+									<SelectTrigger className="w-full">
+										<SelectValue placeholder="Select option" />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value="own-vehicle">Own reliable vehicle</SelectItem>
+										<SelectItem value="public-transit">
+											Rely on public transportation
+										</SelectItem>
+										<SelectItem value="limited">
+											Limited transportation options
+										</SelectItem>
+										<SelectItem value="none">No reliable transportation</SelectItem>
+									</SelectContent>
+								</Select>
 							</div>
 
 							{/* Health Considerations */}
@@ -287,25 +302,26 @@ function ChallengesPage() {
 									Are there any health considerations that might affect career
 									choices?
 								</label>
-								<select
-									id="healthConsiderations"
-									value={formData.healthConsiderations}
-									onChange={(e) =>
-										handleChange("healthConsiderations", e.target.value)
+								<Select								key={`healthConsiderations-${renderKey}`}									value={formData.healthConsiderations}
+									onValueChange={(value) =>
+										handleChange("healthConsiderations", value)
 									}
-									className="w-full px-4 py-3 border-2 border-stone-200 rounded-lg focus:border-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-600/20 transition-all bg-white"
 								>
-									<option value="">Select option</option>
-									<option value="none">No limitations</option>
-									<option value="physical">Physical limitations</option>
-									<option value="mental-health">
-										Mental health considerations
-									</option>
-									<option value="chronic-condition">
-										Chronic health condition
-									</option>
-									<option value="prefer-not-say">Prefer not to say</option>
-								</select>
+									<SelectTrigger className="w-full">
+										<SelectValue placeholder="Select option" />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value="none">No limitations</SelectItem>
+										<SelectItem value="physical">Physical limitations</SelectItem>
+										<SelectItem value="mental-health">
+											Mental health considerations
+										</SelectItem>
+										<SelectItem value="chronic-condition">
+											Chronic health condition
+										</SelectItem>
+										<SelectItem value="prefer-not-say">Prefer not to say</SelectItem>
+									</SelectContent>
+								</Select>
 							</div>
 
 							{/* Education Gaps */}
@@ -356,21 +372,21 @@ function ChallengesPage() {
 									How would you describe your support system?{" "}
 									<span className="text-error-500">*</span>
 								</label>
-								<select
-									id="supportSystem"
-									value={formData.supportSystem}
-									onChange={(e) =>
-										handleChange("supportSystem", e.target.value)
+								<Select								key={`supportSystem-${renderKey}`}									value={formData.supportSystem}
+									onValueChange={(value) =>
+										handleChange("supportSystem", value)
 									}
-									className="w-full px-4 py-3 border-2 border-stone-200 rounded-lg focus:border-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-600/20 transition-all bg-white"
-									required
 								>
-									<option value="">Select option</option>
-									<option value="strong">Strong family/friend support</option>
-									<option value="some">Some support available</option>
-									<option value="limited">Limited support</option>
-									<option value="independent">Mostly independent</option>
-								</select>
+									<SelectTrigger className="w-full">
+										<SelectValue placeholder="Select option" />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value="strong">Strong family/friend support</SelectItem>
+										<SelectItem value="some">Some support available</SelectItem>
+										<SelectItem value="limited">Limited support</SelectItem>
+										<SelectItem value="independent">Mostly independent</SelectItem>
+									</SelectContent>
+								</Select>
 							</div>
 
 							{/* Additional Notes */}
@@ -381,14 +397,13 @@ function ChallengesPage() {
 								>
 									Any other challenges or considerations we should know about?
 								</label>
-								<textarea
-									id="additionalNotes"
-									value={formData.additionalNotes}
-									onChange={(e) =>
-										handleChange("additionalNotes", e.target.value)
-									}
-									rows={4}
-									className="w-full px-4 py-3 border-2 border-stone-200 rounded-lg focus:border-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-600/20 transition-all resize-none"
+							<Textarea
+								id="additionalNotes"
+								value={formData.additionalNotes}
+								onChange={(e) =>
+									handleChange("additionalNotes", e.target.value)
+								}
+								rows={4}
 									placeholder="Share anything else that might help us provide better recommendations..."
 								/>
 							</div>
