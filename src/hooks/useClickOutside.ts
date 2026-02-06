@@ -15,34 +15,34 @@ import { useEffect } from "react";
  * ```
  */
 export function useClickOutside<T extends HTMLElement = HTMLElement>(
-	ref: { readonly current: T | null },
-	handler: (event: MouseEvent | TouchEvent) => void,
-	enabled = true,
+  ref: { readonly current: T | null },
+  handler: (event: MouseEvent | TouchEvent) => void,
+  enabled = true,
 ): void {
-	useEffect(() => {
-		if (!enabled) return;
+  useEffect(() => {
+    if (!enabled) return;
 
-		const handleClickOutside = (event: MouseEvent | TouchEvent) => {
-			// If the ref is not set or the click is inside the element, do nothing
-			if (!ref.current || ref.current.contains(event.target as Node)) {
-				return;
-			}
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      // If the ref is not set or the click is inside the element, do nothing
+      if (!ref.current || ref.current.contains(event.target as Node)) {
+        return;
+      }
 
-			// Call the handler if click is outside
-			handler(event);
-		};
+      // Call the handler if click is outside
+      handler(event);
+    };
 
-		// Delay attaching listeners slightly to avoid conflicts with the click that opened the element
-		const timeoutId = setTimeout(() => {
-			document.addEventListener("mousedown", handleClickOutside);
-			document.addEventListener("touchstart", handleClickOutside);
-		}, 10);
+    // Delay attaching listeners slightly to avoid conflicts with the click that opened the element
+    const timeoutId = setTimeout(() => {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("touchstart", handleClickOutside);
+    }, 10);
 
-		// Cleanup function to remove event listeners and clear timeout
-		return () => {
-			clearTimeout(timeoutId);
-			document.removeEventListener("mousedown", handleClickOutside);
-			document.removeEventListener("touchstart", handleClickOutside);
-		};
-	}, [ref, handler, enabled]);
+    // Cleanup function to remove event listeners and clear timeout
+    return () => {
+      clearTimeout(timeoutId);
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [ref, handler, enabled]);
 }
