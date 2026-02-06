@@ -153,37 +153,37 @@ function HomePage() {
 
   const features = [
     {
-      icon: <Compass className="w-12 h-12 text-lime-400" />,
+      icon: <Compass className="w-8 h-8 text-blue-600" />,
       title: "Find Your Direction",
       description:
         "Take our comprehensive assessment to discover career paths that align with your personality, values, and goals.",
     },
     {
-      icon: <BookOpen className="w-12 h-12 text-lime-400" />,
+      icon: <BookOpen className="w-8 h-8 text-blue-600" />,
       title: "Access Free Resources",
       description:
         "Explore our library of career and life guidance resources—from resume building to mental wellbeing and healthy living.",
     },
     {
-      icon: <Target className="w-12 h-12 text-lime-400" />,
+      icon: <Target className="w-8 h-8 text-blue-600" />,
       title: "Create Your Plan",
       description:
         "Build a personalized action plan with clear steps to achieve your professional and personal goals.",
     },
     {
-      icon: <Users className="w-12 h-12 text-lime-400" />,
+      icon: <Users className="w-8 h-8 text-blue-600" />,
       title: "Get Expert Guidance",
       description:
         "Connect with experienced coaches who can provide personalized support for your career and life journey.",
     },
     {
-      icon: <TrendingUp className="w-12 h-12 text-lime-400" />,
+      icon: <TrendingUp className="w-8 h-8 text-blue-600" />,
       title: "Track Your Progress",
       description:
         "Monitor your journey with our dashboard and celebrate milestones as you work toward your future.",
     },
     {
-      icon: <BookOpen className="w-12 h-12 text-lime-400" />,
+      icon: <BookOpen className="w-8 h-8 text-blue-600" />,
       title: "Whole-Person Support",
       description:
         "Beyond careers—find resources for mental wellbeing, building relationships, and living a healthier life.",
@@ -259,7 +259,7 @@ function HomePage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-gradient-to-b from-stone-50 via-blue-50/40 to-stone-50">
+      <section className="py-16 bg-linear-to-b from-stone-50 via-blue-50/40 to-stone-50">
         <Container>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             {stats.map((stat, index) => (
@@ -346,7 +346,7 @@ function HomePage() {
       </section>
 
       {/* Features Grid */}
-      <section className="py-16 md:py-24 px-6 bg-white">
+      <section className="py-16 md:py-24 px-6 bg-linear-to-b from-white to-blue-50/30">
         <Container>
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-stone-900 mb-4">
@@ -363,19 +363,21 @@ function HomePage() {
               <Card
                 key={feature.title}
                 variant="outlined"
-                className="hover:border-lime-300 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group"
+                className="hover:border-blue-300 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 group bg-white"
                 style={{ animationDelay: `${index * 50}ms` }}
               >
                 <CardHeader>
-                  <div className="mb-4 group-hover:scale-110 transition-transform duration-300">
-                    {feature.icon}
+                  <div className="flex items-center justify-center mb-4">
+                    <div className="w-16 h-16 rounded-full bg-linear-to-br from-blue-100 to-blue-200 flex items-center justify-center group-hover:shadow-lg group-hover:scale-110 transition-all duration-300">
+                      {feature.icon}
+                    </div>
                   </div>
-                  <CardTitle className="group-hover:text-lime-700 transition-colors">
+                  <CardTitle className="group-hover:text-blue-700 transition-colors text-center">
                     {feature.title}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-stone-600 leading-relaxed">
+                  <p className="text-stone-600 leading-relaxed text-center">
                     {feature.description}
                   </p>
                 </CardContent>
