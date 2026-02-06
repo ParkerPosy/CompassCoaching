@@ -1,3 +1,4 @@
+import { type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, Save } from "lucide-react";
 import { Button } from "../ui/button";
@@ -7,8 +8,8 @@ interface NavigationButtonsProps {
   backTo: string;
   /** Text label for the back button */
   backLabel?: string;
-  /** Text label for the next/submit button */
-  nextLabel: string;
+  /** Text label or custom content for the next/submit button */
+  nextLabel: ReactNode;
   /** Whether the next button should be disabled */
   nextDisabled?: boolean;
   /** Whether to show the save progress button */
@@ -17,6 +18,10 @@ interface NavigationButtonsProps {
   onSave?: () => void;
   /** Type of the next button (for form submission) */
   nextButtonType?: "button" | "submit";
+  /** Optional onClick handler for next button (when nextButtonType is 'button') */
+  onNext?: () => void;
+  /** Whether to show arrow icon after next label (default: true) */
+  showNextArrow?: boolean;
 }
 
 export function NavigationButtons({
@@ -27,6 +32,8 @@ export function NavigationButtons({
   showSave = false,
   onSave,
   nextButtonType = "submit",
+  onNext,
+  showNextArrow = true,
 }: NavigationButtonsProps) {
   return (
     <div className="flex items-center justify-between mt-8">
@@ -54,10 +61,11 @@ export function NavigationButtons({
           variant="primary"
           size="lg"
           disabled={nextDisabled}
+          onClick={onNext}
           className="inline-flex items-center gap-2"
         >
           {nextLabel}
-          <ArrowRight className="w-5 h-5" />
+          {showNextArrow && <ArrowRight className="w-5 h-5" />}
         </Button>
       </div>
     </div>

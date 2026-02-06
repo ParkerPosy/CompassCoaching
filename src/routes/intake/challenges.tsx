@@ -1,9 +1,9 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, CheckCircle2, Save } from "lucide-react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { CheckCircle2 } from "lucide-react";
 import { useState } from "react";
+import { NavigationButtons } from "@/components/assessment/NavigationButtons";
 import { Container } from "@/components/layout/container";
 import {
-  Button,
   Card,
   CardContent,
   CardHeader,
@@ -458,36 +458,13 @@ function ChallengesPage() {
           </div>
 
           {/* Navigation */}
-          <div className="flex items-center justify-between">
-            <Link
-              to="/intake/aptitude"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border-2 border-stone-300 text-stone-700 hover:bg-stone-50 transition-colors font-medium"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              Previous
-            </Link>
-
-            <div className="flex items-center gap-4">
-              <button
-                type="button"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border-2 border-stone-300 text-stone-700 hover:bg-stone-50 transition-colors font-medium"
-              >
-                <Save className="w-5 h-5" />
-                Save Progress
-              </button>
-
-              <Button
-                type="submit"
-                variant="primary"
-                size="lg"
-                disabled={!isValid}
-                className="inline-flex items-center gap-2"
-              >
-                Review Answers
-                <ArrowRight className="w-5 h-5" />
-              </Button>
-            </div>
-          </div>
+          <NavigationButtons
+            backTo="/intake/aptitude"
+            backLabel="Previous"
+            nextDisabled={!isValid}
+            nextButtonType="submit"
+            nextLabel="Review Answers"
+          />
         </form>
       </Container>
     </div>

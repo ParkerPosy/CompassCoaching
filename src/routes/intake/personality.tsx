@@ -1,8 +1,7 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, Save } from "lucide-react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { NavigationButtons } from "@/components/assessment/NavigationButtons";
 import { Container } from "@/components/layout/container";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAssessmentStore } from "@/stores/assessmentStore";
 
@@ -223,36 +222,13 @@ function PersonalityPage() {
           </div>
 
           {/* Navigation */}
-          <div className="flex items-center justify-between">
-            <Link
-              to="/intake/basic"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border-2 border-stone-300 text-stone-700 hover:bg-stone-50 transition-colors font-medium"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              Previous
-            </Link>
-
-            <div className="flex items-center gap-4">
-              <button
-                type="button"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border-2 border-stone-300 text-stone-700 hover:bg-stone-50 transition-colors font-medium"
-              >
-                <Save className="w-5 h-5" />
-                Save Progress
-              </button>
-
-              <Button
-                type="submit"
-                variant="primary"
-                size="lg"
-                disabled={!isComplete}
-                className="inline-flex items-center gap-2"
-              >
-                Next: Values
-                <ArrowRight className="w-5 h-5" />
-              </Button>
-            </div>
-          </div>
+          <NavigationButtons
+            backTo="/intake/basic"
+            backLabel="Previous"
+            nextLabel="Next: Values"
+            nextDisabled={!isComplete}
+            nextButtonType="submit"
+          />
         </form>
       </Container>
     </div>

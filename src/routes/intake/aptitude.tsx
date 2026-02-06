@@ -1,8 +1,7 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, Save } from "lucide-react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { NavigationButtons } from "@/components/assessment/NavigationButtons";
 import { Container } from "@/components/layout/container";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAssessmentStore } from "@/stores/assessmentStore";
 
@@ -238,35 +237,13 @@ function AptitudeAssessmentPage() {
           </Card>
 
           {/* Navigation */}
-          <div className="flex items-center justify-between mt-8">
-            <Link
-              to="/intake/values"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border-2 border-stone-300 text-stone-700 hover:bg-stone-50 transition-colors font-medium"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              Back to Values
-            </Link>
-
-            <div className="flex items-center gap-4">
-              <button
-                type="button"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border-2 border-stone-300 text-stone-700 hover:bg-stone-50 transition-colors font-medium"
-              >
-                <Save className="w-5 h-5" />
-                Save Progress
-              </button>
-              <Button
-                type="submit"
-                variant="primary"
-                size="lg"
-                disabled={!allQuestionsAnswered}
-                className="inline-flex items-center gap-2"
-              >
-                Next: Challenges
-                <ArrowRight className="w-5 h-5" />
-              </Button>
-            </div>
-          </div>
+          <NavigationButtons
+            backTo="/intake/values"
+            backLabel="Back to Values"
+            nextLabel="Next: Challenges"
+            nextDisabled={!allQuestionsAnswered}
+            nextButtonType="submit"
+          />
         </form>
       </Container>
     </div>

@@ -1,9 +1,9 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, CheckCircle2, Edit2, Sparkles } from "lucide-react";
+import { CheckCircle2, Edit2, Sparkles } from "lucide-react";
 import { useState } from "react";
+import { NavigationButtons } from "@/components/assessment/NavigationButtons";
 import { Container } from "@/components/layout/container";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAssessmentStore } from "@/stores/assessmentStore";
 
@@ -350,23 +350,11 @@ function ReviewPage() {
                 specifically for you.
               </p>
 
-              <div className="flex items-center justify-center gap-4">
-                <Link
-                  to="/intake/challenges"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border-2 border-stone-300 text-stone-700 hover:bg-white transition-colors font-medium"
-                >
-                  <ArrowLeft className="w-5 h-5" />
-                  Back to Edit
-                </Link>
-
-                <Button
-                  onClick={handleSubmit}
-                  variant="primary"
-                  size="lg"
-                  disabled={!allSectionsComplete || isSubmitting}
-                  className="inline-flex items-center gap-2"
-                >
-                  {isSubmitting ? (
+              <NavigationButtons
+                backTo="/intake/challenges"
+                backLabel="Back to Edit"
+                nextLabel={
+                  isSubmitting ? (
                     <>
                       <span className="animate-spin">⚙️</span>
                       Generating Results...
@@ -376,12 +364,16 @@ function ReviewPage() {
                       <Sparkles className="w-5 h-5" />
                       Get My Results
                     </>
-                  )}
-                </Button>
-              </div>
+                  )
+                }
+                nextDisabled={!allSectionsComplete || isSubmitting}
+                nextButtonType="button"
+                onNext={handleSubmit}
+                showNextArrow={false}
+              />
 
               {!allSectionsComplete && (
-                <p className="text-error-600 mt-4 text-sm">
+                <p className="text-error-600 mt-4 text-sm text-center">
                   Please complete all sections before submitting
                 </p>
               )}
