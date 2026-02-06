@@ -37,8 +37,8 @@ function ContactPage() {
               Get in Touch
             </h1>
             <p className="text-xl text-stone-700">
-              Have questions about Compass Coaching? We're here to help guide
-              you on your career and life journey.
+              Have questions about Compass Coaching? We're a donation-funded non-profit
+              here to help guide you on your career and life journey—completely free.
             </p>
           </div>
         </Container>

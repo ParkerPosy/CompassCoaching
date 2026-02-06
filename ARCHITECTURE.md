@@ -2,9 +2,14 @@
 
 ## Mission
 
-Compass Coaching is a career and life guidance platform. It provides resources across two pillars:
+Compass Coaching is a free, donation-funded non-profit career and life guidance platform dedicated to helping those who need it most. We provide completely free resources across two pillars:
 - **Career Guidance**: Career exploration, job search, professional development, and financial planning
 - **Life Guidance**: Mental wellbeing, interpersonal relationships, and healthy living (framed as a wellbeing tool, not specialized fitness training)
+
+Our mission is to give back by providing equal access to quality career and life guidance, regardless of financial circumstances.
+
+### Approach
+We employ benefit-focused messaging and salesmanship techniques to grow our user base and reach more people who need free career guidance. Our content emphasizes outcomes (personalized matches, life-changing insights) rather than technical features, while maintaining complete transparency about being 100% free and donation-funded.
 
 ## System Architecture
 

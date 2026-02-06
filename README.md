@@ -1,15 +1,17 @@
 # Compass Coaching
 
-A career and life guidance platform designed to help individuals navigate their professional journey and personal wellbeing with confidence.
+A free, donation-funded non-profit career and life guidance platform dedicated to helping individuals navigate their professional journey and personal wellbeing with confidence—regardless of their circumstances.
 
 ## 🎯 Overview
 
-Compass Coaching provides:
-- **Career Assessment**: 5-step personality and aptitude assessment
-- **Resource Library**: 90+ resources across 15 categories covering career and life guidance
-- **Life Guidance**: Resources for mental wellbeing, relationships, and healthy living
-- **Personalized Results**: Tailored career recommendations based on assessment
-- **Progress Tracking**: Visual progress indicators throughout the assessment
+Compass Coaching is a 100% free platform designed to give back to those who need it most. We help you:
+- **Discover Your Path**: Get personalized career matches through our comprehensive assessment
+- **Access 90+ Resources**: Free resources across career guidance and life wellbeing
+- **Gain Life-Changing Insights**: Understand your personality, values, and unique strengths
+- **Build Your Future**: Create actionable plans for career and personal growth
+- **Track Your Progress**: Visual indicators showing your journey forward
+
+**Our Mission**: Powered by donations from people who believe everyone deserves a chance to thrive, we provide completely free career and life guidance to help people find their path forward. We use compelling messaging to reach more people who need our help.
 
 ## 🚀 Quick Start
 
