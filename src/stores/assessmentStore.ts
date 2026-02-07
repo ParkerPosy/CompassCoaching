@@ -32,6 +32,10 @@ export interface AssessmentProgress {
  * Assessment store state interface
  */
 interface AssessmentState {
+  // Hydration tracking
+  _hasHydrated: boolean;
+  setHasHydrated: (state: boolean) => void;
+
   // Assessment section data
   basic: BasicInfo | null;
   personality: PersonalityAnswers | null;
@@ -74,6 +78,10 @@ const createSafeStorage = () => {
 export const useAssessmentStore = create<AssessmentState>()(
   persist(
     (set, get) => ({
+      // Hydration tracking
+      _hasHydrated: false,
+      setHasHydrated: (state: boolean) => set({ _hasHydrated: state }),
+
       // Initial state
       basic: null,
       personality: null,
@@ -164,6 +172,10 @@ export const useAssessmentStore = create<AssessmentState>()(
         challenges: state.challenges,
         results: state.results,
       }),
+      // Track hydration completion
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     },
   ),
 );
@@ -180,6 +192,8 @@ export const useChallenges = () =>
   useAssessmentStore((state) => state.challenges);
 export const useAssessmentResults = () =>
   useAssessmentStore((state) => state.results);
+export const useHasHydrated = () =>
+  useAssessmentStore((state) => state._hasHydrated);
 
 /**
  * Progress selector hook with memoization to prevent infinite re-renders

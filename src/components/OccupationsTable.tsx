@@ -403,10 +403,10 @@ export function OccupationsTable({ initialPageSize = 20 }: OccupationsTableProps
       </div>
 
       {/* Table */}
-      <div className="rounded-lg border border-stone-200 overflow-hidden bg-white shadow-md">
+      <div className="rounded-lg overflow-hidden bg-white shadow-md ring-1 ring-stone-200">
         <div className="overflow-x-auto">
           <table className="w-full table-fixed">
-            <thead className="bg-gradient-to-r from-stone-50 to-stone-100 border-b-2 border-stone-300">
+            <thead className="bg-stone-100 border-b-2 border-stone-300">
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
@@ -485,9 +485,9 @@ export function OccupationsTable({ initialPageSize = 20 }: OccupationsTableProps
                     <Fragment key={row.id}>
                       <tr
                         key={row.id}
-                        className={`group hover:bg-blue-50/80 transition-all duration-200 border-l-[3px] border-transparent hover:border-l-blue-500 hover:shadow-[0_2px_12px_-4px_rgba(59,130,246,0.25)] ${
+                        className={`group hover:bg-blue-50/80 transition-all duration-200 hover:shadow-[inset_3px_0_0_0_rgb(59,130,246),0_2px_12px_-4px_rgba(59,130,246,0.25)] ${
                           hasCountyData ? 'cursor-pointer' : ''
-                        } ${isExpanded ? 'bg-blue-50/40' : ''}`}
+                        } ${isExpanded ? 'bg-blue-50/40 shadow-[inset_3px_0_0_0_rgb(59,130,246)]' : ''}`}
                         onClick={() => {
                           if (hasCountyData) {
                             row.toggleExpanded();
@@ -501,7 +501,7 @@ export function OccupationsTable({ initialPageSize = 20 }: OccupationsTableProps
                         ))}
                       </tr>
                       {isExpanded && hasCountyData && (
-                        <tr key={`${row.id}-expanded`} className="bg-gradient-to-b from-blue-50/50 to-blue-50/30 border-t border-blue-100 cursor-pointer">
+                        <tr key={`${row.id}-expanded`} className="bg-linear-to-b from-blue-50/50 to-blue-50/30 border-t border-blue-100 cursor-pointer">
                           <td
                             colSpan={columns.length}
                             className="px-8 py-5"
@@ -544,7 +544,7 @@ export function OccupationsTable({ initialPageSize = 20 }: OccupationsTableProps
                                         key={county.county}
                                         className={`p-4 rounded-lg border-2 transition-all ${
                                           isSelected
-                                            ? 'bg-gradient-to-br from-blue-50 to-blue-100/50 border-blue-400 shadow-md ring-2 ring-blue-200'
+                                            ? 'bg-linear-to-br from-blue-50 to-blue-100/50 border-blue-400 shadow-md ring-2 ring-blue-200'
                                             : 'bg-white border-stone-200 shadow-sm hover:shadow-md hover:border-stone-300'
                                         }`}
                                       >
@@ -657,22 +657,26 @@ export function OccupationsTable({ initialPageSize = 20 }: OccupationsTableProps
 
           <div className="flex items-center gap-2">
             <span className="text-sm text-stone-600">Show</span>
-            <select
-              value={pagination.pageSize}
-              onChange={(e) => {
+            <Select
+              value={pagination.pageSize.toString()}
+              onValueChange={(value) => {
                 setPagination({
                   pageIndex: 0,
-                  pageSize: Number(e.target.value),
+                  pageSize: Number(value),
                 });
               }}
-              className="border border-stone-300 rounded px-2 py-1 text-sm"
             >
-              {[10, 20, 50, 100].map((size) => (
-                <option key={size} value={size}>
-                  {size}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger className="w-17.5 h-8 text-sm">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {[10, 20, 50, 100].map((size) => (
+                  <SelectItem key={size} value={size.toString()}>
+                    {size}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             <span className="text-sm text-stone-600">per page</span>
           </div>
         </div>

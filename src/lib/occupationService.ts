@@ -1,6 +1,341 @@
 import { createServerFn } from '@tanstack/react-start';
 import type { Occupation } from '@/types/wages';
+import type { AssessmentResults } from '@/types/assessment';
 import { getAllOccupations, getAvailableCounties as getCountiesList } from './wages';
+
+/**
+ * Career match with score and reasons
+ */
+export interface CareerMatch extends Occupation {
+  matchScore: number;
+  matchReasons: string[];
+}
+
+/**
+ * Parameters for fetching career matches
+ */
+export interface CareerMatchParams {
+  assessment: AssessmentResults;
+  offset: number;
+  limit: number;
+  county?: string;
+}
+
+/**
+ * Response for career matches
+ */
+export interface CareerMatchResponse {
+  matches: CareerMatch[];
+  total: number;
+  hasMore: boolean;
+}
+
+/**
+ * Calculate match score between assessment results and occupation metadata
+ */
+function calculateMatchScore(
+  occupation: Occupation,
+  assessment: AssessmentResults
+): { score: number; reasons: string[] } {
+  if (!occupation.metadata) {
+    return { score: 0, reasons: [] };
+  }
+
+  const reasons: string[] = [];
+  let totalScore = 0;
+  let maxScore = 0;
+
+  const metadata = occupation.metadata;
+  const personality = assessment.personality || {};
+  const values = assessment.values || {};
+  const aptitude = assessment.aptitude || {};
+
+  // 1. Career Cluster Match (40 points max)
+  maxScore += 40;
+  const primaryCluster = metadata.careerCluster;
+  const aptitudeArray = aptitude[primaryCluster as keyof typeof aptitude] || [];
+
+  if (aptitudeArray.length > 0) {
+    const aptitudeSum = aptitudeArray.reduce((a: number, b: number) => a + b, 0);
+    const aptitudeAvg = aptitudeSum / aptitudeArray.length;
+    const clusterScore = Math.round((aptitudeAvg / 5) * 40);
+    totalScore += clusterScore;
+
+    if (aptitudeAvg >= 4.5) {
+      reasons.push(`Excellent ${formatClusterName(primaryCluster)} aptitude`);
+    } else if (aptitudeAvg >= 4) {
+      reasons.push(`Strong ${formatClusterName(primaryCluster)} aptitude`);
+    } else if (aptitudeAvg >= 3) {
+      reasons.push(`Good ${formatClusterName(primaryCluster)} fit`);
+    }
+  }
+
+  // 2. Work Style Match (25 points max)
+  maxScore += 25;
+  let styleScore = 0;
+
+  const workEnvPref = personality['work_environment'];
+  const occupationSettings = metadata.workEnvironment.setting;
+
+  if (workEnvPref === 1) {
+    if (occupationSettings.includes('office')) styleScore += 5;
+    else if (occupationSettings.some((s: string) => ['laboratory', 'school', 'hospital', 'remote'].includes(s))) styleScore += 3;
+  } else if (workEnvPref === 2) {
+    if (occupationSettings.includes('remote')) styleScore += 5;
+    else if (occupationSettings.includes('office') && metadata.workEnvironment.schedule?.includes('flexible')) styleScore += 4;
+    else if (occupationSettings.includes('office')) styleScore += 2;
+  } else if (workEnvPref === 3) {
+    if (occupationSettings.some((s: string) => ['outdoor', 'field'].includes(s))) styleScore += 5;
+    else if (occupationSettings.includes('warehouse')) styleScore += 3;
+  } else if (workEnvPref === 4) {
+    if (occupationSettings.length > 1) styleScore += 5;
+    else styleScore += 2;
+  }
+
+  const interactionPref = personality['interaction_style'];
+  const peopleInteraction = metadata.workStyle.peopleInteraction;
+
+  if (interactionPref === 1) {
+    if (peopleInteraction === 'minimal') styleScore += 5;
+    else if (peopleInteraction === 'moderate') styleScore += 3;
+  } else if (interactionPref === 2) {
+    if (peopleInteraction === 'moderate') styleScore += 5;
+    else if (peopleInteraction === 'minimal') styleScore += 4;
+  } else if (interactionPref === 3 || interactionPref === 4) {
+    if (peopleInteraction === 'extensive') styleScore += 5;
+    else if (peopleInteraction === 'moderate') styleScore += 3;
+  }
+
+  const structurePref = personality['structure'];
+  const occupationStructure = metadata.workStyle.structure;
+
+  if (structurePref === 1) {
+    if (occupationStructure === 'highly_structured') styleScore += 5;
+    else if (occupationStructure === 'moderate') styleScore += 3;
+  } else if (structurePref === 2) {
+    if (occupationStructure === 'moderate') styleScore += 5;
+    else if (occupationStructure === 'flexible') styleScore += 4;
+    else if (occupationStructure === 'highly_structured') styleScore += 3;
+  } else if (structurePref === 3 || structurePref === 4) {
+    if (occupationStructure === 'flexible') styleScore += 5;
+    else if (occupationStructure === 'moderate') styleScore += 3;
+  }
+
+  const pacePref = personality['pace'];
+  const occupationPace = metadata.workStyle.pace;
+
+  if (pacePref === 1) {
+    if (occupationPace === 'methodical') styleScore += 5;
+    else if (occupationPace === 'moderate') styleScore += 4;
+    else if (occupationPace === 'fast_paced') styleScore += 2;
+  } else if (pacePref === 2 || pacePref === 3) {
+    if (occupationPace === 'moderate') styleScore += 5;
+    else if (occupationPace === 'methodical' || occupationPace === 'fast_paced') styleScore += 3;
+  } else if (pacePref === 4) {
+    if (occupationPace === 'fast_paced') styleScore += 5;
+    else if (occupationPace === 'moderate') styleScore += 3;
+  }
+
+  const energyPref = personality['energy_source'];
+  const independence = metadata.workStyle.independence;
+
+  if (energyPref === 1) {
+    if (independence === 'independent') styleScore += 5;
+    else if (independence === 'mixed') styleScore += 3;
+  } else if (energyPref === 2) {
+    if (independence === 'mixed') styleScore += 5;
+    else if (independence === 'independent' || independence === 'team') styleScore += 3;
+  } else if (energyPref === 3 || energyPref === 4) {
+    if (independence === 'team') styleScore += 5;
+    else if (independence === 'mixed') styleScore += 3;
+  }
+
+  totalScore += styleScore;
+  if (styleScore >= 20) {
+    reasons.push('Excellent work style fit');
+  } else if (styleScore >= 15) {
+    reasons.push('Good work style match');
+  }
+
+  // 3. Schedule, Travel & Physical Demands (15 points max)
+  maxScore += 15;
+  let envScore = 0;
+
+  const schedulePref = personality['schedule'];
+  const occupationSchedules = metadata.workEnvironment.schedule || [];
+
+  if (schedulePref) {
+    if (schedulePref === 1) {
+      if (occupationSchedules.includes('standard')) envScore += 5;
+      else if (!occupationSchedules.some((s: string) => ['shift', 'oncall', 'evening', 'weekend'].includes(s))) envScore += 3;
+    } else if (schedulePref === 2) {
+      if (occupationSchedules.includes('flexible')) envScore += 5;
+      else if (occupationSchedules.includes('standard')) envScore += 3;
+    } else if (schedulePref === 3) {
+      if (occupationSchedules.some((s: string) => ['shift', 'evening', 'weekend'].includes(s))) envScore += 5;
+      else envScore += 2;
+    } else if (schedulePref === 4) {
+      if (occupationSchedules.includes('oncall')) envScore += 5;
+      else if (occupationSchedules.includes('flexible')) envScore += 3;
+    }
+  } else {
+    envScore += 3;
+  }
+
+  const travelPref = personality['travel'];
+  const occupationTravel = metadata.workEnvironment.travelRequired;
+
+  if (travelPref) {
+    if (travelPref === 1) {
+      if (occupationTravel === 'none') envScore += 5;
+      else if (occupationTravel === 'occasional') envScore += 3;
+      else envScore += 1;
+    } else if (travelPref === 2) {
+      if (occupationTravel === 'occasional') envScore += 5;
+      else if (occupationTravel === 'none' || occupationTravel === 'frequent') envScore += 3;
+    } else if (travelPref === 3) {
+      if (occupationTravel === 'frequent') envScore += 5;
+      else if (occupationTravel === 'occasional' || occupationTravel === 'constant') envScore += 3;
+    } else if (travelPref === 4) {
+      if (occupationTravel === 'constant') envScore += 5;
+      else if (occupationTravel === 'frequent') envScore += 4;
+    }
+  } else {
+    envScore += 3;
+  }
+
+  const physicalPref = personality['physical_demands'];
+  const physicalActivityValue = values['physical_activity'] || 3;
+  const occupationPhysical = metadata.workEnvironment.physicalDemands;
+  const effectivePhysicalPref = physicalPref || (physicalActivityValue >= 4 ? 3 : physicalActivityValue <= 2 ? 1 : 2);
+
+  if (effectivePhysicalPref === 1) {
+    if (occupationPhysical === 'sedentary') envScore += 5;
+    else if (occupationPhysical === 'light') envScore += 3;
+    else envScore += 1;
+  } else if (effectivePhysicalPref === 2) {
+    if (occupationPhysical === 'light') envScore += 5;
+    else if (occupationPhysical === 'sedentary' || occupationPhysical === 'medium') envScore += 4;
+  } else if (effectivePhysicalPref === 3) {
+    if (occupationPhysical === 'medium') envScore += 5;
+    else if (occupationPhysical === 'light' || occupationPhysical === 'heavy') envScore += 3;
+  } else if (effectivePhysicalPref === 4) {
+    if (occupationPhysical === 'heavy' || occupationPhysical === 'veryHeavy') envScore += 5;
+    else if (occupationPhysical === 'medium') envScore += 3;
+  }
+
+  totalScore += envScore;
+  if (envScore >= 12) {
+    reasons.push('Great schedule & environment fit');
+  }
+
+  // 4. Values Alignment (15 points max)
+  maxScore += 15;
+  let valueScore = 0;
+  let valuesMatched = 0;
+
+  const valueMapping: Record<string, string[]> = {
+    'work_life_balance': ['work_life_balance'],
+    'income_potential': ['financial_security'],
+    'helping_others': ['helping_others', 'service'],
+    'creativity': ['creativity', 'innovation'],
+    'job_security': ['stability'],
+    'independence': ['independence'],
+    'leadership': ['leadership', 'advancement'],
+    'learning_growth': ['innovation', 'problem_solving', 'advancement'],
+    'recognition': ['prestige'],
+    'variety': ['variety'],
+  };
+
+  const decisionStyle = personality['decision_making'];
+  if (decisionStyle === 1 && metadata.values.includes('problem_solving')) {
+    valueScore += 3;
+    valuesMatched++;
+  }
+
+  for (const [assessmentValue, mappedValues] of Object.entries(valueMapping)) {
+    const userRating = values[assessmentValue] || 0;
+    if (userRating >= 4) {
+      const hasMatch = mappedValues.some(v =>
+        metadata.values.includes(v as typeof metadata.values[number])
+      );
+      if (hasMatch) {
+        valueScore += userRating === 5 ? 4 : 2;
+        valuesMatched++;
+      }
+    }
+  }
+
+  totalScore += Math.min(15, valueScore);
+  if (valuesMatched >= 3) {
+    reasons.push('Strong value alignment');
+  } else if (valuesMatched >= 2) {
+    reasons.push('Shared values');
+  }
+
+  // 5. Skills bonus (5 points)
+  maxScore += 5;
+
+  if ((decisionStyle === 1 && metadata.skills.analytical >= 7) ||
+      (decisionStyle === 2 && metadata.skills.creative >= 7) ||
+      (decisionStyle === 3 && metadata.skills.social >= 7)) {
+    totalScore += 5;
+  }
+
+  const percentage = maxScore > 0 ? Math.round((totalScore / maxScore) * 100) : 0;
+  return { score: percentage, reasons };
+}
+
+function formatClusterName(cluster: string): string {
+  const names: Record<string, string> = {
+    stem: 'STEM',
+    arts: 'Arts & Creative',
+    communication: 'Communication',
+    business: 'Business',
+    healthcare: 'Healthcare',
+    trades: 'Skilled Trades',
+    socialServices: 'Social Services',
+    law: 'Law & Legal',
+  };
+  return names[cluster] || cluster;
+}
+
+/**
+ * Server function to fetch career matches based on assessment results
+ * Returns paginated, scored, and filtered career matches
+ */
+export const fetchCareerMatches = createServerFn({ method: 'POST' })
+  .inputValidator((input: CareerMatchParams) => input)
+  .handler(async ({ data: params }) => {
+    const allOccupations = getAllOccupations();
+
+    // Calculate match scores for all occupations
+    const scoredMatches: CareerMatch[] = allOccupations
+      .map((occupation) => {
+        const { score, reasons } = calculateMatchScore(occupation, params.assessment);
+        return {
+          ...occupation,
+          matchScore: score,
+          matchReasons: reasons,
+        };
+      })
+      .filter((match) => match.matchScore > 0)
+      .sort((a, b) => b.matchScore - a.matchScore);
+
+    // Apply threshold filter
+    const topScore = scoredMatches[0]?.matchScore || 0;
+    const minThreshold = Math.max(40, topScore - 20);
+    const filteredMatches = scoredMatches.filter(m => m.matchScore >= minThreshold);
+
+    // Paginate results
+    const paginatedMatches = filteredMatches.slice(params.offset, params.offset + params.limit);
+
+    return {
+      matches: paginatedMatches,
+      total: filteredMatches.length,
+      hasMore: params.offset + params.limit < filteredMatches.length,
+    };
+  });
 
 /**
  * Pagination and filtering parameters
@@ -182,4 +517,11 @@ export const getSalaryRangeBoundaries = createServerFn().handler(() => {
     min: Math.min(...salaries),
     max: Math.max(...salaries),
   };
+});
+
+/**
+ * Server function to fetch all occupations for career matching
+ */
+export const fetchAllOccupations = createServerFn({ method: 'GET' }).handler(() => {
+  return getAllOccupations();
 });

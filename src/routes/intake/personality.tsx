@@ -101,6 +101,36 @@ const questions = [
       { value: 4, label: "Fast-paced and constantly shifting" },
     ],
   },
+  {
+    id: "schedule",
+    text: "What type of work schedule would you prefer?",
+    options: [
+      { value: 1, label: "Standard weekday hours (9-5 or similar)" },
+      { value: 2, label: "Flexible hours I can set myself" },
+      { value: 3, label: "Rotating shifts (including nights/weekends)" },
+      { value: 4, label: "On-call or variable as needed" },
+    ],
+  },
+  {
+    id: "travel",
+    text: "How do you feel about travel for work?",
+    options: [
+      { value: 1, label: "Prefer no travel, stay in one location" },
+      { value: 2, label: "Occasional day trips are fine" },
+      { value: 3, label: "Regular travel (few times per month)" },
+      { value: 4, label: "Extensive travel or constantly on-the-go" },
+    ],
+  },
+  {
+    id: "physical_demands",
+    text: "What level of physical activity do you want in your work?",
+    options: [
+      { value: 1, label: "Sedentary - desk/computer work" },
+      { value: 2, label: "Light - occasional standing/walking" },
+      { value: 3, label: "Moderate - regular physical activity" },
+      { value: 4, label: "Heavy - physically demanding work" },
+    ],
+  },
 ];
 
 function PersonalityPage() {

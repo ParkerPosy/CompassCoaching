@@ -7,11 +7,11 @@ const badgeVariants = cva("inline-flex items-center rounded-full font-medium", {
   variants: {
     variant: {
       default: "bg-stone-100 text-stone-700",
-      success: "bg-green-100 text-green-700",
-      warning: "bg-yellow-100 text-yellow-700",
+      success: "bg-emerald-100 text-emerald-700",
+      warning: "bg-amber-100 text-amber-700",
       error: "bg-red-100 text-red-700",
       info: "bg-blue-100 text-blue-700",
-      primary: "bg-lime-100 text-lime-800",
+      primary: "bg-blue-100 text-blue-800",
     },
     size: {
       sm: "px-2 py-0.5 text-xs",
