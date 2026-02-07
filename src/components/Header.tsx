@@ -4,6 +4,7 @@ import {
   BarChart3,
   BookOpen,
   Brain,
+  Briefcase,
   CheckCircle2,
   ChevronDown,
   ChevronRight,
@@ -145,6 +146,19 @@ export default function Header() {
             >
               <Home size={20} />
               <span>Home</span>
+            </Link>
+
+            <Link
+              to="/careers"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-3 p-3 rounded-lg hover:bg-stone-50 transition-colors mb-1 text-stone-700"
+              activeProps={{
+                className:
+                  "flex items-center gap-3 p-3 rounded-lg bg-lime-50 text-lime-700 transition-colors mb-1 font-medium",
+              }}
+            >
+              <Briefcase size={20} />
+              <span>PA Career Explorer</span>
             </Link>
 
             {/* Resources with Submenu */}

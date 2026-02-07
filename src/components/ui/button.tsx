@@ -8,12 +8,14 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
+        default:
+          "bg-lime-600 text-white hover:bg-lime-700 active:bg-lime-800 focus:ring-lime-400",
         primary:
           "bg-lime-400 text-stone-900 hover:bg-lime-500 active:bg-lime-600 focus:ring-lime-400",
         secondary:
           "bg-stone-200 text-stone-900 hover:bg-stone-300 active:bg-stone-400 focus:ring-stone-300",
         outline:
-          "border-2 border-lime-600 text-lime-700 hover:bg-lime-50 active:bg-lime-100 focus:ring-lime-600",
+          "border border-stone-300 text-stone-700 hover:bg-stone-50 active:bg-stone-100 focus:ring-stone-300 bg-white",
         ghost:
           "text-stone-700 hover:bg-stone-100 active:bg-stone-200 focus:ring-stone-300",
         danger:

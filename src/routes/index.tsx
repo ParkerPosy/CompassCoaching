@@ -10,6 +10,7 @@ import {
 import { Container } from "@/components/layout/container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAssessmentProgress } from "@/hooks";
+import { HOME_SEO } from "@/lib/seo";
 
 // Geometric Pattern Background Component
 function GeometricPattern() {
@@ -134,12 +135,42 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       {
-        title: "Compass Coaching - Free Career & Life Guidance Assessment",
+        title: HOME_SEO.titleShort,
       },
       {
         name: "description",
-        content:
-          "Navigate your career and life with our free assessment. Access 90+ resources for career exploration, mental wellbeing, financial aid, and personal growth. Helping 1000+ individuals find their path.",
+        content: HOME_SEO.description,
+      },
+      // Open Graph tags for social media
+      {
+        property: "og:title",
+        content: HOME_SEO.ogTitle,
+      },
+      {
+        property: "og:description",
+        content: HOME_SEO.ogDescription,
+      },
+      {
+        property: "og:type",
+        content: "website",
+      },
+      // Twitter Card
+      {
+        name: "twitter:card",
+        content: "summary_large_image",
+      },
+      {
+        name: "twitter:title",
+        content: HOME_SEO.ogTitle,
+      },
+      {
+        name: "twitter:description",
+        content: HOME_SEO.ogDescription,
+      },
+      // Keywords for older search engines
+      {
+        name: "keywords",
+        content: "Pennsylvania career guidance, free career assessment, life guidance PA, personalized coaching, career resources Pennsylvania, mental wellbeing, career and life support",
       },
     ],
   }),
@@ -154,46 +185,46 @@ function HomePage() {
   const features = [
     {
       icon: <Compass className="w-8 h-8 text-blue-600" />,
-      title: "Find Your Direction",
+      title: "Personalized Assessment",
       description:
-        "Take our comprehensive assessment to discover career paths that align with your personality, values, and goals.",
+        "Take our comprehensive 5-step assessment covering personality, values, aptitudes, and goals to discover your unique path forward.",
     },
     {
       icon: <BookOpen className="w-8 h-8 text-blue-600" />,
-      title: "Access Free Resources",
+      title: "Tailored Resources",
       description:
-        "Explore our library of career and life guidance resources—from resume building to mental wellbeing and healthy living.",
+        "Get matched to the right resources from our library of 90+ guides, tools, and articles for career growth and life wellbeing.",
     },
     {
       icon: <Target className="w-8 h-8 text-blue-600" />,
-      title: "Create Your Plan",
+      title: "Career & Life Support",
       description:
-        "Build a personalized action plan with clear steps to achieve your professional and personal goals.",
+        "Beyond job search—find guidance for mental wellbeing, relationships, salary negotiation, and building your best life.",
     },
     {
       icon: <Users className="w-8 h-8 text-blue-600" />,
-      title: "Get Expert Guidance",
+      title: "Local to Pennsylvania",
       description:
-        "Connect with experienced coaches who can provide personalized support for your career and life journey.",
+        "Resources and insights tailored to Pennsylvania across all 67 counties, including occupation data specific to your region.",
     },
     {
       icon: <TrendingUp className="w-8 h-8 text-blue-600" />,
-      title: "Track Your Progress",
+      title: "Track Your Journey",
       description:
-        "Monitor your journey with our dashboard and celebrate milestones as you work toward your future.",
+        "See your progress through the assessment and watch as you move closer to clarity on your career and life direction.",
     },
     {
       icon: <BookOpen className="w-8 h-8 text-blue-600" />,
-      title: "Whole-Person Support",
+      title: "Whole-Person Approach",
       description:
-        "Beyond careers—find resources for mental wellbeing, building relationships, and living a healthier life.",
+        "Career success and life wellbeing go together. Access resources for professional growth, mental health, relationships, and healthy living.",
     },
   ];
 
   const stats = [
     { value: "90+", label: "Free Resources" },
-    { value: "15+", label: "Career Paths" },
-    { value: "5-Min", label: "Quick Start" },
+    { value: "5-Step", label: "Assessment" },
+    { value: "810+", label: "PA Careers" },
     { value: "100%", label: "Free Forever" },
   ];
 
@@ -217,12 +248,11 @@ function HomePage() {
                 Future
               </span>
             </h1>
-            <p className="text-xl md:text-2xl text-white mb-8 max-w-2xl mx-auto leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]">
-              Discover your path with personalized career and life guidance,
-              free resources, and expert support—no matter your starting point.
+            <p className="text-xl md:text-2xl text-white mb-4 max-w-2xl mx-auto leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]">
+              Personalized career and life guidance for all Pennsylvanians—discover your path through our free assessment.
             </p>
             <p className="text-base md:text-lg text-blue-100 mb-8 max-w-2xl mx-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
-              A donation-funded non-profit dedicated to helping those who need it most.
+              {HOME_SEO.heroSubheading}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -230,7 +260,7 @@ function HomePage() {
                 to={assessmentDestination}
                 className="inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-white text-lime-700 hover:bg-lime-50 focus:ring-white shadow-xl hover:shadow-2xl hover:scale-105 transform px-8 py-4 text-lg"
               >
-                Get Started
+                Start Free Assessment
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <Link
@@ -394,6 +424,8 @@ function HomePage() {
           <svg
             className="absolute inset-0 w-full h-full"
             xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
           >
             <defs>
               <pattern
@@ -411,15 +443,15 @@ function HomePage() {
 
             {/* Decorative triangles */}
             <polygon
-              points="10%,20% 15%,35% 5%,35%"
+              points="10,20 15,35 5,35"
               fill="rgba(255, 255, 255, 0.1)"
             />
             <polygon
-              points="88%,60% 95%,80% 81%,80%"
+              points="88,60 95,80 81,80"
               fill="rgba(255, 255, 255, 0.08)"
             />
             <polygon
-              points="50%,10% 54%,18% 46%,18%"
+              points="50,10 54,18 46,18"
               fill="rgba(255, 255, 255, 0.12)"
             />
           </svg>

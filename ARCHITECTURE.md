@@ -2,14 +2,17 @@
 
 ## Mission
 
-Compass Coaching is a free, donation-funded non-profit career and life guidance platform dedicated to helping those who need it most. We provide completely free resources across two pillars:
-- **Career Guidance**: Career exploration, job search, professional development, and financial planning
+Compass Coaching is a free, donation-funded non-profit career and life guidance platform dedicated to helping Pennsylvanians who need it most. We provide completely free resources across two pillars:
+- **Career Guidance**: Career exploration, job search, professional development, salary negotiation, and financial planning
 - **Life Guidance**: Mental wellbeing, interpersonal relationships, and healthy living (framed as a wellbeing tool, not specialized fitness training)
 
-Our mission is to give back by providing equal access to quality career and life guidance, regardless of financial circumstances.
+Our mission is to give back by providing equal access to quality career and life guidance to all Pennsylvania residents, regardless of financial circumstances.
+
+**Service Area**: Pennsylvania (all 67 counties)
+**Wage Data**: 810+ occupations with comprehensive salary information from PA Department of Labor & Industry (May 2024)
 
 ### Approach
-We employ benefit-focused messaging and salesmanship techniques to grow our user base and reach more people who need free career guidance. Our content emphasizes outcomes (personalized matches, life-changing insights) rather than technical features, while maintaining complete transparency about being 100% free and donation-funded.
+We employ benefit-focused messaging and salesmanship techniques to grow our user base and reach more people who need free career guidance. Our content emphasizes outcomes (personalized matches, life-changing insights, know your worth) rather than technical features, while maintaining complete transparency about being 100% free and donation-funded.
 
 ## System Architecture
 

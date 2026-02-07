@@ -1,17 +1,20 @@
 # Compass Coaching
 
-A free, donation-funded non-profit career and life guidance platform dedicated to helping individuals navigate their professional journey and personal wellbeing with confidence—regardless of their circumstances.
+A free, donation-funded non-profit career and life guidance platform dedicated to helping individuals in Pennsylvania navigate their professional journey and personal wellbeing with confidence—regardless of their circumstances.
 
 ## 🎯 Overview
 
-Compass Coaching is a 100% free platform designed to give back to those who need it most. We help you:
+Compass Coaching is a 100% free platform designed to give back to those who need it most. Serving all 67 counties across Pennsylvania, we help you:
 - **Discover Your Path**: Get personalized career matches through our comprehensive assessment
+- **Know Your Worth**: Access real Pennsylvania wage data for 810+ occupations across all counties
 - **Access 90+ Resources**: Free resources across career guidance and life wellbeing
 - **Gain Life-Changing Insights**: Understand your personality, values, and unique strengths
 - **Build Your Future**: Create actionable plans for career and personal growth
 - **Track Your Progress**: Visual indicators showing your journey forward
 
-**Our Mission**: Powered by donations from people who believe everyone deserves a chance to thrive, we provide completely free career and life guidance to help people find their path forward. We use compelling messaging to reach more people who need our help.
+**Our Mission**: Powered by donations from people who believe everyone deserves a chance to thrive, we provide completely free career and life guidance to help Pennsylvanians find their path forward. We use compelling messaging to reach more people who need our help.
+
+**Service Area**: Pennsylvania (all 67 counties)
 
 ## 🚀 Quick Start
 
@@ -52,14 +55,20 @@ src/
 │   ├── layout/      # Layout components (Container)
 │   └── Header.tsx   # Site navigation
 ├── data/            # Centralized data and constants
-│   └── resources.ts # Resource definitions and helpers
+│   ├── resources.ts        # Resource definitions and helpers
+│   ├── occupations.json    # 810+ PA occupations with wage data
+│   └── pa-wage-data.json   # Raw wage data from PA Dept of Labor
 ├── lib/             # Utility functions
 │   └── storage.ts   # LocalStorage wrapper
 ├── routes/          # File-based routing
 │   ├── index.tsx    # Home page
 │   ├── intake/      # Assessment flow
 │   └── resources/   # Resource library
-└── types/           # Shared TypeScript types
+├── types/           # Shared TypeScript types
+│   ├── assessment.ts # Assessment form types
+│   └── wages.ts      # PA wage data types
+└── scripts/         # Data processing scripts
+    └── parse-wage-data.ts # Convert XLS to JSON
 ```
 
 ## 📚 Documentation
@@ -79,7 +88,15 @@ src/
 
 ## 🎨 Key Features
 
-### 1. Career Assessment
+### 1. Pennsylvania Wage Data
+- **810+ occupations** with comprehensive salary information
+- **All 67 PA counties** covered (May 2024 data)
+- **Real-time salary negotiation insights** based on county and experience level
+- Data sourced from Pennsylvania Department of Labor & Industry
+- Entry, median, and experienced wage ranges
+- Education requirements for each occupation
+
+### 2. Career Assessment
 Multi-step assessment covering:
 - Basic information
 - Personality traits
@@ -87,7 +104,7 @@ Multi-step assessment covering:
 - Career aptitudes
 - Challenges and concerns
 
-### 2. Resource Library
+### 3. Resource Library
 15 categories with 6 resources each:
 
 **Career Guidance:**
