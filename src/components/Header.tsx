@@ -89,8 +89,8 @@ export default function Header() {
 
   return (
     <>
-      <header className="p-4 flex items-center justify-between bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm">
-        <div className="flex items-center gap-6">
+      <header className="px-2 sm:px-4 py-3 sm:py-4 flex items-center justify-between bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm">
+        <div className="flex items-center gap-3 sm:gap-6">
           <button
             type="button"
             onClick={() => setIsOpen(true)}
@@ -100,10 +100,10 @@ export default function Header() {
             <Menu size={24} className="text-stone-700" />
           </button>
 
-          <h1 className="text-2xl font-bold flex items-center">
+          <h1 className="text-lg sm:text-2xl font-bold flex items-center">
             <Link to="/" className="flex items-center gap-1.5 group">
-              <Compass className="w-7 h-7 text-lime-600 group-hover:rotate-12 transition-transform" />
-              <div className="flex gap-1.5">
+              <Compass className="w-5 h-5 sm:w-7 sm:h-7 text-lime-600 group-hover:rotate-12 transition-transform" />
+              <div className="flex gap-1 sm:gap-1.5">
                 <span className="bg-linear-to-r from-lime-600 to-lime-500 bg-clip-text text-transparent">
                   Compass
                 </span>
@@ -113,8 +113,8 @@ export default function Header() {
           </h1>
         </div>
 
-        {/* Auth Buttons */}
-        <div className="flex items-center gap-3">
+        {/* Auth Buttons - hidden on mobile */}
+        <div className="hidden sm:flex items-center gap-3">
           <button
             type="button"
             onClick={() => alert("Coming soon!")}
@@ -395,6 +395,25 @@ export default function Header() {
             )}
             </div>
           </nav>
+          {/* Donate Button - always visible */}
+          <div className="p-4 border-t border-stone-200 space-y-2">
+            <button
+              type="button"
+              onClick={() => alert("Coming soon!")}
+              className="w-full py-3 text-sm font-medium text-lime-700 hover:text-lime-800 bg-lime-50 hover:bg-lime-100 rounded-lg transition-colors flex items-center justify-center gap-2"
+            >
+              <Heart className="w-4 h-4" />
+              Donate
+            </button>
+            {/* Sign In - mobile only */}
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button className="w-full py-3 text-sm font-medium text-white bg-stone-800 hover:bg-stone-900 rounded-lg transition-colors sm:hidden">
+                  Sign In
+                </button>
+              </SignInButton>
+            </SignedOut>
+          </div>
           {/* Footer inside scrollable area */}
           <div className="p-4 border-t border-stone-200 bg-stone-50 shrink-0">
             <p className="text-xs text-stone-600 text-center">

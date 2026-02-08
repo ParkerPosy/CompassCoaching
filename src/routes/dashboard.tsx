@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { SignedIn, useUser } from "@clerk/tanstack-react-start";
-import { User, Shield, Clock, BarChart3, Download, CheckCircle, AlertCircle } from "lucide-react";
+import { SignedIn, SignOutButton, useUser } from "@clerk/tanstack-react-start";
+import { User, Shield, Clock, BarChart3, Download, CheckCircle, AlertCircle, LogOut } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -74,13 +74,21 @@ function DashboardPage() {
     <div className="min-h-screen bg-stone-50 py-12 px-6">
       <Container size="sm">
         {/* Welcome Section */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-stone-900 mb-2">
-            Welcome back{isLoaded && user?.firstName ? `, ${user.firstName}` : ""}!
-          </h1>
-          <p className="text-stone-600">
-            This is your personal dashboard. Here you'll be able to track your progress and access saved results.
-          </p>
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-stone-900 mb-2">
+              Welcome back{isLoaded && user?.firstName ? `, ${user.firstName}` : ""}!
+            </h1>
+            <p className="text-stone-600">
+              This is your personal dashboard. Here you'll be able to track your progress and access saved results.
+            </p>
+          </div>
+          <SignOutButton>
+            <Button variant="outline" className="flex items-center gap-2 shrink-0 whitespace-nowrap">
+              <LogOut className="w-4 h-4" />
+              Sign Out
+            </Button>
+          </SignOutButton>
         </div>
 
         {/* Stats Grid */}
@@ -155,10 +163,6 @@ function DashboardPage() {
                     <p className="text-stone-900">
                       {isLoaded ? user?.primaryEmailAddress?.emailAddress : "Loading..."}
                     </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-stone-500">User ID</p>
-                    <p className="text-stone-900 font-mono text-sm">{loaderData.userId}</p>
                   </div>
                 </div>
               </SignedIn>

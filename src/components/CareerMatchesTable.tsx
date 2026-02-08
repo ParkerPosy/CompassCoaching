@@ -204,26 +204,26 @@ export function CareerMatchesTable({
   return (
     <div ref={sentinelRef} className="bg-white rounded-xl border border-stone-200 shadow-lg overflow-hidden">
       {/* Header */}
-      <div className="bg-gradient-to-r from-lime-50 via-lime-100/50 to-stone-50 border-b border-lime-200 px-6 py-4">
-        <div className="flex items-center justify-between">
+      <div className="bg-gradient-to-r from-lime-50 via-lime-100/50 to-stone-50 border-b border-lime-200 px-4 sm:px-6 py-3 sm:py-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <div>
-            <h3 className="text-lg font-semibold text-stone-900">
+            <h3 className="text-base sm:text-lg font-semibold text-stone-900">
               Found {total} Career Match{total !== 1 ? 'es' : ''}
             </h3>
-            <p className="text-sm text-stone-600">
-              Based on your assessment results {selectedCounty && `• Showing ${selectedCounty} County wages`}
+            <p className="text-xs sm:text-sm text-stone-600">
+              Based on your assessment results {selectedCounty && `• ${selectedCounty} County`}
             </p>
           </div>
-          <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-full border border-lime-300">
-            <Sparkles className="w-4 h-4 text-lime-600" />
-            <span className="text-sm font-medium text-lime-700">Personalized</span>
+          <div className="flex items-center gap-2 bg-white px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-lime-300 self-start sm:self-auto">
+            <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-lime-600" />
+            <span className="text-xs sm:text-sm font-medium text-lime-700">Personalized</span>
           </div>
         </div>
       </div>
 
       {/* Scrollable Career Cards Container */}
       <div className="max-h-[600px] overflow-y-auto">
-        <div className="p-4 space-y-3">
+        <div className="p-3 sm:p-4 space-y-3">
           {matches.map((match, index) => {
             const isExpanded = expandedRows.has(match.id);
             const matchBadge = getMatchBadge(match.matchScore);
@@ -241,52 +241,52 @@ export function CareerMatchesTable({
               <div className="bg-white rounded-lg shadow-sm border border-stone-200 hover:border-emerald-300 hover:shadow-md transition-all duration-200">
               {/* Main Row */}
               <div
-                className="p-5 cursor-pointer"
+                className="p-4 sm:p-5 cursor-pointer"
                 onClick={() => toggleRow(match.id)}
               >
-                <div className="flex items-start gap-4">
+                <div className="flex items-start gap-3 sm:gap-4">
                   {/* Match Score */}
                   <div className="shrink-0">
                     <div
-                      className={`w-16 h-16 rounded-full flex flex-col items-center justify-center ${getMatchColor(match.matchScore)} border-2 ${match.matchScore >= 80 ? 'border-emerald-400' : 'border-stone-300'}`}
+                      className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full flex flex-col items-center justify-center ${getMatchColor(match.matchScore)} border-2 ${match.matchScore >= 80 ? 'border-emerald-400' : 'border-stone-300'}`}
                     >
-                      <span className="text-2xl font-bold">{match.matchScore}</span>
-                      <span className="text-[10px] font-semibold uppercase">Match</span>
+                      <span className="text-xl sm:text-2xl font-bold">{match.matchScore}</span>
+                      <span className="text-[9px] sm:text-[10px] font-semibold uppercase">Match</span>
                     </div>
                   </div>
 
                   {/* Career Info */}
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-4 mb-2">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
+                    <div className="flex items-start justify-between gap-2 sm:gap-4 mb-2">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-1">
                           {index < 3 && (
-                            <Badge variant="primary" size="sm">
+                            <Badge variant="primary" size="sm" className="text-xs">
                               Top {index + 1}
                             </Badge>
                           )}
                           <span
-                            className={`text-xs font-bold ${matchBadge.color} text-white px-2 py-0.5 rounded-full`}
+                            className={`text-[10px] sm:text-xs font-bold ${matchBadge.color} text-white px-1.5 sm:px-2 py-0.5 rounded-full whitespace-nowrap`}
                           >
                             {matchBadge.label}
                           </span>
                         </div>
-                        <h4 className="text-lg font-bold text-stone-900 mb-1">
+                        <h4 className="text-base sm:text-lg font-bold text-stone-900 mb-1">
                           {match.title}
                         </h4>
-                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-stone-600">
-                          <div className="flex items-center gap-1.5">
-                            <GraduationCap className="w-4 h-4 text-indigo-500" />
+                        <div className="flex flex-wrap items-center gap-x-3 sm:gap-x-4 gap-y-1.5 sm:gap-y-2 text-xs sm:text-sm text-stone-600">
+                          <div className="flex items-center gap-1">
+                            <GraduationCap className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-500" />
                             <span className="text-indigo-700">{formatEducationLevel(match.educationLevel)}</span>
                           </div>
-                          <div className="flex items-center gap-1.5">
+                          <div className="flex items-center gap-1">
                             <span className="font-semibold text-emerald-700">
                               {formatCurrency(wageData.annual.median)} median
                             </span>
                           </div>
                           {selectedCounty && (
-                            <div className="flex items-center gap-1.5">
-                              <MapPin className="w-4 h-4 text-sky-500" />
+                            <div className="flex items-center gap-1">
+                              <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-500" />
                               <span className="text-sky-700">{selectedCounty} County</span>
                             </div>
                           )}
@@ -313,15 +313,15 @@ export function CareerMatchesTable({
 
                     {/* Match Reasons */}
                     {match.matchReasons.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mt-3">
+                      <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-2 sm:mt-3">
                         {match.matchReasons.map((reason, idx) => {
                           const colors = getReasonColor(reason);
                           return (
                             <span
                               key={idx}
-                              className={`inline-flex items-center gap-1 text-xs ${colors.bg} ${colors.text} px-2 py-1 rounded-full border ${colors.border}`}
+                              className={`inline-flex items-center gap-1 text-[10px] sm:text-xs ${colors.bg} ${colors.text} px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full border ${colors.border}`}
                             >
-                              <TrendingUp className={`w-3 h-3 ${colors.icon}`} />
+                              <TrendingUp className={`w-2.5 h-2.5 sm:w-3 sm:h-3 ${colors.icon}`} />
                               {reason}
                             </span>
                           );
@@ -334,7 +334,7 @@ export function CareerMatchesTable({
 
               {/* Expanded Details */}
               {isExpanded && match.metadata && (
-                <div className="border-t border-stone-200 bg-stone-50/50 p-5">
+                <div className="border-t border-stone-200 bg-stone-50/50 p-4 sm:p-5">
                   <div className="grid md:grid-cols-2 gap-6">
                     {/* Salary Details */}
                     <div>
