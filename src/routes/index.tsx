@@ -248,7 +248,7 @@ function HomePage() {
                   d="M34.94,10.53 l21.81,48.63 h-51.62 l60.37,150.31 h119 l60.37,-150.31 h-51.62 l21.81,-48.63 z"
                 />
               </svg>
-              <Compass className="absolute w-18 h-18 text-lime-600 animate-compass top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+              <Compass className="absolute w-[4.5rem] h-[4.5rem] text-lime-600 animate-compass top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
             </div>
 
             <h1 className="text-5xl md:text-6xl lg:text-7xl mb-6 font-bold tracking-tight text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]">

@@ -1,6 +1,6 @@
 /**
  * Sitemap Generator
- * Run after build to generate sitemap.xml in .output/public
+ * Run before build to generate sitemap.xml in public folder
  */
 
 import { writeFileSync } from "node:fs";
@@ -52,7 +52,7 @@ ${routes
   .join("\n")}
 </urlset>`;
 
-const outputPath = join(process.cwd(), ".output", "public", "sitemap.xml");
+const outputPath = join(process.cwd(), "public", "sitemap.xml");
 writeFileSync(outputPath, sitemap);
 
 console.log(`✓ Generated sitemap.xml with ${routes.length} URLs`);
