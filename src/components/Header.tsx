@@ -19,7 +19,7 @@ import {
   X,
 } from "lucide-react";
 import { useState } from "react";
-import { RESOURCE_CATEGORIES } from "@/data/resources";
+import { CATEGORY_COLOR_STYLES, RESOURCE_CATEGORIES } from "@/data/resources";
 import { useAssessmentProgress } from "@/hooks";
 
 export default function Header() {
@@ -173,6 +173,7 @@ export default function Header() {
 
                   {RESOURCE_CATEGORIES.map((category) => {
                     const Icon = category.icon;
+                    const colors = CATEGORY_COLOR_STYLES[category.color];
                     return (
                       <Link
                         key={category.slug}
@@ -184,7 +185,7 @@ export default function Header() {
                             "flex items-center gap-2 p-2 rounded-lg bg-lime-50 text-lime-700 transition-colors text-sm font-medium",
                         }}
                       >
-                        <Icon size={16} className="shrink-0" />
+                        <Icon size={16} className={`shrink-0 ${colors.iconText}`} />
                         <span className="line-clamp-1">{category.title}</span>
                       </Link>
                     );
@@ -234,7 +235,7 @@ export default function Header() {
           </div>
 
           {/* Assessment Section */}
-          <div className="border-t border-stone-200 pt-4">
+          <div className="border-t border-stone-200 p-4">
             <button
               type="button"
               onClick={() => setShowAssessmentMenu((prev) => !prev)}

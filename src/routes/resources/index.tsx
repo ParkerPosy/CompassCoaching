@@ -1,9 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowRight, BookOpen, Clock, Search } from "lucide-react";
+import { ArrowRight, BookOpen, Clock, Search, Sparkles } from "lucide-react";
 import { useMemo, useRef, useState } from "react";
 import { Container } from "@/components/layout/container";
 import {
-  Badge,
   Button,
   Card,
   CardContent,
@@ -13,11 +12,44 @@ import {
 } from "@/components/ui";
 import {
   ALL_RESOURCES,
+  CATEGORY_COLOR_STYLES,
   getCategoryPath,
   getResourceCountByCategory,
   RESOURCE_CATEGORIES,
 } from "@/data/resources";
 import { useClickOutside } from "@/hooks";
+
+// Subtle pattern for resources hero
+function ResourcesPattern() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <svg
+        className="absolute inset-0 w-full h-full"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <linearGradient id="resourcesGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#ecfccb" stopOpacity="1" />
+            <stop offset="50%" stopColor="#d9f99d" stopOpacity="1" />
+            <stop offset="100%" stopColor="#bef264" stopOpacity="0.6" />
+          </linearGradient>
+          <pattern id="resourceDots" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="2" r="1.5" fill="rgba(163, 230, 53, 0.25)" />
+          </pattern>
+        </defs>
+
+        <rect width="100%" height="100%" fill="url(#resourcesGradient)" />
+        <rect width="100%" height="100%" fill="url(#resourceDots)" />
+
+        {/* Soft floating shapes */}
+        <circle cx="10%" cy="30%" r="80" fill="rgba(132, 204, 22, 0.12)" />
+        <circle cx="85%" cy="60%" r="100" fill="rgba(20, 184, 166, 0.08)" />
+        <circle cx="70%" cy="20%" r="60" fill="rgba(163, 230, 53, 0.15)" />
+        <circle cx="25%" cy="70%" r="70" fill="rgba(45, 212, 191, 0.1)" />
+      </svg>
+    </div>
+  );
+}
 
 export const Route = createFileRoute("/resources/")({
   component: ResourcesIndexPage,
@@ -54,16 +86,18 @@ function ResourcesIndexPage() {
   return (
     <div className="min-h-screen bg-stone-50">
       {/* Hero Section */}
-      <section className="py-16 md:py-20 px-6 bg-linear-to-br from-lime-50 to-stone-100">
-        <Container>
+      <section className="relative py-16 md:py-20 px-6 overflow-hidden">
+        <ResourcesPattern />
+
+        <Container className="relative z-10">
           <div className="max-w-3xl mx-auto text-center mb-12">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-lime-400 rounded-full mb-6">
-              <BookOpen className="w-8 h-8 text-stone-900" />
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-white rounded-full mb-6 shadow-lg border-2 border-lime-200">
+              <BookOpen className="w-10 h-10 text-lime-600" />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-stone-900 mb-4">
               Resource Library
             </h1>
-            <p className="text-xl text-stone-600 mb-8">
+            <p className="text-xl text-stone-700 mb-8">
               Free guides, templates, and tools to support your career and
               personal growth
             </p>
@@ -80,12 +114,12 @@ function ResourcesIndexPage() {
                   setShowDropdown(true);
                 }}
                 onFocus={() => searchQuery && setShowDropdown(true)}
-                className="pl-12"
+                className="pl-12 shadow-md border-lime-200 focus:border-lime-400"
               />
 
               {/* Dropdown Results */}
               {showDropdown && searchQuery && (
-                <div className="absolute top-full left-0 right-0 bg-white border-2 border-stone-200 rounded-lg shadow-lg max-h-96 overflow-y-auto z-50">
+                <div className="absolute top-full left-0 right-0 bg-white border-2 border-lime-200 rounded-lg shadow-xl max-h-96 overflow-y-auto z-50">
                   {filteredResources.length > 0 ? (
                     <div className="py-2">
                       {filteredResources.map((resource, index) => (
@@ -100,7 +134,7 @@ function ResourcesIndexPage() {
                                 {resource.title}
                               </div>
                               <div className="flex items-center gap-2 text-sm text-stone-600">
-                                <span className="text-lime-600">
+                                <span className="text-lime-600 font-medium">
                                   {resource.category}
                                 </span>
                                 <span>•</span>
@@ -112,7 +146,7 @@ function ResourcesIndexPage() {
                                 </span>
                               </div>
                             </div>
-                            <ArrowRight className="w-4 h-4 text-stone-400 shrink-0 mt-1" />
+                            <ArrowRight className="w-4 h-4 text-lime-500 shrink-0 mt-1" />
                           </div>
                         </button>
                       ))}
@@ -130,25 +164,35 @@ function ResourcesIndexPage() {
           </div>
 
           {/* Quick Stats */}
-          <div className="flex flex-wrap justify-center gap-6 text-center">
-            <div>
+          <div className="flex flex-wrap justify-center gap-6 md:gap-10">
+            <div className="text-center px-6 py-4 bg-white/70 backdrop-blur-sm rounded-xl shadow-md border border-lime-100">
               <div className="text-3xl font-bold text-lime-600">
                 {ALL_RESOURCES.length}+
               </div>
-              <div className="text-sm text-stone-600">Free Resources</div>
+              <div className="text-sm text-stone-600 font-medium">Free Resources</div>
             </div>
-            <div>
-              <div className="text-3xl font-bold text-lime-600">
+            <div className="text-center px-6 py-4 bg-white/70 backdrop-blur-sm rounded-xl shadow-md border border-lime-100">
+              <div className="text-3xl font-bold text-teal-600">
                 {RESOURCE_CATEGORIES.length}
               </div>
-              <div className="text-sm text-stone-600">Categories</div>
+              <div className="text-sm text-stone-600 font-medium">Categories</div>
             </div>
-            <div>
-              <div className="text-3xl font-bold text-lime-600">100%</div>
-              <div className="text-sm text-stone-600">Free Access</div>
+            <div className="text-center px-6 py-4 bg-white/70 backdrop-blur-sm rounded-xl shadow-md border border-lime-100">
+              <div className="text-3xl font-bold text-cyan-600">100%</div>
+              <div className="text-sm text-stone-600 font-medium">Free Access</div>
             </div>
           </div>
         </Container>
+
+        {/* Wave divider */}
+        <div className="absolute bottom-0 left-0 right-0">
+          <svg className="w-full h-12 md:h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path
+              d="M0,60 C300,100 600,20 900,60 C1050,80 1150,80 1200,60 L1200,120 L0,120 Z"
+              fill="#fafaf9"
+            />
+          </svg>
+        </div>
       </section>
 
       {/* Categories Section */}
@@ -167,22 +211,26 @@ function ResourcesIndexPage() {
             {RESOURCE_CATEGORIES.map((category, index) => {
               const Icon = category.icon;
               const count = getResourceCountByCategory(category.title);
+              const colors = CATEGORY_COLOR_STYLES[category.color];
+
               return (
                 <Link key={index} to={category.path}>
                   <Card
                     variant="outlined"
-                    className="hover:border-lime-300 transition-all cursor-pointer hover:shadow-md h-full"
+                    className={`${colors.borderHover} transition-all duration-300 cursor-pointer hover:shadow-lg hover:scale-[1.02] transform h-full group`}
                   >
                     <CardHeader>
                       <div className="flex items-start justify-between mb-4">
-                        <div className="p-3 bg-lime-50 rounded-lg">
-                          <Icon className="w-8 h-8 text-lime-600" />
+                        <div className={`p-3 ${colors.bg} rounded-xl border ${colors.border} group-hover:scale-110 transition-transform duration-300`}>
+                          <Icon className={`w-8 h-8 ${colors.iconText}`} />
                         </div>
-                        <Badge variant="default">{count}</Badge>
+                        <span className={`px-2.5 py-1 rounded-full text-sm font-medium ${colors.badgeBg} ${colors.badgeText}`}>
+                          {count}
+                        </span>
                       </div>
                       <CardTitle className="flex items-center justify-between">
                         {category.title}
-                        <ArrowRight className="w-5 h-5 text-stone-400" />
+                        <ArrowRight className="w-5 h-5 text-stone-400 group-hover:text-stone-600 group-hover:translate-x-1 transition-all duration-300" />
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -197,19 +245,95 @@ function ResourcesIndexPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 px-6 bg-linear-to-br from-lime-400 to-lime-500">
-        <Container size="sm">
+      <section className="relative py-20 px-6 overflow-hidden">
+        {/* Background with organic shapes */}
+        <div className="absolute inset-0">
+          <svg
+            className="absolute inset-0 w-full h-full"
+            viewBox="0 0 1200 400"
+            preserveAspectRatio="xMidYMin slice"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <linearGradient id="ctaResourcesBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#84cc16" stopOpacity="1" />
+                <stop offset="100%" stopColor="#14b8a6" stopOpacity="1" />
+              </linearGradient>
+              <linearGradient id="ctaLimeWave" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#a3e635" stopOpacity="0.5" />
+                <stop offset="100%" stopColor="#bef264" stopOpacity="0.3" />
+              </linearGradient>
+              <linearGradient id="ctaWhiteAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#ffffff" stopOpacity="0.1" />
+              </linearGradient>
+            </defs>
+
+            <rect width="100%" height="100%" fill="url(#ctaResourcesBg)" />
+
+            {/* Flowing organic shapes */}
+            <path
+              d="M-100,200 C150,250 350,150 550,180 C750,210 900,280 1300,200"
+              fill="none"
+              stroke="url(#ctaLimeWave)"
+              strokeWidth="120"
+              strokeLinecap="round"
+              opacity="0.6"
+            />
+            <path
+              d="M-50,300 C200,350 400,250 650,280 C900,310 1050,350 1350,280"
+              fill="none"
+              stroke="url(#ctaLimeWave)"
+              strokeWidth="80"
+              strokeLinecap="round"
+              opacity="0.4"
+            />
+
+            {/* White accent lines */}
+            <path
+              d="M-80,180 C150,230 350,130 550,160 C750,190 900,260 1280,180"
+              fill="none"
+              stroke="url(#ctaWhiteAccent)"
+              strokeWidth="4"
+              strokeLinecap="round"
+              opacity="0.7"
+            />
+            <path
+              d="M-50,280 C200,330 400,230 650,260 C900,290 1050,330 1350,260"
+              fill="none"
+              stroke="url(#ctaWhiteAccent)"
+              strokeWidth="2"
+              strokeLinecap="round"
+              opacity="0.5"
+            />
+
+            {/* Top wave edge */}
+            <path
+              d="M-10,-10 L-10,25 Q200,50 450,30 Q750,5 1000,35 Q1150,50 1210,20 L1210,-10 Z"
+              fill="#fafaf9"
+            />
+          </svg>
+        </div>
+
+        <Container size="sm" className="relative z-10">
           <div className="text-center">
-            <h2 className="text-3xl font-bold text-stone-900 mb-4">
+            <div className="mb-6 inline-flex items-center justify-center w-16 h-16 bg-white/25 backdrop-blur-sm rounded-full border border-white/30">
+              <Sparkles className="w-8 h-8 text-white" />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
               Get Personalized Recommendations
             </h2>
-            <p className="text-lg text-stone-800 mb-8">
+            <p className="text-lg text-white/90 mb-8 max-w-xl mx-auto drop-shadow-[0_2px_6px_rgba(0,0,0,0.3)]">
               Take our career assessment to receive resource recommendations
               tailored to your goals
             </p>
             <Link to="/intake">
-              <Button size="lg" variant="secondary">
+              <Button
+                size="lg"
+                className="bg-white text-lime-700 hover:bg-lime-50 shadow-xl hover:shadow-2xl hover:scale-105 transform transition-all duration-200"
+              >
                 Start Assessment
+                <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </Link>
           </div>
