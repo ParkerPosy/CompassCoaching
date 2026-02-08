@@ -15,6 +15,7 @@ import {
   Trash2,
   Copy,
   ExternalLink,
+  Settings,
 } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -451,23 +452,44 @@ function AdminPage() {
           </CardContent>
         </Card>
 
-        {/* Assessment Results Info */}
+        {/* Platform Overview */}
         <Card className="border-stone-200 bg-stone-50/50">
           <CardHeader>
-            <CardTitle className="text-lg">Assessment Results</CardTitle>
+            <CardTitle className="text-lg">How This Platform Works</CardTitle>
           </CardHeader>
-          <CardContent>
-            <p className="text-stone-600">
-              Assessment data is stored locally in users' browsers. Users who want to share their
-              results with Compass Coaching can download them from their dashboard and send them
-              via email or during a counseling session.
-            </p>
+          <CardContent className="space-y-4 text-sm text-stone-600">
+            <div>
+              <h4 className="font-medium text-stone-800 mb-1">Career Assessment</h4>
+              <p>
+                Visitors take a 5-section assessment covering personality, values, aptitudes, and life challenges.
+                Results are stored in their browser—not on our servers—for privacy. Users can download their results
+                to share during counseling sessions.
+              </p>
+            </div>
+            <div>
+              <h4 className="font-medium text-stone-800 mb-1">User Accounts</h4>
+              <p>
+                Signing in is optional. Logged-in users can save progress across devices and access their
+                personalized dashboard. Admin access (like this page) is granted through Clerk user metadata.
+              </p>
+            </div>
+            <div>
+              <h4 className="font-medium text-stone-800 mb-1">Admin Notes</h4>
+              <p>
+                Use the table above to track notes about users you've counseled. Notes are saved to the database
+                and persist across sessions. Users cannot see these notes.
+              </p>
+            </div>
           </CardContent>
         </Card>
 
         {/* Dev Tools */}
         <Card className="border-stone-700 bg-stone-900 text-stone-300">
           <CardContent className="p-4">
+            <div className="flex items-center gap-2 text-xs text-stone-500 uppercase tracking-wider mb-3">
+              <Settings className="w-3.5 h-3.5" />
+              Dev Tools
+            </div>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               {/* State */}
               <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
@@ -523,24 +545,33 @@ function AdminPage() {
               </div>
             </div>
 
-            {/* Links */}
-            <div className="mt-3 pt-3 border-t border-stone-800 flex items-center gap-4 text-xs text-stone-500">
-              <a
-                href="https://dashboard.clerk.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 hover:text-stone-300 transition-colors"
-              >
-                Clerk <ExternalLink className="w-3 h-3" />
-              </a>
-              <a
-                href="https://vercel.com/dashboard"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 hover:text-stone-300 transition-colors"
-              >
-                Vercel <ExternalLink className="w-3 h-3" />
-              </a>
+            {/* External Services */}
+            <div className="mt-3 pt-3 border-t border-stone-800">
+              <div className="text-xs text-stone-600 mb-2">External Services</div>
+              <div className="flex flex-col sm:flex-row gap-4 text-xs">
+                <div className="flex items-center gap-2">
+                  <a
+                    href="https://dashboard.clerk.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-stone-400 hover:text-stone-200 transition-colors"
+                  >
+                    Clerk <ExternalLink className="w-3 h-3" />
+                  </a>
+                  <span className="text-stone-600">— User accounts & login</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <a
+                    href="https://vercel.com/dashboard"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-stone-400 hover:text-stone-200 transition-colors"
+                  >
+                    Vercel <ExternalLink className="w-3 h-3" />
+                  </a>
+                  <span className="text-stone-600">— Website hosting & deploys</span>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
