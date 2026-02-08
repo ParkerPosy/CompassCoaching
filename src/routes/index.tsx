@@ -248,16 +248,29 @@ function HomePage() {
                   strokeLinejoin="round"
                   d="M34.94,10.53 l21.81,48.63 h-51.62 l60.37,180.31 h119 l60.37,-180.31 h-51.62 l21.81,-48.63 z"
                 />
-                <path
-                  className="animate-compass origin-center"
+                <g
+                  className="animate-compass"
                   style={{ transformOrigin: '122.5px 127.5px' }}
-                  d="M170 80 L148 142 Q145 152 136 155 L75 175 L97 113 Q100 103 110 100 Z"
-                  fill="none"
-                  stroke="#65a30d"
-                  strokeWidth="15"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
+                >
+                  {/* Lime (NE half): full needle underneath */}
+                  <path
+                    d="M97 113 Q100 103 110 100 L170 80 L148 142 Q145 152 136 155"
+                    fill="none"
+                    stroke="#84cc16"
+                    strokeWidth="15"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  {/* Cyan (SW half): overlaps at exact midpoints */}
+                  <path
+                    d="M144 150 Q140.5 153.5 136 155 L75 175 L97 113 Q98.5 108 102 105"
+                    fill="none"
+                    stroke="#164e63"
+                    strokeWidth="15"
+                    strokeLinecap="butt"
+                    strokeLinejoin="round"
+                  />
+                </g>
               </svg>
             </div>
 
