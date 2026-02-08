@@ -12,14 +12,15 @@ import {
   Loader2,
   UserPlus,
   Check,
-  RotateCcw,
-  Wrench,
+  Trash2,
+  Copy,
+  ExternalLink,
 } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useAssessmentStore } from "@/stores/assessmentStore";
+import { useAssessmentStore, useAssessmentProgress, CURRENT_ASSESSMENT_VERSION } from "@/stores/assessmentStore";
 
 // Types for admin data
 interface UserNote {
@@ -176,6 +177,8 @@ function AdminPage() {
   const loaderData = Route.useLoaderData();
   const { stats, error, users } = loaderData;
   const clearAll = useAssessmentStore((state) => state.clearAll);
+  const storedResults = useAssessmentStore((state) => state.results);
+  const progress = useAssessmentProgress();
 
   // Local state for dirty notes (unsaved changes)
   const [localNotes, setLocalNotes] = useState<Record<string, string>>({});
@@ -463,36 +466,81 @@ function AdminPage() {
         </Card>
 
         {/* Dev Tools */}
-        <Card className="border-stone-200 border-dashed bg-stone-100/50">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <Wrench className="w-5 h-5 text-stone-500" />
-              <CardTitle className="text-lg text-stone-600">Dev Tools</CardTitle>
+        <Card className="border-stone-700 bg-stone-900 text-stone-300">
+          <CardContent className="p-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              {/* State */}
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
+                <span className="text-stone-500">Your Assessment</span>
+                <span>
+                  Progress: <span className="text-white font-medium">{progress.percentComplete}%</span>
+                </span>
+                <span>
+                  Results: <span className={storedResults ? "text-lime-400" : "text-stone-500"}>{storedResults ? "Saved" : "None"}</span>
+                  {storedResults && storedResults.version !== CURRENT_ASSESSMENT_VERSION && (
+                    <span className="text-amber-400 ml-1">(outdated)</span>
+                  )}
+                </span>
+              </div>
+
+              {/* Actions */}
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const state = useAssessmentStore.getState();
+                    navigator.clipboard.writeText(JSON.stringify({
+                      basic: state.basic,
+                      personality: state.personality,
+                      values: state.values,
+                      aptitude: state.aptitude,
+                      challenges: state.challenges,
+                      results: state.results,
+                    }, null, 2));
+                  }}
+                  className="p-2 rounded hover:bg-stone-800 text-stone-400 hover:text-stone-200 transition-colors"
+                  title="Copy state to clipboard"
+                >
+                  <Copy className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={handleResetAssessment}
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded bg-stone-800 hover:bg-stone-700 text-sm transition-colors"
+                >
+                  {resetConfirmed ? (
+                    <>
+                      <Check className="w-4 h-4 text-lime-400" />
+                      <span className="text-lime-400">Done</span>
+                    </>
+                  ) : (
+                    <>
+                      <Trash2 className="w-4 h-4 text-stone-400" />
+                      <span>Reset Data</span>
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-4">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleResetAssessment}
-                className="text-stone-600 hover:text-stone-900"
+
+            {/* Links */}
+            <div className="mt-3 pt-3 border-t border-stone-800 flex items-center gap-4 text-xs text-stone-500">
+              <a
+                href="https://dashboard.clerk.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 hover:text-stone-300 transition-colors"
               >
-                {resetConfirmed ? (
-                  <>
-                    <Check className="w-4 h-4 mr-2 text-lime-600" />
-                    Reset!
-                  </>
-                ) : (
-                  <>
-                    <RotateCcw className="w-4 h-4 mr-2" />
-                    Reset My Assessment
-                  </>
-                )}
-              </Button>
-              <span className="text-sm text-stone-500">
-                Clears your local assessment data for testing
-              </span>
+                Clerk <ExternalLink className="w-3 h-3" />
+              </a>
+              <a
+                href="https://vercel.com/dashboard"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 hover:text-stone-300 transition-colors"
+              >
+                Vercel <ExternalLink className="w-3 h-3" />
+              </a>
             </div>
           </CardContent>
         </Card>

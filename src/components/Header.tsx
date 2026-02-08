@@ -115,6 +115,14 @@ export default function Header() {
 
         {/* Auth Buttons */}
         <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => alert("Coming soon!")}
+            className="px-4 py-2 text-sm font-medium text-lime-700 hover:text-lime-800 hover:bg-lime-50 rounded-lg transition-colors flex items-center gap-1.5"
+          >
+            <Heart className="w-4 h-4" />
+            Donate
+          </button>
           <SignedOut>
             <SignInButton mode="modal">
               <button className="px-4 py-2 text-sm font-medium text-stone-700 hover:text-stone-900 hover:bg-stone-100 rounded-lg transition-colors">
