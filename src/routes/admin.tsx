@@ -1,4 +1,4 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute, redirect, useRouter } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { useUser } from "@clerk/tanstack-react-start";
 import { useState } from "react";
@@ -169,6 +169,7 @@ export const Route = createFileRoute("/admin")({
 
 function AdminPage() {
   const { user, isLoaded } = useUser();
+  const router = useRouter();
   const loaderData = Route.useLoaderData();
   const { stats, error, users } = loaderData;
 
@@ -211,6 +212,9 @@ function AdminPage() {
 
       // Show saved indicator
       setSavedUsers((prev) => new Set(prev).add(userRow.clerkId));
+
+      // Refresh the data to update isInDatabase status
+      await router.invalidate();
 
       // Clear saved indicator after 2 seconds
       setTimeout(() => {
