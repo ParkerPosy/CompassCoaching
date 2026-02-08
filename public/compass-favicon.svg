@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 250">
   <!-- Pennsylvania Keystone - official shape from Wikipedia -->
-  <path fill="#ffffff" stroke="none" d="M34.94,10.53 l21.81,48.63 h-51.62 l60.37,180.31 h119 l60.37,-180.31 h-51.62 l21.81,-48.63 z" />
+  <path fill="#ffffff" stroke="#65a30d" stroke-width="12" stroke-linejoin="round" d="M34.94,10.53 l21.81,48.63 h-51.62 l60.37,180.31 h119 l60.37,-180.31 h-51.62 l21.81,-48.63 z" />
   <!-- Compass needle shifted up to fit within keystone -->
-  <polygon points="170 95 145 167 75 190 100 118 170 95" fill="none" stroke="#65a30d" stroke-width="25" stroke-linecap="round" stroke-linejoin="round"/>
+  <polygon points="170 80 145 152 75 175 100 103 170 80" fill="none" stroke="#65a30d" stroke-width="25" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
