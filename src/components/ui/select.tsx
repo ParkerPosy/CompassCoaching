@@ -22,7 +22,17 @@ Select.displayName = "Select";
 
 const SelectGroup = SelectPrimitive.Group;
 
-const SelectValue = SelectPrimitive.Value;
+const SelectValue = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Value>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Value>
+>(({ className, ...props }, ref) => (
+  <SelectPrimitive.Value
+    ref={ref}
+    className={cn("text-left", className)}
+    {...props}
+  />
+));
+SelectValue.displayName = SelectPrimitive.Value.displayName;
 
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
@@ -33,19 +43,18 @@ const SelectTrigger = React.forwardRef<
     <SelectPrimitive.Trigger
       ref={ref}
       className={cn(
-        "flex items-center justify-between rounded-lg border-2 border-stone-200 bg-white leading-normal focus:border-lime-400 focus:outline-none focus:ring-2 focus:ring-lime-400/20 transition-colors disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
+        "flex items-center gap-2 rounded-lg border-2 border-stone-200 bg-white leading-normal focus:border-lime-400 focus:outline-none focus:ring-2 focus:ring-lime-400/20 transition-colors disabled:cursor-not-allowed disabled:opacity-50",
         size === "default" && "h-[50px] px-4 text-base w-full",
         size === "sm" && "h-8 px-2.5 text-sm w-full",
         className,
       )}
-      style={{ '--radix-select-trigger-width': '100%' }}
       {...props}
     >
-      {children}
+      <span className="flex-1 min-w-0 block truncate text-left [&_span]:block [&_span]:truncate [&_span]:text-left">{children}</span>
       <SelectPrimitive.Icon asChild>
         <ChevronDown
           className={cn(
-            "text-stone-700 opacity-50",
+            "text-stone-700 opacity-50 shrink-0",
             size === "default" && "h-5 w-5",
             size === "sm" && "h-4 w-4",
           )}
@@ -117,8 +126,9 @@ const SelectContent = React.forwardRef<
           className={cn(
             size === "default" && "p-1",
             size === "sm" && "py-0.5",
-            "w-full"
+            "w-full overflow-y-auto"
           )}
+          style={{ scrollbarGutter: 'stable' }}
         >
           {children}
         </SelectPrimitive.Viewport>
