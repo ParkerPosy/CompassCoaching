@@ -135,8 +135,18 @@ data/
     ├── RESOURCE_TYPES      # Type constants
     ├── CATEGORY_NAMES      # Category constants (career + life guidance)
     ├── ALL_RESOURCES       # Master resource list (90 resources)
-    ├── RESOURCE_CATEGORIES # Category metadata (15 categories)
+    ├── RESOURCE_CATEGORIES # Category metadata (15 categories with colors)
+    ├── CategoryColor       # Type for 15 available category colors
+    ├── CATEGORY_COLOR_STYLES # Complete Tailwind class mappings per color
     └── Helper functions    # Data access functions
+
+hooks/
+├── index.ts                # Hook exports
+├── useAssessmentProgress.ts # Track assessment completion
+└── useClickOutside.ts      # Detect clicks outside elements
+
+stores/
+└── assessmentStore.ts      # Assessment state management
 ```
 
 ## Key Design Decisions
@@ -170,6 +180,18 @@ data/
 - Type-safe data access
 
 **Trade-off**: Less flexibility for page-specific customization
+
+### 6. Category Color System
+**Decision**: Each resource category has a unique color theme defined in `CATEGORY_COLOR_STYLES`
+**Rationale**:
+- Visual distinction between categories
+- Consistent theming across pages (hero, cards, CTA, navigation)
+- Centralized color definitions prevent duplication
+- Full Tailwind class mappings avoid dynamic class generation issues
+
+**Implementation**:
+- 15 colors: violet, rose, lime, teal, emerald, blue, cyan, amber, indigo, orange, pink, sky, slate, purple, yellow
+- Each color provides: gradient stops, accent RGB, bg/border classes, icon classes, badge classes, CTA button classes (including focus/active states)
 
 ### 4. Tailwind CSS Only
 **Decision**: No CSS-in-JS, CSS modules, or separate CSS files

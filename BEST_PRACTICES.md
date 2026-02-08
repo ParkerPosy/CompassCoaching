@@ -195,6 +195,16 @@ export function getResourcesByCategory(category: string): Resource[] {
   return ALL_RESOURCES.filter(r => r.category === category)
 }
 
+// ✅ Good: Centralized color system with full Tailwind class mappings
+export const CATEGORY_COLOR_STYLES: Record<CategoryColor, {
+  gradient: string[];
+  bg: string;
+  iconText: string;
+  ctaButtonFocus: string;
+  ctaButtonActive: string;
+  // ... complete class definitions
+}> = { ... }
+
 // ❌ Bad: Duplicated data across files
 const resources = [...] // in file 1
 const moreResources = [...] // in file 2
@@ -233,10 +243,39 @@ const moreResources = [...] // in file 2
 - **Borders**: `stone-200` (default), `lime-300` (hover)
 - **Accents**: `lime-400` (bright), `lime-600` (dark accent)
 
+### Category Color System
+
+Each resource category has a unique color theme for visual distinction. Colors are defined centrally in `CATEGORY_COLOR_STYLES` with complete Tailwind class mappings.
+
+**Available Colors** (15 total):
+`violet`, `rose`, `lime`, `teal`, `emerald`, `blue`, `cyan`, `amber`, `indigo`, `orange`, `pink`, `sky`, `slate`, `purple`, `yellow`
+
+**Each color provides**:
+- `gradient`: Array of hex colors for SVG gradients
+- `accent`: RGB values for dynamic opacity
+- `bg`, `bgHover`, `border`, `borderHover`: Card styling
+- `iconBg`, `iconBorder`, `iconText`, `iconHoverText`: Icon styling
+- `badgeBg`, `badgeText`: Badge styling
+- `ctaFrom`, `ctaTo`: CTA gradient stops
+- `ctaButtonText`, `ctaButtonHover`, `ctaButtonFocus`, `ctaButtonActive`: Button states
+
+```typescript
+// ✅ Good: Use centralized color styles
+const colors = CATEGORY_COLOR_STYLES[category.color];
+<Icon className={`${colors.iconText}`} />
+<Button className={`${colors.ctaButtonText} ${colors.ctaButtonFocus}`}>
+
+// ❌ Bad: Hardcoded color classes
+<Icon className="text-violet-600" />  // Not tied to category
+```
+
+**Rule**: Always derive colors from `CATEGORY_COLOR_STYLES` using the category's `color` property. This ensures consistency and makes theme changes easy.
+
 ### Rules
 
 - Use **Tailwind classes** exclusively (no inline styles or CSS files)
 - Follow the **existing color palette** - don't introduce new colors
+- Use **CATEGORY_COLOR_STYLES** for category-specific theming
 - Use **transition classes** for smooth interactions (`transition-colors`, `transition-all`)
 - Use **responsive prefixes** (`md:`, `lg:`) for mobile-first design
 - Keep class names in **logical order**: layout → spacing → colors → typography → effects
