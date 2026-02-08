@@ -39,7 +39,7 @@ function AboutPattern() {
 function AboutPage() {
   const founders = [
     {
-      name: "James Zagurski",
+      name: "James Zagurskie",
       nickname: "Jimmy",
       role: "Co-Founder & Executive Director",
       image: "/jimmy-profile.png",
