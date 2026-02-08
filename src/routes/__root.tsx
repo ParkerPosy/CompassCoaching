@@ -91,7 +91,7 @@ export const Route = createRootRoute({
       },
       {
         rel: "canonical",
-        href: "https://compasscoaching.org",
+        href: "https://compasscoachingpa.org",
       },
     ],
   }),

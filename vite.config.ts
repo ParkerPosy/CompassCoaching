@@ -19,6 +19,13 @@ const config = defineConfig({
     tanstackStart(),
     viteReact(),
   ],
+  // Prevent @libsql/client from being bundled - it's Node.js only
+  optimizeDeps: {
+    exclude: ["@libsql/client"],
+  },
+  ssr: {
+    external: ["@libsql/client"],
+  },
 });
 
 export default config;

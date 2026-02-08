@@ -256,8 +256,8 @@ function ContactPage() {
               <div className="mt-6 text-center">
                 <p className="text-stone-500 text-sm">
                   Prefer email? Write directly to{" "}
-                  <a href="mailto:hello@compasscoaching.org" className="text-lime-600 hover:text-lime-700 font-medium">
-                    hello@compasscoaching.org
+                  <a href="mailto:hello@compasscoachingpa.org" className="text-lime-600 hover:text-lime-700 font-medium">
+                    hello@compasscoachingpa.org
                   </a>
                 </p>
               </div>

@@ -1,6 +1,5 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { auth } from "@clerk/tanstack-react-start/server";
 import { SignedIn, useUser } from "@clerk/tanstack-react-start";
 import { User, Shield, Clock, BarChart3, Download, CheckCircle, AlertCircle } from "lucide-react";
 import { Container } from "@/components/layout/container";
@@ -10,6 +9,7 @@ import { useAssessmentStore } from "@/stores/assessmentStore";
 
 // Server function to check authentication
 const authStateFn = createServerFn().handler(async () => {
+  const { auth } = await import("@clerk/tanstack-react-start/server");
   const { userId } = await auth();
 
   if (!userId) {

@@ -251,8 +251,8 @@ export function generateLocalBusinessSchema() {
     '@type': 'NonprofitOrganization',
     name: 'Compass Coaching',
     description: 'Free career and life guidance platform serving Pennsylvania residents with real wage data',
-    url: 'https://compasscoaching.org', // Update with actual domain
-    logo: 'https://compasscoaching.org/logo.png', // Update with actual logo URL
+    url: 'https://compasscoachingpa.org',
+    logo: 'https://compasscoachingpa.org/logo.png',
     areaServed: {
       '@type': 'State',
       name: 'Pennsylvania',
