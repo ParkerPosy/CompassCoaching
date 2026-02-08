@@ -28,6 +28,10 @@ const config = defineConfig({
   ssr: {
     external: ["@libsql/client"],
   },
+  // Drop console.log and debugger in production
+  esbuild: {
+    drop: process.env.NODE_ENV === "production" ? ["console", "debugger"] : [],
+  },
 });
 
 export default config;
