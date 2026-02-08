@@ -242,7 +242,7 @@ function HomePage() {
               <svg className="w-36 h-32 drop-shadow-xl" viewBox="0 0 250 220" xmlns="http://www.w3.org/2000/svg">
                 <path
                   fill="white"
-                  stroke="white"
+                  stroke="var(--color-lime-600)"
                   strokeWidth="12"
                   strokeLinejoin="round"
                   d="M34.94,10.53 l21.81,48.63 h-51.62 l60.37,150.31 h119 l60.37,-150.31 h-51.62 l21.81,-48.63 z"
