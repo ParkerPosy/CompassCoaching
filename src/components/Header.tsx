@@ -4,6 +4,7 @@ import {
   SignedOut,
   SignInButton,
   UserButton,
+  useUser,
 } from "@clerk/tanstack-react-start";
 import {
   AlertCircle,
@@ -21,6 +22,7 @@ import {
   Info,
   Mail,
   Menu,
+  Shield,
   Target,
   User,
   X,
@@ -35,6 +37,9 @@ export default function Header() {
   const [showResourcesMenu, setShowResourcesMenu] = useState(false);
   const progress = useAssessmentProgress();
   const navigate = useNavigate();
+  const { user } = useUser();
+
+  const isAdmin = user?.publicMetadata?.role === "admin";
 
   const handleContinueAssessment = () => {
     navigate({ to: progress.nextSection });
@@ -178,6 +183,22 @@ export default function Header() {
                 <User size={20} />
                 <span>My Dashboard</span>
               </Link>
+
+              {/* Admin - Only shown to admins */}
+              {isAdmin && (
+                <Link
+                  to="/admin"
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center gap-3 p-3 rounded-lg hover:bg-stone-50 transition-colors mb-1 text-stone-700"
+                  activeProps={{
+                    className:
+                      "flex items-center gap-3 p-3 rounded-lg bg-lime-50 text-lime-700 transition-colors mb-1 font-medium",
+                  }}
+                >
+                  <Shield size={20} />
+                  <span>Admin Dashboard</span>
+                </Link>
+              )}
             </SignedIn>
 
             {/* Resources with Submenu */}

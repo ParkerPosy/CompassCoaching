@@ -2,9 +2,11 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { auth } from "@clerk/tanstack-react-start/server";
 import { SignedIn, useUser } from "@clerk/tanstack-react-start";
-import { User, Shield, Clock, BarChart3 } from "lucide-react";
+import { User, Shield, Clock, BarChart3, Download, CheckCircle, AlertCircle } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useAssessmentStore } from "@/stores/assessmentStore";
 
 // Server function to check authentication
 const authStateFn = createServerFn().handler(async () => {
@@ -41,6 +43,32 @@ export const Route = createFileRoute("/dashboard")({
 function DashboardPage() {
   const { user, isLoaded } = useUser();
   const loaderData = Route.useLoaderData();
+  const { basic, personality, values, aptitude, challenges, results, _hasHydrated } = useAssessmentStore();
+
+  const hasAnyData = basic || personality || values || aptitude || challenges || results;
+  const sectionsCompleted = [basic, personality, values, aptitude, challenges].filter(Boolean).length;
+
+  const handleDownloadResults = () => {
+    const data = {
+      exportedAt: new Date().toISOString(),
+      basic,
+      personality,
+      values,
+      aptitude,
+      challenges,
+      results,
+    };
+
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `compass-assessment-${new Date().toISOString().split("T")[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <div className="min-h-screen bg-stone-50 py-12 px-6">
@@ -135,18 +163,58 @@ function DashboardPage() {
             </CardContent>
           </Card>
 
-          {/* Coming Soon */}
-          <Card className="border-dashed border-2 border-stone-300 bg-stone-50/50">
-            <CardContent className="p-6 flex flex-col items-center justify-center text-center min-h-50">
-              <div className="w-16 h-16 bg-stone-200 rounded-full flex items-center justify-center mb-4">
-                <BarChart3 className="w-8 h-8 text-stone-400" />
-              </div>
-              <h3 className="text-lg font-semibold text-stone-700 mb-2">Coming Soon</h3>
-              <p className="text-stone-500 text-sm max-w-xs">
-                Save your assessment results, track career matches over time, and get personalized recommendations.
-              </p>
+          {/* Download Results */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Download className="w-5 h-5 text-lime-600" />
+                Download My Results
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {!_hasHydrated ? (
+                <p className="text-stone-500 text-sm">Loading assessment data...</p>
+              ) : hasAnyData ? (
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 text-sm">
+                    {sectionsCompleted === 5 ? (
+                      <CheckCircle className="w-4 h-4 text-lime-600" />
+                    ) : (
+                      <AlertCircle className="w-4 h-4 text-amber-500" />
+                    )}
+                    <span className="text-stone-600">
+                      {sectionsCompleted}/5 sections completed
+                    </span>
+                  </div>
+                  <p className="text-stone-500 text-sm">
+                    Download your assessment data as a JSON file. You can share this with a career counselor.
+                  </p>
+                  <Button onClick={handleDownloadResults} className="w-full">
+                    <Download className="w-4 h-4 mr-2" />
+                    Download Assessment Data
+                  </Button>
+                </div>
+              ) : (
+                <div className="text-center py-4">
+                  <div className="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <BarChart3 className="w-6 h-6 text-stone-400" />
+                  </div>
+                  <p className="text-stone-500 text-sm">
+                    No assessment data yet. Complete the assessment to download your results.
+                  </p>
+                </div>
+              )}
             </CardContent>
           </Card>
+        </div>
+
+        {/* Privacy Notice */}
+        <div className="mt-8 p-4 bg-lime-50 border border-lime-200 rounded-lg">
+          <p className="text-stone-600 text-sm">
+            <strong className="text-stone-700">Your privacy matters.</strong> Your assessment data is stored only in your browser's
+            local storage—we don't collect or store it on our servers. Use the download button above to save
+            your results and share them with a career counselor when you're ready.
+          </p>
         </div>
       </Container>
     </div>
