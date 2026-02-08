@@ -1,94 +1,43 @@
-import type { Occupation, CountyWageData, SalaryNegotiationData } from '@/types/wages';
-
-// Import the processed occupation data
-// Note: This will be loaded at build time - for 810 occupations it's ~2-3MB
-// In production, consider lazy loading or API endpoints for large datasets
-import occupationsData from '../data/occupations.json';
+/**
+ * Client-safe formatting utilities for wages
+ * Data-loading functions are in wages.server.ts to keep the ~2-3MB occupation data off the client bundle
+ */
 
 /**
- * Get all occupations
+ * SOC Major Group Categories
+ * These are the 2-digit prefixes used to categorize occupations
  */
-export function getAllOccupations(): Occupation[] {
-  return occupationsData as Occupation[];
-}
+export const SOC_CATEGORIES = [
+  { code: '11', label: 'Management' },
+  { code: '13', label: 'Business & Financial Operations' },
+  { code: '15', label: 'Computer & Mathematical' },
+  { code: '17', label: 'Architecture & Engineering' },
+  { code: '19', label: 'Life, Physical & Social Science' },
+  { code: '21', label: 'Community & Social Service' },
+  { code: '23', label: 'Legal' },
+  { code: '25', label: 'Educational Instruction & Library' },
+  { code: '27', label: 'Arts, Design, Entertainment & Sports' },
+  { code: '29', label: 'Healthcare Practitioners & Technical' },
+  { code: '31', label: 'Healthcare Support' },
+  { code: '33', label: 'Protective Service' },
+  { code: '35', label: 'Food Preparation & Serving' },
+  { code: '37', label: 'Building & Grounds Maintenance' },
+  { code: '39', label: 'Personal Care & Service' },
+  { code: '41', label: 'Sales & Related' },
+  { code: '43', label: 'Office & Administrative Support' },
+  { code: '45', label: 'Farming, Fishing & Forestry' },
+  { code: '47', label: 'Construction & Extraction' },
+  { code: '49', label: 'Installation, Maintenance & Repair' },
+  { code: '51', label: 'Production' },
+  { code: '53', label: 'Transportation & Material Moving' },
+] as const;
 
 /**
- * Get occupation by SOC code
+ * Check if a SOC code is a category header (ending in -0000)
+ * These are summary categories, not specific job titles
  */
-export function getOccupationByCode(socCode: string): Occupation | undefined {
-  return getAllOccupations().find(occ => occ.socCode === socCode);
-}
-
-/**
- * Get occupation by ID
- */
-export function getOccupationById(id: string): Occupation | undefined {
-  return getAllOccupations().find(occ => occ.id === id);
-}
-
-/**
- * Search occupations by title
- */
-export function searchOccupations(query: string): Occupation[] {
-  const lowerQuery = query.toLowerCase();
-  return getAllOccupations().filter(occ =>
-    occ.title.toLowerCase().includes(lowerQuery)
-  );
-}
-
-/**
- * Filter occupations by education level
- */
-export function getOccupationsByEducation(educationLevel: string | string[]): Occupation[] {
-  const levels = Array.isArray(educationLevel) ? educationLevel : [educationLevel];
-  return getAllOccupations().filter(occ =>
-    levels.includes(occ.educationLevel)
-  );
-}
-
-/**
- * Get occupations by salary range (annual)
- * @param minSalary - Minimum annual salary
- * @param maxSalary - Maximum annual salary (optional)
- */
-export function getOccupationsBySalaryRange(
-  minSalary: number,
-  maxSalary?: number
-): Occupation[] {
-  return getAllOccupations().filter(occ => {
-    const median = occ.wages.statewide.annual.median;
-    if (!median) return false;
-
-    if (maxSalary) {
-      return median >= minSalary && median <= maxSalary;
-    }
-    return median >= minSalary;
-  });
-}
-
-/**
- * Get wage data for a specific county
- */
-export function getCountyWageData(
-  occupation: Occupation,
-  county: string
-): CountyWageData | undefined {
-  return occupation.wages.byCounty.find(
-    c => c.county.toLowerCase() === county.toLowerCase()
-  );
-}
-
-/**
- * Get all available counties
- */
-export function getAvailableCounties(): string[] {
-  const counties = new Set<string>();
-  getAllOccupations().forEach(occ => {
-    occ.wages.byCounty.forEach(county => {
-      counties.add(county.county);
-    });
-  });
-  return Array.from(counties).sort();
+export function isCategoryHeaderCode(socCode: string): boolean {
+  return socCode.endsWith('-0000');
 }
 
 /**
@@ -129,154 +78,4 @@ export function formatCurrency(amount: number | null | undefined): string {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amount);
-}
-
-/**
- * Calculate salary negotiation data
- * Helps users understand where they stand in the wage distribution
- */
-export function getSalaryNegotiationData(
-  occupationId: string,
-  county: string | 'statewide',
-  experienceLevel: 'entry' | 'mid' | 'experienced'
-): SalaryNegotiationData | null {
-  const occupation = getOccupationById(occupationId);
-  if (!occupation) return null;
-
-  const isStatewide = county === 'statewide';
-  const wages = isStatewide
-    ? occupation.wages.statewide
-    : getCountyWageData(occupation, county)?.wages;
-
-  if (!wages) return null;
-
-  // Determine target salary based on experience
-  let targetSalary: number | null = null;
-  let salaryRange = { low: 0, mid: 0, high: 0 };
-
-  switch (experienceLevel) {
-    case 'entry':
-      targetSalary = wages.annual.entry;
-      salaryRange = {
-        low: wages.annual.entry || wages.annual.min || 0,
-        mid: wages.annual.median || 0,
-        high: wages.annual.average || 0,
-      };
-      break;
-    case 'mid':
-      targetSalary = wages.annual.median;
-      salaryRange = {
-        low: wages.annual.midRangeLow || wages.annual.entry || 0,
-        mid: wages.annual.median || 0,
-        high: wages.annual.midRangeHigh || wages.annual.average || 0,
-      };
-      break;
-    case 'experienced':
-      targetSalary = wages.annual.experienced;
-      salaryRange = {
-        low: wages.annual.average || 0,
-        mid: wages.annual.experienced || 0,
-        high: wages.annual.max || 0,
-      };
-      break;
-  }
-
-  if (!targetSalary) return null;
-
-  // Generate insights
-  const insights: string[] = [];
-
-  const statewideMedian = occupation.wages.statewide.annual.median || 0;
-  const countyMedian = wages.annual.median || 0;
-
-  if (!isStatewide && countyMedian > statewideMedian) {
-    const diff = ((countyMedian - statewideMedian) / statewideMedian * 100).toFixed(0);
-    insights.push(`${county} County pays ${diff}% above state average for this role`);
-  } else if (!isStatewide && countyMedian < statewideMedian) {
-    const diff = ((statewideMedian - countyMedian) / statewideMedian * 100).toFixed(0);
-    insights.push(`${county} County pays ${diff}% below state average for this role`);
-  }
-
-  if (experienceLevel === 'experienced' && wages.annual.experienced) {
-    insights.push('With experience, you can earn significantly more than entry-level');
-  }
-
-  if (wages.annual.max && targetSalary) {
-    const growthPotential = ((wages.annual.max - targetSalary) / targetSalary * 100).toFixed(0);
-    insights.push(`${growthPotential}% growth potential in this career`);
-  }
-
-  return {
-    occupationId: occupation.id,
-    title: occupation.title,
-    location: isStatewide ? 'Pennsylvania (Statewide)' : `${county} County, PA`,
-    experienceLevel,
-    targetSalary,
-    salaryRange,
-    countyMedian,
-    statewideMedian,
-    percentile: targetSalary && salaryRange.high
-      ? Math.round((targetSalary / salaryRange.high) * 100)
-      : undefined,
-    insights
-  };
-}
-
-/**
- * Get top paying occupations
- */
-export function getTopPayingOccupations(limit = 10): Occupation[] {
-  return getAllOccupations()
-    .filter(occ => occ.wages.statewide.annual.median)
-    .sort((a, b) => {
-      const aMedian = a.wages.statewide.annual.median || 0;
-      const bMedian = b.wages.statewide.annual.median || 0;
-      return bMedian - aMedian;
-    })
-    .slice(0, limit);
-}
-
-/**
- * Get occupations grouped by major SOC category
- * SOC codes are organized: XX-XXXX where first 2 digits are major group
- */
-export function getOccupationsByMajorGroup(): Map<string, Occupation[]> {
-  const majorGroups = new Map<string, Occupation[]>();
-
-  const groupNames: Record<string, string> = {
-    '11': 'Management',
-    '13': 'Business & Financial',
-    '15': 'Computer & Mathematical',
-    '17': 'Architecture & Engineering',
-    '19': 'Life, Physical, & Social Science',
-    '21': 'Community & Social Service',
-    '23': 'Legal',
-    '25': 'Education',
-    '27': 'Arts, Design, Sports & Media',
-    '29': 'Healthcare Practitioners',
-    '31': 'Healthcare Support',
-    '33': 'Protective Service',
-    '35': 'Food Preparation & Serving',
-    '37': 'Building & Grounds Maintenance',
-    '39': 'Personal Care & Service',
-    '41': 'Sales',
-    '43': 'Office & Administrative Support',
-    '45': 'Farming, Fishing, & Forestry',
-    '47': 'Construction & Extraction',
-    '49': 'Installation, Maintenance, & Repair',
-    '51': 'Production',
-    '53': 'Transportation & Material Moving',
-  };
-
-  getAllOccupations().forEach(occ => {
-    const majorCode = occ.socCode.substring(0, 2);
-    const groupName = groupNames[majorCode] || `Group ${majorCode}`;
-
-    if (!majorGroups.has(groupName)) {
-      majorGroups.set(groupName, []);
-    }
-    majorGroups.get(groupName)?.push(occ);
-  });
-
-  return majorGroups;
 }

@@ -12,7 +12,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ArrowUpDown, ChevronLeft, ChevronRight, Loader2, TrendingUp, GraduationCap, MapPin, ChevronDown } from 'lucide-react';
 import type { Occupation } from '@/types/wages';
 import { fetchPaginatedOccupations, getAvailableCounties } from '@/lib/occupationService';
-import { formatCurrency, formatEducationLevel } from '@/lib/wages';
+import { formatCurrency, formatEducationLevel, SOC_CATEGORIES } from '@/lib/wages';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -37,6 +37,7 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
   });
   const [expanded, setExpanded] = useState<ExpandedState>({});
   const [selectedCounty, setSelectedCounty] = useSessionStorage('occupations-county', 'All');
+  const [selectedCategory, setSelectedCategory] = useSessionStorage('occupations-category', 'All');
   const tableContainerRef = useRef<HTMLDivElement>(null);
   const mouseDownPos = useRef<{ x: number; y: number } | null>(null);
   const isInitialMount = useRef(true);
@@ -69,7 +70,7 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
 
   // Fetch data with React Query
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['occupations', pagination, sorting, search, selectedCounty],
+    queryKey: ['occupations', pagination, sorting, search, selectedCounty, selectedCategory],
     queryFn: () =>
       fetchPaginatedOccupations({
         data: {
@@ -79,6 +80,7 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
           sortBy: sorting[0]?.id as keyof Occupation | undefined,
           sortOrder: sorting[0]?.desc ? 'desc' : 'asc',
           county: selectedCounty !== 'All' ? selectedCounty : undefined,
+          socCategory: selectedCategory !== 'All' ? selectedCategory : undefined,
         },
       }),
     placeholderData: (previousData) => previousData, // Keep previous data while fetching
@@ -391,19 +393,41 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
                 </SelectContent>
               </Select>
             </div>
+            <div className="w-full sm:w-72">
+              <Select
+                value={selectedCategory}
+                onValueChange={(value) => {
+                  setSelectedCategory(value);
+                  setPagination({ pageIndex: 0, pageSize: pagination.pageSize });
+                }}
+              >
+                <SelectTrigger className="bg-white w-full">
+                  <SelectValue placeholder="All Career Fields" />
+                </SelectTrigger>
+                <SelectContent position="popper" sideOffset={4}>
+                  <SelectItem value="All">All Career Fields</SelectItem>
+                  {SOC_CATEGORIES.map((category) => (
+                    <SelectItem key={category.code} value={category.code}>
+                      {category.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
           {data && (
             <div className="flex items-center gap-3 flex-wrap sm:flex-nowrap sm:justify-end shrink-0">
               <div className="text-sm text-stone-600 font-medium">
                 Showing {data.data.length} of {data.meta.totalCount.toLocaleString()} careers
               </div>
-              {(search || selectedCounty !== 'All') && (
+              {(search || selectedCounty !== 'All' || selectedCategory !== 'All') && (
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => {
                     setSearch('');
                     setSelectedCounty('All');
+                    setSelectedCategory('All');
                     setPagination({ pageIndex: 0, pageSize: pagination.pageSize });
                   }}
                   className="text-xs h-7"
@@ -472,16 +496,21 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
                 <tr>
                   <td colSpan={columns.length} className="px-6 py-12 text-center">
                     <div className="text-stone-600">
-                      {selectedCounty !== 'All' ? (
+                      {selectedCounty !== 'All' || selectedCategory !== 'All' ? (
                         <div className="space-y-2">
-                          <div className="text-lg font-semibold">No careers found in {selectedCounty} County</div>
-                          <div className="text-sm">Try searching for different terms or selecting a different county.</div>
+                          <div className="text-lg font-semibold">
+                            No careers found
+                            {selectedCounty !== 'All' && ` in ${selectedCounty} County`}
+                            {selectedCategory !== 'All' && ` in ${SOC_CATEGORIES.find(c => c.code === selectedCategory)?.label || 'selected field'}`}
+                          </div>
+                          <div className="text-sm">Try searching for different terms or adjusting your filters.</div>
                           <Button
                             variant="outline"
                             size="sm"
                             onClick={() => {
                               setSearch('');
                               setSelectedCounty('All');
+                              setSelectedCategory('All');
                               setPagination({ pageIndex: 0, pageSize: pagination.pageSize });
                             }}
                             className="mt-3"

@@ -1,7 +1,7 @@
 import { createServerFn } from '@tanstack/react-start';
 import type { Occupation } from '@/types/wages';
 import type { AssessmentResults } from '@/types/assessment';
-import { getAllOccupations, getAvailableCounties as getCountiesList } from './wages';
+import { getAllOccupations, getSpecificOccupations, getAvailableCounties as getCountiesList } from './wages.server';
 
 /**
  * Career match with score and reasons
@@ -307,13 +307,8 @@ function formatClusterName(cluster: string): string {
 export const fetchCareerMatches = createServerFn({ method: 'POST' })
   .inputValidator((input: CareerMatchParams) => input)
   .handler(async ({ data: params }) => {
-    const allOccupations = getAllOccupations();
-
-    // Filter out broad occupation categories (SOC codes ending in -0000)
-    // These are summary categories, not specific job titles
-    const specificOccupations = allOccupations.filter(
-      (occ) => !occ.socCode.endsWith('-0000')
-    );
+    // Use getSpecificOccupations to exclude category headers (-0000 codes)
+    const specificOccupations = getSpecificOccupations();
 
     // Calculate match scores for all occupations
     const scoredMatches: CareerMatch[] = specificOccupations
@@ -356,6 +351,7 @@ export interface OccupationQueryParams {
   minSalary?: number;
   maxSalary?: number;
   county?: string;
+  socCategory?: string; // 2-digit SOC prefix like "15" for Computer & Mathematical
 }
 
 /**
@@ -381,7 +377,15 @@ export const fetchPaginatedOccupations = createServerFn({ method: 'GET' })
   .inputValidator((input: OccupationQueryParams) => input)
   .handler(async ({ data: params }) => {
 
-  let allOccupations = getAllOccupations();
+  // Use getSpecificOccupations to exclude category headers (-0000 codes)
+  let allOccupations = getSpecificOccupations();
+
+  // Apply SOC category filter (filter by 2-digit prefix)
+  if (params.socCategory) {
+    allOccupations = allOccupations.filter(occ =>
+      occ.socCode.startsWith(params.socCategory + '-')
+    );
+  }
 
   // Apply search filter
   if (params.search) {
