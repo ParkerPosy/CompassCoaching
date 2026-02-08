@@ -237,9 +237,18 @@ function HomePage() {
         {/* Content overlay */}
         <Container className="relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            {/* Compass Icon with animation */}
-            <div className="mb-6 inline-flex items-center justify-center w-24 h-24 bg-white rounded-full shadow-xl p-3">
-              <Compass className="w-full h-full text-lime-600 animate-compass" />
+            {/* Compass Icon in Keystone shape */}
+            <div className="mb-6 inline-flex items-center justify-center relative">
+              <svg className="w-36 h-32 drop-shadow-xl" viewBox="0 0 250 220" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  fill="white"
+                  stroke="white"
+                  strokeWidth="12"
+                  strokeLinejoin="round"
+                  d="M34.94,10.53 l21.81,48.63 h-51.62 l60.37,150.31 h119 l60.37,-150.31 h-51.62 l21.81,-48.63 z"
+                />
+              </svg>
+              <Compass className="absolute w-18 h-18 text-lime-600 animate-compass top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
             </div>
 
             <h1 className="text-5xl md:text-6xl lg:text-7xl mb-6 font-bold tracking-tight text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]">
