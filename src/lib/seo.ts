@@ -33,20 +33,20 @@ export const HOME_SEO = {
 
   // Meta description (158 chars) - optimized for search results
   description:
-    'Free personalized career and life guidance for Pennsylvania. Take our assessment, get matched to tailored resources & find your path forward—100% free.',
+    'Free personalized career and life guidance for Pennsylvania. Take our assessment, get matched to tailored resources & find your path forward. 100% free.',
 
   // Hero subheading - benefit-focused, emotionally engaging
   heroSubheading:
-    'Take our free assessment and get personalized guidance matched to your values, personality, and goals—for career and life.',
+    'Take our free assessment and get personalized guidance matched to your values, personality, and goals. For career and life.',
 
   // Alternative hero (more action-oriented)
   heroSubheadingAlt:
-    'Free for all Pennsylvanians—discover your path with personalized coaching and 90+ resources for career and life success.',
+    'Free for all Pennsylvanians. Discover your path with personalized coaching and 90+ resources for career and life success.',
 
   // Open Graph / Social Media
   ogTitle: 'Free Career & Life Guidance for Pennsylvania | Compass Coaching',
   ogDescription:
-    'Navigate your future with confidence. Free personalized assessment, 90+ resources, and expert guidance for career & life—serving all of Pennsylvania.',
+    'Navigate your future with confidence. Free personalized assessment, 90+ resources, and expert guidance for career & life. Serving all of Pennsylvania.',
 
   // Schema.org structured data
   structuredData: {

@@ -92,9 +92,9 @@ This document outlines SEO strategy and implementation guidelines for the Compas
 ```
 
 **Examples**:
-- ✅ `Free personalized career and life guidance for Pennsylvania. Take our assessment, get matched to tailored resources & find your path forward—100% free.` (158 chars)
+- ✅ `Free personalized career and life guidance for Pennsylvania. Take our assessment, get matched to tailored resources & find your path forward. 100% free.` (158 chars)
 - ✅ `Discover your path with our free assessment. Personalized career & life resources for Pennsylvania residents. 90+ guides, tools & expert insights.` (152 chars)
-- ✅ `Navigate your future with confidence. Free assessment matches your values & personality to career resources and life guidance—serving all of PA.` (149 chars)
+- ✅ `Navigate your future with confidence. Free assessment matches your values & personality to career resources and life guidance. Serving all of PA.` (149 chars)
 - ❌ `We are a donation-funded non-profit organization providing career and life guidance resources with PA salary data.` (No clear benefit, reads like "about us")
 
 ### Headers (H1-H6)
@@ -165,13 +165,13 @@ This document outlines SEO strategy and implementation guidelines for the Compas
 ### Copywriting Principles
 
 #### 1. Lead with Assessment & Guidance
-- ✅ "Discover your path with our free assessment—get matched to resources that fit your unique values and goals"
+- ✅ "Discover your path with our free assessment. Get matched to resources that fit your unique values and goals."
 - ✅ "Personalized career and life guidance through our comprehensive assessment"
 - ❌ "Access 810+ PA occupation salaries and wage data" (makes us sound like a salary database)
 
 #### 2. Career AND Life (Holistic)
-- ✅ "Career success and life wellbeing—we guide you in both"
-- ✅ "Beyond just job search—find resources for mental health, relationships, and personal growth"
+- ✅ "Career success and life wellbeing: we guide you in both"
+- ✅ "Beyond job search: find resources for mental health, relationships, and personal growth"
 - ❌ "Career guidance with some life resources" (too career-focused)
 
 #### 3. Assessment-Driven Value
@@ -192,9 +192,17 @@ This document outlines SEO strategy and implementation guidelines for the Compas
 #### 5. Trust Indicators
 Include throughout content:
 - "Real PA Dept. of Labor data (May 2024)"
-- "100% free—no credit card required"
+- "100% free, no credit card required"
 - "Donation-funded non-profit"
 - "Your data stays local"
+
+#### 6. Punctuation Guidelines
+- **Avoid excessive em dashes (—)**: Use sparingly for emphasis. Overuse makes copy feel fragmented and less professional.
+- ✅ "Completely free, powered by donations" (comma)
+- ✅ "Career success and life wellbeing. We guide you in both." (period for separate thoughts)
+- ✅ "Personalized guidance for career and life" (remove the aside entirely)
+- ❌ "Completely free—powered by donations—no strings attached" (too many em dashes)
+- When tempted to use an em dash, consider: comma, period, colon, or restructuring the sentence
 
 ### Content Structure for SEO
 
@@ -522,4 +530,4 @@ Sitemap: https://compasscoaching.org/sitemap.xml
 
 ---
 
-**Remember**: SEO is a marathon, not a sprint. Focus on creating genuinely helpful content for Pennsylvania residents, and rankings will follow. Our unique value proposition (real PA wage data) is a significant differentiator—lean into it!
+**Remember**: SEO is a marathon, not a sprint. Focus on creating genuinely helpful content for Pennsylvania residents, and rankings will follow. Our unique value proposition (real PA wage data) is a significant differentiator. Lean into it!

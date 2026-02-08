@@ -12,6 +12,7 @@ import {
   Compass,
   Heart,
   Home,
+  Info,
   Mail,
   Menu,
   Target,
@@ -218,6 +219,19 @@ export default function Header() {
             >
               <Mail size={20} />
               <span>Contact</span>
+            </Link>
+
+            <Link
+              to="/about"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-3 p-3 rounded-lg hover:bg-stone-50 transition-colors mb-1 text-stone-700"
+              activeProps={{
+                className:
+                  "flex items-center gap-3 p-3 rounded-lg bg-lime-50 text-lime-700 transition-colors mb-1 font-medium",
+              }}
+            >
+              <Info size={20} />
+              <span>About Us</span>
             </Link>
 
             <Link

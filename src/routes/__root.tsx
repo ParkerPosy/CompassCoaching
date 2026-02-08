@@ -80,6 +80,11 @@ export const Route = createRootRoute({
     ],
     links: [
       {
+        rel: "icon",
+        type: "image/svg+xml",
+        href: "/compass-favicon.svg",
+      },
+      {
         rel: "stylesheet",
         href: appCss,
       },

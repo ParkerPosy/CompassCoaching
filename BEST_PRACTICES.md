@@ -1,6 +1,6 @@
 # Compass Coaching - Code Best Practices
 
-This document outlines the coding standards and best practices for the Compass Coaching application—a career and life guidance platform.
+This document outlines the coding standards and best practices for the Compass Coaching application, a career and life guidance platform.
 
 ## Table of Contents
 
@@ -13,6 +13,7 @@ This document outlines the coding standards and best practices for the Compass C
 7. [State Management](#state-management)
 8. [Performance](#performance)
 9. [Accessibility](#accessibility)
+10. [Content Guidelines](#content-guidelines)
 
 ## Project Structure
 
@@ -514,8 +515,35 @@ style: format code with Biome
 - **Dev Server**: Vite (`npm run dev`)
 - **Browser DevTools**: React DevTools, TanStack Router DevTools
 
+## Content Guidelines
+
+### Punctuation
+
+- **Avoid excessive em dashes (—)**: Use sparingly for strong emphasis only. Overuse fragments copy and appears unprofessional.
+- Prefer commas, periods, colons, or sentence restructuring over em dashes
+- Maximum one em dash per paragraph, and only when truly needed for emphasis
+
+### Examples
+
+```
+✅ "Completely free, powered by donations"
+✅ "Career success and life wellbeing. We guide you in both."
+✅ "Personalized guidance for career and life"
+
+❌ "Completely free—powered by donations—no strings attached"
+❌ "Career guidance—life resources—all in one platform"
+```
+
+### Writing Style
+
+- Lead with benefits, not features
+- Be specific over generic
+- Use active voice
+- Keep sentences concise
+- See `SEO_BEST_PRACTICES.md` for detailed copywriting principles
+
 ---
 
-**Last Updated**: February 4, 2026
+**Last Updated**: February 7, 2026
 
 **Maintainers**: Keep this document updated as patterns evolve. Review quarterly.

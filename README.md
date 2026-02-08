@@ -1,6 +1,6 @@
 # Compass Coaching
 
-A free, donation-funded non-profit career and life guidance platform dedicated to helping individuals in Pennsylvania navigate their professional journey and personal wellbeing with confidence—regardless of their circumstances.
+A free, donation-funded non-profit career and life guidance platform dedicated to helping individuals in Pennsylvania navigate their professional journey and personal wellbeing with confidence, regardless of their circumstances.
 
 ## 🎯 Overview
 

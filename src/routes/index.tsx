@@ -199,7 +199,7 @@ function HomePage() {
       icon: <Target className="w-8 h-8 text-blue-600" />,
       title: "Career & Life Support",
       description:
-        "Beyond job search—find guidance for mental wellbeing, relationships, salary negotiation, and building your best life.",
+        "Beyond job search: find guidance for mental wellbeing, relationships, salary negotiation, and building your best life.",
     },
     {
       icon: <Users className="w-8 h-8 text-blue-600" />,
@@ -249,7 +249,7 @@ function HomePage() {
               </span>
             </h1>
             <p className="text-xl md:text-2xl text-white mb-4 max-w-2xl mx-auto leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]">
-              Personalized career and life guidance for all Pennsylvanians—discover your path through our free assessment.
+              Personalized career and life guidance for all Pennsylvanians. Discover your path through our free assessment.
             </p>
             <p className="text-base md:text-lg text-blue-100 mb-8 max-w-2xl mx-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
               {HOME_SEO.heroSubheading}
@@ -575,7 +575,7 @@ function HomePage() {
             </h2>
             <p className="text-lg text-white mb-8 max-w-xl mx-auto drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
               Start your journey today with our free assessment. Discover your
-              career path and build a life you love. Completely free—powered by donations
+              career path and build a life you love. Completely free, powered by donations
               from people who believe everyone deserves a chance to thrive.
             </p>
             <Link
