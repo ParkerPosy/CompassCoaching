@@ -207,15 +207,17 @@ function AboutPage() {
                       </div>
 
                       {/* LinkedIn link */}
-                      <a
-                        href={founder.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold bg-[#0A66C2] text-white hover:bg-[#004182] transition-colors shadow-md hover:shadow-lg"
-                      >
-                        <Linkedin className="w-5 h-5" />
-                        Connect on LinkedIn
-                      </a>
+                      <div className="flex justify-center">
+                        <a
+                          href={founder.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold bg-[#0A66C2] text-white hover:bg-[#004182] transition-colors shadow-md hover:shadow-lg"
+                        >
+                          <Linkedin className="w-5 h-5" />
+                          Connect on LinkedIn
+                        </a>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
