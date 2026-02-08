@@ -126,7 +126,10 @@ function parseWageValue(value: number | string | null | undefined): number | nul
  */
 function parseEducationLevel(code: string): EducationLevel {
   const normalized = code.trim().toUpperCase();
-  const validCodes: EducationLevel[] = ['ND', 'HS', 'PS', 'SC', 'AD', 'BD', 'BD+', 'MD', 'DD', '#'];
+  const validCodes: EducationLevel[] = [
+    'ND', 'HS', 'PS', 'PS+', 'SC', 'AD', 'AD+', 'BD', 'BD+', 'MD', 'MD+', 'DD', 'DOCT',
+    'ST OJT', 'MT OJT', 'LT OJT', 'WK EXP', '#'
+  ];
   return validCodes.includes(normalized as EducationLevel) ? normalized as EducationLevel : '#';
 }
 

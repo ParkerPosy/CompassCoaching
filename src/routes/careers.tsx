@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { useEffect } from 'react';
 import { Container } from '@/components/layout/container';
 import { OccupationsTable } from '@/components/OccupationsTable';
 import { Briefcase, Database, MapPin } from 'lucide-react';
@@ -20,6 +21,11 @@ export const Route = createFileRoute('/careers')({
 });
 
 function CareersPage() {
+  // Scroll to top on mount to override any incorrect scroll restoration
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="min-h-screen bg-stone-50">
       {/* Header Section */}
@@ -86,7 +92,7 @@ function CareersPage() {
             </p>
           </div>
 
-          <OccupationsTable initialPageSize={20} />
+          <OccupationsTable initialPageSize={10} />
 
           {/* Info Section */}
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -167,7 +173,15 @@ function CareersPage() {
           {/* Disclaimer */}
           <div className="mt-8 p-4 bg-stone-100 border border-stone-300 rounded-lg text-sm text-stone-600">
             <p>
-              <strong>Data Source:</strong> Pennsylvania Department of Labor & Industry,
+              <strong>Data Source:</strong>{' '}
+              <a
+                href="https://www.pa.gov/agencies/dli/resources/statistic-materials/products/occupational-wages/county-wages"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 hover:text-blue-800 underline"
+              >
+                Pennsylvania Department of Labor & Industry
+              </a>,
               Occupational Employment and Wage Statistics (OEWS), May 2024. Some
               occupations may show data from Workforce Development Areas (WDA) or
               Metropolitan Statistical Areas (MSA) when county-specific data is

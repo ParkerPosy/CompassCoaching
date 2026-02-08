@@ -419,50 +419,158 @@ function HomePage() {
 
       {/* CTA Section */}
       <section className="relative py-20 px-6 overflow-hidden">
-        {/* Gradient background with geometric elements */}
-        <div className="absolute inset-0 bg-linear-to-br from-lime-400 via-teal-500 to-cyan-600">
+        {/* Abstract flowing background inspired by organic shapes */}
+        <div className="absolute inset-0">
           <svg
             className="absolute inset-0 w-full h-full"
             xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 100 100"
-            preserveAspectRatio="none"
+            viewBox="0 0 1200 400"
+            preserveAspectRatio="xMidYMin slice"
           >
             <defs>
-              <pattern
-                id="cta-dots"
-                x="0"
-                y="0"
-                width="30"
-                height="30"
-                patternUnits="userSpaceOnUse"
-              >
-                <circle cx="2" cy="2" r="1" fill="rgba(255, 255, 255, 0.2)" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#cta-dots)" />
+              {/* Main gradient background - darker teal for better contrast */}
+              <linearGradient id="ctaBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#0f766e" />
+                <stop offset="50%" stopColor="#0d9488" />
+                <stop offset="100%" stopColor="#0e7490" />
+              </linearGradient>
 
-            {/* Decorative triangles */}
-            <polygon
-              points="10,20 15,35 5,35"
-              fill="rgba(255, 255, 255, 0.1)"
+              {/* Lime accent gradient - more saturated */}
+              <linearGradient id="limeFlow" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#65a30d" stopOpacity="0.85" />
+                <stop offset="50%" stopColor="#84cc16" stopOpacity="0.75" />
+                <stop offset="100%" stopColor="#a3e635" stopOpacity="0.5" />
+              </linearGradient>
+
+              {/* Teal flowing gradient */}
+              <linearGradient id="tealFlow" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#14b8a6" stopOpacity="0.6" />
+                <stop offset="100%" stopColor="#2dd4bf" stopOpacity="0.3" />
+              </linearGradient>
+
+              {/* White accent gradient */}
+              <linearGradient id="whiteFlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.5" />
+                <stop offset="100%" stopColor="#ffffff" stopOpacity="0.15" />
+              </linearGradient>
+
+              {/* Center darkening for text contrast */}
+              <radialGradient id="centerDark" cx="50%" cy="50%" r="60%">
+                <stop offset="0%" stopColor="#0f766e" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#0f766e" stopOpacity="0" />
+              </radialGradient>
+            </defs>
+
+            {/* Base background */}
+            <rect width="100%" height="100%" fill="url(#ctaBg)" />
+
+            {/* Teal wave - subtle background depth */}
+            <path
+              d="M-100,80 C150,120 300,180 500,160 C700,140 900,60 1300,20"
+              fill="none"
+              stroke="url(#tealFlow)"
+              strokeWidth="120"
+              strokeLinecap="round"
+              opacity="0.35"
             />
-            <polygon
-              points="88,60 95,80 81,80"
-              fill="rgba(255, 255, 255, 0.08)"
+
+            {/* Large lime shape - main trending up curve (dip then rise) */}
+            <path
+              d="M-200,280 C0,320 150,380 350,360 C550,340 650,280 800,200 C950,120 1100,80 1400,20"
+              fill="none"
+              stroke="url(#limeFlow)"
+              strokeWidth="160"
+              strokeLinecap="round"
+              opacity="0.65"
             />
-            <polygon
-              points="50,10 54,18 46,18"
-              fill="rgba(255, 255, 255, 0.12)"
+
+            {/* Secondary lime flow - parallel trending up */}
+            <path
+              d="M-150,350 C50,400 200,460 400,440 C600,420 750,340 900,260 C1050,180 1200,120 1450,60"
+              fill="none"
+              stroke="url(#limeFlow)"
+              strokeWidth="100"
+              strokeLinecap="round"
+              opacity="0.45"
+            />
+
+            {/* Center overlay for text contrast */}
+            <rect width="100%" height="100%" fill="url(#centerDark)" />
+
+            {/* White accent line 1 - main trending up stroke */}
+            <path
+              d="M-80,300 C80,340 200,400 380,380 C560,360 680,280 820,200 C960,120 1100,80 1280,30"
+              fill="none"
+              stroke="url(#whiteFlow)"
+              strokeWidth="5"
+              strokeLinecap="round"
+              opacity="0.85"
+            />
+
+            {/* White accent line 2 - inner parallel */}
+            <path
+              d="M-40,260 C120,290 220,340 380,330 C540,320 680,260 800,190 C920,120 1050,90 1220,50"
+              fill="none"
+              stroke="url(#whiteFlow)"
+              strokeWidth="3"
+              strokeLinecap="round"
+              opacity="0.6"
+            />
+
+            {/* White accent line 3 - subtle outer glow */}
+            <path
+              d="M-120,340 C60,390 200,470 420,440 C640,410 780,310 920,220 C1060,130 1180,90 1350,40"
+              fill="none"
+              stroke="url(#whiteFlow)"
+              strokeWidth="2"
+              strokeLinecap="round"
+              opacity="0.4"
+            />
+
+            {/* Lower teal depth layer 1 - sweeping wave */}
+            <path
+              d="M-200,480 C100,440 300,500 550,460 C800,420 950,380 1200,340 C1350,310 1450,350 1500,320"
+              fill="none"
+              stroke="url(#tealFlow)"
+              strokeWidth="100"
+              strokeLinecap="round"
+              opacity="0.25"
+            />
+
+            {/* Lower teal depth layer 2 - deeper subtle wave */}
+            <path
+              d="M-150,550 C150,520 350,580 600,540 C850,500 1000,440 1250,400 C1400,370 1500,410 1550,380"
+              fill="none"
+              stroke="url(#tealFlow)"
+              strokeWidth="80"
+              strokeLinecap="round"
+              opacity="0.15"
+            />
+
+            {/* Lower white accent - subtle depth indicator */}
+            <path
+              d="M-100,420 C100,400 280,440 480,410 C680,380 850,340 1050,300 C1200,270 1300,290 1400,260"
+              fill="none"
+              stroke="url(#whiteFlow)"
+              strokeWidth="2"
+              strokeLinecap="round"
+              opacity="0.3"
+            />
+
+            {/* Organic flowing top edge - wavy cutout that matches page background */}
+            <path
+              d="M-10,-10 L-10,30 Q200,60 450,35 Q750,5 1000,40 Q1150,55 1210,25 L1210,-10 Z"
+              fill="#fafaf9"
             />
           </svg>
         </div>
 
         <Container size="sm" className="relative z-10">
           <div className="text-center">
-            <div className="mb-6 inline-flex items-center justify-center w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full animate-pulse-slow">
+            <div className="mb-6 inline-flex items-center justify-center w-16 h-16 bg-white/25 backdrop-blur-sm rounded-full animate-pulse-slow border border-white/30">
               <Target className="w-8 h-8 text-white" />
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]">
               Ready to Find Your Path?
             </h2>
             <p className="text-lg text-white mb-8 max-w-xl mx-auto drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">

@@ -100,18 +100,6 @@ export default function Header() {
             </Link>
           </h1>
         </div>
-
-        <Link
-          to="/contact"
-          className="px-4 py-2 rounded-lg hover:bg-stone-100 transition-colors font-medium flex items-center gap-2 text-stone-700"
-          activeProps={{
-            className:
-              "px-4 py-2 rounded-lg bg-lime-100 text-lime-700 transition-colors font-medium flex items-center gap-2",
-          }}
-        >
-          <Mail size={20} className="hidden sm:block" />
-          <span>Contact</span>
-        </Link>
       </header>
 
       {/* Sidebar */}
@@ -132,9 +120,10 @@ export default function Header() {
           </button>
         </div>
 
-        <nav className="flex-1 p-4 overflow-y-auto">
-          {/* Main Navigation */}
-          <div className="mb-6">
+        <div className="flex-1 w-full h-full flex flex-col overflow-y-auto overflow-x-hidden">
+          <nav className="flex-1 w-full">
+            {/* Main Navigation */}
+            <div className="mb-6 m-4">
             <Link
               to="/"
               onClick={() => setIsOpen(false)}
@@ -146,19 +135,6 @@ export default function Header() {
             >
               <Home size={20} />
               <span>Home</span>
-            </Link>
-
-            <Link
-              to="/careers"
-              onClick={() => setIsOpen(false)}
-              className="flex items-center gap-3 p-3 rounded-lg hover:bg-stone-50 transition-colors mb-1 text-stone-700"
-              activeProps={{
-                className:
-                  "flex items-center gap-3 p-3 rounded-lg bg-lime-50 text-lime-700 transition-colors mb-1 font-medium",
-              }}
-            >
-              <Briefcase size={20} />
-              <span>PA Career Explorer</span>
             </Link>
 
             {/* Resources with Submenu */}
@@ -185,6 +161,7 @@ export default function Header() {
                     to="/resources"
                     onClick={() => setIsOpen(false)}
                     className="flex items-center gap-2 p-2 rounded-lg hover:bg-stone-50 transition-colors text-sm text-stone-700"
+                    activeOptions={{ exact: true }}
                     activeProps={{
                       className:
                         "flex items-center gap-2 p-2 rounded-lg bg-lime-50 text-lime-700 transition-colors text-sm font-medium",
@@ -215,6 +192,32 @@ export default function Header() {
                 </div>
               )}
             </div>
+
+            <Link
+              to="/careers"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-3 p-3 rounded-lg hover:bg-stone-50 transition-colors mb-1 text-stone-700"
+              activeProps={{
+                className:
+                  "flex items-center gap-3 p-3 rounded-lg bg-lime-50 text-lime-700 transition-colors mb-1 font-medium",
+              }}
+            >
+              <Briefcase size={20} />
+              <span>PA Career Explorer</span>
+            </Link>
+
+            <Link
+              to="/contact"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-3 p-3 rounded-lg hover:bg-stone-50 transition-colors mb-1 text-stone-700"
+              activeProps={{
+                className:
+                  "flex items-center gap-3 p-3 rounded-lg bg-lime-50 text-lime-700 transition-colors mb-1 font-medium",
+              }}
+            >
+              <Mail size={20} />
+              <span>Contact</span>
+            </Link>
 
             <Link
               to="/intake/results"
@@ -304,14 +307,14 @@ export default function Header() {
                 })}
               </div>
             )}
+            </div>
+          </nav>
+          {/* Footer inside scrollable area */}
+          <div className="p-4 border-t border-stone-200 bg-stone-50 shrink-0">
+            <p className="text-xs text-stone-600 text-center">
+              Navigate Your Future with Confidence
+            </p>
           </div>
-        </nav>
-
-        {/* Footer */}
-        <div className="p-4 border-t border-stone-200 bg-stone-50">
-          <p className="text-xs text-stone-600 text-center">
-            Navigate Your Future with Confidence
-          </p>
         </div>
       </aside>
 

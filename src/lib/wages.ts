@@ -99,12 +99,20 @@ export function formatEducationLevel(level: string): string {
     'ND': 'No formal credential',
     'HS': 'High school diploma',
     'PS': 'Postsecondary certificate',
+    'PS+': 'Postsecondary certificate+',
     'SC': 'Some college',
     'AD': 'Associate\'s degree',
+    'AD+': 'Associate\'s degree+',
     'BD': 'Bachelor\'s degree',
-    'BD+': 'Bachelor\'s degree or higher',
+    'BD+': 'Bachelor\'s degree+',
     'MD': 'Master\'s degree',
+    'MD+': 'Master\'s degree+',
     'DD': 'Doctoral degree',
+    'DOCT': 'Doctorate',
+    'ST OJT': 'Short-term OJT',
+    'MT OJT': 'Moderate-term OJT',
+    'LT OJT': 'Long-term OJT',
+    'WK EXP': 'Work experience',
     '#': 'Varies'
   };
   return educationMap[level] || level;

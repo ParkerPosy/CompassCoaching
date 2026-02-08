@@ -309,8 +309,14 @@ export const fetchCareerMatches = createServerFn({ method: 'POST' })
   .handler(async ({ data: params }) => {
     const allOccupations = getAllOccupations();
 
+    // Filter out broad occupation categories (SOC codes ending in -0000)
+    // These are summary categories, not specific job titles
+    const specificOccupations = allOccupations.filter(
+      (occ) => !occ.socCode.endsWith('-0000')
+    );
+
     // Calculate match scores for all occupations
-    const scoredMatches: CareerMatch[] = allOccupations
+    const scoredMatches: CareerMatch[] = specificOccupations
       .map((occupation) => {
         const { score, reasons } = calculateMatchScore(occupation, params.assessment);
         return {
@@ -419,8 +425,29 @@ export const fetchPaginatedOccupations = createServerFn({ method: 'GET' })
       let aValue: any;
       let bValue: any;
 
-      // Handle nested property access for wages
-      if (params.sortBy === 'wages') {
+      // Custom sorting for entrySalary and medianSalary columns
+      if (params.sortBy === 'entrySalary') {
+        // Use selected county if provided, else statewide
+        const getEntry = (occ: Occupation) => {
+          if (params.county && params.county !== 'All') {
+            const countyData = occ.wages.byCounty.find(c => c.county === params.county);
+            return countyData?.wages.annual.entry ?? occ.wages.statewide.annual.entry;
+          }
+          return occ.wages.statewide.annual.entry;
+        };
+        aValue = getEntry(a);
+        bValue = getEntry(b);
+      } else if (params.sortBy === 'medianSalary') {
+        const getMedian = (occ: Occupation) => {
+          if (params.county && params.county !== 'All') {
+            const countyData = occ.wages.byCounty.find(c => c.county === params.county);
+            return countyData?.wages.annual.median ?? occ.wages.statewide.annual.median;
+          }
+          return occ.wages.statewide.annual.median;
+        };
+        aValue = getMedian(a);
+        bValue = getMedian(b);
+      } else if (params.sortBy === 'wages') {
         aValue = a.wages.statewide.annual.median || 0;
         bValue = b.wages.statewide.annual.median || 0;
       } else {

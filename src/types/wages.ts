@@ -9,12 +9,20 @@ export type EducationLevel =
   | 'ND' // No formal educational credential
   | 'HS' // High school diploma or equivalent
   | 'PS' // Postsecondary nondegree award
+  | 'PS+' // Postsecondary certificate or higher
   | 'SC' // Some college, no degree
   | 'AD' // Associate's degree
+  | 'AD+' // Associate's degree or higher
   | 'BD' // Bachelor's degree
   | 'BD+' // Bachelor's degree or higher
   | 'MD' // Master's degree
+  | 'MD+' // Master's degree or higher
   | 'DD' // Doctoral or professional degree
+  | 'DOCT' // Doctorate
+  | 'ST OJT' // Short-term On-the-Job Training
+  | 'MT OJT' // Moderate-term On-the-Job Training
+  | 'LT OJT' // Long-term On-the-Job Training
+  | 'WK EXP' // Work experience in a related occupation
   | '#'; // Varies or not available
 
 // Area type codes

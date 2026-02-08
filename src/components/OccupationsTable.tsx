@@ -28,7 +28,7 @@ interface OccupationsTableProps {
   initialPageSize?: number;
 }
 
-export function OccupationsTable({ initialPageSize = 20 }: OccupationsTableProps) {
+export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps) {
   const [search, setSearch] = useSessionStorage('occupations-search', '');
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState<PaginationState>({
@@ -39,9 +39,15 @@ export function OccupationsTable({ initialPageSize = 20 }: OccupationsTableProps
   const [selectedCounty, setSelectedCounty] = useSessionStorage('occupations-county', 'All');
   const tableContainerRef = useRef<HTMLDivElement>(null);
   const mouseDownPos = useRef<{ x: number; y: number } | null>(null);
+  const isInitialMount = useRef(true);
 
-  // Scroll to browse section when pagination changes
+  // Scroll to browse section when pagination changes (but not on initial load)
   useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+
     const browseSection = document.getElementById('browse-occupations');
     if (browseSection) {
       // Get the top position of the element relative to the document
@@ -110,7 +116,7 @@ export function OccupationsTable({ initialPageSize = 20 }: OccupationsTableProps
             </div>
           </div>
         ),
-        size: 320,
+        size: 280,
       },
       {
         accessorKey: 'educationLevel',
@@ -126,20 +132,36 @@ export function OccupationsTable({ initialPageSize = 20 }: OccupationsTableProps
 
           // Color coding for quick scanning
           const getColorClass = (lvl: string) => {
-            if (lvl === 'ND' || lvl === 'HS') return 'bg-green-100 text-green-800 border-green-200';
-            if (lvl === 'PS' || lvl === 'SC' || lvl === 'AD') return 'bg-blue-100 text-blue-800 border-blue-200';
-            if (lvl === 'BD' || lvl === 'BD+') return 'bg-purple-100 text-purple-800 border-purple-200';
-            if (lvl === 'MD' || lvl === 'DD') return 'bg-orange-100 text-orange-800 border-orange-200';
-            return 'bg-stone-100 text-stone-700 border-stone-200';
+            // Entry-level / minimal formal education
+            if (lvl === 'ND' || lvl === 'HS') return 'bg-emerald-100 text-emerald-800 border-emerald-200';
+            // On-the-job training paths
+            if (lvl === 'ST OJT' || lvl === 'MT OJT' || lvl === 'LT OJT') return 'bg-teal-100 text-teal-800 border-teal-200';
+            // Work experience
+            if (lvl === 'WK EXP') return 'bg-cyan-100 text-cyan-800 border-cyan-200';
+            // Some college / certificates
+            if (lvl === 'PS' || lvl === 'PS+' || lvl === 'SC') return 'bg-sky-100 text-sky-800 border-sky-200';
+            // Associate's degree
+            if (lvl === 'AD' || lvl === 'AD+') return 'bg-blue-100 text-blue-800 border-blue-200';
+            // Bachelor's degree
+            if (lvl === 'BD' || lvl === 'BD+') return 'bg-violet-100 text-violet-800 border-violet-200';
+            // Master's degree
+            if (lvl === 'MD' || lvl === 'MD+') return 'bg-purple-100 text-purple-800 border-purple-200';
+            // Doctoral level
+            if (lvl === 'DD' || lvl === 'DOCT') return 'bg-fuchsia-100 text-fuchsia-800 border-fuchsia-200';
+            // Varies / unknown
+            return 'bg-stone-100 text-stone-600 border-stone-200';
           };
 
           return (
-            <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${getColorClass(level)}`}>
+            <span
+              title={formatted}
+              className={`inline-block max-w-full truncate px-2.5 py-1 rounded-lg text-xs font-medium border ${getColorClass(level)}`}
+            >
               {formatted}
             </span>
           );
         },
-        size: 200,
+        size: 140,
       },
       {
         id: 'entrySalary',
@@ -315,8 +337,8 @@ export function OccupationsTable({ initialPageSize = 20 }: OccupationsTableProps
     <div ref={tableContainerRef} className="space-y-4">
       {/* Search and Filters */}
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-          <div className="flex flex-col sm:flex-row gap-3 flex-1">
+        <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+          <div className="flex flex-col sm:flex-row gap-3 flex-1 min-w-0">
             <div className="w-full sm:w-96 relative">
               <Input
                 placeholder="Search by career name or code..."
@@ -371,8 +393,8 @@ export function OccupationsTable({ initialPageSize = 20 }: OccupationsTableProps
             </div>
           </div>
           {data && (
-            <div className="flex items-center gap-3">
-              <div className="text-sm text-stone-600 font-medium whitespace-nowrap">
+            <div className="flex items-center gap-3 flex-wrap sm:flex-nowrap sm:justify-end shrink-0">
+              <div className="text-sm text-stone-600 font-medium">
                 Showing {data.data.length} of {data.meta.totalCount.toLocaleString()} careers
               </div>
               {(search || selectedCounty !== 'All') && (
@@ -658,6 +680,7 @@ export function OccupationsTable({ initialPageSize = 20 }: OccupationsTableProps
           <div className="flex items-center gap-2">
             <span className="text-sm text-stone-600">Show</span>
             <Select
+              size="sm"
               value={pagination.pageSize.toString()}
               onValueChange={(value) => {
                 setPagination({
@@ -666,13 +689,13 @@ export function OccupationsTable({ initialPageSize = 20 }: OccupationsTableProps
                 });
               }}
             >
-              <SelectTrigger className="w-17.5 h-8 text-sm">
+              <SelectTrigger className="w-20">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {[10, 20, 50, 100].map((size) => (
-                  <SelectItem key={size} value={size.toString()}>
-                    {size}
+                {[10, 20, 50, 100].map((pageSize) => (
+                  <SelectItem key={pageSize} value={pageSize.toString()}>
+                    {pageSize}
                   </SelectItem>
                 ))}
               </SelectContent>
