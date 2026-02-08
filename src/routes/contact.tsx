@@ -66,6 +66,7 @@ const faqs = [
 function ContactPage() {
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleTopicClick = (subject: string) => {
     setSelectedTopic(subject);
@@ -73,9 +74,37 @@ function ContactPage() {
     document.getElementById("contact-form")?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setFormSubmitted(true);
+    setIsSubmitting(true);
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    // Add Web3Forms access key - get yours free at https://web3forms.com
+    formData.append("access_key", "7b4352b3-25e5-4f4d-9389-b7e7474f565f");
+    formData.append("from_name", "Compass Career Coaching Contact Form");
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setFormSubmitted(true);
+        form.reset();
+        setSelectedTopic(null);
+      } else {
+        alert("Something went wrong. Please email us directly at hello@compasscoachingpa.org");
+      }
+    } catch {
+      alert("Something went wrong. Please email us directly at hello@compasscoachingpa.org");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -242,9 +271,10 @@ function ContactPage() {
 
                       <button
                         type="submit"
-                        className="w-full bg-stone-900 text-white px-6 py-3.5 rounded-xl font-semibold hover:bg-stone-800 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:ring-offset-2 flex items-center justify-center gap-2 group"
+                        disabled={isSubmitting}
+                        className="w-full bg-stone-900 text-white px-6 py-3.5 rounded-xl font-semibold hover:bg-stone-800 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:ring-offset-2 flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        Send Message
+                        {isSubmitting ? "Sending..." : "Send Message"}
                         <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </button>
                     </form>
