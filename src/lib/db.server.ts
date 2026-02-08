@@ -40,10 +40,18 @@ export async function initializeDatabase() {
       name TEXT,
       email TEXT,
       notes TEXT DEFAULT '',
+      admin_message TEXT DEFAULT '',
       created_at TEXT DEFAULT (datetime('now')),
       updated_at TEXT DEFAULT (datetime('now'))
     )
   `);
+
+  // Add admin_message column if it doesn't exist (for existing databases)
+  try {
+    await getDb().execute(`ALTER TABLE user_notes ADD COLUMN admin_message TEXT DEFAULT ''`);
+  } catch {
+    // Column already exists, ignore error
+  }
 }
 
 // User notes types
@@ -53,6 +61,7 @@ export interface UserNote {
   name: string | null;
   email: string | null;
   notes: string;
+  admin_message: string;
   created_at: string;
   updated_at: string;
 }
@@ -101,4 +110,34 @@ export async function deleteUserNote(clerkId: string): Promise<void> {
     sql: "DELETE FROM user_notes WHERE clerk_id = ?",
     args: [clerkId],
   });
+}
+
+// Update admin message for a user
+export async function updateAdminMessage(
+  clerkId: string,
+  adminMessage: string
+): Promise<void> {
+  // First try to update existing record
+  const result = await getDb().execute({
+    sql: `UPDATE user_notes SET admin_message = ?, updated_at = datetime('now') WHERE clerk_id = ?`,
+    args: [adminMessage, clerkId],
+  });
+
+  // If no row was updated, insert a new one
+  if (result.rowsAffected === 0) {
+    await getDb().execute({
+      sql: `INSERT INTO user_notes (clerk_id, admin_message, updated_at) VALUES (?, ?, datetime('now'))`,
+      args: [clerkId, adminMessage],
+    });
+  }
+}
+
+// Get admin message for a specific user (for dashboard display)
+export async function getAdminMessage(clerkId: string): Promise<string> {
+  const result = await getDb().execute({
+    sql: "SELECT admin_message FROM user_notes WHERE clerk_id = ?",
+    args: [clerkId],
+  });
+  const row = result.rows[0] as unknown as { admin_message: string } | undefined;
+  return row?.admin_message || "";
 }

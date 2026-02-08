@@ -1,14 +1,14 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { SignedIn, SignOutButton, useUser } from "@clerk/tanstack-react-start";
-import { User, Shield, Clock, BarChart3, Download, CheckCircle, AlertCircle, LogOut } from "lucide-react";
+import { User, Shield, Clock, BarChart3, Download, CheckCircle, AlertCircle, LogOut, MessageSquare } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useAssessmentStore } from "@/stores/assessmentStore";
 
-// Server function to check authentication
-const authStateFn = createServerFn().handler(async () => {
+// Server function to check authentication and get admin message
+const getDashboardData = createServerFn().handler(async () => {
   const { auth } = await import("@clerk/tanstack-react-start/server");
   const { userId } = await auth();
 
@@ -18,7 +18,12 @@ const authStateFn = createServerFn().handler(async () => {
     });
   }
 
-  return { userId };
+  // Get admin message for this user
+  const { initializeDatabase, getAdminMessage } = await import("@/lib/db.server");
+  await initializeDatabase();
+  const adminMessage = await getAdminMessage(userId);
+
+  return { userId, adminMessage };
 });
 
 export const Route = createFileRoute("/dashboard")({
@@ -34,9 +39,9 @@ export const Route = createFileRoute("/dashboard")({
       },
     ],
   }),
-  beforeLoad: async () => await authStateFn(),
+  beforeLoad: async () => await getDashboardData(),
   loader: async ({ context }) => {
-    return { userId: context.userId };
+    return { userId: context.userId, adminMessage: context.adminMessage };
   },
 });
 
@@ -47,6 +52,7 @@ function DashboardPage() {
 
   const hasAnyData = basic || personality || values || aptitude || challenges || results;
   const sectionsCompleted = [basic, personality, values, aptitude, challenges].filter(Boolean).length;
+  const adminMessage = loaderData.adminMessage;
 
   const handleDownloadResults = () => {
     const data = {
@@ -90,6 +96,21 @@ function DashboardPage() {
             </Button>
           </SignOutButton>
         </div>
+
+        {/* Admin Message Card - Only shown if there's a message */}
+        {adminMessage && (
+          <Card className="mb-8 border-lime-200 bg-gradient-to-r from-lime-50 to-emerald-50">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-lime-800">
+                <MessageSquare className="w-5 h-5 text-lime-600" />
+                Message from Your Counselor
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-stone-700 whitespace-pre-wrap">{adminMessage}</p>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Stats Grid */}
         <div className="grid md:grid-cols-3 gap-6 mb-8">

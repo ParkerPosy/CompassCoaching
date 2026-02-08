@@ -17,6 +17,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ResourcesIndexRouteImport } from './routes/resources/index'
 import { Route as IntakeIndexRouteImport } from './routes/intake/index'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as ResourcesCategorySlugRouteImport } from './routes/resources/$categorySlug'
 import { Route as IntakeValuesRouteImport } from './routes/intake/values'
 import { Route as IntakeReviewRouteImport } from './routes/intake/review'
@@ -25,6 +26,7 @@ import { Route as IntakePersonalityRouteImport } from './routes/intake/personali
 import { Route as IntakeChallengesRouteImport } from './routes/intake/challenges'
 import { Route as IntakeBasicRouteImport } from './routes/intake/basic'
 import { Route as IntakeAptitudeRouteImport } from './routes/intake/aptitude'
+import { Route as AdminUserUserIdRouteImport } from './routes/admin/user.$userId'
 
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
@@ -66,6 +68,11 @@ const IntakeIndexRoute = IntakeIndexRouteImport.update({
   path: '/intake/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const ResourcesCategorySlugRoute = ResourcesCategorySlugRouteImport.update({
   id: '/resources/$categorySlug',
   path: '/resources/$categorySlug',
@@ -106,11 +113,16 @@ const IntakeAptitudeRoute = IntakeAptitudeRouteImport.update({
   path: '/intake/aptitude',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminUserUserIdRoute = AdminUserUserIdRouteImport.update({
+  id: '/user/$userId',
+  path: '/user/$userId',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
@@ -122,13 +134,14 @@ export interface FileRoutesByFullPath {
   '/intake/review': typeof IntakeReviewRoute
   '/intake/values': typeof IntakeValuesRoute
   '/resources/$categorySlug': typeof ResourcesCategorySlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/intake/': typeof IntakeIndexRoute
   '/resources/': typeof ResourcesIndexRoute
+  '/admin/user/$userId': typeof AdminUserUserIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
@@ -140,14 +153,16 @@ export interface FileRoutesByTo {
   '/intake/review': typeof IntakeReviewRoute
   '/intake/values': typeof IntakeValuesRoute
   '/resources/$categorySlug': typeof ResourcesCategorySlugRoute
+  '/admin': typeof AdminIndexRoute
   '/intake': typeof IntakeIndexRoute
   '/resources': typeof ResourcesIndexRoute
+  '/admin/user/$userId': typeof AdminUserUserIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
@@ -159,8 +174,10 @@ export interface FileRoutesById {
   '/intake/review': typeof IntakeReviewRoute
   '/intake/values': typeof IntakeValuesRoute
   '/resources/$categorySlug': typeof ResourcesCategorySlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/intake/': typeof IntakeIndexRoute
   '/resources/': typeof ResourcesIndexRoute
+  '/admin/user/$userId': typeof AdminUserUserIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -179,13 +196,14 @@ export interface FileRouteTypes {
     | '/intake/review'
     | '/intake/values'
     | '/resources/$categorySlug'
+    | '/admin/'
     | '/intake/'
     | '/resources/'
+    | '/admin/user/$userId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
-    | '/admin'
     | '/careers'
     | '/contact'
     | '/dashboard'
@@ -197,8 +215,10 @@ export interface FileRouteTypes {
     | '/intake/review'
     | '/intake/values'
     | '/resources/$categorySlug'
+    | '/admin'
     | '/intake'
     | '/resources'
+    | '/admin/user/$userId'
   id:
     | '__root__'
     | '/'
@@ -215,14 +235,16 @@ export interface FileRouteTypes {
     | '/intake/review'
     | '/intake/values'
     | '/resources/$categorySlug'
+    | '/admin/'
     | '/intake/'
     | '/resources/'
+    | '/admin/user/$userId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  AdminRoute: typeof AdminRoute
+  AdminRoute: typeof AdminRouteWithChildren
   CareersRoute: typeof CareersRoute
   ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRoute
@@ -296,6 +318,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IntakeIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/resources/$categorySlug': {
       id: '/resources/$categorySlug'
       path: '/resources/$categorySlug'
@@ -352,13 +381,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IntakeAptitudeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/user/$userId': {
+      id: '/admin/user/$userId'
+      path: '/user/$userId'
+      fullPath: '/admin/user/$userId'
+      preLoaderRoute: typeof AdminUserUserIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
+
+interface AdminRouteChildren {
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminUserUserIdRoute: typeof AdminUserUserIdRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminIndexRoute: AdminIndexRoute,
+  AdminUserUserIdRoute: AdminUserUserIdRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  AdminRoute: AdminRoute,
+  AdminRoute: AdminRouteWithChildren,
   CareersRoute: CareersRoute,
   ContactRoute: ContactRoute,
   DashboardRoute: DashboardRoute,
