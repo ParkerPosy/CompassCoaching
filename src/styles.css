@@ -58,24 +58,88 @@ code {
 }
 
 @keyframes compass-spin {
+  /* Start centered, finding direction */
   0% {
     transform: rotate(0deg);
   }
-  10% {
-    transform: rotate(-15deg);
+  /* Small confident adjustments */
+  4% {
+    transform: rotate(-8deg);
   }
-  30% {
+  8% {
+    transform: rotate(10deg);
+  }
+  12% {
+    transform: rotate(0deg);
+  }
+  /* Steady period - on track */
+  18% {
+    transform: rotate(0deg);
+  }
+  /* Drifting off course (right)... */
+  22% {
+    transform: rotate(15deg);
+  }
+  27% {
+    transform: rotate(35deg);
+  }
+  31% {
+    transform: rotate(28deg);
+  }
+  /* Searching */
+  35% {
+    transform: rotate(42deg);
+  }
+  40% {
     transform: rotate(25deg);
   }
+  /* Finding the way back */
+  45% {
+    transform: rotate(12deg);
+  }
   50% {
-    transform: rotate(-10deg);
+    transform: rotate(0deg);
   }
+  /* Brief steady */
+  55% {
+    transform: rotate(0deg);
+  }
+  /* Small adjustments */
+  58% {
+    transform: rotate(6deg);
+  }
+  61% {
+    transform: rotate(-5deg);
+  }
+  64% {
+    transform: rotate(0deg);
+  }
+  /* Steady again */
   70% {
-    transform: rotate(8deg);
+    transform: rotate(0deg);
   }
-  85% {
-    transform: rotate(-3deg);
+  /* Drifting off course (left this time)... */
+  74% {
+    transform: rotate(-18deg);
   }
+  79% {
+    transform: rotate(-38deg);
+  }
+  83% {
+    transform: rotate(-30deg);
+  }
+  /* Searching */
+  87% {
+    transform: rotate(-20deg);
+  }
+  /* Finding the way back */
+  92% {
+    transform: rotate(-8deg);
+  }
+  96% {
+    transform: rotate(-2deg);
+  }
+  /* Back on course */
   100% {
     transform: rotate(0deg);
   }
@@ -114,7 +178,7 @@ code {
 }
 
 .animate-compass {
-  animation: compass-spin 8s ease-in-out infinite;
+  animation: compass-spin 18s ease-in-out infinite;
 }
 
 .animate-sparkle {
