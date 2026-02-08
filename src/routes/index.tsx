@@ -237,18 +237,28 @@ function HomePage() {
         {/* Content overlay */}
         <Container className="relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            {/* Compass Icon in Keystone shape */}
-            <div className="mb-6 inline-flex items-center justify-center relative">
-              <svg className="w-36 h-32 drop-shadow-xl" viewBox="0 0 250 220" xmlns="http://www.w3.org/2000/svg">
+            {/* Compass Icon in Keystone shape - matching favicon */}
+            <div className="mb-6 inline-flex items-center justify-center">
+              <svg className="w-36 h-36 drop-shadow-xl" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg">
                 <path
                   fill="white"
-                  stroke="var(--color-lime-600)"
-                  strokeWidth="12"
+                  stroke="#65a30d"
+                  strokeWidth="13"
+                  strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M34.94,10.53 l21.81,48.63 h-51.62 l60.37,150.31 h119 l60.37,-150.31 h-51.62 l21.81,-48.63 z"
+                  d="M34.94,10.53 l21.81,48.63 h-51.62 l60.37,180.31 h119 l60.37,-180.31 h-51.62 l21.81,-48.63 z"
+                />
+                <path
+                  className="animate-compass origin-center"
+                  style={{ transformOrigin: '122.5px 127.5px' }}
+                  d="M170 80 L148 142 Q145 152 136 155 L75 175 L97 113 Q100 103 110 100 Z"
+                  fill="none"
+                  stroke="#65a30d"
+                  strokeWidth="15"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
-              <Compass className="absolute w-[4.5rem] h-[4.5rem] text-lime-600 animate-compass top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
             </div>
 
             <h1 className="text-5xl md:text-6xl lg:text-7xl mb-6 font-bold tracking-tight text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]">
