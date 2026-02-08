@@ -1,5 +1,22 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, Clock, Download, Sparkles } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  BookOpen,
+  CheckSquare,
+  Clock,
+  Download,
+  ExternalLink,
+  FileEdit,
+  FileSpreadsheet,
+  FileText,
+  GraduationCap,
+  List,
+  Play,
+  Sparkles,
+  Wrench,
+} from "lucide-react";
+import { useMemo } from "react";
 import { Container } from "@/components/layout/container";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -8,8 +25,17 @@ import {
   CATEGORY_COLOR_STYLES,
   getResourcesByCategory,
   RESOURCE_CATEGORIES,
+  RESOURCE_TYPES,
+  type ArticleResource,
   type CategoryColor,
+  type ChecklistResource,
+  type CourseResource,
+  type DirectoryResource,
+  type DownloadResource,
+  type ExternalResource,
   type Resource,
+  type ToolResource,
+  type VideoResource,
 } from "@/data/resources";
 
 // Category hero pattern - uses color from category data
@@ -42,17 +68,376 @@ function CategoryPattern({ color }: { color: CategoryColor }) {
   );
 }
 
-// Resource type styling
-function getResourceTypeStyle(type: string) {
-  const styles: Record<string, { bg: string; text: string; border: string }> = {
-    GUIDE: { bg: "bg-lime-50", text: "text-lime-700", border: "border-lime-200" },
-    TOOL: { bg: "bg-teal-50", text: "text-teal-700", border: "border-teal-200" },
-    ARTICLE: { bg: "bg-cyan-50", text: "text-cyan-700", border: "border-cyan-200" },
-    TEMPLATE: { bg: "bg-amber-50", text: "text-amber-700", border: "border-amber-200" },
-    WORKSHEET: { bg: "bg-violet-50", text: "text-violet-700", border: "border-violet-200" },
-    DIRECTORY: { bg: "bg-rose-50", text: "text-rose-700", border: "border-rose-200" },
+// Get format badge for downloads
+function getDownloadFormatIcon(format: string) {
+  switch (format) {
+    case "xlsx":
+      return FileSpreadsheet;
+    case "docx":
+      return FileText;
+    default:
+      return FileText;
+  }
+}
+
+// Extract YouTube video ID from URL
+function getYouTubeVideoId(url: string): string | null {
+  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/);
+  return match ? match[1] : null;
+}
+
+// Get YouTube thumbnail URL (maxresdefault for clean 16:9)
+function getYouTubeThumbnail(videoId: string): string {
+  return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+}
+
+// Resource type priority for sorting (interactive first, then content, then references)
+const TYPE_PRIORITY: Record<string, number> = {
+  [RESOURCE_TYPES.TOOL]: 1,
+  [RESOURCE_TYPES.VIDEO]: 2,
+  [RESOURCE_TYPES.COURSE]: 3,
+  [RESOURCE_TYPES.ARTICLE]: 4,
+  [RESOURCE_TYPES.CHECKLIST]: 5,
+  [RESOURCE_TYPES.DOWNLOAD]: 6,
+  [RESOURCE_TYPES.DIRECTORY]: 7,
+  [RESOURCE_TYPES.EXTERNAL]: 8,
+};
+
+// Color style type
+type CategoryColorStyle = (typeof CATEGORY_COLOR_STYLES)[CategoryColor];
+
+// Type-specific card components
+function ToolCard({ resource, colors }: { resource: ToolResource; colors: CategoryColorStyle }) {
+  return (
+    <Card
+      variant="outlined"
+      className={`${colors.borderHover} transition-all duration-300 hover:shadow-xl hover:scale-[1.005] transform cursor-pointer group relative overflow-hidden ${!resource.active ? 'opacity-75' : ''}`}
+    >
+      {/* Interactive indicator */}
+      <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-teal-400 to-teal-600" />
+      <div className="flex flex-col md:flex-row">
+        {/* Icon side */}
+        <div className="bg-gradient-to-br from-teal-50 to-teal-100 p-8 flex items-center justify-center md:w-40 shrink-0">
+          <div className="w-20 h-20 rounded-2xl bg-white shadow-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+            <Wrench className="w-10 h-10 text-teal-600" />
+          </div>
+        </div>
+        {/* Content side */}
+        <div className="flex-1 p-6">
+          <div className="flex items-center gap-2 mb-3">
+            <Badge className="bg-teal-100 text-teal-700 border-teal-200">
+              Interactive Tool
+            </Badge>
+            {!resource.active && <NeedsContentBadge />}
+          </div>
+          <h3 className="text-xl font-bold text-stone-900 mb-2">{resource.title}</h3>
+          <p className="text-stone-600 mb-4">
+            {resource.active ? 'Complete this interactive assessment to gain personalized insights' : 'Coming soon'}
+          </p>
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-stone-500 flex items-center gap-1">
+              <Clock className="w-4 h-4" />
+              {resource.completionTime}
+            </span>
+            <span className={`text-sm font-semibold ${colors.iconText} group-hover:translate-x-1 transition-transform flex items-center gap-1`}>
+              Start Now <ArrowRight className="w-4 h-4" />
+            </span>
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
+}
+
+function VideoCard({ resource, colors }: { resource: VideoResource; colors: CategoryColorStyle }) {
+  const videoId = getYouTubeVideoId(resource.videoUrl);
+  const thumbnailUrl = videoId ? getYouTubeThumbnail(videoId) : null;
+
+  return (
+    <a
+      href={resource.videoUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="block"
+    >
+      <Card
+        variant="outlined"
+        className={`${colors.borderHover} transition-all duration-300 hover:shadow-xl hover:scale-[1.005] transform cursor-pointer group overflow-hidden ${!resource.active ? 'opacity-75' : ''}`}
+      >
+        <div className="flex flex-col md:flex-row">
+          {/* Video thumbnail */}
+          <div className="relative aspect-video md:aspect-auto md:w-80 shrink-0 overflow-hidden">
+            {thumbnailUrl ? (
+              <img
+                src={thumbnailUrl}
+                alt={resource.title}
+                className="absolute inset-0 w-full h-full object-cover block group-hover:scale-105 transition-transform duration-300"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-red-100 to-red-50 flex items-center justify-center">
+                <Play className="w-12 h-12 text-red-400" />
+              </div>
+            )}
+            {/* Play button overlay */}
+            <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
+              <div className="w-16 h-16 rounded-full bg-red-600 shadow-lg flex items-center justify-center group-hover:scale-110 group-hover:bg-red-500 transition-all">
+                <Play className="w-7 h-7 text-white ml-1" fill="white" />
+              </div>
+            </div>
+            <Badge className="absolute bottom-3 right-3 bg-black/80 text-white border-0 text-sm px-2 py-1">
+              {resource.duration}
+            </Badge>
+            {!resource.active && (
+              <div className="absolute top-3 left-3">
+                <NeedsContentBadge />
+              </div>
+            )}
+          </div>
+          {/* Content side */}
+          <div className="flex-1 p-6">
+            <Badge className="bg-red-50 text-red-700 border-red-200 mb-3">
+              <Play className="w-3 h-3 mr-1" />
+              Video
+            </Badge>
+            <h3 className="text-xl font-bold text-stone-900 mb-2 group-hover:text-red-700 transition-colors">{resource.title}</h3>
+            <p className="text-stone-600 mb-4 line-clamp-2">
+              {resource.description || (resource.active ? 'Watch and learn from real experiences and expert insights' : 'Video coming soon')}
+            </p>
+            <span className="text-sm font-semibold text-red-600 inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+              Watch on YouTube <ExternalLink className="w-4 h-4" />
+            </span>
+          </div>
+        </div>
+      </Card>
+    </a>
+  );
+}
+
+function ArticleCard({ resource, colors }: { resource: ArticleResource; colors: CategoryColorStyle }) {
+  return (
+    <Card
+      variant="outlined"
+      className={`${colors.borderHover} transition-all duration-300 hover:shadow-lg hover:scale-[1.01] transform cursor-pointer group ${!resource.active ? 'opacity-75' : ''}`}
+    >
+      <CardHeader className="pb-2">
+        <div className="flex items-center justify-between mb-2">
+          <Badge className="bg-cyan-50 text-cyan-700 border-cyan-200">
+            <BookOpen className="w-3 h-3 mr-1" />
+            Article
+          </Badge>
+          <div className="flex items-center gap-2">
+            {!resource.active && <NeedsContentBadge />}
+            <span className="text-sm text-stone-500 flex items-center gap-1">
+              <Clock className="w-3.5 h-3.5" />
+              {resource.readTime}
+            </span>
+          </div>
+        </div>
+        <CardTitle className="text-lg group-hover:text-cyan-700 transition-colors">
+          {resource.title}
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p className="text-stone-600 line-clamp-2">
+          {resource.active
+            ? 'In-depth guidance and practical advice to help you succeed'
+            : 'Content being developed'}
+        </p>
+        <span className={`inline-flex items-center gap-1 mt-3 text-sm font-medium ${colors.iconText}`}>
+          Read article <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+        </span>
+      </CardContent>
+    </Card>
+  );
+}
+
+function DownloadCard({ resource, colors }: { resource: DownloadResource; colors: CategoryColorStyle }) {
+  const FormatIcon = getDownloadFormatIcon(resource.format);
+  const formatColors: Record<string, string> = {
+    pdf: 'bg-red-50 text-red-600 border-red-200',
+    docx: 'bg-blue-50 text-blue-600 border-blue-200',
+    xlsx: 'bg-green-50 text-green-600 border-green-200',
   };
-  return styles[type] || styles.GUIDE;
+
+  return (
+    <Card
+      variant="outlined"
+      className={`${colors.borderHover} transition-all duration-300 hover:shadow-lg hover:-translate-y-1 transform cursor-pointer group ${!resource.active ? 'opacity-75' : ''}`}
+    >
+      <CardContent className="p-4">
+        <div className="flex items-start gap-3">
+          <div className={`w-10 h-10 rounded-lg ${formatColors[resource.format] || 'bg-amber-50 text-amber-600 border-amber-200'} border flex items-center justify-center shrink-0`}>
+            <FormatIcon className="w-5 h-5" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-xs font-semibold uppercase text-stone-400">{resource.format}</span>
+              {!resource.active && <NeedsContentBadge />}
+            </div>
+            <h4 className="font-semibold text-stone-900 text-sm leading-tight mb-2 line-clamp-2">{resource.title}</h4>
+            <span className="inline-flex items-center gap-1 text-xs font-medium text-amber-600 group-hover:text-amber-700">
+              <Download className="w-3 h-3" />
+              Download
+            </span>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function DirectoryCard({ resource, colors }: { resource: DirectoryResource; colors: CategoryColorStyle }) {
+  return (
+    <Card
+      variant="outlined"
+      className={`${colors.borderHover} transition-all duration-300 hover:shadow-md cursor-pointer group ${!resource.active ? 'opacity-75' : ''}`}
+    >
+      <CardContent className="p-4">
+        <div className="flex items-center gap-4">
+          <div className="w-10 h-10 rounded-lg bg-rose-50 border border-rose-200 flex items-center justify-center shrink-0">
+            <List className="w-5 h-5 text-rose-600" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h4 className="font-semibold text-stone-900 line-clamp-1">{resource.title}</h4>
+            <p className="text-sm text-stone-500">
+              {resource.active ? 'Curated external resources' : 'Being compiled'}
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            {!resource.active && <NeedsContentBadge />}
+            <ExternalLink className={`w-5 h-5 text-stone-400 ${colors.iconHoverText} transition-colors`} />
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function ChecklistCard({ resource, colors }: { resource: ChecklistResource; colors: CategoryColorStyle }) {
+  return (
+    <Card
+      variant="outlined"
+      className={`${colors.borderHover} transition-all duration-300 hover:shadow-lg hover:-translate-y-1 transform cursor-pointer group ${!resource.active ? 'opacity-75' : ''}`}
+    >
+      <CardContent className="p-4">
+        <div className="flex items-start gap-3">
+          <div className="w-10 h-10 rounded-lg bg-lime-50 border border-lime-200 flex items-center justify-center shrink-0">
+            <CheckSquare className="w-5 h-5 text-lime-600" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-xs font-semibold uppercase text-stone-400">{resource.completionTime}</span>
+              {!resource.active && <NeedsContentBadge />}
+            </div>
+            <h4 className="font-semibold text-stone-900 text-sm leading-tight mb-2 line-clamp-2">{resource.title}</h4>
+            <span className="inline-flex items-center gap-1 text-xs font-medium text-lime-600 group-hover:text-lime-700">
+              <CheckSquare className="w-3 h-3" />
+              Start checklist
+            </span>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function CourseCard({ resource, colors }: { resource: CourseResource; colors: CategoryColorStyle }) {
+  return (
+    <Card
+      variant="outlined"
+      className={`${colors.borderHover} transition-all duration-300 hover:shadow-xl hover:scale-[1.005] transform cursor-pointer group relative overflow-hidden ${!resource.active ? 'opacity-75' : ''}`}
+    >
+      <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-purple-400 to-purple-600" />
+      <div className="flex flex-col md:flex-row">
+        {/* Icon side */}
+        <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-8 flex items-center justify-center md:w-40 shrink-0">
+          <div className="w-20 h-20 rounded-2xl bg-white shadow-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+            <GraduationCap className="w-10 h-10 text-purple-600" />
+          </div>
+        </div>
+        {/* Content side */}
+        <div className="flex-1 p-6">
+          <div className="flex items-center gap-2 mb-3">
+            <Badge className="bg-purple-100 text-purple-700 border-purple-200">
+              Learning Course
+            </Badge>
+            {!resource.active && <NeedsContentBadge />}
+          </div>
+          <h3 className="text-xl font-bold text-stone-900 mb-2">{resource.title}</h3>
+          <p className="text-stone-600 mb-4">
+            {resource.active ? 'Structured learning path with guided modules and exercises' : 'Course curriculum in development'}
+          </p>
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-stone-500 flex items-center gap-1">
+              <Clock className="w-4 h-4" />
+              {resource.totalTime}
+            </span>
+            <span className={`text-sm font-semibold ${colors.iconText} group-hover:translate-x-1 transition-transform flex items-center gap-1`}>
+              Enroll Now <ArrowRight className="w-4 h-4" />
+            </span>
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
+}
+
+function ExternalCard({ resource, colors }: { resource: ExternalResource; colors: CategoryColorStyle }) {
+  return (
+    <Card
+      variant="outlined"
+      className={`${colors.borderHover} transition-all duration-300 hover:shadow-md cursor-pointer group ${!resource.active ? 'opacity-75' : ''}`}
+    >
+      <CardContent className="p-4">
+        <div className="flex items-center gap-4">
+          <div className="w-10 h-10 rounded-lg bg-indigo-50 border border-indigo-200 flex items-center justify-center shrink-0">
+            <ExternalLink className="w-5 h-5 text-indigo-600" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h4 className="font-semibold text-stone-900 line-clamp-1">{resource.title}</h4>
+            <p className="text-sm text-stone-500">{resource.source}</p>
+          </div>
+          <div className="flex items-center gap-2">
+            {!resource.active && <NeedsContentBadge />}
+            <ExternalLink className={`w-5 h-5 text-stone-400 ${colors.iconHoverText} transition-colors`} />
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function NeedsContentBadge() {
+  return (
+    <span className="px-2 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200 flex items-center gap-1">
+      <FileEdit className="w-3 h-3" />
+      Needs Content
+    </span>
+  );
+}
+
+// Render the appropriate card based on resource type
+function ResourceCard({ resource, colors }: { resource: Resource; colors: CategoryColorStyle }) {
+  switch (resource.type) {
+    case RESOURCE_TYPES.TOOL:
+      return <ToolCard resource={resource} colors={colors} />;
+    case RESOURCE_TYPES.VIDEO:
+      return <VideoCard resource={resource} colors={colors} />;
+    case RESOURCE_TYPES.ARTICLE:
+      return <ArticleCard resource={resource} colors={colors} />;
+    case RESOURCE_TYPES.DOWNLOAD:
+      return <DownloadCard resource={resource} colors={colors} />;
+    case RESOURCE_TYPES.DIRECTORY:
+      return <DirectoryCard resource={resource} colors={colors} />;
+    case RESOURCE_TYPES.CHECKLIST:
+      return <ChecklistCard resource={resource} colors={colors} />;
+    case RESOURCE_TYPES.COURSE:
+      return <CourseCard resource={resource} colors={colors} />;
+    case RESOURCE_TYPES.EXTERNAL:
+      return <ExternalCard resource={resource} colors={colors} />;
+    default:
+      return null;
+  }
 }
 
 export const Route = createFileRoute("/resources/$categorySlug")({
@@ -87,9 +472,49 @@ function ResourceCategoryPage() {
   }
 
   // Get resources and color styling for this category
-  const resources = getResourcesByCategory(category.title);
+  const rawResources = getResourcesByCategory(category.title);
   const CategoryIcon = category.icon;
   const colors = CATEGORY_COLOR_STYLES[category.color];
+
+  // Sort resources by type priority (interactive first, then content, then references)
+  const sortedResources = useMemo(() => {
+    return [...rawResources].sort((a, b) => {
+      const priorityA = TYPE_PRIORITY[a.type] || 99;
+      const priorityB = TYPE_PRIORITY[b.type] || 99;
+      return priorityA - priorityB;
+    });
+  }, [rawResources]);
+
+  // Group resources by category for different layout treatments
+  const groupedResources = useMemo(() => {
+    const featured: Resource[] = []; // Tools, Videos, Courses - full width
+    const articles: Resource[] = []; // Articles - 2 col
+    const downloads: Resource[] = []; // Downloads, Checklists - compact 3 col
+    const references: Resource[] = []; // Directories, External - list style
+
+    for (const resource of sortedResources) {
+      switch (resource.type) {
+        case RESOURCE_TYPES.TOOL:
+        case RESOURCE_TYPES.VIDEO:
+        case RESOURCE_TYPES.COURSE:
+          featured.push(resource);
+          break;
+        case RESOURCE_TYPES.ARTICLE:
+          articles.push(resource);
+          break;
+        case RESOURCE_TYPES.DOWNLOAD:
+        case RESOURCE_TYPES.CHECKLIST:
+          downloads.push(resource);
+          break;
+        case RESOURCE_TYPES.DIRECTORY:
+        case RESOURCE_TYPES.EXTERNAL:
+          references.push(resource);
+          break;
+      }
+    }
+
+    return { featured, articles, downloads, references };
+  }, [sortedResources]);
 
   return (
     <div className="min-h-screen bg-stone-50">
@@ -131,42 +556,68 @@ function ResourceCategoryPage() {
         </div>
       </section>
 
-      {/* Resources Grid */}
+      {/* Resources Sections */}
       <section className="py-16 px-6">
         <Container>
-          <div className="grid md:grid-cols-2 gap-6">
-            {resources.map((resource: Resource) => {
-              const typeStyle = getResourceTypeStyle(resource.type);
-              return (
-                <Card
-                  key={resource.title}
-                  variant="outlined"
-                  className={`${colors.borderHover} transition-all duration-300 hover:shadow-lg hover:scale-[1.01] transform cursor-pointer group`}
-                >
-                  <CardHeader>
-                    <div className="flex items-start justify-between mb-3">
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${typeStyle.bg} ${typeStyle.text} border ${typeStyle.border}`}>
-                        {resource.type}
-                      </span>
-                      <Badge variant="default" size="sm" className="bg-stone-100 text-stone-600">
-                        <Clock className="w-3 h-3 mr-1" />
-                        {resource.duration}
-                      </Badge>
-                    </div>
-                    <CardTitle className="text-lg flex items-center justify-between">
-                      {resource.title}
-                      <Download className={`w-5 h-5 text-stone-400 ${colors.iconHoverText} transition-colors`} />
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-stone-600">
-                      Download and explore this {resource.type.toLowerCase()}
-                    </p>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
+          {/* Featured Resources - Tools, Videos, Courses */}
+          {groupedResources.featured.length > 0 && (
+            <div className="mb-12">
+              <h2 className="text-lg font-semibold text-stone-500 uppercase tracking-wide mb-6 flex items-center gap-2">
+                <Wrench className="w-5 h-5" />
+                Interactive & Media
+              </h2>
+              <div className="space-y-4">
+                {groupedResources.featured.map((resource: Resource) => (
+                  <ResourceCard key={resource.title} resource={resource} colors={colors} />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Articles - 2 column grid */}
+          {groupedResources.articles.length > 0 && (
+            <div className="mb-12">
+              <h2 className="text-lg font-semibold text-stone-500 uppercase tracking-wide mb-6 flex items-center gap-2">
+                <BookOpen className="w-5 h-5" />
+                Guides & Articles
+              </h2>
+              <div className="grid md:grid-cols-2 gap-4">
+                {groupedResources.articles.map((resource: Resource) => (
+                  <ResourceCard key={resource.title} resource={resource} colors={colors} />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Downloads & Checklists - 3 column compact grid */}
+          {groupedResources.downloads.length > 0 && (
+            <div className="mb-12">
+              <h2 className="text-lg font-semibold text-stone-500 uppercase tracking-wide mb-6 flex items-center gap-2">
+                <Download className="w-5 h-5" />
+                Templates & Tools
+              </h2>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {groupedResources.downloads.map((resource: Resource) => (
+                  <ResourceCard key={resource.title} resource={resource} colors={colors} />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* References - horizontal list */}
+          {groupedResources.references.length > 0 && (
+            <div>
+              <h2 className="text-lg font-semibold text-stone-500 uppercase tracking-wide mb-6 flex items-center gap-2">
+                <List className="w-5 h-5" />
+                Resource Directories
+              </h2>
+              <div className="grid sm:grid-cols-2 gap-4">
+                {groupedResources.references.map((resource: Resource) => (
+                  <ResourceCard key={resource.title} resource={resource} colors={colors} />
+                ))}
+              </div>
+            </div>
+          )}
         </Container>
       </section>
 

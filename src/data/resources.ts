@@ -16,12 +16,95 @@ import {
   Users,
 } from "lucide-react";
 
-export interface Resource {
+// Resource type discriminants
+export const RESOURCE_TYPES = {
+  VIDEO: "video",
+  ARTICLE: "article",
+  DOWNLOAD: "download",
+  DIRECTORY: "directory",
+  TOOL: "tool",
+  CHECKLIST: "checklist",
+  EXTERNAL: "external",
+  COURSE: "course",
+} as const;
+
+export type ResourceType = (typeof RESOURCE_TYPES)[keyof typeof RESOURCE_TYPES];
+
+// Base properties shared by all resources
+interface BaseResource {
   title: string;
-  type: string;
-  duration: string;
   category: string;
+  /** Whether resource content has been created. False = needs product manager action */
+  active: boolean;
 }
+
+// Video resource (YouTube, Vimeo embeds)
+export interface VideoResource extends BaseResource {
+  type: typeof RESOURCE_TYPES.VIDEO;
+  videoUrl: string;
+  duration: string; // "12:34" format
+  thumbnail?: string;
+  description?: string;
+}
+
+// Article (on-site text content)
+export interface ArticleResource extends BaseResource {
+  type: typeof RESOURCE_TYPES.ARTICLE;
+  readTime: string; // "8 min read"
+  slug?: string; // for content routing
+}
+
+// Downloadable file (PDF, templates, worksheets)
+export interface DownloadResource extends BaseResource {
+  type: typeof RESOURCE_TYPES.DOWNLOAD;
+  format: "pdf" | "docx" | "xlsx";
+  fileUrl?: string;
+}
+
+// Directory of external resources
+export interface DirectoryResource extends BaseResource {
+  type: typeof RESOURCE_TYPES.DIRECTORY;
+  itemCount?: number;
+}
+
+// Interactive tool on the platform
+export interface ToolResource extends BaseResource {
+  type: typeof RESOURCE_TYPES.TOOL;
+  toolPath?: string;
+  completionTime: string; // "15 min"
+}
+
+// Step-by-step checklist with trackable items
+export interface ChecklistResource extends BaseResource {
+  type: typeof RESOURCE_TYPES.CHECKLIST;
+  steps?: number;
+  completionTime: string;
+}
+
+// Single external link
+export interface ExternalResource extends BaseResource {
+  type: typeof RESOURCE_TYPES.EXTERNAL;
+  url: string;
+  source: string; // "Indeed", "LinkedIn", etc.
+}
+
+// Structured learning path/course
+export interface CourseResource extends BaseResource {
+  type: typeof RESOURCE_TYPES.COURSE;
+  modules?: number;
+  totalTime: string; // "2 hours"
+  provider?: string;
+}
+
+export type Resource =
+  | VideoResource
+  | ArticleResource
+  | DownloadResource
+  | DirectoryResource
+  | ToolResource
+  | ChecklistResource
+  | ExternalResource
+  | CourseResource;
 
 // Available category colors
 export type CategoryColor =
@@ -50,16 +133,6 @@ export interface ResourceCategory {
   color: CategoryColor;
 }
 
-// Resource types
-export const RESOURCE_TYPES = {
-  TOOL: "Tool",
-  GUIDE: "Guide",
-  ARTICLE: "Article",
-  TEMPLATE: "Template",
-  WORKSHEET: "Worksheet",
-  DIRECTORY: "Directory",
-} as const;
-
 // Category names
 export const CATEGORY_NAMES = {
   CAREER_EXPLORATION: "Career Exploration",
@@ -85,571 +158,672 @@ export const ALL_RESOURCES: Resource[] = [
   // Mental Wellbeing (6) - Foundation for everything
   {
     title: "Understanding Yourself: Self-Reflection Prompts",
-    type: RESOURCE_TYPES.TEMPLATE,
-    duration: "10 min",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "pdf",
     category: CATEGORY_NAMES.MENTAL_WELLBEING,
+    active: false,
   },
   {
     title: "Building Inner Strength & Resilience",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "25 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "25 min",
     category: CATEGORY_NAMES.MENTAL_WELLBEING,
+    active: false,
   },
   {
     title: "Preventing Burnout: Early Warning Signs",
     type: RESOURCE_TYPES.ARTICLE,
-    duration: "15 min",
+    readTime: "15 min",
     category: CATEGORY_NAMES.MENTAL_WELLBEING,
+    active: false,
   },
   {
     title: "Managing Stress & Anxiety",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "20 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "20 min",
     category: CATEGORY_NAMES.MENTAL_WELLBEING,
+    active: false,
   },
   {
     title: "Daily Self-Care Practices",
-    type: RESOURCE_TYPES.WORKSHEET,
-    duration: "15 min",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "pdf",
     category: CATEGORY_NAMES.MENTAL_WELLBEING,
+    active: false,
   },
   {
     title: "Mental Health Support Directory",
     type: RESOURCE_TYPES.DIRECTORY,
-    duration: "10 min",
     category: CATEGORY_NAMES.MENTAL_WELLBEING,
+    active: false,
+  },
+  {
+    title: "Why You Keep Telling Yourself I'll Do It Tomorrow",
+    type: RESOURCE_TYPES.VIDEO,
+    videoUrl: "https://www.youtube.com/watch?v=8dRZk74OyMk",
+    duration: "2 hr 25 min",
+    description: "Dr. K explores the psychology behind procrastination, explaining how it's an emotional regulation problem rather than laziness, and provides practical strategies to break the cycle.",
+    category: CATEGORY_NAMES.MENTAL_WELLBEING,
+    active: true,
   },
 
   // Relationships & Communication (6) - Social connection
   {
     title: "The Art of Listening",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "15 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "15 min",
     category: CATEGORY_NAMES.RELATIONSHIPS,
+    active: false,
   },
   {
     title: "Building Genuine Connections",
-    type: RESOURCE_TYPES.WORKSHEET,
-    duration: "10 min",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "pdf",
     category: CATEGORY_NAMES.RELATIONSHIPS,
+    active: false,
   },
   {
     title: "Setting Healthy Boundaries",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "20 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "20 min",
     category: CATEGORY_NAMES.RELATIONSHIPS,
+    active: false,
+  },
+  {
+    title: "Boundaries Don't Work - Here's Why",
+    type: RESOURCE_TYPES.VIDEO,
+    videoUrl: "https://www.youtube.com/watch?v=gqwjBEf3znc",
+    duration: "26 min",
+    description: "Dr. K explains why setting boundaries often fails and reveals the missing piece: enforcement. Learn how to communicate and maintain boundaries effectively.",
+    category: CATEGORY_NAMES.RELATIONSHIPS,
+    active: true,
   },
   {
     title: "Creating Your Support Network",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "15 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "15 min",
     category: CATEGORY_NAMES.RELATIONSHIPS,
+    active: false,
   },
   {
     title: "Navigating Conflict with Grace",
     type: RESOURCE_TYPES.ARTICLE,
-    duration: "20 min",
+    readTime: "20 min",
     category: CATEGORY_NAMES.RELATIONSHIPS,
+    active: false,
   },
   {
     title: "Finding Purpose Through Service",
     type: RESOURCE_TYPES.DIRECTORY,
-    duration: "10 min",
     category: CATEGORY_NAMES.RELATIONSHIPS,
+    active: false,
   },
 
   // Skills Development (6) - Personal growth
   {
     title: "Discovering Your Potential: Skills Assessment",
-    type: RESOURCE_TYPES.WORKSHEET,
-    duration: "20 min",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "pdf",
     category: CATEGORY_NAMES.SKILLS_DEVELOPMENT,
+    active: false,
   },
   {
     title: "Core Human Skills Assessment",
     type: RESOURCE_TYPES.TOOL,
-    duration: "15 min",
+    completionTime: "15 min",
     category: CATEGORY_NAMES.SKILLS_DEVELOPMENT,
+    active: false,
   },
   {
     title: "Future-Ready Skills Guide",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "20 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "20 min",
     category: CATEGORY_NAMES.SKILLS_DEVELOPMENT,
+    active: false,
   },
   {
     title: "Free Learning Pathways",
     type: RESOURCE_TYPES.DIRECTORY,
-    duration: "10 min",
     category: CATEGORY_NAMES.SKILLS_DEVELOPMENT,
+    active: false,
   },
   {
     title: "Technical Skills Development",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "30 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "30 min",
     category: CATEGORY_NAMES.SKILLS_DEVELOPMENT,
+    active: false,
   },
   {
     title: "Showcasing Your Growth: Portfolio Guide",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "25 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "25 min",
     category: CATEGORY_NAMES.SKILLS_DEVELOPMENT,
+    active: false,
   },
 
   // Career Exploration (6) - Direction and purpose
   {
     title: "Discovering Your Calling",
     type: RESOURCE_TYPES.TOOL,
-    duration: "15 min",
+    completionTime: "15 min",
     category: CATEGORY_NAMES.CAREER_EXPLORATION,
+    active: false,
   },
   {
     title: "Mapping Your Future: Career Roadmaps",
-    type: RESOURCE_TYPES.TEMPLATE,
-    duration: "5 min",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "pdf",
     category: CATEGORY_NAMES.CAREER_EXPLORATION,
+    active: false,
   },
   {
     title: "Understanding Career Landscapes",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "20 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "20 min",
     category: CATEGORY_NAMES.CAREER_EXPLORATION,
+    active: false,
   },
   {
     title: "Real Stories: Day in the Life",
-    type: RESOURCE_TYPES.ARTICLE,
-    duration: "10 min",
+    type: RESOURCE_TYPES.VIDEO,
+    videoUrl: "",
+    duration: "10:00",
     category: CATEGORY_NAMES.CAREER_EXPLORATION,
+    active: false,
   },
   {
     title: "Learning from Others' Journeys",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "15 min",
+    type: RESOURCE_TYPES.VIDEO,
+    videoUrl: "",
+    duration: "15:00",
     category: CATEGORY_NAMES.CAREER_EXPLORATION,
+    active: false,
   },
   {
     title: "Hands-On Career Exploration",
-    type: RESOURCE_TYPES.WORKSHEET,
-    duration: "5 min",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "pdf",
     category: CATEGORY_NAMES.CAREER_EXPLORATION,
+    active: false,
   },
 
   // Healthy Living (6) - Physical health supports mental health
   {
     title: "Rest & Recovery: Sleep Guide",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "20 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "20 min",
     category: CATEGORY_NAMES.HEALTHY_LIVING,
+    active: false,
   },
   {
     title: "Movement for Mind & Body",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "15 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "15 min",
     category: CATEGORY_NAMES.HEALTHY_LIVING,
+    active: false,
   },
   {
     title: "Nourishing Yourself on a Budget",
     type: RESOURCE_TYPES.ARTICLE,
-    duration: "15 min",
+    readTime: "15 min",
     category: CATEGORY_NAMES.HEALTHY_LIVING,
+    active: false,
   },
   {
     title: "Building Sustainable Habits",
-    type: RESOURCE_TYPES.TEMPLATE,
-    duration: "10 min",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "pdf",
     category: CATEGORY_NAMES.HEALTHY_LIVING,
+    active: false,
   },
   {
     title: "Finding Digital Balance",
     type: RESOURCE_TYPES.ARTICLE,
-    duration: "10 min",
+    readTime: "10 min",
     category: CATEGORY_NAMES.HEALTHY_LIVING,
+    active: false,
   },
   {
     title: "Wellness Tools & Apps",
     type: RESOURCE_TYPES.DIRECTORY,
-    duration: "10 min",
     category: CATEGORY_NAMES.HEALTHY_LIVING,
+    active: false,
   },
 
   // Education & Training (6) - Foundational learning
   {
     title: "How You Learn Best",
     type: RESOURCE_TYPES.TOOL,
-    duration: "10 min",
+    completionTime: "10 min",
     category: CATEGORY_NAMES.EDUCATION_TRAINING,
+    active: false,
   },
   {
     title: "Choosing Your Learning Path",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "25 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "25 min",
     category: CATEGORY_NAMES.EDUCATION_TRAINING,
+    active: false,
   },
   {
     title: "Free & Affordable Learning Platforms",
     type: RESOURCE_TYPES.DIRECTORY,
-    duration: "10 min",
     category: CATEGORY_NAMES.EDUCATION_TRAINING,
+    active: false,
   },
   {
     title: "Credentials That Matter",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "20 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "20 min",
     category: CATEGORY_NAMES.EDUCATION_TRAINING,
+    active: false,
   },
   {
     title: "Intensive Programs Comparison",
-    type: RESOURCE_TYPES.WORKSHEET,
-    duration: "15 min",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "xlsx",
     category: CATEGORY_NAMES.EDUCATION_TRAINING,
+    active: false,
   },
   {
     title: "Funding Your Education",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "30 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "30 min",
     category: CATEGORY_NAMES.EDUCATION_TRAINING,
+    active: false,
   },
 
   // Professional Development (6) - Continuous growth
   {
     title: "Creating Your Growth Plan",
-    type: RESOURCE_TYPES.TEMPLATE,
-    duration: "15 min",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "pdf",
     category: CATEGORY_NAMES.PROFESSIONAL_DEVELOPMENT,
+    active: false,
   },
   {
     title: "Mastering Your Time",
     type: RESOURCE_TYPES.ARTICLE,
-    duration: "15 min",
+    readTime: "15 min",
     category: CATEGORY_NAMES.PROFESSIONAL_DEVELOPMENT,
+    active: false,
   },
   {
     title: "Finding & Being a Mentor",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "20 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "20 min",
     category: CATEGORY_NAMES.PROFESSIONAL_DEVELOPMENT,
+    active: false,
   },
   {
     title: "Developing Leadership",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "30 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "30 min",
     category: CATEGORY_NAMES.PROFESSIONAL_DEVELOPMENT,
+    active: false,
   },
   {
     title: "Essential Technology Skills",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "20 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "20 min",
     category: CATEGORY_NAMES.PROFESSIONAL_DEVELOPMENT,
+    active: false,
   },
   {
     title: "Free Certifications Directory",
     type: RESOURCE_TYPES.DIRECTORY,
-    duration: "10 min",
     category: CATEGORY_NAMES.PROFESSIONAL_DEVELOPMENT,
+    active: false,
   },
 
   // Workplace Success (6) - Thriving at work
   {
     title: "Understanding Your Workplace Rights",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "30 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "30 min",
     category: CATEGORY_NAMES.WORKPLACE_SUCCESS,
+    active: false,
   },
   {
     title: "Communicating with Impact",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "20 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "20 min",
     category: CATEGORY_NAMES.WORKPLACE_SUCCESS,
+    active: false,
   },
   {
     title: "Professional Presence",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "20 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "20 min",
     category: CATEGORY_NAMES.WORKPLACE_SUCCESS,
+    active: false,
   },
   {
     title: "Succeeding in Your First 90 Days",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "25 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "25 min",
     category: CATEGORY_NAMES.WORKPLACE_SUCCESS,
+    active: false,
   },
   {
     title: "Handling Workplace Challenges",
     type: RESOURCE_TYPES.ARTICLE,
-    duration: "15 min",
+    readTime: "15 min",
     category: CATEGORY_NAMES.WORKPLACE_SUCCESS,
+    active: false,
   },
   {
     title: "Preparing for Growth Conversations",
-    type: RESOURCE_TYPES.WORKSHEET,
-    duration: "15 min",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "pdf",
     category: CATEGORY_NAMES.WORKPLACE_SUCCESS,
+    active: false,
   },
 
   // Financial Aid & Planning (6) - Security reduces stress
   {
     title: "Planning Your Education Investment",
-    type: RESOURCE_TYPES.WORKSHEET,
-    duration: "15 min",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "xlsx",
     category: CATEGORY_NAMES.FINANCIAL_AID,
+    active: false,
   },
   {
     title: "Free Money: Grants & Scholarships",
     type: RESOURCE_TYPES.DIRECTORY,
-    duration: "15 min",
     category: CATEGORY_NAMES.FINANCIAL_AID,
+    active: false,
   },
   {
     title: "Finding Scholarships",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "25 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "25 min",
     category: CATEGORY_NAMES.FINANCIAL_AID,
+    active: false,
   },
   {
     title: "Completing Your FAFSA",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "30 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "30 min",
     category: CATEGORY_NAMES.FINANCIAL_AID,
+    active: false,
   },
   {
     title: "Employer Education Benefits",
     type: RESOURCE_TYPES.ARTICLE,
-    duration: "10 min",
+    readTime: "10 min",
     category: CATEGORY_NAMES.FINANCIAL_AID,
+    active: false,
   },
   {
     title: "Understanding Student Loans",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "20 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "20 min",
     category: CATEGORY_NAMES.FINANCIAL_AID,
+    active: false,
   },
 
   // Career Transitions (6) - Life changes
   {
     title: "Recognizing Your Transferable Value",
-    type: RESOURCE_TYPES.WORKSHEET,
-    duration: "15 min",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "pdf",
     category: CATEGORY_NAMES.CAREER_TRANSITIONS,
+    active: false,
   },
   {
     title: "Planning Your Career Change",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "35 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "35 min",
     category: CATEGORY_NAMES.CAREER_TRANSITIONS,
+    active: false,
   },
   {
     title: "Inspiration: Career Change Stories",
-    type: RESOURCE_TYPES.ARTICLE,
-    duration: "20 min",
+    type: RESOURCE_TYPES.VIDEO,
+    videoUrl: "",
+    duration: "20:00",
     category: CATEGORY_NAMES.CAREER_TRANSITIONS,
+    active: false,
   },
   {
     title: "Returning to the Workforce",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "30 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "30 min",
     category: CATEGORY_NAMES.CAREER_TRANSITIONS,
+    active: false,
   },
   {
     title: "Transitioning on a Budget",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "25 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "25 min",
     category: CATEGORY_NAMES.CAREER_TRANSITIONS,
+    active: false,
   },
   {
     title: "Exploring Alternative Paths",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "25 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "25 min",
     category: CATEGORY_NAMES.CAREER_TRANSITIONS,
+    active: false,
   },
 
   // Networking (6) - Professional connections
   {
     title: "Building Authentic Professional Relationships",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "25 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "25 min",
     category: CATEGORY_NAMES.NETWORKING,
+    active: false,
   },
   {
     title: "Telling Your Story",
-    type: RESOURCE_TYPES.TEMPLATE,
-    duration: "10 min",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "docx",
     category: CATEGORY_NAMES.NETWORKING,
+    active: false,
   },
   {
     title: "Leveraging Your Alumni Network",
     type: RESOURCE_TYPES.ARTICLE,
-    duration: "15 min",
+    readTime: "15 min",
     category: CATEGORY_NAMES.NETWORKING,
+    active: false,
   },
   {
     title: "Making the Most of Events",
-    type: RESOURCE_TYPES.WORKSHEET,
-    duration: "5 min",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "pdf",
     category: CATEGORY_NAMES.NETWORKING,
+    active: false,
   },
   {
     title: "Strategic LinkedIn Networking",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "20 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "20 min",
     category: CATEGORY_NAMES.NETWORKING,
+    active: false,
   },
   {
     title: "Reaching Out to New Contacts",
-    type: RESOURCE_TYPES.TEMPLATE,
-    duration: "10 min",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "docx",
     category: CATEGORY_NAMES.NETWORKING,
+    active: false,
   },
 
   // Job Search Strategies (6) - Practical hunting
   {
     title: "Strategic Job Search Planning",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "30 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "30 min",
     category: CATEGORY_NAMES.JOB_SEARCH,
+    active: false,
   },
   {
     title: "Staying Organized in Your Search",
-    type: RESOURCE_TYPES.TEMPLATE,
-    duration: "5 min",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "xlsx",
     category: CATEGORY_NAMES.JOB_SEARCH,
+    active: false,
   },
   {
     title: "Making Your Profile Discoverable",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "25 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "25 min",
     category: CATEGORY_NAMES.JOB_SEARCH,
+    active: false,
   },
   {
     title: "Where to Find Opportunities",
     type: RESOURCE_TYPES.DIRECTORY,
-    duration: "10 min",
     category: CATEGORY_NAMES.JOB_SEARCH,
+    active: false,
   },
   {
     title: "Accessing Hidden Opportunities",
     type: RESOURCE_TYPES.ARTICLE,
-    duration: "15 min",
+    readTime: "15 min",
     category: CATEGORY_NAMES.JOB_SEARCH,
+    active: false,
   },
   {
     title: "Realistic Search Timeline",
-    type: RESOURCE_TYPES.WORKSHEET,
-    duration: "10 min",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "pdf",
     category: CATEGORY_NAMES.JOB_SEARCH,
+    active: false,
   },
 
   // Resume & Cover Letters (6) - Application tools
   {
     title: "Telling Your Professional Story",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "25 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "25 min",
     category: CATEGORY_NAMES.RESUME_COVER_LETTERS,
+    active: false,
   },
   {
     title: "Resume Templates",
-    type: RESOURCE_TYPES.TEMPLATE,
-    duration: "5 min",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "docx",
     category: CATEGORY_NAMES.RESUME_COVER_LETTERS,
+    active: false,
   },
   {
     title: "Cover Letter Templates",
-    type: RESOURCE_TYPES.TEMPLATE,
-    duration: "5 min",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "docx",
     category: CATEGORY_NAMES.RESUME_COVER_LETTERS,
+    active: false,
   },
   {
     title: "Powerful Language Guide",
     type: RESOURCE_TYPES.DIRECTORY,
-    duration: "10 min",
     category: CATEGORY_NAMES.RESUME_COVER_LETTERS,
+    active: false,
   },
   {
     title: "Final Review Checklist",
-    type: RESOURCE_TYPES.WORKSHEET,
-    duration: "5 min",
+    type: RESOURCE_TYPES.CHECKLIST,
+    completionTime: "5 min",
     category: CATEGORY_NAMES.RESUME_COVER_LETTERS,
+    active: false,
   },
   {
     title: "Getting Past Automated Screens",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "15 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "15 min",
     category: CATEGORY_NAMES.RESUME_COVER_LETTERS,
+    active: false,
   },
 
   // Interview Preparation (6) - Tactical skills
   {
     title: "Calming Interview Nerves",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "15 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "15 min",
     category: CATEGORY_NAMES.INTERVIEW_PREPARATION,
+    active: false,
   },
   {
     title: "Structuring Your Stories",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "20 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "20 min",
     category: CATEGORY_NAMES.INTERVIEW_PREPARATION,
+    active: false,
   },
   {
     title: "Preparing Your Responses",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "30 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "30 min",
     category: CATEGORY_NAMES.INTERVIEW_PREPARATION,
+    active: false,
   },
   {
     title: "Video Interview Best Practices",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "15 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "15 min",
     category: CATEGORY_NAMES.INTERVIEW_PREPARATION,
+    active: false,
   },
   {
     title: "Phone Interview Preparation",
-    type: RESOURCE_TYPES.WORKSHEET,
-    duration: "5 min",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "pdf",
     category: CATEGORY_NAMES.INTERVIEW_PREPARATION,
+    active: false,
   },
   {
     title: "Following Up Gracefully",
-    type: RESOURCE_TYPES.TEMPLATE,
-    duration: "5 min",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "docx",
     category: CATEGORY_NAMES.INTERVIEW_PREPARATION,
+    active: false,
   },
 
   // Salary & Negotiation (6) - Advocating for yourself
   {
     title: "Knowing Your Market Value",
     type: RESOURCE_TYPES.DIRECTORY,
-    duration: "15 min",
     category: CATEGORY_NAMES.SALARY_NEGOTIATION,
+    active: false,
   },
   {
     title: "Understanding Total Compensation",
-    type: RESOURCE_TYPES.WORKSHEET,
-    duration: "10 min",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "xlsx",
     category: CATEGORY_NAMES.SALARY_NEGOTIATION,
+    active: false,
   },
   {
     title: "Negotiation Strategies",
-    type: RESOURCE_TYPES.GUIDE,
-    duration: "30 min",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "30 min",
     category: CATEGORY_NAMES.SALARY_NEGOTIATION,
+    active: false,
   },
   {
     title: "Negotiation Conversations",
-    type: RESOURCE_TYPES.TEMPLATE,
-    duration: "10 min",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "docx",
     category: CATEGORY_NAMES.SALARY_NEGOTIATION,
+    active: false,
   },
   {
     title: "Evaluating Counter Offers",
     type: RESOURCE_TYPES.ARTICLE,
-    duration: "15 min",
+    readTime: "15 min",
     category: CATEGORY_NAMES.SALARY_NEGOTIATION,
+    active: false,
   },
   {
     title: "Asking for What You Deserve",
-    type: RESOURCE_TYPES.TEMPLATE,
-    duration: "10 min",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "docx",
     category: CATEGORY_NAMES.SALARY_NEGOTIATION,
+    active: false,
   },
 ];
 

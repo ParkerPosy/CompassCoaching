@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowRight, BookOpen, Clock, Search, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpen, Clock, FileEdit, Search, Sparkles } from "lucide-react";
 import { useMemo, useRef, useState } from "react";
 import { Container } from "@/components/layout/container";
 import {
@@ -16,8 +16,39 @@ import {
   getCategoryPath,
   getResourceCountByCategory,
   RESOURCE_CATEGORIES,
+  RESOURCE_TYPES,
+  type Resource,
 } from "@/data/resources";
 import { useClickOutside } from "@/hooks";
+
+// Type label mapping
+const TYPE_LABELS: Record<string, string> = {
+  [RESOURCE_TYPES.VIDEO]: "Video",
+  [RESOURCE_TYPES.ARTICLE]: "Article",
+  [RESOURCE_TYPES.DOWNLOAD]: "Download",
+  [RESOURCE_TYPES.DIRECTORY]: "Directory",
+  [RESOURCE_TYPES.TOOL]: "Tool",
+  [RESOURCE_TYPES.CHECKLIST]: "Checklist",
+  [RESOURCE_TYPES.EXTERNAL]: "External",
+  [RESOURCE_TYPES.COURSE]: "Course",
+};
+
+// Get time display based on resource type
+function getResourceTimeDisplay(resource: Resource): string | null {
+  switch (resource.type) {
+    case RESOURCE_TYPES.VIDEO:
+      return resource.duration;
+    case RESOURCE_TYPES.ARTICLE:
+      return resource.readTime;
+    case RESOURCE_TYPES.TOOL:
+    case RESOURCE_TYPES.CHECKLIST:
+      return resource.completionTime;
+    case RESOURCE_TYPES.COURSE:
+      return resource.totalTime;
+    default:
+      return null;
+  }
+}
 
 // Subtle pattern for resources hero
 function ResourcesPattern() {
@@ -122,34 +153,47 @@ function ResourcesIndexPage() {
                 <div className="absolute top-full left-0 right-0 bg-white border-2 border-lime-200 rounded-lg shadow-xl max-h-96 overflow-y-auto z-50">
                   {filteredResources.length > 0 ? (
                     <div className="py-2">
-                      {filteredResources.map((resource, index) => (
-                        <button
-                          key={index}
-                          onClick={() => handleResourceClick(resource.category)}
-                          className="w-full px-4 py-3 hover:bg-lime-50 transition-colors text-left border-b border-stone-100 last:border-b-0"
-                        >
-                          <div className="flex items-start justify-between gap-3">
-                            <div className="flex-1">
-                              <div className="font-medium text-stone-900 mb-1">
-                                {resource.title}
+                      {filteredResources.map((resource, index) => {
+                        const timeDisplay = getResourceTimeDisplay(resource);
+                        return (
+                          <button
+                            key={index}
+                            onClick={() => handleResourceClick(resource.category)}
+                            className="w-full px-4 py-3 hover:bg-lime-50 transition-colors text-left border-b border-stone-100 last:border-b-0"
+                          >
+                            <div className="flex items-start justify-between gap-3">
+                              <div className="flex-1">
+                                <div className="font-medium text-stone-900 mb-1 flex items-center gap-2">
+                                  {resource.title}
+                                  {!resource.active && (
+                                    <span className="px-1.5 py-0.5 rounded text-xs font-medium bg-amber-50 text-amber-600 border border-amber-200 flex items-center gap-1">
+                                      <FileEdit className="w-2.5 h-2.5" />
+                                      Needs Content
+                                    </span>
+                                  )}
+                                </div>
+                                <div className="flex items-center gap-2 text-sm text-stone-600">
+                                  <span className="text-lime-600 font-medium">
+                                    {resource.category}
+                                  </span>
+                                  <span>•</span>
+                                  <span>{TYPE_LABELS[resource.type] || resource.type}</span>
+                                  {timeDisplay && (
+                                    <>
+                                      <span>•</span>
+                                      <span className="flex items-center gap-1">
+                                        <Clock className="w-3 h-3" />
+                                        {timeDisplay}
+                                      </span>
+                                    </>
+                                  )}
+                                </div>
                               </div>
-                              <div className="flex items-center gap-2 text-sm text-stone-600">
-                                <span className="text-lime-600 font-medium">
-                                  {resource.category}
-                                </span>
-                                <span>•</span>
-                                <span>{resource.type}</span>
-                                <span>•</span>
-                                <span className="flex items-center gap-1">
-                                  <Clock className="w-3 h-3" />
-                                  {resource.duration}
-                                </span>
-                              </div>
+                              <ArrowRight className="w-4 h-4 text-lime-500 shrink-0 mt-1" />
                             </div>
-                            <ArrowRight className="w-4 h-4 text-lime-500 shrink-0 mt-1" />
-                          </div>
-                        </button>
-                      ))}
+                          </button>
+                        );
+                      })}
                     </div>
                   ) : (
                     <div className="px-4 py-8 text-center text-stone-600">
