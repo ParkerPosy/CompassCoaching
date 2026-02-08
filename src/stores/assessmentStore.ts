@@ -5,6 +5,13 @@
 
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+
+/**
+ * Current assessment structure version.
+ * Increment this when making breaking changes to the assessment structure
+ * that would invalidate previous results.
+ */
+export const CURRENT_ASSESSMENT_VERSION = 1;
 import type {
   AptitudeData,
   AssessmentResults,
@@ -54,6 +61,7 @@ interface AssessmentState {
 
   // Utility actions
   clearAll: () => void;
+  clearResults: () => void;
   compileResults: () => AssessmentResults | null;
   isComplete: () => boolean;
   getProgress: () => number;
@@ -109,6 +117,17 @@ export const useAssessmentStore = create<AssessmentState>()(
           results: null,
         }),
 
+      // Clear results and section data for retaking assessment
+      clearResults: () =>
+        set({
+          basic: null,
+          personality: null,
+          values: null,
+          aptitude: null,
+          challenges: null,
+          results: null,
+        }),
+
       // Compile all sections into final results
       compileResults: () => {
         const state = get();
@@ -127,6 +146,7 @@ export const useAssessmentStore = create<AssessmentState>()(
           challenges,
           completedAt: new Date().toISOString(),
           id: `assessment_${Date.now()}`,
+          version: CURRENT_ASSESSMENT_VERSION,
         };
 
         // Save compiled results to state
@@ -194,6 +214,16 @@ export const useAssessmentResults = () =>
   useAssessmentStore((state) => state.results);
 export const useHasHydrated = () =>
   useAssessmentStore((state) => state._hasHydrated);
+
+/**
+ * Check if stored results are from an outdated assessment version
+ */
+export const useIsResultsOutdated = () =>
+  useAssessmentStore((state) => {
+    if (!state.results) return false;
+    // Results without version are considered outdated (pre-versioning)
+    return (state.results.version ?? 0) < CURRENT_ASSESSMENT_VERSION;
+  });
 
 /**
  * Progress selector hook with memoization to prevent infinite re-renders

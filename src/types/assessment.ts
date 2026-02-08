@@ -49,6 +49,8 @@ export interface AssessmentResults {
   challenges: ChallengesData;
   completedAt: string;
   id: string;
+  /** Assessment structure version for migration detection */
+  version?: number;
 }
 
 export interface AssessmentAnalysis {

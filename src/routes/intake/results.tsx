@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
+  AlertTriangle,
   ArrowLeft,
   Award,
   Briefcase,
@@ -12,6 +13,7 @@ import {
   Lightbulb,
   MapPin,
   Puzzle,
+  RefreshCw,
   Star,
   Target,
   TrendingUp,
@@ -36,7 +38,7 @@ import {
 import { CareerMatchesTable } from "@/components/CareerMatchesTable";
 import { analyzeAssessment } from "@/lib/analyzer";
 import { getAvailableCounties } from "@/lib/occupationService";
-import { useAssessmentStore, useHasHydrated } from "@/stores/assessmentStore";
+import { useAssessmentStore, useHasHydrated, useIsResultsOutdated } from "@/stores/assessmentStore";
 
 export const Route = createFileRoute("/intake/results")({
   component: ResultsPage,
@@ -57,8 +59,16 @@ export const Route = createFileRoute("/intake/results")({
 function ResultsPage() {
   const navigate = useNavigate();
   const storedResults = useAssessmentStore((state) => state.results);
+  const clearResults = useAssessmentStore((state) => state.clearResults);
   const hasHydrated = useHasHydrated();
+  const isOutdated = useIsResultsOutdated();
   const [selectedCounty, setSelectedCounty] = useState<string>('All');
+
+  // Handler for retaking the assessment
+  const handleRetake = () => {
+    clearResults();
+    navigate({ to: "/intake" });
+  };
 
   // Fetch available counties (non-blocking, loads in background)
   const { data: counties, isLoading: countiesLoading } = useQuery({
@@ -180,6 +190,31 @@ function ResultsPage() {
             day: "numeric",
           })}
         </p>
+
+        {/* Migration Warning Banner */}
+        {isOutdated && (
+          <div className="mb-8 p-4 bg-amber-50 border border-amber-200 rounded-lg flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <div className="flex items-start gap-3 flex-1">
+              <AlertTriangle className="w-6 h-6 text-amber-600 shrink-0 mt-0.5" />
+              <div>
+                <h3 className="font-semibold text-amber-800">Assessment Updated</h3>
+                <p className="text-sm text-amber-700">
+                  Our career assessment has been improved since you last took it.
+                  We recommend retaking the assessment for the most accurate career matches.
+                </p>
+              </div>
+            </div>
+            <Button
+              variant="primary"
+              size="md"
+              className="shrink-0 bg-amber-600 hover:bg-amber-700"
+              onClick={handleRetake}
+            >
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Retake Assessment
+            </Button>
+          </div>
+        )}
 
         {/* Quick Profile Summary */}
         <section className="mb-12">
@@ -581,6 +616,18 @@ function ResultsPage() {
           >
             Explore Resources
           </Link>
+        </div>
+
+        {/* Retake Assessment */}
+        <div className="text-center mb-6">
+          <button
+            type="button"
+            onClick={handleRetake}
+            className="inline-flex items-center gap-2 text-stone-500 hover:text-stone-700 transition-colors text-sm"
+          >
+            <RefreshCw className="w-4 h-4" />
+            Retake Assessment
+          </button>
         </div>
 
         {/* Back Link */}

@@ -12,11 +12,14 @@ import {
   Loader2,
   UserPlus,
   Check,
+  RotateCcw,
+  Wrench,
 } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { useAssessmentStore } from "@/stores/assessmentStore";
 
 // Types for admin data
 interface UserNote {
@@ -172,11 +175,19 @@ function AdminPage() {
   const router = useRouter();
   const loaderData = Route.useLoaderData();
   const { stats, error, users } = loaderData;
+  const clearAll = useAssessmentStore((state) => state.clearAll);
 
   // Local state for dirty notes (unsaved changes)
   const [localNotes, setLocalNotes] = useState<Record<string, string>>({});
   const [savingUsers, setSavingUsers] = useState<Set<string>>(new Set());
   const [savedUsers, setSavedUsers] = useState<Set<string>>(new Set());
+  const [resetConfirmed, setResetConfirmed] = useState(false);
+
+  const handleResetAssessment = () => {
+    clearAll();
+    setResetConfirmed(true);
+    setTimeout(() => setResetConfirmed(false), 2000);
+  };
 
   const handleNotesChange = (clerkId: string, notes: string) => {
     setLocalNotes((prev) => ({ ...prev, [clerkId]: notes }));
@@ -448,6 +459,41 @@ function AdminPage() {
               results with Compass Coaching can download them from their dashboard and send them
               via email or during a counseling session.
             </p>
+          </CardContent>
+        </Card>
+
+        {/* Dev Tools */}
+        <Card className="border-stone-200 border-dashed bg-stone-100/50">
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <Wrench className="w-5 h-5 text-stone-500" />
+              <CardTitle className="text-lg text-stone-600">Dev Tools</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-4">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleResetAssessment}
+                className="text-stone-600 hover:text-stone-900"
+              >
+                {resetConfirmed ? (
+                  <>
+                    <Check className="w-4 h-4 mr-2 text-lime-600" />
+                    Reset!
+                  </>
+                ) : (
+                  <>
+                    <RotateCcw className="w-4 h-4 mr-2" />
+                    Reset My Assessment
+                  </>
+                )}
+              </Button>
+              <span className="text-sm text-stone-500">
+                Clears your local assessment data for testing
+              </span>
+            </div>
           </CardContent>
         </Card>
       </Container>
