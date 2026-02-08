@@ -106,8 +106,10 @@ function DashboardPage() {
                   <BarChart3 className="w-6 h-6 text-blue-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-stone-500">Assessments</p>
-                  <p className="text-lg font-semibold text-stone-900">0 Completed</p>
+                  <p className="text-sm text-stone-500">Assessment Progress</p>
+                  <p className="text-lg font-semibold text-stone-900">
+                    {!_hasHydrated ? "Loading..." : results ? "Completed" : `${sectionsCompleted}/5 Sections`}
+                  </p>
                 </div>
               </div>
             </CardContent>
