@@ -62,18 +62,29 @@ This document outlines SEO strategy and implementation guidelines for the Compas
 **Format**: `[Benefit/Topic] | Compass Coaching`
 
 **Best Practices**:
-- 50-60 characters maximum
+- **Always use `|` as separator** (not `-` or `:`). This is our standard across all pages.
+- 50-60 characters for standard pages
 - Include primary keyword
 - Put most important words first
-- Include location (Pennsylvania/PA)
+- Include location (Pennsylvania/PA) where relevant
 - Brand name at end
 
-**Examples**:
-- ✅ `Free Career & Life Guidance for Pennsylvania | Compass Coaching`
-- ✅ `Free Career Assessment - Find Your Path | Compass Coaching`
-- ✅ `PA Career Resources & Life Guidance | Compass Coaching`
-- ❌ `Compass Coaching - A Non-Profit Career Platform` (brand first, no benefit)
-- ❌ `Home - Compass Coaching` (generic, no keywords)
+**Extended Titles for Backlink Opportunity Pages**:
+For pages with high backlink potential (career data, salary information, comprehensive guides), intentionally exceed the standard 60-character limit. Google A/B tests different title combinations and will use the available content to find optimal display versions.
+
+**Standard Page Examples** (50-60 chars):
+- ✅ `Free Career Assessment | Compass Coaching`
+- ✅ `Contact Us | Compass Coaching`
+- ✅ `Dashboard | Compass Coaching`
+
+**Extended Title Examples** (backlink opportunity pages):
+- ✅ `Pennsylvania Salary Data for 810+ Careers | Compare Wages Across 67 Counties | Free Career Explorer | Compass Coaching` (careers page)
+- ✅ `Free Career & Life Resources for Pennsylvania | 90+ Curated Guides for Career Success, Mental Wellbeing & Healthy Living | Compass Coaching` (resources page)
+
+**Avoid**:
+- ❌ `Compass Coaching - A Non-Profit Career Platform` (brand first, no benefit, uses `-`)
+- ❌ `Home - Compass Coaching` (generic, no keywords, uses `-`)
+- ❌ `Dashboard: Compass Coaching` (uses `:` instead of `|`)
 
 ### Meta Descriptions
 **Format**: Benefit + Feature + Call-to-Action

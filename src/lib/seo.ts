@@ -7,7 +7,7 @@
  * SUPPORTING FEATURES: PA wage data, 90+ resources, expert guidance
  *
  * BEST PRACTICES:
- * 1. Title Tags: 50-60 characters, include primary keyword and brand
+ * 1. Title Tags: Always use | as separator. Standard pages 50-60 chars, backlink pages can be longer.
  * 2. Meta Descriptions: 150-160 characters, include call-to-action and benefit
  * 3. Local SEO: Include location (Pennsylvania) early in title/description
  * 4. Benefits First: Lead with what user gets, not what we are
@@ -15,6 +15,7 @@
  * 6. Primary Keywords: career guidance, life guidance, career assessment, coaching
  * 7. Secondary Keywords: career resources, mental wellbeing, PA careers
  * 8. Power Words: free, discover, personalized, guidance, confidence, path
+ * 9. Backlink Pages: Careers/salary pages use extended titles for Google A/B testing
  */
 
 // Primary Keywords - Use these consistently
@@ -29,7 +30,7 @@ export const PRIMARY_KEYWORDS = {
 // Homepage SEO
 export const HOME_SEO = {
   title: 'Free Career & Life Guidance for Pennsylvania | Compass Coaching',
-  titleShort: 'Compass Coaching - PA Career & Life Guidance',
+  titleShort: 'Compass Coaching | PA Career & Life Guidance',
 
   // Meta description (158 chars) - optimized for search results
   description:
@@ -91,8 +92,9 @@ export const RESOURCES_SEO = {
 } as const;
 
 // Salary/Wage Data SEO (Supporting Feature)
+// Extended title for backlink potential - Google A/B tests different combinations
 export const SALARY_SEO = {
-  title: 'Pennsylvania Salary Data - 810+ Careers | Compass Coaching',
+  title: 'Pennsylvania Salary Data for 810+ Careers | Compare Wages Across 67 Counties | Free Career Explorer | Compass Coaching',
   description:
     'Real Pennsylvania wage data for 810+ occupations across 67 counties. Supporting your career decisions with accurate salary information for negotiation and planning.',
 
@@ -114,7 +116,7 @@ export const SALARY_SEO = {
 
 // Contact SEO
 export const CONTACT_SEO = {
-  title: 'Contact Compass Coaching - PA Career Guidance Help',
+  title: 'Contact Us | Compass Coaching',
   description:
     'Have questions about our free career guidance or PA wage data? Contact Compass Coaching for personalized support.',
 } as const;

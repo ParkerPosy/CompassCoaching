@@ -19,7 +19,7 @@ export const Route = createFileRoute("/intake/")({
   head: () => ({
     meta: [
       {
-        title: "Free Career Assessment - Compass Coaching",
+        title: "Free Career Assessment | Compass Coaching",
       },
       {
         name: "description",

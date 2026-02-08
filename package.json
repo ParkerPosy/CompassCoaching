@@ -14,6 +14,7 @@
     "examine:wages": "tsx scripts/examine-wage-data.ts"
   },
   "dependencies": {
+    "@clerk/tanstack-react-start": "^0.29.1",
     "@radix-ui/react-select": "^2.2.6",
     "@tailwindcss/vite": "^4.0.6",
     "@tanstack/react-devtools": "^0.7.0",

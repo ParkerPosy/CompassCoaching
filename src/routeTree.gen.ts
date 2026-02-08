@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as AboutRouteImport } from './routes/about'
@@ -24,6 +25,11 @@ import { Route as IntakeChallengesRouteImport } from './routes/intake/challenges
 import { Route as IntakeBasicRouteImport } from './routes/intake/basic'
 import { Route as IntakeAptitudeRouteImport } from './routes/intake/aptitude'
 
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -100,6 +106,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
   '/intake/aptitude': typeof IntakeAptitudeRoute
   '/intake/basic': typeof IntakeBasicRoute
   '/intake/challenges': typeof IntakeChallengesRoute
@@ -116,6 +123,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
   '/intake/aptitude': typeof IntakeAptitudeRoute
   '/intake/basic': typeof IntakeBasicRoute
   '/intake/challenges': typeof IntakeChallengesRoute
@@ -133,6 +141,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
   '/intake/aptitude': typeof IntakeAptitudeRoute
   '/intake/basic': typeof IntakeBasicRoute
   '/intake/challenges': typeof IntakeChallengesRoute
@@ -151,6 +160,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/careers'
     | '/contact'
+    | '/dashboard'
     | '/intake/aptitude'
     | '/intake/basic'
     | '/intake/challenges'
@@ -167,6 +177,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/careers'
     | '/contact'
+    | '/dashboard'
     | '/intake/aptitude'
     | '/intake/basic'
     | '/intake/challenges'
@@ -183,6 +194,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/careers'
     | '/contact'
+    | '/dashboard'
     | '/intake/aptitude'
     | '/intake/basic'
     | '/intake/challenges'
@@ -200,6 +212,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   CareersRoute: typeof CareersRoute
   ContactRoute: typeof ContactRoute
+  DashboardRoute: typeof DashboardRoute
   IntakeAptitudeRoute: typeof IntakeAptitudeRoute
   IntakeBasicRoute: typeof IntakeBasicRoute
   IntakeChallengesRoute: typeof IntakeChallengesRoute
@@ -214,6 +227,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -320,6 +340,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   CareersRoute: CareersRoute,
   ContactRoute: ContactRoute,
+  DashboardRoute: DashboardRoute,
   IntakeAptitudeRoute: IntakeAptitudeRoute,
   IntakeBasicRoute: IntakeBasicRoute,
   IntakeChallengesRoute: IntakeChallengesRoute,
@@ -336,10 +357,11 @@ export const routeTree = rootRouteImport
   ._addFileTypes<FileRouteTypes>()
 
 import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
+import type { startInstance } from './start.ts'
 declare module '@tanstack/react-start' {
   interface Register {
     ssr: true
     router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
   }
 }

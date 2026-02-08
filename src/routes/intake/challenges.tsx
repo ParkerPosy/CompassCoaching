@@ -22,7 +22,7 @@ export const Route = createFileRoute("/intake/challenges")({
   head: () => ({
     meta: [
       {
-        title: "Challenges & Constraints - Compass Coaching",
+        title: "Challenges & Constraints | Compass Coaching",
       },
     ],
   }),

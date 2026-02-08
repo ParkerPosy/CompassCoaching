@@ -1,5 +1,11 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from "@clerk/tanstack-react-start";
+import {
   AlertCircle,
   BarChart3,
   BookOpen,
@@ -101,6 +107,26 @@ export default function Header() {
             </Link>
           </h1>
         </div>
+
+        {/* Auth Buttons */}
+        <div className="flex items-center gap-3">
+          <SignedOut>
+            <SignInButton mode="modal">
+              <button className="px-4 py-2 text-sm font-medium text-stone-700 hover:text-stone-900 hover:bg-stone-100 rounded-lg transition-colors">
+                Sign In
+              </button>
+            </SignInButton>
+          </SignedOut>
+          <SignedIn>
+            <UserButton
+              appearance={{
+                elements: {
+                  avatarBox: "w-9 h-9",
+                },
+              }}
+            />
+          </SignedIn>
+        </div>
       </header>
 
       {/* Sidebar */}
@@ -137,6 +163,22 @@ export default function Header() {
               <Home size={20} />
               <span>Home</span>
             </Link>
+
+            {/* Dashboard - Only shown when signed in */}
+            <SignedIn>
+              <Link
+                to="/dashboard"
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-3 p-3 rounded-lg hover:bg-stone-50 transition-colors mb-1 text-stone-700"
+                activeProps={{
+                  className:
+                    "flex items-center gap-3 p-3 rounded-lg bg-lime-50 text-lime-700 transition-colors mb-1 font-medium",
+                }}
+              >
+                <User size={20} />
+                <span>My Dashboard</span>
+              </Link>
+            </SignedIn>
 
             {/* Resources with Submenu */}
             <div className="mb-1">

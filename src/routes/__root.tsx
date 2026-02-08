@@ -2,6 +2,7 @@ import { TanStackDevtools } from "@tanstack/react-devtools";
 import { createRootRoute, HeadContent, Scripts, Outlet, Link } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ClerkProvider } from "@clerk/tanstack-react-start";
 
 import Header from "../components/Header";
 
@@ -20,7 +21,7 @@ export const Route = createRootRoute({
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "Compass Coaching - Navigate Your Future",
+        title: "Compass Coaching | Navigate Your Future",
       },
       {
         name: "description",
@@ -163,8 +164,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <Header />
-        <main id="main-content">{children}</main>
+        <ClerkProvider>
+          <Header />
+          <main id="main-content">{children}</main>
+        </ClerkProvider>
         <TanStackDevtools
           config={{
             position: "bottom-right",

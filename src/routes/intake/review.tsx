@@ -12,7 +12,7 @@ export const Route = createFileRoute("/intake/review")({
   head: () => ({
     meta: [
       {
-        title: "Review Your Assessment - Compass Coaching",
+        title: "Review Your Assessment | Compass Coaching",
       },
     ],
   }),

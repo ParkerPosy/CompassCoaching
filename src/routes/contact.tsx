@@ -14,7 +14,7 @@ export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
       {
-        title: "Contact Us - Compass Coaching",
+        title: "Contact Us | Compass Coaching",
       },
       {
         name: "description",

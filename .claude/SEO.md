@@ -63,21 +63,28 @@ This document outlines the SEO (Search Engine Optimization) strategy for Compass
 
 ### Page-Specific Meta Tags
 
+**Note:** Always use `|` as separator in titles, not `-` or `:`.
+
 **Homepage (/):**
-- Title: "Compass Coaching - Free Career Assessment & Student Resources"
+- Title: "Compass Coaching | Navigate Your Future"
 - Description: Emphasizes free assessment, 100+ resources, 1000+ students helped
 
 **Intake (/intake):**
-- Title: "Free Career Assessment - Compass Coaching"
+- Title: "Free Career Assessment | Compass Coaching"
 - Description: Details 5-section assessment, personalized recommendations
 
 **Resources (/resources):**
-- Title: "Free Career & College Resources - Compass Coaching"
+- Title: "Free Career & College Resources | Compass Coaching"
 - Description: 100+ resources, specific categories listed
 
 **Contact (/contact):**
-- Title: "Contact Us - Compass Coaching"
+- Title: "Contact Us | Compass Coaching"
 - Description: Support and guidance information
+
+**Careers (/careers) - Extended for backlink potential:**
+- Title: "Pennsylvania Salary Data for 810+ Careers | Compare Wages Across 67 Counties | Free Career Explorer | Compass Coaching"
+- Description: Real PA wage data for career planning
+- Note: Extended title for Google A/B testing on high-value backlink pages
 
 ## Content SEO Best Practices
 
