@@ -58,13 +58,17 @@ const getAdminData = createServerFn().handler(async (): Promise<AdminData> => {
 
   // Dynamic imports of server-only modules
   const { auth, clerkClient } = await import("@clerk/tanstack-react-start/server");
-  const { userId, sessionClaims } = await auth();
+  const { userId } = await auth();
 
   if (!userId) {
     throw redirect({ to: "/" });
   }
 
-  const role = (sessionClaims?.metadata as { role?: string })?.role;
+  // Get user from Clerk to check publicMetadata
+  const client = await clerkClient();
+  const currentUser = await client.users.getUser(userId);
+  const role = (currentUser.publicMetadata as { role?: string })?.role;
+
   if (role !== "admin") {
     throw redirect({ to: "/dashboard" });
   }
@@ -126,14 +130,18 @@ const saveUserNote = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     "use server";
 
-    const { auth } = await import("@clerk/tanstack-react-start/server");
-    const { userId, sessionClaims } = await auth();
+    const { auth, clerkClient } = await import("@clerk/tanstack-react-start/server");
+    const { userId } = await auth();
 
     if (!userId) {
       throw new Error("Not authenticated");
     }
 
-    const role = (sessionClaims?.metadata as { role?: string })?.role;
+    // Get user from Clerk to check publicMetadata
+    const client = await clerkClient();
+    const currentUser = await client.users.getUser(userId);
+    const role = (currentUser.publicMetadata as { role?: string })?.role;
+
     if (role !== "admin") {
       throw new Error("Not authorized");
     }
