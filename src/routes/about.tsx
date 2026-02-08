@@ -42,13 +42,13 @@ function AboutPage() {
       name: "James Zagurski",
       nickname: "Jimmy",
       role: "Co-Founder & Executive Director",
-      image: null, // Placeholder for future headshot
+      image: "/jimmy-profile.png",
       bio: "Jimmy is the visionary leader behind Compass Coaching. With three years of experience as a Resident Advisor, including one year as Senior RA overseeing a full staff, he developed exceptional skills in mediation, communication, and counseling. His natural ability to connect with people and guide them through challenges makes him the heart of our organization.",
       expertise: [
         "Leadership & Team Development",
-        "Conflict Mediation",
-        "Career Counseling",
         "Civil Engineering Guidance",
+        "Conflict Mediation",
+        "Mental Health Support",
       ],
       linkedin: "https://www.linkedin.com/in/james-zagurskie-81731b21b/",
       icon: Users,
@@ -58,12 +58,12 @@ function AboutPage() {
       name: "Parker Conn",
       nickname: null,
       role: "Co-Founder & Technology Director",
-      image: null,
+      image: "/parker-profile.jpg",
       bio: "Parker brings eight years of software development experience to Compass Coaching. Also a former Resident Advisor, he combines technical expertise with a genuine passion for helping others succeed. He designed and built this platform from the ground up, creating a personalized assessment system that matches users with resources tailored to their unique goals, values, and challenges.",
       expertise: [
         "Full-Stack Development",
         "User Experience Design",
-        "Assessment Systems",
+        "IT Career Guidance",
         "Technical Mentorship",
       ],
       linkedin: "https://www.linkedin.com/in/parkerconn/",
@@ -159,15 +159,23 @@ function AboutPage() {
               return (
                 <Card
                   key={founder.name}
-                  className="border-stone-200 hover:border-lime-300 transition-all duration-300 hover:shadow-lg overflow-hidden"
+                  className="border-stone-200 hover:border-lime-300 transition-all duration-300 hover:shadow-lg overflow-hidden h-full"
                 >
-                  <CardContent className="p-0">
-                    {/* Header with icon */}
+                  <CardContent className="p-0 h-full flex flex-col">
+                    {/* Header with photo */}
                     <div className={`p-6 bg-linear-to-r ${founder.color === "lime" ? "from-lime-500 to-lime-600" : "from-teal-500 to-teal-600"}`}>
                       <div className="flex items-center gap-4">
-                        <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/30">
-                          <Icon className="w-8 h-8 text-white" />
-                        </div>
+                        {founder.image ? (
+                          <img
+                            src={founder.image}
+                            alt={founder.name}
+                            className="w-16 h-16 rounded-full object-cover border-2 border-white/50 shadow-lg"
+                          />
+                        ) : (
+                          <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/30">
+                            <Icon className="w-8 h-8 text-white" />
+                          </div>
+                        )}
                         <div>
                           <h3 className="text-xl font-bold text-white">
                             {founder.nickname ? `${founder.name} "${founder.nickname}"` : founder.name}
@@ -178,8 +186,8 @@ function AboutPage() {
                     </div>
 
                     {/* Content */}
-                    <div className="p-6">
-                      <p className="text-stone-700 mb-6 leading-relaxed">
+                    <div className="p-6 flex flex-col flex-grow">
+                      <p className="text-stone-700 mb-6 leading-relaxed flex-grow">
                         {founder.bio}
                       </p>
 
