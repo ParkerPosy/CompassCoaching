@@ -280,7 +280,7 @@ function HomePage() {
 
             <h1 className="text-5xl md:text-6xl lg:text-7xl mb-6 font-bold tracking-tight text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]">
               Navigate Your{" "}
-              <span className="text-lime-300 drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]">
+              <span className="text-lime-500">
                 Future
               </span>
             </h1>
