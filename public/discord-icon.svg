@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Rounded square background for Discord -->
+  <rect x="0" y="0" width="512" height="512" rx="100" ry="100" fill="#172554"/>
+
+  <!-- Pennsylvania Keystone - centered and scaled -->
+  <g transform="translate(51, 50) scale(1.64)">
+    <path fill="#ffffff" stroke="#65a30d" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" d="M34.94,10.53 l21.81,48.63 h-51.62 l60.37,180.31 h119 l60.37,-180.31 h-51.62 l21.81,-48.63 z" />
+    <!-- Lime (NE half): full needle underneath -->
+    <path d="M97 113 Q100 103 110 100 L170 80 L148 142 Q145 152 136 155" fill="none" stroke="#65a30d" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Blue (SW half): blue-950 for needle -->
+    <path d="M144 150 Q140.5 153.5 136 155 L75 175 L97 113 Q98.5 108 102 105" fill="none" stroke="#1e3a8a" stroke-width="20" stroke-linecap="butt" stroke-linejoin="round"/>
+  </g>
+</svg>
