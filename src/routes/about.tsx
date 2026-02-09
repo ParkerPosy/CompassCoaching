@@ -142,29 +142,29 @@ function AboutPage() {
             <div className="mb-6 inline-flex items-center justify-center w-24 h-24 bg-white/50 backdrop-blur-md rounded-full shadow-lg border border-white/40">
               <svg className="w-16 h-16" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg">
                 <path
-                  fill="rgba(255, 255, 255, 0.7)"
-                  stroke="#7c3aed"
-                  strokeWidth="13"
+                  fill="none"
+                  stroke="#4c1d95"
+                  strokeWidth="16"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   d="M34.94,10.53 l21.81,48.63 h-51.62 l60.37,180.31 h119 l60.37,-180.31 h-51.62 l21.81,-48.63 z"
                 />
                 <g style={{ transformOrigin: '122.5px 127.5px' }}>
-                  {/* Violet (NE half): full needle underneath */}
+                  {/* NE half */}
                   <path
                     d="M97 113 Q100 103 110 100 L170 80 L148 142 Q145 152 136 155"
                     fill="none"
-                    stroke="#7c3aed"
-                    strokeWidth="15"
+                    stroke="#4c1d95"
+                    strokeWidth="18"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
-                  {/* Dark violet (SW half): overlaps at exact midpoints */}
+                  {/* SW half */}
                   <path
                     d="M144 150 Q140.5 153.5 136 155 L75 175 L97 113 Q98.5 108 102 105"
                     fill="none"
                     stroke="#4c1d95"
-                    strokeWidth="15"
+                    strokeWidth="18"
                     strokeLinecap="butt"
                     strokeLinejoin="round"
                   />
