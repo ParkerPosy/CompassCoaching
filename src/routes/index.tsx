@@ -284,10 +284,10 @@ function HomePage() {
                 Future
               </span>
             </h1>
-            <p className="text-xl md:text-2xl text-white mb-4 max-w-2xl mx-auto leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]">
+            <p className="text-xl md:text-2xl text-white mb-4 max-w-2xl mx-auto leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)] text-balance">
               Personalized career and life guidance for all Pennsylvanians. Discover your path through our free assessment.
             </p>
-            <p className="text-base md:text-lg text-blue-100 mb-8 max-w-2xl mx-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
+            <p className="text-base md:text-lg text-blue-100 mb-8 max-w-xl mx-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] text-balance">
               {HOME_SEO.heroSubheading}
             </p>
 

@@ -134,7 +134,7 @@ function AboutPage() {
   return (
     <div className="min-h-screen bg-stone-50">
       {/* Hero Section */}
-      <section className="relative py-20 px-6 overflow-hidden">
+      <section className="relative pt-20 pb-32 md:pb-40 px-6 overflow-hidden">
         <AboutPattern />
 
         <Container className="relative z-10">
