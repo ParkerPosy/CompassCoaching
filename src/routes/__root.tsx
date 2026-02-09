@@ -38,6 +38,10 @@ export const Route = createRootRoute({
         content: "Compass Coaching",
       },
       {
+        name: "application-name",
+        content: "Compass Coaching",
+      },
+      {
         name: "robots",
         content: "index, follow",
       },
@@ -59,6 +63,14 @@ export const Route = createRootRoute({
         property: "og:site_name",
         content: "Compass Coaching",
       },
+      {
+        property: "og:url",
+        content: "https://compasscoachingpa.org",
+      },
+      {
+        property: "og:image",
+        content: "https://compasscoachingpa.org/discord-icon.png",
+      },
       // Twitter Card
       {
         name: "twitter:card",
@@ -73,6 +85,10 @@ export const Route = createRootRoute({
         content:
           "Free career coaching and resources to help students discover their path.",
       },
+      {
+        name: "twitter:image",
+        content: "https://compasscoachingpa.org/discord-icon.png",
+      },
       // Theme
       {
         name: "theme-color",
@@ -83,15 +99,32 @@ export const Route = createRootRoute({
       {
         rel: "icon",
         type: "image/svg+xml",
-        href: "/compass-favicon.svg",
+        href: "/discord-icon.svg",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        href: "/discord-icon.png",
+      },
+      {
+        rel: "apple-touch-icon",
+        href: "/discord-icon.png",
       },
       {
         rel: "stylesheet",
         href: appCss,
       },
+    ],
+    scripts: [
       {
-        rel: "canonical",
-        href: "https://compasscoachingpa.org",
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "Compass Coaching",
+          "alternateName": "Compass Coaching PA",
+          "url": "https://compasscoachingpa.org",
+        }),
       },
     ],
   }),

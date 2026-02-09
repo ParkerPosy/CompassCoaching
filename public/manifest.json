@@ -4,9 +4,15 @@
   "description": "Free donation-funded non-profit serving Pennsylvania with career guidance, real wage data for 810+ occupations across 67 counties, and life resources. Completely free",
   "icons": [
     {
-      "src": "compass-favicon.svg",
+      "src": "discord-icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "discord-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ],
