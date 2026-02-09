@@ -110,7 +110,7 @@ export default function Header() {
                 <span className="bg-linear-to-r from-lime-600 to-lime-500 bg-clip-text text-transparent">
                   Compass
                 </span>
-                <span className="text-stone-700">Coaching</span>
+                <span className="text-blue-950">Coaching</span>
               </div>
             </Link>
           </h1>
