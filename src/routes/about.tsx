@@ -8,29 +8,70 @@ export const Route = createFileRoute("/about")({
   component: AboutPage,
 });
 
-// Hero pattern for about page
+// Swoosh pattern for about page - warm violet theme for founders
 function AboutPattern() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
+      <svg
+        className="absolute inset-0 w-full h-full"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1200 400"
+        preserveAspectRatio="xMidYMin slice"
+      >
         <defs>
-          <linearGradient id="aboutGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#ecfccb" stopOpacity="1" />
-            <stop offset="50%" stopColor="#d9f99d" stopOpacity="1" />
-            <stop offset="100%" stopColor="#bef264" stopOpacity="0.7" />
+          {/* Main gradient background - warm violet theme */}
+          <linearGradient id="aboutBg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#4c1d95" />
+            <stop offset="50%" stopColor="#6d28d9" />
+            <stop offset="100%" stopColor="#8b5cf6" />
           </linearGradient>
-          <pattern id="aboutDots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
-            <circle cx="2" cy="2" r="1.2" fill="rgba(163, 230, 53, 0.2)" />
-          </pattern>
+
+          {/* Violet accent gradient */}
+          <linearGradient id="aboutVioletFlow" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#a78bfa" stopOpacity="0.5" />
+            <stop offset="50%" stopColor="#c4b5fd" stopOpacity="0.4" />
+            <stop offset="100%" stopColor="#ddd6fe" stopOpacity="0.25" />
+          </linearGradient>
+
+          {/* White flowing gradient */}
+          <linearGradient id="aboutWhiteFlow" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.3" />
+            <stop offset="100%" stopColor="#ffffff" stopOpacity="0.08" />
+          </linearGradient>
         </defs>
 
-        <rect width="100%" height="100%" fill="url(#aboutGradient)" />
-        <rect width="100%" height="100%" fill="url(#aboutDots)" />
+        {/* Base background */}
+        <rect width="100%" height="100%" fill="url(#aboutBg)" />
 
-        {/* Soft floating shapes */}
-        <circle cx="10%" cy="30%" r="80" fill="rgba(163, 230, 53, 0.1)" />
-        <circle cx="85%" cy="60%" r="100" fill="rgba(163, 230, 53, 0.08)" />
-        <circle cx="70%" cy="20%" r="60" fill="rgba(163, 230, 53, 0.12)" />
+        {/* Main flowing wave - violet accent */}
+        <path
+          d="M-100,180 C150,220 300,280 500,260 C700,240 850,160 1300,120"
+          fill="none"
+          stroke="url(#aboutVioletFlow)"
+          strokeWidth="140"
+          strokeLinecap="round"
+          opacity="0.5"
+        />
+
+        {/* Secondary wave - softer parallel */}
+        <path
+          d="M-150,280 C50,330 200,380 400,360 C600,340 750,260 900,200 C1050,140 1200,120 1450,90"
+          fill="none"
+          stroke="url(#aboutVioletFlow)"
+          strokeWidth="100"
+          strokeLinecap="round"
+          opacity="0.3"
+        />
+
+        {/* White accent line */}
+        <path
+          d="M-80,200 C100,240 240,300 420,280 C600,260 780,180 920,140 C1060,100 1180,100 1280,80"
+          fill="none"
+          stroke="url(#aboutWhiteFlow)"
+          strokeWidth="3"
+          strokeLinecap="round"
+          opacity="0.6"
+        />
       </svg>
     </div>
   );
@@ -98,31 +139,31 @@ function AboutPage() {
 
         <Container className="relative z-10">
           <div className="text-center">
-            <div className="mb-6 inline-flex items-center justify-center">
-              <svg className="w-24 h-24 drop-shadow-lg" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg">
+            <div className="mb-6 inline-flex items-center justify-center w-24 h-24 bg-white/50 backdrop-blur-md rounded-full shadow-lg border border-white/40">
+              <svg className="w-16 h-16" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg">
                 <path
-                  fill="white"
-                  stroke="#65a30d"
+                  fill="rgba(255, 255, 255, 0.7)"
+                  stroke="#7c3aed"
                   strokeWidth="13"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   d="M34.94,10.53 l21.81,48.63 h-51.62 l60.37,180.31 h119 l60.37,-180.31 h-51.62 l21.81,-48.63 z"
                 />
                 <g style={{ transformOrigin: '122.5px 127.5px' }}>
-                  {/* Lime (NE half): full needle underneath */}
+                  {/* Violet (NE half): full needle underneath */}
                   <path
                     d="M97 113 Q100 103 110 100 L170 80 L148 142 Q145 152 136 155"
                     fill="none"
-                    stroke="#65a30d"
+                    stroke="#7c3aed"
                     strokeWidth="15"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
-                  {/* Cyan (SW half): overlaps at exact midpoints */}
+                  {/* Dark violet (SW half): overlaps at exact midpoints */}
                   <path
                     d="M144 150 Q140.5 153.5 136 155 L75 175 L97 113 Q98.5 108 102 105"
                     fill="none"
-                    stroke="#164e63"
+                    stroke="#4c1d95"
                     strokeWidth="15"
                     strokeLinecap="butt"
                     strokeLinejoin="round"
@@ -130,10 +171,10 @@ function AboutPage() {
                 </g>
               </svg>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-stone-800 mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
               About Compass Coaching
             </h1>
-            <p className="text-xl text-stone-700 max-w-2xl mx-auto">
+            <p className="text-xl text-violet-100 max-w-2xl mx-auto">
               Two friends united by a shared mission: helping Pennsylvanians navigate their careers and lives with confidence.
             </p>
           </div>
@@ -141,9 +182,9 @@ function AboutPage() {
 
         {/* Wave divider */}
         <div className="absolute bottom-0 left-0 right-0">
-          <svg className="w-full h-10 md:h-14 block" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <svg className="w-full h-16 md:h-24 block" viewBox="0 0 1200 120" preserveAspectRatio="none">
             <path
-              d="M0,60 C300,100 600,20 900,60 C1050,80 1150,80 1200,60 L1200,120 L0,120 Z"
+              d="M0,50 C300,90 600,10 900,50 C1050,70 1150,70 1200,50 L1200,120 L0,120 Z"
               fill="#fafaf9"
             />
           </svg>
