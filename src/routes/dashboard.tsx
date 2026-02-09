@@ -103,7 +103,7 @@ function DashboardPage() {
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2 text-lime-800">
                 <MessageSquare className="w-5 h-5 text-lime-600" />
-                Message from Your Counselor
+                Message from Your Coach
               </CardTitle>
             </CardHeader>
             <CardContent>
