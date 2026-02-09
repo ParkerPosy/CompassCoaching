@@ -409,8 +409,8 @@ function ExternalCard({ resource, colors }: { resource: ExternalResource; colors
 
 function NeedsContentBadge() {
   return (
-    <span className="px-2 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200 flex items-center gap-1">
-      <FileEdit className="w-3 h-3" />
+    <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-orange-500 text-white border border-orange-600 flex items-center gap-1.5 shadow-sm">
+      <FileEdit className="w-3.5 h-3.5" />
       Needs Content
     </span>
   );
