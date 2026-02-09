@@ -38,31 +38,72 @@ import {
   type VideoResource,
 } from "@/data/resources";
 
-// Category hero pattern - uses color from category data
+// Category hero pattern - swoosh theme using category color
 function CategoryPattern({ color }: { color: CategoryColor }) {
   const colorStyle = CATEGORY_COLOR_STYLES[color];
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
+      <svg
+        className="absolute inset-0 w-full h-full"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1200 300"
+        preserveAspectRatio="xMidYMin slice"
+      >
         <defs>
-          <linearGradient id="categoryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor={colorStyle.gradient[0]} stopOpacity="1" />
-            <stop offset="50%" stopColor={colorStyle.gradient[1]} stopOpacity="1" />
-            <stop offset="100%" stopColor={colorStyle.gradient[2]} stopOpacity="0.7" />
+          {/* Main gradient background */}
+          <linearGradient id="categoryBg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor={colorStyle.gradient[0]} />
+            <stop offset="50%" stopColor={colorStyle.gradient[1]} />
+            <stop offset="100%" stopColor={colorStyle.gradient[2]} />
           </linearGradient>
-          <pattern id="categoryDots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
-            <circle cx="2" cy="2" r="1.2" fill={`rgba(${colorStyle.accent}, 0.2)`} />
-          </pattern>
+
+          {/* Accent flowing gradient */}
+          <linearGradient id="categoryAccentFlow" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor={`rgba(${colorStyle.accent}, 0.4)`} />
+            <stop offset="50%" stopColor={`rgba(${colorStyle.accent}, 0.3)`} />
+            <stop offset="100%" stopColor={`rgba(${colorStyle.accent}, 0.15)`} />
+          </linearGradient>
+
+          {/* White flowing gradient */}
+          <linearGradient id="categoryWhiteFlow" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.25" />
+            <stop offset="100%" stopColor="#ffffff" stopOpacity="0.05" />
+          </linearGradient>
         </defs>
 
-        <rect width="100%" height="100%" fill="url(#categoryGradient)" />
-        <rect width="100%" height="100%" fill="url(#categoryDots)" />
+        {/* Base background */}
+        <rect width="100%" height="100%" fill="url(#categoryBg)" />
 
-        {/* Soft floating shapes */}
-        <circle cx="15%" cy="40%" r="60" fill={`rgba(${colorStyle.accent}, 0.1)`} />
-        <circle cx="80%" cy="50%" r="80" fill={`rgba(${colorStyle.accent}, 0.08)`} />
-        <circle cx="60%" cy="25%" r="50" fill={`rgba(${colorStyle.accent}, 0.12)`} />
+        {/* Main flowing wave */}
+        <path
+          d="M-100,140 C150,180 300,230 500,210 C700,190 850,120 1300,90"
+          fill="none"
+          stroke="url(#categoryAccentFlow)"
+          strokeWidth="100"
+          strokeLinecap="round"
+          opacity="0.6"
+        />
+
+        {/* Secondary softer wave */}
+        <path
+          d="M-150,220 C50,260 200,300 400,280 C600,260 750,190 900,140 C1050,90 1200,80 1450,60"
+          fill="none"
+          stroke="url(#categoryAccentFlow)"
+          strokeWidth="70"
+          strokeLinecap="round"
+          opacity="0.35"
+        />
+
+        {/* White accent line */}
+        <path
+          d="M-80,160 C100,200 240,250 420,230 C600,210 780,140 920,100 C1060,60 1180,60 1280,45"
+          fill="none"
+          stroke="url(#categoryWhiteFlow)"
+          strokeWidth="2"
+          strokeLinecap="round"
+          opacity="0.5"
+        />
       </svg>
     </div>
   );
@@ -535,21 +576,21 @@ function ResourceCategoryPage() {
 
         <Container size="sm" className="relative z-10">
           <div className="text-center pt-6">
-            <div className={`inline-flex items-center justify-center w-20 h-20 ${colors.iconBg} rounded-full mb-6 shadow-lg border-2 ${colors.iconBorder}`}>
-              <CategoryIcon className={`w-10 h-10 ${colors.iconText}`} />
+            <div className={`inline-flex items-center justify-center w-14 h-14 bg-white/50 backdrop-blur-md rounded-full mb-5 border border-white/40 shadow-lg`}>
+              <CategoryIcon className={`w-7 h-7 text-stone-800`} />
             </div>
-            <h1 className="text-4xl font-bold text-stone-800 mb-4">
+            <h1 className="text-3xl md:text-4xl font-bold text-stone-800 mb-3">
               {category.title}
             </h1>
-            <p className="text-xl text-stone-700">{category.description}</p>
+            <p className="text-lg text-stone-700 max-w-xl mx-auto">{category.description}</p>
           </div>
         </Container>
 
         {/* Wave divider */}
         <div className="absolute bottom-0 left-0 right-0">
-          <svg className="w-full h-10 md:h-14" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <svg className="w-full h-12 md:h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
             <path
-              d="M0,60 C300,100 600,20 900,60 C1050,80 1150,80 1200,60 L1200,120 L0,120 Z"
+              d="M0,50 C300,90 600,10 900,50 C1050,70 1150,70 1200,50 L1200,120 L0,120 Z"
               fill="#fafaf9"
             />
           </svg>

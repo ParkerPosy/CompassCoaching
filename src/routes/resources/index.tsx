@@ -50,33 +50,70 @@ function getResourceTimeDisplay(resource: Resource): string | null {
   }
 }
 
-// Subtle pattern for resources hero
+// Swoosh pattern for resources hero - sky blue theme
 function ResourcesPattern() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <svg
         className="absolute inset-0 w-full h-full"
         xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1200 400"
+        preserveAspectRatio="xMidYMin slice"
       >
         <defs>
-          <linearGradient id="resourcesGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#ecfccb" stopOpacity="1" />
-            <stop offset="50%" stopColor="#d9f99d" stopOpacity="1" />
-            <stop offset="100%" stopColor="#bef264" stopOpacity="0.6" />
+          {/* Main gradient background - sky blue theme */}
+          <linearGradient id="resourcesBg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#0c4a6e" />
+            <stop offset="50%" stopColor="#0369a1" />
+            <stop offset="100%" stopColor="#0ea5e9" />
           </linearGradient>
-          <pattern id="resourceDots" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
-            <circle cx="2" cy="2" r="1.5" fill="rgba(163, 230, 53, 0.25)" />
-          </pattern>
+
+          {/* Cyan accent gradient */}
+          <linearGradient id="resourcesCyanFlow" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#06b6d4" stopOpacity="0.5" />
+            <stop offset="50%" stopColor="#22d3ee" stopOpacity="0.4" />
+            <stop offset="100%" stopColor="#67e8f9" stopOpacity="0.25" />
+          </linearGradient>
+
+          {/* White flowing gradient */}
+          <linearGradient id="resourcesWhiteFlow" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.3" />
+            <stop offset="100%" stopColor="#ffffff" stopOpacity="0.08" />
+          </linearGradient>
         </defs>
 
-        <rect width="100%" height="100%" fill="url(#resourcesGradient)" />
-        <rect width="100%" height="100%" fill="url(#resourceDots)" />
+        {/* Base background */}
+        <rect width="100%" height="100%" fill="url(#resourcesBg)" />
 
-        {/* Soft floating shapes */}
-        <circle cx="10%" cy="30%" r="80" fill="rgba(132, 204, 22, 0.12)" />
-        <circle cx="85%" cy="60%" r="100" fill="rgba(20, 184, 166, 0.08)" />
-        <circle cx="70%" cy="20%" r="60" fill="rgba(163, 230, 53, 0.15)" />
-        <circle cx="25%" cy="70%" r="70" fill="rgba(45, 212, 191, 0.1)" />
+        {/* Main flowing wave - cyan accent */}
+        <path
+          d="M-100,180 C150,220 300,280 500,260 C700,240 850,160 1300,120"
+          fill="none"
+          stroke="url(#resourcesCyanFlow)"
+          strokeWidth="140"
+          strokeLinecap="round"
+          opacity="0.5"
+        />
+
+        {/* Secondary wave - softer parallel */}
+        <path
+          d="M-150,280 C50,330 200,380 400,360 C600,340 750,260 900,200 C1050,140 1200,120 1450,90"
+          fill="none"
+          stroke="url(#resourcesCyanFlow)"
+          strokeWidth="100"
+          strokeLinecap="round"
+          opacity="0.3"
+        />
+
+        {/* White accent line */}
+        <path
+          d="M-80,200 C100,240 240,300 420,280 C600,260 780,180 920,140 C1060,100 1180,100 1280,80"
+          fill="none"
+          stroke="url(#resourcesWhiteFlow)"
+          strokeWidth="3"
+          strokeLinecap="round"
+          opacity="0.6"
+        />
       </svg>
     </div>
   );
@@ -121,14 +158,14 @@ function ResourcesIndexPage() {
         <ResourcesPattern />
 
         <Container className="relative z-10">
-          <div className="max-w-3xl mx-auto text-center mb-12">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-white rounded-full mb-6 shadow-lg border-2 border-lime-200">
-              <BookOpen className="w-10 h-10 text-lime-600" />
+          <div className="max-w-3xl mx-auto text-center mb-10">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-white/50 backdrop-blur-md rounded-full mb-5 shadow-lg border border-white/40">
+              <BookOpen className="w-8 h-8 text-sky-800" />
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-stone-800 mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
               Resource Library
             </h1>
-            <p className="text-xl text-stone-700 mb-8">
+            <p className="text-lg md:text-xl text-sky-100 mb-8">
               Free guides, templates, and tools to support your career and
               personal growth
             </p>
@@ -145,12 +182,12 @@ function ResourcesIndexPage() {
                   setShowDropdown(true);
                 }}
                 onFocus={() => searchQuery && setShowDropdown(true)}
-                className="pl-12 shadow-md border-lime-200 focus:border-lime-400"
+                className="pl-12 shadow-lg border-sky-200 focus:border-sky-400"
               />
 
               {/* Dropdown Results */}
               {showDropdown && searchQuery && (
-                <div className="absolute top-full left-0 right-0 bg-white border-2 border-lime-200 rounded-lg shadow-xl max-h-96 overflow-y-auto z-50">
+                <div className="absolute top-full left-0 right-0 bg-white border-2 border-sky-200 rounded-lg shadow-xl max-h-96 overflow-y-auto z-50">
                   {filteredResources.length > 0 ? (
                     <div className="py-2">
                       {filteredResources.map((resource, index) => {
@@ -159,7 +196,7 @@ function ResourcesIndexPage() {
                           <button
                             key={index}
                             onClick={() => handleResourceClick(resource.category)}
-                            className="w-full px-4 py-3 hover:bg-lime-50 transition-colors text-left border-b border-stone-100 last:border-b-0"
+                            className="w-full px-4 py-3 hover:bg-sky-50 transition-colors text-left border-b border-stone-100 last:border-b-0"
                           >
                             <div className="flex items-start justify-between gap-3">
                               <div className="flex-1">
@@ -173,7 +210,7 @@ function ResourcesIndexPage() {
                                   )}
                                 </div>
                                 <div className="flex items-center gap-2 text-sm text-stone-600">
-                                  <span className="text-lime-600 font-medium">
+                                  <span className="text-sky-600 font-medium">
                                     {resource.category}
                                   </span>
                                   <span>•</span>
@@ -189,7 +226,7 @@ function ResourcesIndexPage() {
                                   )}
                                 </div>
                               </div>
-                              <ArrowRight className="w-4 h-4 text-lime-500 shrink-0 mt-1" />
+                              <ArrowRight className="w-4 h-4 text-sky-500 shrink-0 mt-1" />
                             </div>
                           </button>
                         );
@@ -208,31 +245,31 @@ function ResourcesIndexPage() {
           </div>
 
           {/* Quick Stats */}
-          <div className="flex flex-wrap justify-center gap-6 md:gap-10">
-            <div className="text-center px-6 py-4 bg-white/70 backdrop-blur-sm rounded-xl shadow-md border border-lime-100">
-              <div className="text-3xl font-bold text-lime-600">
+          <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+            <div className="text-center px-6 py-4 bg-white/70 backdrop-blur-md rounded-xl shadow-lg border border-white/40 hover:scale-105 transition-transform">
+              <div className="text-3xl font-bold text-sky-900">
                 {ALL_RESOURCES.length}+
               </div>
-              <div className="text-sm text-stone-600 font-medium">Free Resources</div>
+              <div className="text-sm text-sky-800 font-medium">Resources</div>
             </div>
-            <div className="text-center px-6 py-4 bg-white/70 backdrop-blur-sm rounded-xl shadow-md border border-lime-100">
-              <div className="text-3xl font-bold text-teal-600">
+            <div className="text-center px-6 py-4 bg-white/70 backdrop-blur-md rounded-xl shadow-lg border border-white/40 hover:scale-105 transition-transform">
+              <div className="text-3xl font-bold text-sky-900">
                 {RESOURCE_CATEGORIES.length}
               </div>
-              <div className="text-sm text-stone-600 font-medium">Categories</div>
+              <div className="text-sm text-sky-800 font-medium">Categories</div>
             </div>
-            <div className="text-center px-6 py-4 bg-white/70 backdrop-blur-sm rounded-xl shadow-md border border-lime-100">
-              <div className="text-3xl font-bold text-cyan-600">100%</div>
-              <div className="text-sm text-stone-600 font-medium">Free Access</div>
+            <div className="text-center px-6 py-4 bg-white/70 backdrop-blur-md rounded-xl shadow-lg border border-white/40 hover:scale-105 transition-transform">
+              <div className="text-3xl font-bold text-sky-900">100%</div>
+              <div className="text-sm text-sky-800 font-medium">Free</div>
             </div>
           </div>
         </Container>
 
         {/* Wave divider */}
         <div className="absolute bottom-0 left-0 right-0">
-          <svg className="w-full h-12 md:h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <svg className="w-full h-16 md:h-24" viewBox="0 0 1200 120" preserveAspectRatio="none">
             <path
-              d="M0,60 C300,100 600,20 900,60 C1050,80 1150,80 1200,60 L1200,120 L0,120 Z"
+              d="M0,50 C300,90 600,10 900,50 C1050,70 1150,70 1200,50 L1200,120 L0,120 Z"
               fill="#fafaf9"
             />
           </svg>
