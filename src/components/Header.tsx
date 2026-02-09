@@ -104,7 +104,7 @@ export default function Header() {
               <svg className="w-5 h-5 sm:w-7 sm:h-7 group-hover:scale-110 transition-transform" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg">
                 <path fill="#ffffff" stroke="#65a30d" strokeWidth="20" strokeLinecap="round" strokeLinejoin="round" d="M34.94,10.53 l21.81,48.63 h-51.62 l60.37,180.31 h119 l60.37,-180.31 h-51.62 l21.81,-48.63 z" />
                 <path d="M97 113 Q100 103 110 100 L170 80 L148 142 Q145 152 136 155" fill="none" stroke="#65a30d" strokeWidth="20" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M144 150 Q140.5 153.5 136 155 L75 175 L97 113 Q98.5 108 102 105" fill="none" stroke="#1e3a8a" strokeWidth="20" strokeLinecap="butt" strokeLinejoin="round"/>
+                <path d="M144 150 Q140.5 153.5 136 155 L75 175 L97 113 Q98.5 108 102 105" fill="none" stroke="#172554" strokeWidth="20" strokeLinecap="butt" strokeLinejoin="round"/>
               </svg>
               <div className="flex gap-1 sm:gap-1.5">
                 <span className="bg-linear-to-r from-lime-600 to-lime-500 bg-clip-text text-transparent">

@@ -269,7 +269,7 @@ function HomePage() {
                   <path
                     d="M144 150 Q140.5 153.5 136 155 L75 175 L97 113 Q98.5 108 102 105"
                     fill="none"
-                    stroke="#1e3a8a"
+                    stroke="#172554"
                     strokeWidth="15"
                     strokeLinecap="butt"
                     strokeLinejoin="round"
