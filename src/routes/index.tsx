@@ -265,11 +265,11 @@ function HomePage() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
-                  {/* Cyan (SW half): overlaps at exact midpoints */}
+                  {/* Blue (SW half): overlaps at exact midpoints */}
                   <path
                     d="M144 150 Q140.5 153.5 136 155 L75 175 L97 113 Q98.5 108 102 105"
                     fill="none"
-                    stroke="#164e63"
+                    stroke="#1e3a8a"
                     strokeWidth="15"
                     strokeLinecap="butt"
                     strokeLinejoin="round"

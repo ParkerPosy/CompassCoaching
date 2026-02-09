@@ -4,6 +4,6 @@
   <!-- Two-tone compass needle - lime extends past midpoints, cyan overlaps -->
   <!-- Lime (NE half): full needle underneath -->
   <path d="M97 113 Q100 103 110 100 L170 80 L148 142 Q145 152 136 155" fill="none" stroke="#65a30d" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
-  <!-- Cyan (SW half): overlaps at exact midpoints -->
-  <path d="M144 150 Q140.5 153.5 136 155 L75 175 L97 113 Q98.5 108 102 105" fill="none" stroke="#164e63" stroke-width="15" stroke-linecap="butt" stroke-linejoin="round"/>
+  <!-- Blue (SW half): overlaps at exact midpoints -->
+  <path d="M144 150 Q140.5 153.5 136 155 L75 175 L97 113 Q98.5 108 102 105" fill="none" stroke="#1e3a8a" stroke-width="15" stroke-linecap="butt" stroke-linejoin="round"/>
 </svg>
