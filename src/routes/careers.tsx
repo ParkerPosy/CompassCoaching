@@ -1,12 +1,27 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { useEffect } from 'react';
+import { createFileRoute, useSearch, useNavigate } from '@tanstack/react-router';
+import { useCallback, useEffect } from 'react';
 import { Container } from '@/components/layout/container';
 import { OccupationsTable } from '@/components/OccupationsTable';
 import { Briefcase, Database, MapPin } from 'lucide-react';
 import { SALARY_SEO } from '@/lib/seo';
 
+type CareersSearchParams = {
+  search?: string;
+  county?: string;
+  category?: string;
+  page?: number;
+};
+
 export const Route = createFileRoute('/careers')({
   component: CareersPage,
+  validateSearch: (search: Record<string, unknown>): CareersSearchParams => {
+    return {
+      search: typeof search.search === 'string' ? search.search : undefined,
+      county: typeof search.county === 'string' ? search.county : undefined,
+      category: typeof search.category === 'string' ? search.category : undefined,
+      page: typeof search.page === 'number' ? search.page : undefined,
+    };
+  },
   head: () => ({
     meta: [
       {
@@ -157,6 +172,46 @@ function CareersPattern() {
   );
 }
 
+function OccupationsTableWrapper() {
+  const searchParams = useSearch({ from: '/careers' });
+  const navigate = useNavigate({ from: '/careers' });
+
+  const updateFilters = useCallback(
+    (updates: Partial<CareersSearchParams>) => {
+      navigate({
+        search: (prev) => {
+          const next = { ...prev, ...updates };
+          // Remove undefined/empty values to keep URL clean
+          for (const key of Object.keys(next) as (keyof CareersSearchParams)[]) {
+            if (next[key] === undefined || next[key] === '' || next[key] === 'All') {
+              delete next[key];
+            }
+          }
+          // Reset page when filters change (except when page itself changes)
+          if (!('page' in updates) && Object.keys(updates).length > 0) {
+            delete next.page;
+          }
+          return next;
+        },
+        replace: true,
+        resetScroll: false,
+      });
+    },
+    [navigate]
+  );
+
+  return (
+    <OccupationsTable
+      initialPageSize={10}
+      search={searchParams.search ?? ''}
+      county={searchParams.county ?? 'All'}
+      category={searchParams.category ?? 'All'}
+      page={searchParams.page ?? 1}
+      onFiltersChange={updateFilters}
+    />
+  );
+}
+
 function CareersPage() {
   // Scroll to top on mount to override any incorrect scroll restoration
   useEffect(() => {
@@ -252,7 +307,7 @@ function CareersPage() {
             </p>
           </div>
 
-          <OccupationsTable initialPageSize={10} />
+          <OccupationsTableWrapper />
 
           {/* Info Section */}
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">

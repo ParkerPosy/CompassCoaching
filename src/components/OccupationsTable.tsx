@@ -9,7 +9,7 @@ import {
   type ExpandedState,
 } from '@tanstack/react-table';
 import { useQuery } from '@tanstack/react-query';
-import { ArrowUpDown, ChevronLeft, ChevronRight, Loader2, TrendingUp, GraduationCap, MapPin, ChevronDown } from 'lucide-react';
+import { ArrowUp, ArrowDown, ChevronLeft, ChevronRight, Loader2, TrendingUp, GraduationCap, MapPin, ChevronDown } from 'lucide-react';
 import type { Occupation } from '@/types/wages';
 import { fetchPaginatedOccupations, getAvailableCounties } from '@/lib/occupationService';
 import { formatCurrency, formatEducationLevel, SOC_CATEGORIES } from '@/lib/wages';
@@ -22,25 +22,69 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useSessionStorage } from '@/hooks';
 
 interface OccupationsTableProps {
   initialPageSize?: number;
+  search?: string;
+  county?: string;
+  category?: string;
+  page?: number;
+  onFiltersChange?: (updates: { search?: string; county?: string; category?: string; page?: number }) => void;
 }
 
-export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps) {
-  const [search, setSearch] = useSessionStorage('occupations-search', '');
+export function OccupationsTable({
+  initialPageSize = 10,
+  search: searchProp = '',
+  county: countyProp = 'All',
+  category: categoryProp = 'All',
+  page: pageProp = 1,
+  onFiltersChange,
+}: OccupationsTableProps) {
+  // Derive state from props, use local state only for non-URL state
+  const search = searchProp;
+  const selectedCounty = countyProp;
+  const selectedCategory = categoryProp;
+
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
+    pageIndex: pageProp - 1,
     pageSize: initialPageSize,
   });
   const [expanded, setExpanded] = useState<ExpandedState>({});
-  const [selectedCounty, setSelectedCounty] = useSessionStorage('occupations-county', 'All');
-  const [selectedCategory, setSelectedCategory] = useSessionStorage('occupations-category', 'All');
   const tableContainerRef = useRef<HTMLDivElement>(null);
   const mouseDownPos = useRef<{ x: number; y: number } | null>(null);
   const isInitialMount = useRef(true);
+
+  // Sync pagination with page prop
+  useEffect(() => {
+    if (pageProp - 1 !== pagination.pageIndex) {
+      setPagination((prev) => ({ ...prev, pageIndex: pageProp - 1 }));
+    }
+  }, [pageProp]);
+
+  // Helper functions to update filters via URL
+  const setSearch = (value: string) => {
+    onFiltersChange?.({ search: value || undefined });
+  };
+
+  const setSelectedCounty = (value: string) => {
+    onFiltersChange?.({ county: value });
+  };
+
+  const setSelectedCategory = (value: string) => {
+    onFiltersChange?.({ category: value });
+  };
+
+  const handlePaginationChange = (updaterOrValue: PaginationState | ((old: PaginationState) => PaginationState)) => {
+    const newPagination = typeof updaterOrValue === 'function'
+      ? updaterOrValue(pagination)
+      : updaterOrValue;
+    setPagination(newPagination);
+    // Only sync page to URL if it changed
+    if (newPagination.pageIndex !== pagination.pageIndex) {
+      onFiltersChange?.({ page: newPagination.pageIndex + 1 });
+    }
+  };
 
   // Scroll to browse section when pagination changes (but not on initial load)
   useEffect(() => {
@@ -102,7 +146,13 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
               onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
             >
               Career
-              <ArrowUpDown className={`w-4 h-4 ${isSorted ? 'text-blue-600' : ''}`} />
+              {isSorted === 'asc' ? (
+                <ArrowUp className="w-4 h-4 text-blue-600" />
+              ) : isSorted === 'desc' ? (
+                <ArrowDown className="w-4 h-4 text-blue-600" />
+              ) : (
+                <ArrowDown className="w-4 h-4 opacity-30" />
+              )}
             </button>
           );
         },
@@ -125,7 +175,7 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
         header: () => (
           <div className="flex items-center gap-1.5">
             <GraduationCap className="w-4 h-4" />
-            <span>Education Required</span>
+            <span>Education Level</span>
           </div>
         ),
         cell: (info) => {
@@ -163,7 +213,7 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
             </span>
           );
         },
-        size: 140,
+        size: 175,
       },
       {
         id: 'entrySalary',
@@ -190,7 +240,13 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
                   {selectedCounty !== 'All' ? `${selectedCounty} County` : 'Entry level'}
                 </div>
               </div>
-              <ArrowUpDown className={`w-4 h-4 ${isSorted ? 'text-blue-600' : ''}`} />
+              {isSorted === 'asc' ? (
+                <ArrowUp className="w-4 h-4 text-blue-600" />
+              ) : isSorted === 'desc' ? (
+                <ArrowDown className="w-4 h-4 text-blue-600" />
+              ) : (
+                <ArrowDown className="w-4 h-4 opacity-30" />
+              )}
             </button>
           );
         },
@@ -199,7 +255,7 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
             {formatCurrency(info.getValue() as number | null)}
           </div>
         ),
-        size: 140,
+        size: 145,
       },
       {
         id: 'medianSalary',
@@ -226,7 +282,13 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
                   {selectedCounty !== 'All' ? `${selectedCounty} County` : 'Median'}
                 </div>
               </div>
-              <ArrowUpDown className={`w-4 h-4 ${isSorted ? 'text-blue-600' : ''}`} />
+              {isSorted === 'asc' ? (
+                <ArrowUp className="w-4 h-4 text-blue-600" />
+              ) : isSorted === 'desc' ? (
+                <ArrowDown className="w-4 h-4 text-blue-600" />
+              ) : (
+                <ArrowDown className="w-4 h-4 opacity-30" />
+              )}
             </button>
           );
         },
@@ -235,7 +297,7 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
             {formatCurrency(info.getValue() as number | null)}
           </div>
         ),
-        size: 140,
+        size: 145,
       },
       {
         id: 'experiencedSalary',
@@ -262,7 +324,7 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
             {formatCurrency(info.getValue() as number | null)}
           </div>
         ),
-        size: 140,
+        size: 155,
       },
       {
         id: 'counties',
@@ -311,7 +373,7 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
             </div>
           );
         },
-        size: 130,
+        size: 160,
       },
     ],
     [selectedCounty],
@@ -327,7 +389,7 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
       expanded,
     },
     onSortingChange: setSorting,
-    onPaginationChange: setPagination,
+    onPaginationChange: handlePaginationChange,
     onExpandedChange: setExpanded,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
@@ -339,44 +401,46 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
     <div ref={tableContainerRef} className="space-y-4">
       {/* Search and Filters */}
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col lg:flex-row gap-3">
-          <div className="w-full lg:w-96 relative">
-            <Input
-              placeholder="Search by career name or code..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full pr-10"
-            />
-            {search && (
-              <button
-                type="button"
-                onClick={() => setSearch('')}
-                className="absolute right-2 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center rounded-full text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
-                aria-label="Clear search"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-4 h-4"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
+        <div className="flex flex-col lg:flex-row lg:items-end gap-3">
+          <div className="w-full lg:w-96">
+            <label className="block text-xs font-medium text-stone-600 mb-1">Search Careers</label>
+            <div className="relative">
+              <Input
+                placeholder="Search by career name or code..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full pr-10"
+              />
+              {search && (
+                <button
+                  type="button"
+                  onClick={() => setSearch('')}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center rounded-full text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                  aria-label="Clear search"
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
-            )}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-4 h-4"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+              )}
+            </div>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
-            <div className="w-full sm:w-48">
+            <div className="w-full sm:w-52">
+              <label className="block text-xs font-medium text-stone-600 mb-1">Filter by County</label>
               <Select
                 value={selectedCounty}
                 onValueChange={(value) => {
-                  console.log('County changed to:', value);
                   setSelectedCounty(value);
-                  setPagination({ pageIndex: 0, pageSize: pagination.pageSize });
                 }}
                 disabled={countiesLoading}
               >
@@ -393,12 +457,12 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
                 </SelectContent>
               </Select>
             </div>
-            <div className="w-full sm:w-56">
+            <div className="w-full sm:w-60">
+              <label className="block text-xs font-medium text-stone-600 mb-1">Filter by Career Field</label>
               <Select
                 value={selectedCategory}
                 onValueChange={(value) => {
                   setSelectedCategory(value);
-                  setPagination({ pageIndex: 0, pageSize: pagination.pageSize });
                 }}
               >
                 <SelectTrigger className="bg-white">
@@ -417,7 +481,7 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
           </div>
         </div>
         {data && (
-          <div className="flex items-center gap-3 flex-wrap">
+          <div className="flex items-center gap-3 flex-wrap h-7">
             <div className="text-sm text-stone-600 font-medium">
               Showing {data.data.length} of {data.meta.totalCount.toLocaleString()} careers
             </div>
@@ -426,10 +490,7 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
                 variant="outline"
                 size="sm"
                 onClick={() => {
-                  setSearch('');
-                  setSelectedCounty('All');
-                  setSelectedCategory('All');
-                  setPagination({ pageIndex: 0, pageSize: pagination.pageSize });
+                  onFiltersChange?.({ search: undefined, county: 'All', category: 'All', page: undefined });
                 }}
                 className="text-xs h-7"
               >
@@ -508,10 +569,7 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
                             variant="outline"
                             size="sm"
                             onClick={() => {
-                              setSearch('');
-                              setSelectedCounty('All');
-                              setSelectedCategory('All');
-                              setPagination({ pageIndex: 0, pageSize: pagination.pageSize });
+                              onFiltersChange?.({ search: undefined, county: 'All', category: 'All', page: undefined });
                             }}
                             className="mt-3"
                           >
@@ -687,7 +745,7 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
                     key={pageNum}
                     variant={pagination.pageIndex === pageNum ? 'default' : 'outline'}
                     size="sm"
-                    onClick={() => setPagination({ ...pagination, pageIndex: pageNum })}
+                    onClick={() => handlePaginationChange({ ...pagination, pageIndex: pageNum })}
                     className="w-10"
                   >
                     {pageNum + 1}
@@ -716,7 +774,7 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
                     key={pageNum}
                     variant={pagination.pageIndex === pageNum ? 'default' : 'outline'}
                     size="sm"
-                    onClick={() => setPagination({ ...pagination, pageIndex: pageNum })}
+                    onClick={() => handlePaginationChange({ ...pagination, pageIndex: pageNum })}
                     className="w-10"
                   >
                     {pageNum + 1}
@@ -742,7 +800,7 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
               size="sm"
               value={pagination.pageSize.toString()}
               onValueChange={(value) => {
-                setPagination({
+                handlePaginationChange({
                   pageIndex: 0,
                   pageSize: Number(value),
                 });
