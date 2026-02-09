@@ -225,7 +225,7 @@ function AdminUserPage() {
         {/* Back Link */}
         <Link
           to="/admin"
-          className="inline-flex items-center gap-2 text-stone-600 hover:text-stone-900 mb-6 transition-colors"
+          className="inline-flex items-center gap-2 text-stone-600 hover:text-stone-800 mb-6 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Admin Dashboard
@@ -237,7 +237,7 @@ function AdminUserPage() {
             <div className="w-10 h-10 bg-lime-600 rounded-lg flex items-center justify-center">
               <Shield className="w-5 h-5 text-white" />
             </div>
-            <h1 className="text-3xl font-bold text-stone-900">User Details</h1>
+            <h1 className="text-3xl font-bold text-stone-800">User Details</h1>
           </div>
           <p className="text-stone-600">
             View and manage information for this user.
@@ -264,21 +264,21 @@ function AdminUserPage() {
                 <User className="w-5 h-5 text-stone-400 mt-0.5" />
                 <div>
                   <p className="text-sm text-stone-500">Name</p>
-                  <p className="text-stone-900 font-medium">{user.name || "Not provided"}</p>
+                  <p className="text-stone-800 font-medium">{user.name || "Not provided"}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <Mail className="w-5 h-5 text-stone-400 mt-0.5" />
                 <div>
                   <p className="text-sm text-stone-500">Email</p>
-                  <p className="text-stone-900 font-medium">{user.email || "Not provided"}</p>
+                  <p className="text-stone-800 font-medium">{user.email || "Not provided"}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <Calendar className="w-5 h-5 text-stone-400 mt-0.5" />
                 <div>
                   <p className="text-sm text-stone-500">Joined</p>
-                  <p className="text-stone-900 font-medium">
+                  <p className="text-stone-800 font-medium">
                     {new Date(user.createdAt).toLocaleDateString("en-US", {
                       month: "long",
                       day: "numeric",
@@ -291,7 +291,7 @@ function AdminUserPage() {
                 <Clock className="w-5 h-5 text-stone-400 mt-0.5" />
                 <div>
                   <p className="text-sm text-stone-500">Last Active</p>
-                  <p className="text-stone-900 font-medium">
+                  <p className="text-stone-800 font-medium">
                     {user.lastActiveAt
                       ? new Date(user.lastActiveAt).toLocaleDateString("en-US", {
                           month: "long",

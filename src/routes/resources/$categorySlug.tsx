@@ -130,7 +130,7 @@ function ToolCard({ resource, colors }: { resource: ToolResource; colors: Catego
             </Badge>
             {!resource.active && <NeedsContentBadge />}
           </div>
-          <h3 className="text-xl font-bold text-stone-900 mb-2">{resource.title}</h3>
+          <h3 className="text-xl font-bold text-stone-800 mb-2">{resource.title}</h3>
           <p className="text-stone-600 mb-4">
             {resource.active ? 'Complete this interactive assessment to gain personalized insights' : 'Coming soon'}
           </p>
@@ -199,7 +199,7 @@ function VideoCard({ resource, colors }: { resource: VideoResource; colors: Cate
               <Play className="w-3 h-3 mr-1" />
               Video
             </Badge>
-            <h3 className="text-xl font-bold text-stone-900 mb-2 group-hover:text-red-700 transition-colors">{resource.title}</h3>
+            <h3 className="text-xl font-bold text-stone-800 mb-2 group-hover:text-red-700 transition-colors">{resource.title}</h3>
             <p className="text-stone-600 mb-4 line-clamp-2">
               {resource.description || (resource.active ? 'Watch and learn from real experiences and expert insights' : 'Video coming soon')}
             </p>
@@ -274,7 +274,7 @@ function DownloadCard({ resource, colors }: { resource: DownloadResource; colors
               <span className="text-xs font-semibold uppercase text-stone-400">{resource.format}</span>
               {!resource.active && <NeedsContentBadge />}
             </div>
-            <h4 className="font-semibold text-stone-900 text-sm leading-tight mb-2 line-clamp-2">{resource.title}</h4>
+            <h4 className="font-semibold text-stone-800 text-sm leading-tight mb-2 line-clamp-2">{resource.title}</h4>
             <span className="inline-flex items-center gap-1 text-xs font-medium text-amber-600 group-hover:text-amber-700">
               <Download className="w-3 h-3" />
               Download
@@ -298,7 +298,7 @@ function DirectoryCard({ resource, colors }: { resource: DirectoryResource; colo
             <List className="w-5 h-5 text-rose-600" />
           </div>
           <div className="flex-1 min-w-0">
-            <h4 className="font-semibold text-stone-900 line-clamp-1">{resource.title}</h4>
+            <h4 className="font-semibold text-stone-800 line-clamp-1">{resource.title}</h4>
             <p className="text-sm text-stone-500">
               {resource.active ? 'Curated external resources' : 'Being compiled'}
             </p>
@@ -329,7 +329,7 @@ function ChecklistCard({ resource, colors }: { resource: ChecklistResource; colo
               <span className="text-xs font-semibold uppercase text-stone-400">{resource.completionTime}</span>
               {!resource.active && <NeedsContentBadge />}
             </div>
-            <h4 className="font-semibold text-stone-900 text-sm leading-tight mb-2 line-clamp-2">{resource.title}</h4>
+            <h4 className="font-semibold text-stone-800 text-sm leading-tight mb-2 line-clamp-2">{resource.title}</h4>
             <span className="inline-flex items-center gap-1 text-xs font-medium text-lime-600 group-hover:text-lime-700">
               <CheckSquare className="w-3 h-3" />
               Start checklist
@@ -363,7 +363,7 @@ function CourseCard({ resource, colors }: { resource: CourseResource; colors: Ca
             </Badge>
             {!resource.active && <NeedsContentBadge />}
           </div>
-          <h3 className="text-xl font-bold text-stone-900 mb-2">{resource.title}</h3>
+          <h3 className="text-xl font-bold text-stone-800 mb-2">{resource.title}</h3>
           <p className="text-stone-600 mb-4">
             {resource.active ? 'Structured learning path with guided modules and exercises' : 'Course curriculum in development'}
           </p>
@@ -394,7 +394,7 @@ function ExternalCard({ resource, colors }: { resource: ExternalResource; colors
             <ExternalLink className="w-5 h-5 text-indigo-600" />
           </div>
           <div className="flex-1 min-w-0">
-            <h4 className="font-semibold text-stone-900 line-clamp-1">{resource.title}</h4>
+            <h4 className="font-semibold text-stone-800 line-clamp-1">{resource.title}</h4>
             <p className="text-sm text-stone-500">{resource.source}</p>
           </div>
           <div className="flex items-center gap-2">
@@ -454,7 +454,7 @@ function ResourceCategoryPage() {
     return (
       <div className="min-h-screen bg-stone-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-stone-900 mb-2">
+          <h1 className="text-2xl font-bold text-stone-800 mb-2">
             Category Not Found
           </h1>
           <p className="text-stone-600 mb-6">
@@ -526,7 +526,7 @@ function ResourceCategoryPage() {
         <div className="absolute top-4 left-4 md:top-6 md:left-6 z-20">
           <Link
             to="/resources"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-stone-200/50 text-stone-700 hover:text-stone-900 hover:bg-white font-medium transition-all hover:shadow-lg"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-stone-200/50 text-stone-700 hover:text-stone-800 hover:bg-white font-medium transition-all hover:shadow-lg"
           >
             <ArrowLeft className={`w-4 h-4 ${colors.iconText}`} />
             All Resources
@@ -538,7 +538,7 @@ function ResourceCategoryPage() {
             <div className={`inline-flex items-center justify-center w-20 h-20 ${colors.iconBg} rounded-full mb-6 shadow-lg border-2 ${colors.iconBorder}`}>
               <CategoryIcon className={`w-10 h-10 ${colors.iconText}`} />
             </div>
-            <h1 className="text-4xl font-bold text-stone-900 mb-4">
+            <h1 className="text-4xl font-bold text-stone-800 mb-4">
               {category.title}
             </h1>
             <p className="text-xl text-stone-700">{category.description}</p>

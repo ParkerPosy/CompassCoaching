@@ -82,7 +82,7 @@ function ReviewPage() {
               <CheckCircle2 className="w-6 h-6 text-white" />
             </div>
             <div className="flex-1">
-              <h1 className="text-2xl font-bold text-stone-900 mb-2">
+              <h1 className="text-2xl font-bold text-stone-800 mb-2">
                 Review Your Answers
               </h1>
               <p className="text-stone-700">
@@ -120,13 +120,13 @@ function ReviewPage() {
                 <dl className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <dt className="text-sm font-medium text-stone-600">Name</dt>
-                    <dd className="text-stone-900 mt-1">{basicData.name}</dd>
+                    <dd className="text-stone-800 mt-1">{basicData.name}</dd>
                   </div>
                   <div>
                     <dt className="text-sm font-medium text-stone-600">
                       Age Range
                     </dt>
-                    <dd className="text-stone-900 mt-1">
+                    <dd className="text-stone-800 mt-1">
                       {basicData.ageRange}
                     </dd>
                   </div>
@@ -134,7 +134,7 @@ function ReviewPage() {
                     <dt className="text-sm font-medium text-stone-600">
                       Education Level
                     </dt>
-                    <dd className="text-stone-900 mt-1">
+                    <dd className="text-stone-800 mt-1">
                       {basicData.educationLevel}
                     </dd>
                   </div>
@@ -142,7 +142,7 @@ function ReviewPage() {
                     <dt className="text-sm font-medium text-stone-600">
                       Employment Status
                     </dt>
-                    <dd className="text-stone-900 mt-1">
+                    <dd className="text-stone-800 mt-1">
                       {basicData.employmentStatus}
                     </dd>
                   </div>
@@ -151,7 +151,7 @@ function ReviewPage() {
                       <dt className="text-sm font-medium text-stone-600">
                         Primary Reason
                       </dt>
-                      <dd className="text-stone-900 mt-1">
+                      <dd className="text-stone-800 mt-1">
                         {basicData.primaryReason}
                       </dd>
                     </div>
@@ -298,7 +298,7 @@ function ReviewPage() {
                     <dt className="text-sm font-medium text-stone-600">
                       Financial Situation
                     </dt>
-                    <dd className="text-stone-900 mt-1">
+                    <dd className="text-stone-800 mt-1">
                       {challengesData.financial}
                     </dd>
                   </div>
@@ -306,7 +306,7 @@ function ReviewPage() {
                     <dt className="text-sm font-medium text-stone-600">
                       Time Availability
                     </dt>
-                    <dd className="text-stone-900 mt-1">
+                    <dd className="text-stone-800 mt-1">
                       {challengesData.timeAvailability}
                     </dd>
                   </div>
@@ -314,7 +314,7 @@ function ReviewPage() {
                     <dt className="text-sm font-medium text-stone-600">
                       Location Flexibility
                     </dt>
-                    <dd className="text-stone-900 mt-1">
+                    <dd className="text-stone-800 mt-1">
                       {challengesData.locationFlexibility}
                     </dd>
                   </div>
@@ -322,7 +322,7 @@ function ReviewPage() {
                     <dt className="text-sm font-medium text-stone-600">
                       Support System
                     </dt>
-                    <dd className="text-stone-900 mt-1">
+                    <dd className="text-stone-800 mt-1">
                       {challengesData.supportSystem}
                     </dd>
                   </div>
@@ -341,7 +341,7 @@ function ReviewPage() {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-lime-600 rounded-full mb-4">
                 <Sparkles className="w-8 h-8 text-white" />
               </div>
-              <h2 className="text-2xl font-bold text-stone-900 mb-3">
+              <h2 className="text-2xl font-bold text-stone-800 mb-3">
                 Ready to Get Your Results?
               </h2>
               <p className="text-stone-700 mb-6 max-w-2xl mx-auto">

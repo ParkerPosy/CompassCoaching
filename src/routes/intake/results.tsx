@@ -225,7 +225,7 @@ function ResultsPage() {
                   <User className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-stone-900">Your Profile at a Glance</h3>
+                  <h3 className="text-xl font-bold text-stone-800">Your Profile at a Glance</h3>
                   <p className="text-stone-600">Based on your assessment responses</p>
                 </div>
               </div>
@@ -303,7 +303,7 @@ function ResultsPage() {
           <section className="mb-12">
             <div className="flex items-center gap-3 mb-6">
               <Compass className="w-6 h-6 text-indigo-600" />
-              <h2 className="text-3xl font-bold text-stone-900">Your Work Style Profile</h2>
+              <h2 className="text-3xl font-bold text-stone-800">Your Work Style Profile</h2>
             </div>
             <Card>
               <CardContent className="p-6">
@@ -390,7 +390,7 @@ function ResultsPage() {
         <section className="mb-12">
           <div className="flex items-center gap-3 mb-6">
             <TrendingUp className="w-6 h-6 text-blue-600" />
-            <h2 className="text-3xl font-bold text-stone-900">
+            <h2 className="text-3xl font-bold text-stone-800">
               Your Top Career Fields
             </h2>
           </div>
@@ -436,7 +436,7 @@ function ResultsPage() {
         <section className="mb-12">
           <div className="flex items-center gap-3 mb-6">
             <Heart className="w-6 h-6 text-rose-500" />
-            <h2 className="text-3xl font-bold text-stone-900">
+            <h2 className="text-3xl font-bold text-stone-800">
               Your Core Values
             </h2>
           </div>
@@ -452,7 +452,7 @@ function ResultsPage() {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-2">
-                        <h3 className="font-semibold text-stone-900">
+                        <h3 className="font-semibold text-stone-800">
                           {value.value}
                         </h3>
                         <span className="text-sm font-medium text-rose-600">
@@ -477,7 +477,7 @@ function ResultsPage() {
         <section className="mb-12">
           <div className="flex items-center gap-3 mb-6">
             <Lightbulb className="w-6 h-6 text-amber-500" />
-            <h2 className="text-3xl font-bold text-stone-900">
+            <h2 className="text-3xl font-bold text-stone-800">
               Personality Insights
             </h2>
           </div>
@@ -499,7 +499,7 @@ function ResultsPage() {
         <section className="mb-12">
           <div className="flex items-center gap-3 mb-6">
             <Target className="w-6 h-6 text-orange-500" />
-            <h2 className="text-3xl font-bold text-stone-900">
+            <h2 className="text-3xl font-bold text-stone-800">
               Personalized Recommendations
             </h2>
           </div>
@@ -525,7 +525,7 @@ function ResultsPage() {
         <section className="mb-12">
           <div className="flex items-center gap-3 mb-6">
             <Briefcase className="w-6 h-6 text-emerald-600" />
-            <h2 className="text-3xl font-bold text-stone-900">
+            <h2 className="text-3xl font-bold text-stone-800">
               Your Personalized Career Matches
             </h2>
           </div>
@@ -577,7 +577,7 @@ function ResultsPage() {
         <section className="mb-12">
           <div className="flex items-center gap-3 mb-6">
             <CheckCircle className="w-6 h-6 text-violet-600" />
-            <h2 className="text-3xl font-bold text-stone-900">
+            <h2 className="text-3xl font-bold text-stone-800">
               Your Next Steps
             </h2>
           </div>
@@ -612,7 +612,7 @@ function ResultsPage() {
           </Button>
           <Link
             to="/resources"
-            className="inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-stone-200 text-stone-900 hover:bg-stone-300 active:bg-stone-400 focus:ring-stone-300 px-6 py-3 text-lg"
+            className="inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-stone-200 text-stone-800 hover:bg-stone-300 active:bg-stone-400 focus:ring-stone-300 px-6 py-3 text-lg"
           >
             Explore Resources
           </Link>
@@ -634,7 +634,7 @@ function ResultsPage() {
         <div className="text-center">
           <Link
             to="/intake/review"
-            className="inline-flex items-center gap-2 text-stone-600 hover:text-stone-900 transition-colors"
+            className="inline-flex items-center gap-2 text-stone-600 hover:text-stone-800 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Review

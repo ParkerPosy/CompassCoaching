@@ -262,7 +262,7 @@ function AdminPage() {
             <div className="w-10 h-10 bg-lime-600 rounded-lg flex items-center justify-center">
               <Shield className="w-5 h-5 text-white" />
             </div>
-            <h1 className="text-3xl font-bold text-stone-900">Admin Dashboard</h1>
+            <h1 className="text-3xl font-bold text-stone-800">Admin Dashboard</h1>
           </div>
           <p className="text-stone-600">
             Welcome{isLoaded && user?.firstName ? `, ${user.firstName}` : ""}. View platform statistics and user activity.
@@ -290,7 +290,7 @@ function AdminPage() {
                 </div>
                 <div>
                   <p className="text-sm text-stone-500">Total Users</p>
-                  <p className="text-2xl font-bold text-stone-900">{stats.totalUsers}</p>
+                  <p className="text-2xl font-bold text-stone-800">{stats.totalUsers}</p>
                 </div>
               </div>
             </CardContent>
@@ -304,7 +304,7 @@ function AdminPage() {
                 </div>
                 <div>
                   <p className="text-sm text-stone-500">New This Month</p>
-                  <p className="text-2xl font-bold text-stone-900">{stats.recentSignups}</p>
+                  <p className="text-2xl font-bold text-stone-800">{stats.recentSignups}</p>
                 </div>
               </div>
             </CardContent>
@@ -318,7 +318,7 @@ function AdminPage() {
                 </div>
                 <div>
                   <p className="text-sm text-stone-500">Active This Week</p>
-                  <p className="text-2xl font-bold text-stone-900">{stats.activeThisWeek}</p>
+                  <p className="text-2xl font-bold text-stone-800">{stats.activeThisWeek}</p>
                 </div>
               </div>
             </CardContent>
@@ -372,7 +372,7 @@ function AdminPage() {
                               <Link
                                 to="/admin/user/$userId"
                                 params={{ userId: userRow.clerkId }}
-                                className="font-medium text-stone-900 hover:text-lime-600 transition-colors"
+                                className="font-medium text-stone-800 hover:text-lime-600 transition-colors"
                               >
                                 {userRow.name || "No name"}
                               </Link>

@@ -130,7 +130,7 @@ function AboutPage() {
                 </g>
               </svg>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-stone-900 mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-stone-800 mb-4">
               About Compass Coaching
             </h1>
             <p className="text-xl text-stone-700 max-w-2xl mx-auto">
@@ -154,7 +154,7 @@ function AboutPage() {
       <section className="py-16 px-6">
         <Container>
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-stone-900 mb-4">Our Story</h2>
+            <h2 className="text-3xl font-bold text-stone-800 mb-4">Our Story</h2>
             <div className="w-16 h-1 bg-lime-500 mx-auto rounded-full" />
           </div>
 
@@ -178,7 +178,7 @@ function AboutPage() {
       <section className="py-16 px-6 bg-stone-100">
         <Container>
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-stone-900 mb-4">Meet the Founders</h2>
+            <h2 className="text-3xl font-bold text-stone-800 mb-4">Meet the Founders</h2>
             <div className="w-16 h-1 bg-lime-500 mx-auto rounded-full" />
           </div>
 
@@ -260,7 +260,7 @@ function AboutPage() {
       <section className="py-16 px-6">
         <Container>
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-stone-900 mb-4">What We Believe</h2>
+            <h2 className="text-3xl font-bold text-stone-800 mb-4">What We Believe</h2>
             <div className="w-16 h-1 bg-lime-500 mx-auto rounded-full" />
           </div>
 
@@ -273,7 +273,7 @@ function AboutPage() {
                     <div className="inline-flex items-center justify-center w-14 h-14 bg-lime-100 rounded-full mb-4">
                       <Icon className="w-7 h-7 text-lime-600" />
                     </div>
-                    <h3 className="text-lg font-semibold text-stone-900 mb-2">
+                    <h3 className="text-lg font-semibold text-stone-800 mb-2">
                       {value.title}
                     </h3>
                     <p className="text-stone-600">

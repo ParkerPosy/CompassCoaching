@@ -199,7 +199,7 @@ function PersonalityPage() {
                   key={question.id}
                   className="pb-6 border-b border-stone-200 last:border-0 last:pb-0"
                 >
-                  <h3 className="text-lg font-semibold text-stone-900 mb-4">
+                  <h3 className="text-lg font-semibold text-stone-800 mb-4">
                     {index + 1}. {question.text}
                   </h3>
                   <div className="space-y-3">

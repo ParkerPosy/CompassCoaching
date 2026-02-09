@@ -348,7 +348,7 @@ function HomePage() {
       <section className="py-16 md:py-24 px-6">
         <Container>
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-stone-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-stone-800 mb-4">
               How Compass Coaching Works
             </h2>
             <p className="text-lg text-stone-600 max-w-2xl mx-auto">
@@ -365,7 +365,7 @@ function HomePage() {
               <div className="w-16 h-16 bg-linear-to-br from-lime-400 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-md">
                 <span className="text-2xl font-bold text-white">1</span>
               </div>
-              <h3 className="text-xl font-semibold text-stone-900 mb-3">
+              <h3 className="text-xl font-semibold text-stone-800 mb-3">
                 Discover
               </h3>
               <p className="text-stone-600">
@@ -381,7 +381,7 @@ function HomePage() {
               <div className="w-16 h-16 bg-linear-to-br from-teal-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-md">
                 <span className="text-2xl font-bold text-white">2</span>
               </div>
-              <h3 className="text-xl font-semibold text-stone-900 mb-3">
+              <h3 className="text-xl font-semibold text-stone-800 mb-3">
                 Explore
               </h3>
               <p className="text-stone-600">
@@ -397,7 +397,7 @@ function HomePage() {
               <div className="w-16 h-16 bg-linear-to-br from-cyan-500 to-sky-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-md">
                 <span className="text-2xl font-bold text-white">3</span>
               </div>
-              <h3 className="text-xl font-semibold text-stone-900 mb-3">
+              <h3 className="text-xl font-semibold text-stone-800 mb-3">
                 Achieve
               </h3>
               <p className="text-stone-600">
@@ -413,7 +413,7 @@ function HomePage() {
       <section className="py-16 md:py-24 px-6 bg-linear-to-b from-white to-blue-50/30">
         <Container>
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-stone-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-stone-800 mb-4">
               Everything You Need
             </h2>
             <p className="text-lg text-stone-600 max-w-2xl mx-auto">

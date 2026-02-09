@@ -25,9 +25,9 @@ export function SectionHeader({
       <div
         className={`inline-flex items-center justify-center w-20 h-20 ${iconBgColor} rounded-full mb-6`}
       >
-        <Icon className="w-10 h-10 text-stone-900" />
+        <Icon className="w-10 h-10 text-stone-800" />
       </div>
-      <h1 className="text-4xl font-bold text-stone-900 mb-4">{title}</h1>
+      <h1 className="text-4xl font-bold text-stone-800 mb-4">{title}</h1>
       {subtitle && <p className="text-xl text-stone-600 mb-2">{subtitle}</p>}
       {estimatedTime && (
         <p className="text-stone-500">Estimated time: {estimatedTime}</p>

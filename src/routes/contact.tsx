@@ -136,7 +136,7 @@ function ContactPage() {
             {/* Response bubble */}
             <div className="flex items-start gap-4 justify-end">
               <div className="bg-lime-500 rounded-2xl rounded-tr-none p-6 shadow-xl max-w-md">
-                <p className="text-stone-900 font-medium">
+                <p className="text-stone-800 font-medium">
                   What would you like to chat about?
                 </p>
               </div>
@@ -190,7 +190,7 @@ function ContactPage() {
                     <div className="w-16 h-16 bg-lime-500 rounded-full flex items-center justify-center mx-auto mb-6">
                       <CheckCircle2 className="w-8 h-8 text-white" />
                     </div>
-                    <h2 className="text-2xl font-bold text-stone-900 mb-3">Message Sent!</h2>
+                    <h2 className="text-2xl font-bold text-stone-800 mb-3">Message Sent!</h2>
                     <p className="text-stone-600 mb-6">
                       Thanks for reaching out. We'll get back to you within 24-48 hours.
                     </p>
@@ -208,7 +208,7 @@ function ContactPage() {
               ) : (
                 <Card className="border-stone-200 shadow-lg">
                   <CardContent className="p-8">
-                    <h2 className="text-2xl font-bold text-stone-900 mb-2">Send us a message</h2>
+                    <h2 className="text-2xl font-bold text-stone-800 mb-2">Send us a message</h2>
                     <p className="text-stone-600 mb-6">
                       We read everything and respond to everyone.
                     </p>
@@ -297,14 +297,14 @@ function ContactPage() {
             <div className="lg:col-span-2 space-y-8">
               {/* FAQ Section */}
               <div>
-                <h3 className="text-lg font-bold text-stone-900 mb-4 flex items-center gap-2">
+                <h3 className="text-lg font-bold text-stone-800 mb-4 flex items-center gap-2">
                   <HelpCircle className="w-5 h-5 text-lime-600" />
                   Common Questions
                 </h3>
                 <div className="space-y-4">
                   {faqs.map((faq) => (
                     <div key={faq.question} className="bg-white rounded-xl p-4 border border-stone-200">
-                      <p className="font-medium text-stone-900 text-sm">{faq.question}</p>
+                      <p className="font-medium text-stone-800 text-sm">{faq.question}</p>
                       <p className="text-stone-600 text-sm mt-1">{faq.answer}</p>
                     </div>
                   ))}
@@ -317,7 +317,7 @@ function ContactPage() {
                   <div className="w-10 h-10 bg-lime-500 rounded-full flex items-center justify-center">
                     <Heart className="w-5 h-5 text-white" />
                   </div>
-                  <h3 className="font-bold text-stone-900">Our Promise</h3>
+                  <h3 className="font-bold text-stone-800">Our Promise</h3>
                 </div>
                 <p className="text-stone-600 text-sm">
                   Every message is read by a real person (hi, that's us!).
