@@ -12,119 +12,123 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAssessmentProgress } from "@/hooks";
 import { HOME_SEO } from "@/lib/seo";
 
-// Geometric Pattern Background Component
-function GeometricPattern() {
+// Flowing Wave Pattern Background Component (matches footer style)
+function HeroPattern() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <svg
         className="absolute inset-0 w-full h-full"
         xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1200 600"
+        preserveAspectRatio="xMidYMin slice"
       >
         <defs>
-          <pattern
-            id="dots"
-            x="0"
-            y="0"
-            width="40"
-            height="40"
-            patternUnits="userSpaceOnUse"
-          >
-            <circle cx="2" cy="2" r="1" fill="rgba(163, 230, 53, 0.15)" />
-          </pattern>
-          <linearGradient id="heroGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop
-              offset="0%"
-              style={{ stopColor: "#0f172a", stopOpacity: 1 }}
-            />
-            <stop
-              offset="50%"
-              style={{ stopColor: "#1e3a8a", stopOpacity: 1 }}
-            />
-            <stop
-              offset="100%"
-              style={{ stopColor: "#3b82f6", stopOpacity: 1 }}
-            />
+          {/* Main gradient background - blue theme */}
+          <linearGradient id="heroBg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#0f172a" />
+            <stop offset="50%" stopColor="#1e3a8a" />
+            <stop offset="100%" stopColor="#2563eb" />
           </linearGradient>
+
+          {/* Lime accent gradient */}
+          <linearGradient id="heroLimeFlow" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#65a30d" stopOpacity="0.7" />
+            <stop offset="50%" stopColor="#84cc16" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="#a3e635" stopOpacity="0.4" />
+          </linearGradient>
+
+          {/* Blue flowing gradient */}
+          <linearGradient id="heroBlueFlow" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.5" />
+            <stop offset="100%" stopColor="#60a5fa" stopOpacity="0.25" />
+          </linearGradient>
+
+          {/* White accent gradient */}
+          <linearGradient id="heroWhiteFlow" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.4" />
+            <stop offset="100%" stopColor="#ffffff" stopOpacity="0.1" />
+          </linearGradient>
+
+          {/* Center darkening for text contrast */}
+          <radialGradient id="heroCenterDark" cx="50%" cy="40%" r="60%">
+            <stop offset="0%" stopColor="#1e3a8a" stopOpacity="0.3" />
+            <stop offset="100%" stopColor="#1e3a8a" stopOpacity="0" />
+          </radialGradient>
+
+          {/* Dot pattern */}
+          <pattern id="heroDots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="2" r="1" fill="rgba(163, 230, 53, 0.12)" />
+          </pattern>
         </defs>
 
-        {/* Background gradient */}
-        <rect width="100%" height="100%" fill="url(#heroGradient)" />
+        {/* Base background */}
+        <rect width="100%" height="100%" fill="url(#heroBg)" />
 
         {/* Dot pattern overlay */}
-        <rect width="100%" height="100%" fill="url(#dots)" opacity="0.5" />
+        <rect width="100%" height="100%" fill="url(#heroDots)" opacity="0.5" />
 
-        {/* Starfield - looking up at the night sky */}
-        {/* Bright stars */}
-        <g>
-          <circle cx="15%" cy="18%" r="2.5" fill="rgba(255, 255, 255, 0.9)" />
-          <circle cx="82%" cy="25%" r="2.2" fill="rgba(255, 255, 255, 0.85)" />
-          <circle cx="45%" cy="35%" r="2" fill="rgba(255, 255, 255, 0.8)" />
-          <circle cx="68%" cy="48%" r="2.3" fill="rgba(255, 255, 255, 0.9)" />
-          <circle cx="25%" cy="62%" r="2" fill="rgba(255, 255, 255, 0.85)" />
-          <circle cx="88%" cy="70%" r="2.2" fill="rgba(255, 255, 255, 0.8)" />
-          <circle cx="52%" cy="78%" r="2.5" fill="rgba(255, 255, 255, 0.9)" />
-        </g>
+        {/* Blue wave - subtle background depth */}
+        <path
+          d="M-100,120 C150,160 300,220 500,200 C700,180 900,100 1300,60"
+          fill="none"
+          stroke="url(#heroBlueFlow)"
+          strokeWidth="140"
+          strokeLinecap="round"
+          opacity="0.4"
+        />
 
-        {/* Medium stars */}
-        <g>
-          <circle cx="8%" cy="12%" r="1.5" fill="rgba(255, 255, 255, 0.7)" />
-          <circle cx="28%" cy="22%" r="1.3" fill="rgba(163, 230, 53, 0.6)" />
-          <circle cx="55%" cy="15%" r="1.4" fill="rgba(255, 255, 255, 0.65)" />
-          <circle cx="92%" cy="32%" r="1.5" fill="rgba(255, 255, 255, 0.7)" />
-          <circle cx="18%" cy="38%" r="1.4" fill="rgba(163, 230, 53, 0.6)" />
-          <circle cx="72%" cy="28%" r="1.3" fill="rgba(255, 255, 255, 0.65)" />
-          <circle cx="38%" cy="52%" r="1.5" fill="rgba(255, 255, 255, 0.7)" />
-          <circle cx="62%" cy="58%" r="1.4" fill="rgba(163, 230, 53, 0.6)" />
-          <circle cx="12%" cy="72%" r="1.5" fill="rgba(255, 255, 255, 0.65)" />
-          <circle cx="78%" cy="82%" r="1.3" fill="rgba(255, 255, 255, 0.7)" />
-          <circle cx="35%" cy="88%" r="1.4" fill="rgba(163, 230, 53, 0.6)" />
-          <circle cx="48%" cy="65%" r="1.5" fill="rgba(255, 255, 255, 0.65)" />
-        </g>
+        {/* Large lime shape - main trending up curve */}
+        <path
+          d="M-200,380 C0,420 150,480 350,460 C550,440 650,380 800,300 C950,220 1100,180 1400,120"
+          fill="none"
+          stroke="url(#heroLimeFlow)"
+          strokeWidth="180"
+          strokeLinecap="round"
+          opacity="0.5"
+        />
 
-        {/* Small distant stars */}
-        <g>
-          <circle cx="5%" cy="25%" r="1" fill="rgba(255, 255, 255, 0.5)" />
-          <circle cx="22%" cy="15%" r="0.8" fill="rgba(255, 255, 255, 0.45)" />
-          <circle cx="42%" cy="20%" r="0.9" fill="rgba(163, 230, 53, 0.4)" />
-          <circle cx="65%" cy="18%" r="1" fill="rgba(255, 255, 255, 0.5)" />
-          <circle cx="85%" cy="15%" r="0.8" fill="rgba(255, 255, 255, 0.45)" />
-          <circle cx="95%" cy="22%" r="0.9" fill="rgba(163, 230, 53, 0.4)" />
-          <circle cx="12%" cy="45%" r="1" fill="rgba(255, 255, 255, 0.5)" />
-          <circle cx="32%" cy="42%" r="0.8" fill="rgba(163, 230, 53, 0.4)" />
-          <circle cx="58%" cy="38%" r="0.9" fill="rgba(255, 255, 255, 0.45)" />
-          <circle cx="75%" cy="55%" r="1" fill="rgba(255, 255, 255, 0.5)" />
-          <circle cx="90%" cy="48%" r="0.8" fill="rgba(163, 230, 53, 0.4)" />
-          <circle cx="8%" cy="58%" r="0.9" fill="rgba(255, 255, 255, 0.45)" />
-          <circle cx="28%" cy="75%" r="1" fill="rgba(255, 255, 255, 0.5)" />
-          <circle cx="48%" cy="85%" r="0.8" fill="rgba(163, 230, 53, 0.4)" />
-          <circle cx="70%" cy="68%" r="0.9" fill="rgba(255, 255, 255, 0.45)" />
-          <circle cx="85%" cy="85%" r="1" fill="rgba(255, 255, 255, 0.5)" />
-          <circle cx="92%" cy="75%" r="0.8" fill="rgba(255, 255, 255, 0.45)" />
-          <circle cx="15%" cy="85%" r="0.9" fill="rgba(163, 230, 53, 0.4)" />
-        </g>
+        {/* Secondary lime flow - parallel trending up */}
+        <path
+          d="M-150,480 C50,530 200,590 400,570 C600,550 750,470 900,390 C1050,310 1200,250 1450,190"
+          fill="none"
+          stroke="url(#heroLimeFlow)"
+          strokeWidth="120"
+          strokeLinecap="round"
+          opacity="0.35"
+        />
 
-        {/* Tiny stars for depth */}
-        <g>
-          <circle cx="18%" cy="8%" r="0.6" fill="rgba(255, 255, 255, 0.35)" />
-          <circle cx="35%" cy="12%" r="0.5" fill="rgba(255, 255, 255, 0.3)" />
-          <circle cx="60%" cy="8%" r="0.6" fill="rgba(163, 230, 53, 0.3)" />
-          <circle cx="78%" cy="12%" r="0.5" fill="rgba(255, 255, 255, 0.35)" />
-          <circle cx="25%" cy="28%" r="0.6" fill="rgba(255, 255, 255, 0.3)" />
-          <circle cx="50%" cy="25%" r="0.5" fill="rgba(163, 230, 53, 0.3)" />
-          <circle cx="88%" cy="38%" r="0.6" fill="rgba(255, 255, 255, 0.35)" />
-          <circle cx="8%" cy="48%" r="0.5" fill="rgba(255, 255, 255, 0.3)" />
-          <circle cx="42%" cy="48%" r="0.6" fill="rgba(163, 230, 53, 0.3)" />
-          <circle cx="65%" cy="42%" r="0.5" fill="rgba(255, 255, 255, 0.35)" />
-          <circle cx="20%" cy="55%" r="0.6" fill="rgba(255, 255, 255, 0.3)" />
-          <circle cx="82%" cy="62%" r="0.5" fill="rgba(163, 230, 53, 0.3)" />
-          <circle cx="55%" cy="72%" r="0.6" fill="rgba(255, 255, 255, 0.35)" />
-          <circle cx="38%" cy="68%" r="0.5" fill="rgba(255, 255, 255, 0.3)" />
-          <circle cx="72%" cy="78%" r="0.6" fill="rgba(163, 230, 53, 0.3)" />
-          <circle cx="15%" cy="92%" r="0.5" fill="rgba(255, 255, 255, 0.35)" />
-          <circle cx="45%" cy="95%" r="0.6" fill="rgba(255, 255, 255, 0.3)" />
-          <circle cx="68%" cy="92%" r="0.5" fill="rgba(163, 230, 53, 0.3)" />
-          <circle cx="88%" cy="95%" r="0.6" fill="rgba(255, 255, 255, 0.35)" />
-        </g>
+        {/* Center overlay for text contrast */}
+        <rect width="100%" height="100%" fill="url(#heroCenterDark)" />
+
+        {/* White accent line 1 - main trending up stroke */}
+        <path
+          d="M-80,400 C80,440 200,500 380,480 C560,460 680,380 820,300 C960,220 1100,180 1280,130"
+          fill="none"
+          stroke="url(#heroWhiteFlow)"
+          strokeWidth="4"
+          strokeLinecap="round"
+          opacity="0.7"
+        />
+
+        {/* White accent line 2 - inner parallel */}
+        <path
+          d="M-40,360 C120,390 220,440 380,430 C540,420 680,360 800,290 C920,220 1050,190 1220,150"
+          fill="none"
+          stroke="url(#heroWhiteFlow)"
+          strokeWidth="2"
+          strokeLinecap="round"
+          opacity="0.5"
+        />
+
+        {/* Lower blue depth layer */}
+        <path
+          d="M-200,580 C100,540 300,600 550,560 C800,520 950,480 1200,440 C1350,410 1450,450 1500,420"
+          fill="none"
+          stroke="url(#heroBlueFlow)"
+          strokeWidth="100"
+          strokeLinecap="round"
+          opacity="0.3"
+        />
       </svg>
     </div>
   );
@@ -230,9 +234,9 @@ function HomePage() {
 
   return (
     <div className="min-h-screen bg-stone-50">
-      {/* Hero Section with Geometric Pattern */}
-      <section className="relative py-20 md:py-32 px-6 overflow-hidden">
-        <GeometricPattern />
+      {/* Hero Section with Flowing Wave Pattern */}
+      <section className="relative pt-20 md:pt-32 pb-24 md:pb-32 px-6 overflow-hidden">
+        <HeroPattern />
 
         {/* Content overlay */}
         <Container className="relative z-10">
@@ -303,6 +307,24 @@ function HomePage() {
               </Link>
             </div>
           </div>
+
+          {/* Stats cards on blue background */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mt-16 md:mt-20">
+            {stats.map((stat, index) => (
+              <div
+                key={stat.label}
+                className="text-center p-4 md:p-6 rounded-xl bg-white border border-blue-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 transform"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-blue-700 mb-2 leading-tight">
+                  {stat.value}
+                </div>
+                <div className="text-xs md:text-sm text-slate-600 font-medium leading-snug">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
         </Container>
 
         {/* Wave divider */}
@@ -318,28 +340,6 @@ function HomePage() {
             />
           </svg>
         </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-16 bg-linear-to-b from-stone-50 via-blue-50/40 to-stone-50">
-        <Container>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-            {stats.map((stat, index) => (
-              <div
-                key={stat.label}
-                className="text-center p-4 md:p-6 rounded-xl bg-white border border-blue-100 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 transform"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-blue-700 mb-2 leading-tight">
-                  {stat.value}
-                </div>
-                <div className="text-xs md:text-sm text-slate-600 font-medium leading-snug">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </Container>
       </section>
 
       {/* How It Works */}
