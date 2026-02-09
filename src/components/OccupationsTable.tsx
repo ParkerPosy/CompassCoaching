@@ -651,8 +651,8 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
 
       {/* Pagination */}
       {data && (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-2">
-          <div className="text-sm text-stone-600">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 px-2">
+          <div className="text-sm text-stone-600 whitespace-nowrap">
             Page {pagination.pageIndex + 1} of {data.meta.totalPages}
           </div>
 
@@ -663,11 +663,41 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
             >
-              <ChevronLeft className="w-4 h-4 mr-1" />
-              Previous
+              <ChevronLeft className="w-4 h-4 md:mr-1" />
+              <span className="hidden md:inline">Previous</span>
             </Button>
 
-            <div className="flex items-center gap-1">
+            {/* Mobile: show 3 page buttons */}
+            <div className="flex md:hidden items-center gap-1">
+              {Array.from({ length: Math.min(3, data.meta.totalPages) }, (_, i) => {
+                let pageNum: number;
+
+                if (data.meta.totalPages <= 3) {
+                  pageNum = i;
+                } else if (pagination.pageIndex < 2) {
+                  pageNum = i;
+                } else if (pagination.pageIndex > data.meta.totalPages - 3) {
+                  pageNum = data.meta.totalPages - 3 + i;
+                } else {
+                  pageNum = pagination.pageIndex - 1 + i;
+                }
+
+                return (
+                  <Button
+                    key={pageNum}
+                    variant={pagination.pageIndex === pageNum ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setPagination({ ...pagination, pageIndex: pageNum })}
+                    className="w-10"
+                  >
+                    {pageNum + 1}
+                  </Button>
+                );
+              })}
+            </div>
+
+            {/* Desktop: show 5 page buttons */}
+            <div className="hidden md:flex items-center gap-1">
               {Array.from({ length: Math.min(5, data.meta.totalPages) }, (_, i) => {
                 let pageNum: number;
 
@@ -701,12 +731,12 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
             >
-              Next
-              <ChevronRight className="w-4 h-4 ml-1" />
+              <span className="hidden md:inline">Next</span>
+              <ChevronRight className="w-4 h-4 md:ml-1" />
             </Button>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 whitespace-nowrap">
             <span className="text-sm text-stone-600">Show</span>
             <Select
               size="sm"
