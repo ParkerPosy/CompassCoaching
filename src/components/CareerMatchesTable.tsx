@@ -207,7 +207,7 @@ export function CareerMatchesTable({
       <div className="bg-gradient-to-r from-lime-50 via-lime-100/50 to-stone-50 border-b border-lime-200 px-4 sm:px-6 py-3 sm:py-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <div>
-            <h3 className="text-base sm:text-lg font-semibold text-stone-800">
+            <h3 className="text-base sm:text-lg font-semibold text-stone-700">
               Found {total} Career Match{total !== 1 ? 'es' : ''}
             </h3>
             <p className="text-xs sm:text-sm text-stone-600">
@@ -271,7 +271,7 @@ export function CareerMatchesTable({
                             {matchBadge.label}
                           </span>
                         </div>
-                        <h4 className="text-base sm:text-lg font-bold text-stone-800 mb-1">
+                        <h4 className="text-base sm:text-lg font-bold text-stone-700 mb-1">
                           {match.title}
                         </h4>
                         <div className="flex flex-wrap items-center gap-x-3 sm:gap-x-4 gap-y-1.5 sm:gap-y-2 text-xs sm:text-sm text-stone-600">
@@ -338,7 +338,7 @@ export function CareerMatchesTable({
                   <div className="grid md:grid-cols-2 gap-6">
                     {/* Salary Details */}
                     <div>
-                      <h5 className="font-semibold text-stone-800 mb-3 flex items-center gap-2">
+                      <h5 className="font-semibold text-stone-700 mb-3 flex items-center gap-2">
                         <DollarSign className="w-4 h-4 text-green-600" />
                         Salary Range {selectedCounty && `(${selectedCounty} County)`}
                       </h5>
@@ -366,7 +366,7 @@ export function CareerMatchesTable({
 
                     {/* Career Outlook */}
                     <div>
-                      <h5 className="font-semibold text-stone-800 mb-3 flex items-center gap-2">
+                      <h5 className="font-semibold text-stone-700 mb-3 flex items-center gap-2">
                         <TrendingUp className="w-4 h-4 text-blue-600" />
                         Career Outlook
                       </h5>
@@ -400,7 +400,7 @@ export function CareerMatchesTable({
 
                     {/* Work Environment */}
                     <div>
-                      <h5 className="font-semibold text-stone-800 mb-3 flex items-center gap-2">
+                      <h5 className="font-semibold text-stone-700 mb-3 flex items-center gap-2">
                         <Briefcase className="w-4 h-4 text-purple-600" />
                         Work Environment
                       </h5>
@@ -432,7 +432,7 @@ export function CareerMatchesTable({
 
                     {/* Key Skills */}
                     <div>
-                      <h5 className="font-semibold text-stone-800 mb-3 flex items-center gap-2">
+                      <h5 className="font-semibold text-stone-700 mb-3 flex items-center gap-2">
                         <Sparkles className="w-4 h-4 text-yellow-600" />
                         Key Skills Required
                       </h5>

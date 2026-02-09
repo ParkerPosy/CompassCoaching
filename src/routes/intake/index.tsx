@@ -90,9 +90,9 @@ function IntakePage() {
         <Container size="sm">
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-lime-400 rounded-full mb-6">
-              <Compass className="w-8 h-8 text-stone-800" />
+              <Compass className="w-8 h-8 text-stone-700" />
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-stone-800 mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-stone-700 mb-4">
               Career Assessment
             </h1>
             <p className="text-xl text-stone-600 mb-6">
@@ -113,7 +113,7 @@ function IntakePage() {
           </div>
 
           <Card variant="elevated" className="p-8 mb-8">
-            <h2 className="text-2xl font-semibold text-stone-800 mb-4">
+            <h2 className="text-2xl font-semibold text-stone-700 mb-4">
               What You'll Learn
             </h2>
             <ul className="space-y-3">
@@ -129,7 +129,7 @@ function IntakePage() {
           <div className="text-center">
             <Link
               to={buttonDestination}
-              className="inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-lime-400 text-stone-800 hover:bg-lime-500 active:bg-lime-600 focus:ring-lime-400 px-6 py-3 text-lg mb-4"
+              className="inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-lime-400 text-stone-700 hover:bg-lime-500 active:bg-lime-600 focus:ring-lime-400 px-6 py-3 text-lg mb-4"
             >
               {buttonText}
               <ArrowRight className="w-5 h-5" />
@@ -147,7 +147,7 @@ function IntakePage() {
       <section className="py-16 px-6">
         <Container>
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-stone-800 mb-4">
+            <h2 className="text-3xl font-bold text-stone-700 mb-4">
               Assessment Sections
             </h2>
             <p className="text-lg text-stone-600 max-w-2xl mx-auto">
@@ -185,7 +185,7 @@ function IntakePage() {
             {/* Results Card */}
             <Card variant="outlined" className="bg-lime-50 border-lime-300">
               <CardHeader>
-                <div className="w-12 h-12 bg-lime-400 rounded-lg flex items-center justify-center mb-4 text-stone-800">
+                <div className="w-12 h-12 bg-lime-400 rounded-lg flex items-center justify-center mb-4 text-stone-700">
                   <Compass className="w-6 h-6" />
                 </div>
                 <CardTitle className="text-lg">Your Results</CardTitle>
@@ -208,18 +208,18 @@ function IntakePage() {
       <section className="py-16 px-6 bg-white">
         <Container size="sm">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-stone-800 mb-4">
+            <h2 className="text-3xl font-bold text-stone-700 mb-4">
               How It Works
             </h2>
           </div>
 
           <div className="space-y-8">
             <div className="flex gap-4">
-              <div className="w-8 h-8 bg-lime-400 rounded-full flex items-center justify-center shrink-0 text-stone-800 font-semibold">
+              <div className="w-8 h-8 bg-lime-400 rounded-full flex items-center justify-center shrink-0 text-stone-700 font-semibold">
                 1
               </div>
               <div>
-                <h3 className="text-xl font-semibold text-stone-800 mb-2">
+                <h3 className="text-xl font-semibold text-stone-700 mb-2">
                   Answer Honestly
                 </h3>
                 <p className="text-stone-600">
@@ -230,11 +230,11 @@ function IntakePage() {
             </div>
 
             <div className="flex gap-4">
-              <div className="w-8 h-8 bg-lime-400 rounded-full flex items-center justify-center shrink-0 text-stone-800 font-semibold">
+              <div className="w-8 h-8 bg-lime-400 rounded-full flex items-center justify-center shrink-0 text-stone-700 font-semibold">
                 2
               </div>
               <div>
-                <h3 className="text-xl font-semibold text-stone-800 mb-2">
+                <h3 className="text-xl font-semibold text-stone-700 mb-2">
                   Save Your Progress
                 </h3>
                 <p className="text-stone-600">
@@ -245,11 +245,11 @@ function IntakePage() {
             </div>
 
             <div className="flex gap-4">
-              <div className="w-8 h-8 bg-lime-400 rounded-full flex items-center justify-center shrink-0 text-stone-800 font-semibold">
+              <div className="w-8 h-8 bg-lime-400 rounded-full flex items-center justify-center shrink-0 text-stone-700 font-semibold">
                 3
               </div>
               <div>
-                <h3 className="text-xl font-semibold text-stone-800 mb-2">
+                <h3 className="text-xl font-semibold text-stone-700 mb-2">
                   Get Your Results
                 </h3>
                 <p className="text-stone-600">
@@ -266,15 +266,15 @@ function IntakePage() {
       <section className="py-16 px-6 bg-linear-to-br from-lime-400 to-lime-500">
         <Container size="sm">
           <div className="text-center">
-            <h2 className="text-3xl font-bold text-stone-800 mb-4">
+            <h2 className="text-3xl font-bold text-stone-700 mb-4">
               Ready to Get Started?
             </h2>
-            <p className="text-lg text-stone-800 mb-8">
+            <p className="text-lg text-stone-700 mb-8">
               Your journey to clarity begins with one assessment.
             </p>
             <Link
               to={buttonDestination}
-              className="inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-stone-200 text-stone-800 hover:bg-stone-300 active:bg-stone-400 focus:ring-stone-300 px-6 py-3 text-lg"
+              className="inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-stone-200 text-stone-700 hover:bg-stone-300 active:bg-stone-400 focus:ring-stone-300 px-6 py-3 text-lg"
             >
               {buttonText}
               <ArrowRight className="w-5 h-5" />

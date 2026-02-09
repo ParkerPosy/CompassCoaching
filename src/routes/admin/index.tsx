@@ -262,7 +262,7 @@ function AdminPage() {
             <div className="w-10 h-10 bg-lime-600 rounded-lg flex items-center justify-center">
               <Shield className="w-5 h-5 text-white" />
             </div>
-            <h1 className="text-3xl font-bold text-stone-800">Admin Dashboard</h1>
+            <h1 className="text-3xl font-bold text-stone-700">Admin Dashboard</h1>
           </div>
           <p className="text-stone-600">
             Welcome{isLoaded && user?.firstName ? `, ${user.firstName}` : ""}. View platform statistics and user activity.
@@ -290,7 +290,7 @@ function AdminPage() {
                 </div>
                 <div>
                   <p className="text-sm text-stone-500">Total Users</p>
-                  <p className="text-2xl font-bold text-stone-800">{stats.totalUsers}</p>
+                  <p className="text-2xl font-bold text-stone-700">{stats.totalUsers}</p>
                 </div>
               </div>
             </CardContent>
@@ -304,7 +304,7 @@ function AdminPage() {
                 </div>
                 <div>
                   <p className="text-sm text-stone-500">New This Month</p>
-                  <p className="text-2xl font-bold text-stone-800">{stats.recentSignups}</p>
+                  <p className="text-2xl font-bold text-stone-700">{stats.recentSignups}</p>
                 </div>
               </div>
             </CardContent>
@@ -318,7 +318,7 @@ function AdminPage() {
                 </div>
                 <div>
                   <p className="text-sm text-stone-500">Active This Week</p>
-                  <p className="text-2xl font-bold text-stone-800">{stats.activeThisWeek}</p>
+                  <p className="text-2xl font-bold text-stone-700">{stats.activeThisWeek}</p>
                 </div>
               </div>
             </CardContent>
@@ -372,7 +372,7 @@ function AdminPage() {
                               <Link
                                 to="/admin/user/$userId"
                                 params={{ userId: userRow.clerkId }}
-                                className="font-medium text-stone-800 hover:text-lime-600 transition-colors"
+                                className="font-medium text-stone-700 hover:text-lime-600 transition-colors"
                               >
                                 {userRow.name || "No name"}
                               </Link>
@@ -472,7 +472,7 @@ function AdminPage() {
           </CardHeader>
           <CardContent className="space-y-4 text-sm text-stone-600">
             <div>
-              <h4 className="font-medium text-stone-800 mb-1">Career Assessment</h4>
+              <h4 className="font-medium text-stone-700 mb-1">Career Assessment</h4>
               <p>
                 Visitors take a 5-section assessment covering personality, values, aptitudes, and life challenges.
                 Results are stored in their browser—not on our servers—for privacy. Users can download their results
@@ -480,14 +480,14 @@ function AdminPage() {
               </p>
             </div>
             <div>
-              <h4 className="font-medium text-stone-800 mb-1">User Accounts</h4>
+              <h4 className="font-medium text-stone-700 mb-1">User Accounts</h4>
               <p>
                 Signing in is optional. Logged-in users can save progress across devices and access their
                 personalized dashboard. Admin access (like this page) is granted through Clerk user metadata.
               </p>
             </div>
             <div>
-              <h4 className="font-medium text-stone-800 mb-1">Admin Notes</h4>
+              <h4 className="font-medium text-stone-700 mb-1">Admin Notes</h4>
               <p>
                 Use the table above to track notes about users you've counseled. Notes are saved to the database
                 and persist across sessions. Users cannot see these notes.
@@ -533,7 +533,7 @@ function AdminPage() {
                       results: state.results,
                     }, null, 2));
                   }}
-                  className="p-2 rounded hover:bg-stone-800 text-stone-400 hover:text-stone-200 transition-colors"
+                  className="p-2 rounded hover:bg-stone-700 text-stone-400 hover:text-stone-200 transition-colors"
                   title="Copy state to clipboard"
                 >
                   <Copy className="w-4 h-4" />
@@ -541,7 +541,7 @@ function AdminPage() {
                 <button
                   type="button"
                   onClick={handleResetAssessment}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded bg-stone-800 hover:bg-stone-700 text-sm transition-colors"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded bg-stone-700 hover:bg-stone-700 text-sm transition-colors"
                 >
                   {resetConfirmed ? (
                     <>
@@ -559,7 +559,7 @@ function AdminPage() {
             </div>
 
             {/* External Services */}
-            <div className="mt-3 pt-3 border-t border-stone-800">
+            <div className="mt-3 pt-3 border-t border-stone-700">
               <div className="text-xs text-stone-600 mb-2">External Services</div>
               <div className="flex flex-col sm:flex-row gap-4 text-xs">
                 <div className="flex items-center gap-2">

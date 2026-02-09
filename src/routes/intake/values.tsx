@@ -155,7 +155,7 @@ function ValuesPage() {
                   className="pb-6 border-b border-stone-200 last:border-0 last:pb-0"
                 >
                   <div className="mb-3">
-                    <h3 className="text-lg font-semibold text-stone-800">
+                    <h3 className="text-lg font-semibold text-stone-700">
                       {value.label}
                     </h3>
                     <p className="text-sm text-stone-600">

@@ -41,7 +41,7 @@ export function ProgressBar({
             <span className="text-sm font-medium text-stone-700">{label}</span>
           )}
           {showPercentage && (
-            <span className="text-sm font-semibold text-stone-800">
+            <span className="text-sm font-semibold text-stone-700">
               {clampedValue}%
             </span>
           )}

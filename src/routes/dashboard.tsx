@@ -82,7 +82,7 @@ function DashboardPage() {
         {/* Welcome Section */}
         <div className="mb-8 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-stone-800 mb-2">
+            <h1 className="text-3xl font-bold text-stone-700 mb-2">
               Welcome back{isLoaded && user?.firstName ? `, ${user.firstName}` : ""}!
             </h1>
             <p className="text-stone-600">
@@ -122,7 +122,7 @@ function DashboardPage() {
                 </div>
                 <div>
                   <p className="text-sm text-stone-500">Account Status</p>
-                  <p className="text-lg font-semibold text-stone-800">Active</p>
+                  <p className="text-lg font-semibold text-stone-700">Active</p>
                 </div>
               </div>
             </CardContent>
@@ -136,7 +136,7 @@ function DashboardPage() {
                 </div>
                 <div>
                   <p className="text-sm text-stone-500">Assessment Progress</p>
-                  <p className="text-lg font-semibold text-stone-800">
+                  <p className="text-lg font-semibold text-stone-700">
                     {!_hasHydrated ? "Loading..." : results ? "Completed" : `${sectionsCompleted}/5 Sections`}
                   </p>
                 </div>
@@ -152,7 +152,7 @@ function DashboardPage() {
                 </div>
                 <div>
                   <p className="text-sm text-stone-500">Member Since</p>
-                  <p className="text-lg font-semibold text-stone-800">
+                  <p className="text-lg font-semibold text-stone-700">
                     {isLoaded && user?.createdAt
                       ? new Date(user.createdAt).toLocaleDateString("en-US", {
                           month: "short",
@@ -181,7 +181,7 @@ function DashboardPage() {
                 <div className="space-y-4">
                   <div>
                     <p className="text-sm text-stone-500">Email</p>
-                    <p className="text-stone-800">
+                    <p className="text-stone-700">
                       {isLoaded ? user?.primaryEmailAddress?.emailAddress : "Loading..."}
                     </p>
                   </div>

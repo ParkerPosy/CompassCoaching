@@ -225,7 +225,7 @@ function ResultsPage() {
                   <User className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-stone-800">Your Profile at a Glance</h3>
+                  <h3 className="text-xl font-bold text-stone-700">Your Profile at a Glance</h3>
                   <p className="text-stone-600">Based on your assessment responses</p>
                 </div>
               </div>
@@ -235,7 +235,7 @@ function ResultsPage() {
                 <div className="bg-white rounded-lg p-4 border border-stone-200">
                   <div className="flex items-center gap-2 mb-3">
                     <Puzzle className="w-5 h-5 text-purple-600" />
-                    <h4 className="font-semibold text-stone-800">Top Aptitudes</h4>
+                    <h4 className="font-semibold text-stone-700">Top Aptitudes</h4>
                   </div>
                   <div className="space-y-2">
                     {topAptitudes.map((apt, i) => (
@@ -253,7 +253,7 @@ function ResultsPage() {
                 <div className="bg-white rounded-lg p-4 border border-stone-200">
                   <div className="flex items-center gap-2 mb-3">
                     <Heart className="w-5 h-5 text-pink-600" />
-                    <h4 className="font-semibold text-stone-800">What Matters Most</h4>
+                    <h4 className="font-semibold text-stone-700">What Matters Most</h4>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {topValues.map((value) => (
@@ -276,18 +276,18 @@ function ResultsPage() {
                 <div className="bg-white rounded-lg p-4 border border-stone-200">
                   <div className="flex items-center gap-2 mb-3">
                     <GraduationCap className="w-5 h-5 text-blue-600" />
-                    <h4 className="font-semibold text-stone-800">Current Situation</h4>
+                    <h4 className="font-semibold text-stone-700">Current Situation</h4>
                   </div>
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center gap-2 text-stone-600">
                       <span>Education:</span>
-                      <span className="font-medium text-stone-800">
+                      <span className="font-medium text-stone-700">
                         {storedResults.basic.educationLevel.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
                       </span>
                     </div>
                     <div className="flex items-center gap-2 text-stone-600">
                       <span>Status:</span>
-                      <span className="font-medium text-stone-800">
+                      <span className="font-medium text-stone-700">
                         {storedResults.basic.employmentStatus.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
                       </span>
                     </div>
@@ -303,7 +303,7 @@ function ResultsPage() {
           <section className="mb-12">
             <div className="flex items-center gap-3 mb-6">
               <Compass className="w-6 h-6 text-indigo-600" />
-              <h2 className="text-3xl font-bold text-stone-800">Your Work Style Profile</h2>
+              <h2 className="text-3xl font-bold text-stone-700">Your Work Style Profile</h2>
             </div>
             <Card>
               <CardContent className="p-6">
@@ -315,42 +315,42 @@ function ResultsPage() {
                     <Briefcase className="w-5 h-5 text-blue-600 mt-0.5" />
                     <div>
                       <p className="text-xs text-stone-500 uppercase tracking-wide">Environment</p>
-                      <p className="font-medium text-stone-800">{workStyleProfile.environment}</p>
+                      <p className="font-medium text-stone-700">{workStyleProfile.environment}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3 p-3 bg-stone-50 rounded-lg">
                     <Users className="w-5 h-5 text-purple-600 mt-0.5" />
                     <div>
                       <p className="text-xs text-stone-500 uppercase tracking-wide">Interaction</p>
-                      <p className="font-medium text-stone-800">{workStyleProfile.interaction}</p>
+                      <p className="font-medium text-stone-700">{workStyleProfile.interaction}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3 p-3 bg-stone-50 rounded-lg">
                     <Target className="w-5 h-5 text-green-600 mt-0.5" />
                     <div>
                       <p className="text-xs text-stone-500 uppercase tracking-wide">Structure</p>
-                      <p className="font-medium text-stone-800">{workStyleProfile.structure}</p>
+                      <p className="font-medium text-stone-700">{workStyleProfile.structure}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3 p-3 bg-stone-50 rounded-lg">
                     <Clock className="w-5 h-5 text-orange-600 mt-0.5" />
                     <div>
                       <p className="text-xs text-stone-500 uppercase tracking-wide">Work Pace</p>
-                      <p className="font-medium text-stone-800">{workStyleProfile.pace}</p>
+                      <p className="font-medium text-stone-700">{workStyleProfile.pace}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3 p-3 bg-stone-50 rounded-lg">
                     <Lightbulb className="w-5 h-5 text-yellow-600 mt-0.5" />
                     <div>
                       <p className="text-xs text-stone-500 uppercase tracking-wide">Decision Making</p>
-                      <p className="font-medium text-stone-800">{workStyleProfile.decisionStyle}</p>
+                      <p className="font-medium text-stone-700">{workStyleProfile.decisionStyle}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3 p-3 bg-stone-50 rounded-lg">
                     <Zap className="w-5 h-5 text-pink-600 mt-0.5" />
                     <div>
                       <p className="text-xs text-stone-500 uppercase tracking-wide">Energy From</p>
-                      <p className="font-medium text-stone-800">{workStyleProfile.energySource}</p>
+                      <p className="font-medium text-stone-700">{workStyleProfile.energySource}</p>
                     </div>
                   </div>
                   {workStyleProfile.schedule && (
@@ -358,7 +358,7 @@ function ResultsPage() {
                       <Clock className="w-5 h-5 text-teal-600 mt-0.5" />
                       <div>
                         <p className="text-xs text-stone-500 uppercase tracking-wide">Schedule</p>
-                        <p className="font-medium text-stone-800">{workStyleProfile.schedule}</p>
+                        <p className="font-medium text-stone-700">{workStyleProfile.schedule}</p>
                       </div>
                     </div>
                   )}
@@ -367,7 +367,7 @@ function ResultsPage() {
                       <MapPin className="w-5 h-5 text-rose-600 mt-0.5" />
                       <div>
                         <p className="text-xs text-stone-500 uppercase tracking-wide">Travel</p>
-                        <p className="font-medium text-stone-800">{workStyleProfile.travel}</p>
+                        <p className="font-medium text-stone-700">{workStyleProfile.travel}</p>
                       </div>
                     </div>
                   )}
@@ -376,7 +376,7 @@ function ResultsPage() {
                       <Zap className="w-5 h-5 text-amber-600 mt-0.5" />
                       <div>
                         <p className="text-xs text-stone-500 uppercase tracking-wide">Physical Activity</p>
-                        <p className="font-medium text-stone-800">{workStyleProfile.physicalDemands}</p>
+                        <p className="font-medium text-stone-700">{workStyleProfile.physicalDemands}</p>
                       </div>
                     </div>
                   )}
@@ -390,7 +390,7 @@ function ResultsPage() {
         <section className="mb-12">
           <div className="flex items-center gap-3 mb-6">
             <TrendingUp className="w-6 h-6 text-blue-600" />
-            <h2 className="text-3xl font-bold text-stone-800">
+            <h2 className="text-3xl font-bold text-stone-700">
               Your Top Career Fields
             </h2>
           </div>
@@ -436,7 +436,7 @@ function ResultsPage() {
         <section className="mb-12">
           <div className="flex items-center gap-3 mb-6">
             <Heart className="w-6 h-6 text-rose-500" />
-            <h2 className="text-3xl font-bold text-stone-800">
+            <h2 className="text-3xl font-bold text-stone-700">
               Your Core Values
             </h2>
           </div>
@@ -452,7 +452,7 @@ function ResultsPage() {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-2">
-                        <h3 className="font-semibold text-stone-800">
+                        <h3 className="font-semibold text-stone-700">
                           {value.value}
                         </h3>
                         <span className="text-sm font-medium text-rose-600">
@@ -477,7 +477,7 @@ function ResultsPage() {
         <section className="mb-12">
           <div className="flex items-center gap-3 mb-6">
             <Lightbulb className="w-6 h-6 text-amber-500" />
-            <h2 className="text-3xl font-bold text-stone-800">
+            <h2 className="text-3xl font-bold text-stone-700">
               Personality Insights
             </h2>
           </div>
@@ -499,7 +499,7 @@ function ResultsPage() {
         <section className="mb-12">
           <div className="flex items-center gap-3 mb-6">
             <Target className="w-6 h-6 text-orange-500" />
-            <h2 className="text-3xl font-bold text-stone-800">
+            <h2 className="text-3xl font-bold text-stone-700">
               Personalized Recommendations
             </h2>
           </div>
@@ -513,7 +513,7 @@ function ResultsPage() {
                         {index + 1}
                       </span>
                     </div>
-                    <span className="text-stone-800">{recommendation}</span>
+                    <span className="text-stone-700">{recommendation}</span>
                   </li>
                 ))}
               </ul>
@@ -525,7 +525,7 @@ function ResultsPage() {
         <section className="mb-12">
           <div className="flex items-center gap-3 mb-6">
             <Briefcase className="w-6 h-6 text-emerald-600" />
-            <h2 className="text-3xl font-bold text-stone-800">
+            <h2 className="text-3xl font-bold text-stone-700">
               Your Personalized Career Matches
             </h2>
           </div>
@@ -577,7 +577,7 @@ function ResultsPage() {
         <section className="mb-12">
           <div className="flex items-center gap-3 mb-6">
             <CheckCircle className="w-6 h-6 text-violet-600" />
-            <h2 className="text-3xl font-bold text-stone-800">
+            <h2 className="text-3xl font-bold text-stone-700">
               Your Next Steps
             </h2>
           </div>
@@ -612,7 +612,7 @@ function ResultsPage() {
           </Button>
           <Link
             to="/resources"
-            className="inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-stone-200 text-stone-800 hover:bg-stone-300 active:bg-stone-400 focus:ring-stone-300 px-6 py-3 text-lg"
+            className="inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-stone-200 text-stone-700 hover:bg-stone-300 active:bg-stone-400 focus:ring-stone-300 px-6 py-3 text-lg"
           >
             Explore Resources
           </Link>
@@ -634,7 +634,7 @@ function ResultsPage() {
         <div className="text-center">
           <Link
             to="/intake/review"
-            className="inline-flex items-center gap-2 text-stone-600 hover:text-stone-800 transition-colors"
+            className="inline-flex items-center gap-2 text-stone-600 hover:text-stone-700 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Review

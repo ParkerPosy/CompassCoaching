@@ -43,7 +43,7 @@ export const CardTitle = forwardRef<
   return (
     <h3
       ref={ref}
-      className={cn("text-xl font-semibold text-stone-800", className)}
+      className={cn("text-xl font-semibold text-stone-700", className)}
       {...props}
     />
   );

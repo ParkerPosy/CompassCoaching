@@ -83,7 +83,7 @@ function CareersPage() {
       <section className="py-12">
         <Container>
           <div id="browse-occupations" className="mb-8">
-            <h2 className="text-2xl font-bold text-stone-800 mb-2">
+            <h2 className="text-2xl font-bold text-stone-700 mb-2">
               Browse All Occupations
             </h2>
             <p className="text-stone-600">

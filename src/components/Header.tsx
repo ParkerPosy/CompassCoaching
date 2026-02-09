@@ -110,7 +110,7 @@ export default function Header() {
                 <span className="bg-linear-to-r from-lime-600 to-lime-500 bg-clip-text text-transparent">
                   Compass
                 </span>
-                <span className="text-stone-800">Coaching</span>
+                <span className="text-stone-700">Coaching</span>
               </div>
             </Link>
           </h1>
@@ -128,7 +128,7 @@ export default function Header() {
           </button>
           <SignedOut>
             <SignInButton mode="modal">
-              <button className="px-4 py-2 text-sm font-medium text-stone-700 hover:text-stone-800 hover:bg-stone-100 rounded-lg transition-colors">
+              <button className="px-4 py-2 text-sm font-medium text-stone-700 hover:text-stone-700 hover:bg-stone-100 rounded-lg transition-colors">
                 Sign In
               </button>
             </SignInButton>
@@ -152,7 +152,7 @@ export default function Header() {
         }`}
       >
         <div className="flex items-center justify-between p-4 border-b border-stone-200">
-          <h2 className="text-xl font-bold text-stone-800">Navigation</h2>
+          <h2 className="text-xl font-bold text-stone-700">Navigation</h2>
           <button
             type="button"
             onClick={() => setIsOpen(false)}
@@ -327,7 +327,7 @@ export default function Header() {
             <button
               type="button"
               onClick={() => setShowAssessmentMenu((prev) => !prev)}
-              className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-stone-50 transition-colors mb-2 text-stone-800 font-medium"
+              className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-stone-50 transition-colors mb-2 text-stone-700 font-medium"
             >
               <div className="flex items-center gap-3">
                 <Target size={20} />
@@ -411,7 +411,7 @@ export default function Header() {
             {/* Sign In - mobile only */}
             <SignedOut>
               <SignInButton mode="modal">
-                <button className="w-full py-3 text-sm font-medium text-white bg-stone-800 hover:bg-stone-900 rounded-lg transition-colors sm:hidden">
+                <button className="w-full py-3 text-sm font-medium text-white bg-stone-700 hover:bg-stone-900 rounded-lg transition-colors sm:hidden">
                   Sign In
                 </button>
               </SignInButton>

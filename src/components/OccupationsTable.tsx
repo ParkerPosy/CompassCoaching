@@ -109,7 +109,7 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
         cell: (info) => (
           <div className="flex items-start gap-3">
             <div className="flex-1 min-w-0">
-              <div className="font-semibold text-stone-800 text-base">
+              <div className="font-semibold text-stone-700 text-base">
                 {info.getValue() as string}
               </div>
               <div className="text-xs text-stone-500 font-mono mt-0.5">
@@ -195,7 +195,7 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
           );
         },
         cell: (info) => (
-          <div className="text-stone-800 font-semibold">
+          <div className="text-stone-700 font-semibold">
             {formatCurrency(info.getValue() as number | null)}
           </div>
         ),
@@ -258,7 +258,7 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
           </div>
         ),
         cell: (info) => (
-          <div className="text-stone-800 font-semibold">
+          <div className="text-stone-700 font-semibold">
             {formatCurrency(info.getValue() as number | null)}
           </div>
         ),
@@ -458,7 +458,7 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
                   {headerGroup.headers.map((header) => (
                     <th
                       key={header.id}
-                      className="px-6 py-4 text-left text-xs font-semibold text-stone-800 uppercase tracking-wider"
+                      className="px-6 py-4 text-left text-xs font-semibold text-stone-700 uppercase tracking-wider"
                       style={{ width: `${header.getSize()}px` }}
                     >
                       {header.isPlaceholder
@@ -573,7 +573,7 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
                             }}
                           >
                             <div className="space-y-3">
-                              <h4 className="text-sm font-bold text-stone-800 mb-4 flex items-center gap-2 uppercase tracking-wide">
+                              <h4 className="text-sm font-bold text-stone-700 mb-4 flex items-center gap-2 uppercase tracking-wide">
                                 <MapPin className="w-4 h-4 text-blue-600" />
                                 County-Specific Salary Data
                                 <span className="text-xs font-normal text-stone-500 ml-auto">(Click anywhere to collapse)</span>
@@ -601,7 +601,7 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
                                       >
                                         <div className="flex items-center justify-between mb-3">
                                           <h5 className={`text-sm font-bold flex items-center gap-2 ${
-                                            isSelected ? 'text-blue-900' : 'text-stone-800'
+                                            isSelected ? 'text-blue-900' : 'text-stone-700'
                                           }`}>
                                             {isSelected && <MapPin className="w-4 h-4 text-blue-600" />}
                                             {county.county}
@@ -615,7 +615,7 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
                                         <div className="space-y-2 text-xs">
                                           <div className="flex justify-between items-center py-1">
                                             <span className="text-stone-600 font-medium">Entry:</span>
-                                            <span className="font-semibold text-stone-800">
+                                            <span className="font-semibold text-stone-700">
                                               {formatCurrency(county.wages.annual.entry)}
                                             </span>
                                           </div>
@@ -627,7 +627,7 @@ export function OccupationsTable({ initialPageSize = 10 }: OccupationsTableProps
                                           </div>
                                           <div className="flex justify-between items-center py-1">
                                             <span className="text-stone-600 font-medium">Top:</span>
-                                            <span className="font-semibold text-stone-800">
+                                            <span className="font-semibold text-stone-700">
                                               {formatCurrency(county.wages.annual.experienced)}
                                             </span>
                                           </div>

@@ -190,7 +190,7 @@ function AptitudeAssessmentPage() {
             <CardContent className="space-y-8">
               {aptitudeCategories.map((category) => (
                 <div key={category.key} className="space-y-4">
-                  <h3 className="text-lg font-semibold text-stone-800">
+                  <h3 className="text-lg font-semibold text-stone-700">
                     {category.title}
                   </h3>
                   <div className="space-y-4">

@@ -200,7 +200,7 @@ function ResourcesIndexPage() {
                           >
                             <div className="flex items-start justify-between gap-3">
                               <div className="flex-1">
-                                <div className="font-medium text-stone-800 mb-1 flex items-center gap-2">
+                                <div className="font-medium text-stone-700 mb-1 flex items-center gap-2">
                                   {resource.title}
                                   {!resource.active && (
                                     <span className="px-1.5 py-0.5 rounded text-xs font-medium bg-amber-50 text-amber-600 border border-amber-200 flex items-center gap-1">
@@ -280,7 +280,7 @@ function ResourcesIndexPage() {
       <section className="relative z-0 py-16 px-6 bg-stone-50">
         <Container>
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-stone-800 mb-4">
+            <h2 className="text-3xl font-bold text-stone-700 mb-4">
               Browse by Category
             </h2>
             <p className="text-lg text-stone-600">
