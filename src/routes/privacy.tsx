@@ -286,19 +286,19 @@ function PrivacyPage() {
               </div>
             </div>
 
-            {/* Related Links */}
-            <div className="flex flex-col sm:flex-row justify-center gap-4 pt-6">
-              <Link
-                to="/terms"
-                className="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center justify-center gap-2"
-              >
-                View Terms of Service →
-              </Link>
+            {/* Navigation Links */}
+            <div className="flex flex-col sm:flex-row justify-center gap-3 pt-6">
               <Link
                 to="/"
-                className="text-stone-600 hover:text-stone-800 font-medium inline-flex items-center justify-center gap-2"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-lime-600 text-white font-medium rounded-lg hover:bg-lime-700 transition-colors"
               >
-                ← Back to Home
+                Back to Home
+              </Link>
+              <Link
+                to="/terms"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-white text-lime-700 font-medium rounded-lg border border-lime-300 hover:bg-lime-50 transition-colors"
+              >
+                Terms of Service
               </Link>
             </div>
           </div>

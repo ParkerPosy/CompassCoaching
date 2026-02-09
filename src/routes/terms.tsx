@@ -214,13 +214,19 @@ function TermsPage() {
               </div>
             </div>
 
-            {/* Back Link */}
-            <div className="text-center pt-6">
+            {/* Navigation Links */}
+            <div className="flex flex-col sm:flex-row justify-center gap-3 pt-6">
               <Link
                 to="/"
-                className="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center gap-2"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
               >
-                ← Back to Home
+                Back to Home
+              </Link>
+              <Link
+                to="/privacy"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-white text-blue-600 font-medium rounded-lg border border-blue-300 hover:bg-blue-50 transition-colors"
+              >
+                Privacy Policy
               </Link>
             </div>
           </div>

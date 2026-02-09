@@ -419,9 +419,26 @@ export default function Header() {
           </div>
           {/* Footer inside scrollable area */}
           <div className="p-4 border-t border-stone-200 bg-stone-50 shrink-0">
-            <p className="text-xs text-stone-600 text-center">
+            <p className="text-xs text-stone-600 text-center mb-2">
               Navigate Your Future with Confidence
             </p>
+            <div className="flex items-center justify-center gap-3 text-xs">
+              <Link
+                to="/privacy"
+                onClick={() => setIsOpen(false)}
+                className="text-stone-500 hover:text-stone-700 transition-colors"
+              >
+                Privacy
+              </Link>
+              <span className="text-stone-300">·</span>
+              <Link
+                to="/terms"
+                onClick={() => setIsOpen(false)}
+                className="text-stone-500 hover:text-stone-700 transition-colors"
+              >
+                Terms
+              </Link>
+            </div>
           </div>
         </div>
       </aside>
