@@ -3,17 +3,24 @@ import {
   AlertTriangle,
   ArrowLeft,
   Award,
+  BookOpen,
   Briefcase,
+  Car,
   CheckCircle,
   Clock,
   Compass,
+  DollarSign,
   Download,
   GraduationCap,
   Heart,
+  Home,
   Lightbulb,
   MapPin,
   Puzzle,
   RefreshCw,
+  Route as RouteIcon,
+  Scale,
+  Sparkles,
   Star,
   Target,
   TrendingUp,
@@ -23,7 +30,6 @@ import {
 } from "lucide-react";
 import { useEffect, useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { SectionHeader } from "@/components/assessment/SectionHeader";
 import { Container } from "@/components/layout/container";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -248,6 +254,323 @@ function ResultsPage() {
       }));
   }, [storedResults]);
 
+  // Generate path forward insights from challenges data
+  const pathForwardInsights = useMemo(() => {
+    if (!storedResults?.challenges) return [];
+    const c = storedResults.challenges;
+    const insights: Array<{ icon: typeof DollarSign; title: string; message: string; actionable: string }> = [];
+
+    // Financial guidance
+    if (c.financial === 'limited-funds' || c.financial === 'need-financial-aid') {
+      insights.push({
+        icon: DollarSign,
+        title: 'Financial Path',
+        message: 'We understand finances are a real consideration for you.',
+        actionable: 'Prioritize careers with paid training, apprenticeships, or employer-sponsored education. Check our Financial Aid resources for PA-specific grants and scholarships.',
+      });
+    } else if (c.financial === 'working-while-learning') {
+      insights.push({
+        icon: DollarSign,
+        title: 'Work + Learn Balance',
+        message: 'Balancing work and education takes real dedication.',
+        actionable: 'Look for evening/weekend programs, online certifications, or employers offering tuition assistance. Many of your top career matches have flexible training paths.',
+      });
+    } else if (c.financial === 'some-savings') {
+      insights.push({
+        icon: DollarSign,
+        title: 'Stretch Your Savings',
+        message: 'Your savings can go further with the right approach.',
+        actionable: 'Combine savings with grants (many PA programs require no repayment), employer tuition programs, or low-cost community college credits. Avoid high-interest loans when free options exist.',
+      });
+    }
+
+    // Time constraints
+    if (c.timeAvailability === 'very-limited' || c.timeAvailability === 'evenings-weekends' || c.timeAvailability === 'part-time') {
+      insights.push({
+        icon: Clock,
+        title: 'Time-Conscious Path',
+        message: `With ${c.timeAvailability === 'very-limited' ? 'limited hours' : c.timeAvailability === 'part-time' ? 'part-time availability' : 'only evenings/weekends'} available, efficiency matters.`,
+        actionable: 'Focus on shorter certificate programs (3-6 months) or self-paced online learning. Skilled trades apprenticeships often work around schedules.',
+      });
+    }
+
+    // Location constraints
+    if (c.locationFlexibility === 'local-only' || c.locationFlexibility === 'same-region') {
+      insights.push({
+        icon: Home,
+        title: c.locationFlexibility === 'local-only' ? 'Local Opportunities' : 'Regional Focus',
+        message: c.locationFlexibility === 'local-only'
+          ? 'Staying in your area is completely valid—roots matter.'
+          : 'Staying in your region gives you more options while keeping you close to home.',
+        actionable: 'We\'ve filtered career matches to show Pennsylvania wage data. Check local community colleges and workforce development boards for area-specific opportunities.',
+      });
+    } else if (c.locationFlexibility === 'remote-preferred') {
+      insights.push({
+        icon: Home,
+        title: 'Remote-Friendly Paths',
+        message: 'Remote work opens doors regardless of location.',
+        actionable: 'Your STEM, Communication, and Business aptitudes align well with remote-friendly careers. Look for roles marked "remote" in your career matches.',
+      });
+    }
+
+    // Family obligations
+    if (c.familyObligations === 'childcare' || c.familyObligations === 'elder-care' || c.familyObligations === 'both' || c.familyObligations === 'other') {
+      insights.push({
+        icon: Users,
+        title: 'Caregiving Balance',
+        message: 'Caring for family while building a career takes strength.',
+        actionable: 'Prioritize careers with predictable schedules, remote options, or good benefits. Many healthcare and education roles understand family needs firsthand.',
+      });
+    }
+
+    // Transportation
+    if (c.transportation === 'limited' || c.transportation === 'none' || c.transportation === 'public-transit') {
+      insights.push({
+        icon: Car,
+        title: 'Transportation Solutions',
+        message: 'Getting to work reliably is essential.',
+        actionable: 'Look for remote work, positions near public transit, or employers offering transportation assistance. Some trade unions provide rides to job sites.',
+      });
+    }
+
+    // Support system
+    if (c.supportSystem === 'limited' || c.supportSystem === 'independent') {
+      insights.push({
+        icon: Users,
+        title: 'Building Your Network',
+        message: 'Going it alone is harder, but you\'re not truly alone.',
+        actionable: 'Connect with career mentors through PA CareerLink, join professional associations, or find study groups. Our Networking resources can help you build connections.',
+      });
+    }
+
+    // Education gaps
+    if (c.educationGaps && c.educationGaps.length > 0 && !c.educationGaps.includes('None of the above')) {
+      insights.push({
+        icon: BookOpen,
+        title: 'Skill Building',
+        message: `You identified areas for growth: ${c.educationGaps.slice(0, 2).join(', ')}${c.educationGaps.length > 2 ? ', and more' : ''}.`,
+        actionable: 'That self-awareness is valuable! Free resources like Khan Academy, local library programs, and PA workforce centers can help you strengthen these areas.',
+      });
+    }
+
+    // Health considerations
+    if (c.healthConsiderations === 'physical') {
+      insights.push({
+        icon: Heart,
+        title: 'Physical Accommodations',
+        message: 'Physical considerations shouldn\'t limit your career potential.',
+        actionable: 'Look for desk-based, remote, or light-duty roles. Many employers offer accommodations under ADA. PA Office of Vocational Rehabilitation provides free services for job seekers with disabilities.',
+      });
+    } else if (c.healthConsiderations === 'mental-health') {
+      insights.push({
+        icon: Heart,
+        title: 'Mental Wellbeing at Work',
+        message: 'Your mental health matters—the right workplace can support it.',
+        actionable: 'Seek employers with mental health benefits, flexible schedules, and supportive cultures. Remote work can reduce stress. Check out our Mental Wellbeing resources section.',
+      });
+    } else if (c.healthConsiderations === 'chronic-condition') {
+      insights.push({
+        icon: Heart,
+        title: 'Managing Health & Career',
+        message: 'Living with a chronic condition requires workplace flexibility.',
+        actionable: 'Prioritize roles with comprehensive health insurance, paid sick leave, and understanding management. Government and healthcare sector jobs often have strong benefits.',
+      });
+    }
+
+    return insights;
+  }, [storedResults]);
+
+  // Analyze value tensions/conflicts
+  const valueTensions = useMemo(() => {
+    if (!storedResults?.values) return [];
+    const v = storedResults.values;
+    const tensions: Array<{ values: string[]; insight: string }> = [];
+
+    // Income vs Work-Life Balance tension
+    if (v.income_potential >= 4 && v.work_life_balance >= 4) {
+      tensions.push({
+        values: ['High Income', 'Work-Life Balance'],
+        insight: 'These can coexist! Look for high-paying roles with boundaries, or consider that higher earnings early can buy flexibility later.',
+      });
+    }
+
+    // Independence vs Leadership tension
+    if (v.independence >= 4 && v.leadership >= 4) {
+      tensions.push({
+        values: ['Independence', 'Leadership'],
+        insight: 'You want autonomy AND influence. Consider roles where you lead projects independently, or entrepreneurship where you set the direction.',
+      });
+    }
+
+    // Job Security vs Variety tension
+    if (v.job_security >= 4 && v.variety >= 4) {
+      tensions.push({
+        values: ['Job Security', 'Variety'],
+        insight: 'Stability and variety can align in large organizations with internal mobility, or government roles with diverse assignments.',
+      });
+    }
+
+    // Helping Others vs Income
+    if (v.helping_others >= 4 && v.income_potential >= 4) {
+      tensions.push({
+        values: ['Helping Others', 'High Income'],
+        insight: 'Healthcare, specialized therapy, and nonprofit leadership combine impact with strong compensation.',
+      });
+    }
+
+    return tensions.slice(0, 2); // Max 2 tensions to keep it focused
+  }, [storedResults]);
+
+  // Age-appropriate insights
+  const ageInsights = useMemo(() => {
+    if (!storedResults?.basic?.ageRange) return null;
+    const age = storedResults.basic.ageRange;
+
+    const insights: Record<string, { title: string; message: string }> = {
+      'under-18': {
+        title: 'Starting Early',
+        message: 'You\'re ahead of the curve exploring careers now! Focus on experiences—internships, job shadows, and clubs—rather than committing to one path. Your interests will evolve, and that\'s perfectly normal.',
+      },
+      '18-24': {
+        title: 'Building Your Foundation',
+        message: 'This is prime time for exploration and skill-building. Don\'t fear trying different paths—each experience adds value. Consider positions that offer learning and growth over immediate high pay.',
+      },
+      '25-34': {
+        title: 'Establishing Direction',
+        message: 'You likely have some experience to leverage. Career pivots are still very accessible, and you can build on transferable skills. This is often the best time for strategic education investments.',
+      },
+      '35-44': {
+        title: 'Leveraging Experience',
+        message: 'Your life experience is a genuine asset—don\'t underestimate it. Focus on careers that value maturity, and consider how your existing skills translate. Many employers specifically value your perspective.',
+      },
+      '45-54': {
+        title: 'Experienced & Valuable',
+        message: 'You bring decades of real-world knowledge. Target roles valuing seasoned professionals, consider consulting or mentoring paths, and don\'t let age stereotypes limit your ambitions.',
+      },
+      '55-plus': {
+        title: 'Wisdom in Action',
+        message: 'Your experience is irreplaceable. Consider phased transitions, part-time roles that leverage expertise, or encore careers focused on giving back. Many fulfilling opportunities await.',
+      },
+    };
+
+    return insights[age] || null;
+  }, [storedResults]);
+
+  // Acknowledge their primary reason for the assessment
+  const reasonMessage = useMemo(() => {
+    if (!storedResults?.basic?.primaryReason) return null;
+    const reason = storedResults.basic.primaryReason;
+    if (!reason || reason.trim() === '') return null;
+
+    return {
+      title: 'Why You\'re Here',
+      message: reason,
+      followUp: 'We\'ve kept this in mind throughout your analysis. Your career matches and recommendations are tailored to help you achieve this goal.',
+    };
+  }, [storedResults]);
+
+  // Generate personalized resource recommendations
+  const recommendedResources = useMemo(() => {
+    if (!storedResults) return [];
+    const resources: Array<{ title: string; slug: string; reason: string }> = [];
+    const c = storedResults.challenges;
+    const basic = storedResults.basic;
+
+    // Financial constraints → Financial Aid
+    if (c.financial === 'limited-funds' || c.financial === 'need-financial-aid') {
+      resources.push({
+        title: 'Financial Aid & Planning',
+        slug: 'financial-aid',
+        reason: 'Find scholarships, grants, and funding options for your education',
+      });
+    }
+
+    // Career change or exploration → Career Exploration
+    if (basic.employmentStatus === 'unemployed' || basic.employmentStatus === 'seeking-change') {
+      resources.push({
+        title: 'Career Exploration',
+        slug: 'career-exploration',
+        reason: 'Discover paths that match your unique profile',
+      });
+    }
+
+    // Limited support → Networking
+    if (c.supportSystem === 'limited' || c.supportSystem === 'independent') {
+      resources.push({
+        title: 'Networking',
+        slug: 'networking',
+        reason: 'Build connections and find mentors in your field',
+      });
+    }
+
+    // Education gaps → Skills Development
+    if (c.educationGaps && c.educationGaps.length > 0 && !c.educationGaps.includes('None of the above')) {
+      resources.push({
+        title: 'Skills Development',
+        slug: 'skills-development',
+        reason: 'Free resources to strengthen foundational skills',
+      });
+    }
+
+    // Student → Education & Training
+    if (basic.employmentStatus === 'student') {
+      resources.push({
+        title: 'Education & Training',
+        slug: 'education-training',
+        reason: 'Programs and certifications to build your credentials',
+      });
+    }
+
+    // Health considerations → Mental Wellbeing or Healthy Living
+    if (c.healthConsiderations === 'mental-health') {
+      resources.push({
+        title: 'Mental Wellbeing',
+        slug: 'mental-wellbeing',
+        reason: 'Tools and strategies for a healthier mind',
+      });
+    } else if (c.healthConsiderations === 'physical' || c.healthConsiderations === 'chronic-condition') {
+      resources.push({
+        title: 'Healthy Living',
+        slug: 'healthy-living',
+        reason: 'Support your physical wellbeing alongside your career',
+      });
+    }
+
+    // Job seeking basics for unemployed
+    if (basic.employmentStatus === 'unemployed') {
+      resources.push({
+        title: 'Resume & Cover Letters',
+        slug: 'resume-cover-letters',
+        reason: 'Create professional applications that stand out',
+      });
+      resources.push({
+        title: 'Interview Preparation',
+        slug: 'interview-prep',
+        reason: 'Practice questions and strategies to ace interviews',
+      });
+    }
+
+    // Employed seeking change → Career Transitions
+    if (basic.employmentStatus === 'seeking-change' || basic.employmentStatus === 'employed-pt') {
+      resources.push({
+        title: 'Career Transitions',
+        slug: 'career-transitions',
+        reason: 'Navigate your career change successfully',
+      });
+    }
+
+    // Always useful: Professional Development
+    if (resources.length < 4) {
+      resources.push({
+        title: 'Professional Development',
+        slug: 'professional-development',
+        reason: 'Build skills and advance your career',
+      });
+    }
+
+    return resources.slice(0, 4); // Max 4 recommendations
+  }, [storedResults]);
+
   // Show loading while store is hydrating or results are being processed
   if (!hasHydrated || !storedResults || !analysis) {
     return (
@@ -345,7 +668,7 @@ function ResultsPage() {
 
                 <div className="grid md:grid-cols-3 gap-6">
                   {/* Top Aptitudes */}
-                  <div className="bg-white/90 backdrop-blur-sm rounded-lg p-4 border border-white/60 shadow-md">
+                  <div className="bg-white/55 backdrop-blur-md rounded-lg p-4 border border-white/40 shadow-md">
                     <div className="flex items-center gap-2 mb-3">
                       <Puzzle className="w-5 h-5 text-purple-600" />
                       <h4 className="font-semibold text-stone-700">Top Aptitudes</h4>
@@ -363,7 +686,7 @@ function ResultsPage() {
                   </div>
 
                   {/* Top Values */}
-                  <div className="bg-white/90 backdrop-blur-sm rounded-lg p-4 border border-white/60 shadow-md">
+                  <div className="bg-white/55 backdrop-blur-md rounded-lg p-4 border border-white/40 shadow-md">
                     <div className="flex items-center gap-2 mb-3">
                       <Heart className="w-5 h-5 text-pink-600" />
                       <h4 className="font-semibold text-stone-700">What Matters Most</h4>
@@ -386,7 +709,7 @@ function ResultsPage() {
                   </div>
 
                   {/* Education & Status */}
-                  <div className="bg-white/90 backdrop-blur-sm rounded-lg p-4 border border-white/60 shadow-md">
+                  <div className="bg-white/55 backdrop-blur-md rounded-lg p-4 border border-white/40 shadow-md">
                     <div className="flex items-center gap-2 mb-3">
                       <GraduationCap className="w-5 h-5 text-lime-600" />
                       <h4 className="font-semibold text-stone-700">Current Situation</h4>
@@ -634,6 +957,174 @@ function ResultsPage() {
             </CardContent>
           </Card>
         </section>
+
+        {/* Why You're Here - Acknowledge their reason */}
+        {reasonMessage && (
+          <section className="mb-12">
+            <div className="flex items-center gap-3 mb-6">
+              <Sparkles className="w-6 h-6 text-violet-500" />
+              <h2 className="text-3xl font-bold text-stone-700">
+                Why You're Here
+              </h2>
+            </div>
+            <Card className="bg-gradient-to-br from-violet-50/80 to-purple-50/80 backdrop-blur-sm border border-violet-200/60">
+              <CardContent className="p-6">
+                <blockquote className="text-lg text-stone-700 italic border-l-4 border-violet-400 pl-4 mb-4">
+                  "{reasonMessage.message}"
+                </blockquote>
+                <p className="text-stone-600">
+                  {reasonMessage.followUp}
+                </p>
+              </CardContent>
+            </Card>
+          </section>
+        )}
+
+        {/* Age-Appropriate Insights */}
+        {ageInsights && (
+          <section className="mb-12">
+            <div className="flex items-center gap-3 mb-6">
+              <User className="w-6 h-6 text-indigo-500" />
+              <h2 className="text-3xl font-bold text-stone-700">
+                {ageInsights.title}
+              </h2>
+            </div>
+            <Card className="bg-gradient-to-br from-indigo-50/80 to-blue-50/80 backdrop-blur-sm border border-indigo-200/60">
+              <CardContent className="p-6">
+                <p className="text-stone-700 text-lg leading-relaxed">
+                  {ageInsights.message}
+                </p>
+              </CardContent>
+            </Card>
+          </section>
+        )}
+
+        {/* Value Tensions */}
+        {valueTensions.length > 0 && (
+          <section className="mb-12">
+            <div className="flex items-center gap-3 mb-6">
+              <Scale className="w-6 h-6 text-cyan-600" />
+              <h2 className="text-3xl font-bold text-stone-700">
+                Balancing Your Values
+              </h2>
+            </div>
+            <p className="text-stone-600 mb-6">
+              You care deeply about multiple things that may seem to pull in different directions. Here's how they can work together:
+            </p>
+            <div className="grid md:grid-cols-2 gap-6">
+              {valueTensions.map((tension, index) => (
+                <Card key={index} className="bg-white/80 backdrop-blur-sm border border-cyan-200/60">
+                  <CardContent className="p-5">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="px-2 py-1 bg-cyan-100 text-cyan-700 rounded text-sm font-medium">
+                        {tension.values[0]}
+                      </span>
+                      <span className="text-stone-400">+</span>
+                      <span className="px-2 py-1 bg-cyan-100 text-cyan-700 rounded text-sm font-medium">
+                        {tension.values[1]}
+                      </span>
+                    </div>
+                    <p className="text-stone-600">{tension.insight}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Your Path Forward - Challenges-based insights */}
+        {(pathForwardInsights.length > 0 || (storedResults?.challenges?.additionalNotes && storedResults.challenges.additionalNotes.trim() !== '')) && (
+          <section className="mb-12">
+            <div className="flex items-center gap-3 mb-6">
+              <RouteIcon className="w-6 h-6 text-emerald-600" />
+              <h2 className="text-3xl font-bold text-stone-700">
+                Your Path Forward
+              </h2>
+            </div>
+            <p className="text-stone-600 mb-6">
+              Based on your situation, here's how to navigate toward your goals:
+            </p>
+            {pathForwardInsights.length > 0 && (
+              <div className="space-y-4">
+                {pathForwardInsights.map((insight, index) => {
+                  const IconComponent = insight.icon;
+                  return (
+                    <Card key={index} className="bg-white/80 backdrop-blur-sm border border-emerald-200/60">
+                      <CardContent className="p-5">
+                        <div className="flex items-start gap-4">
+                          <div className="shrink-0 w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
+                            <IconComponent className="w-5 h-5 text-emerald-600" />
+                          </div>
+                          <div className="flex-1">
+                            <h4 className="font-semibold text-stone-700 mb-1">{insight.title}</h4>
+                            <p className="text-stone-600 mb-2">{insight.message}</p>
+                            <p className="text-emerald-700 text-sm bg-emerald-50 rounded-lg p-3">
+                              <strong>Action:</strong> {insight.actionable}
+                            </p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Additional Notes - if the user shared extra context */}
+            {storedResults?.challenges?.additionalNotes && storedResults.challenges.additionalNotes.trim() !== '' && (
+              <Card className="mt-6 bg-amber-50/80 backdrop-blur-sm border border-amber-200/60">
+                <CardContent className="p-5">
+                  <div className="flex items-start gap-4">
+                    <div className="shrink-0 w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
+                      <Lightbulb className="w-5 h-5 text-amber-600" />
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-semibold text-stone-700 mb-1">What You Shared</h4>
+                      <p className="text-stone-600 italic">"{storedResults.challenges.additionalNotes}"</p>
+                      <p className="text-amber-700 text-sm mt-2">
+                        We heard you. Keep this context in mind as you explore the career matches below—your unique circumstances matter in finding the right fit.
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </section>
+        )}
+
+        {/* Recommended Resources */}
+        {recommendedResources.length > 0 && (
+          <section className="mb-12">
+            <div className="flex items-center gap-3 mb-6">
+              <BookOpen className="w-6 h-6 text-teal-600" />
+              <h2 className="text-3xl font-bold text-stone-700">
+                Resources For You
+              </h2>
+            </div>
+            <p className="text-stone-600 mb-6">
+              Based on your profile, these resources are most relevant to your journey:
+            </p>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {recommendedResources.map((resource, index) => (
+                <Link
+                  key={index}
+                  to="/resources/$categorySlug"
+                  params={{ categorySlug: resource.slug }}
+                  className="group block"
+                >
+                  <Card className="h-full bg-white/80 backdrop-blur-sm border border-teal-200/60 hover:border-teal-400 hover:shadow-md transition-all">
+                    <CardContent className="p-4">
+                      <h4 className="font-semibold text-stone-700 group-hover:text-teal-600 transition-colors mb-2">
+                        {resource.title}
+                      </h4>
+                      <p className="text-sm text-stone-500">{resource.reason}</p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Recommendations */}
         <section className="mb-12">
