@@ -1,4 +1,4 @@
-import { createFileRoute, useSearch, useNavigate } from '@tanstack/react-router';
+import { createFileRoute, useSearch, useNavigate, Link } from '@tanstack/react-router';
 import { useCallback, useEffect } from 'react';
 import { Container } from '@/components/layout/container';
 import { OccupationsTable } from '@/components/OccupationsTable';
@@ -386,7 +386,7 @@ function CareersPage() {
           </div>
 
           {/* Disclaimer */}
-          <div className="mt-8 p-4 bg-stone-100 border border-stone-300 rounded-lg text-sm text-stone-600">
+          <div className="mt-8 p-4 bg-stone-100 border border-stone-300 rounded-lg text-sm text-stone-600 space-y-3">
             <p>
               <strong>Data Source:</strong>{' '}
               <a
@@ -401,6 +401,18 @@ function CareersPage() {
               occupations may show data from Workforce Development Areas (WDA) or
               Metropolitan Statistical Areas (MSA) when county-specific data is
               unavailable.
+            </p>
+            <p>
+              <strong>Disclaimer:</strong> Salary information is provided for informational purposes only and may not
+              reflect current market conditions in your specific area. Actual wages may vary based on experience,
+              employer, location, and other factors. We recommend verifying salary data independently before making
+              career decisions.
+            </p>
+            <p className="text-xs text-stone-500">
+              By using this service, you agree to our{' '}
+              <Link to="/terms" className="text-blue-600 hover:text-blue-800 underline">Terms of Service</Link>
+              {' '}and{' '}
+              <Link to="/privacy" className="text-blue-600 hover:text-blue-800 underline">Privacy Policy</Link>.
             </p>
           </div>
         </Container>

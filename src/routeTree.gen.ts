@@ -9,6 +9,8 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CareersRouteImport } from './routes/careers'
@@ -28,6 +30,16 @@ import { Route as IntakeBasicRouteImport } from './routes/intake/basic'
 import { Route as IntakeAptitudeRouteImport } from './routes/intake/aptitude'
 import { Route as AdminUserUserIdRouteImport } from './routes/admin/user.$userId'
 
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -126,6 +138,8 @@ export interface FileRoutesByFullPath {
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
+  '/privacy': typeof PrivacyRoute
+  '/terms': typeof TermsRoute
   '/intake/aptitude': typeof IntakeAptitudeRoute
   '/intake/basic': typeof IntakeBasicRoute
   '/intake/challenges': typeof IntakeChallengesRoute
@@ -145,6 +159,8 @@ export interface FileRoutesByTo {
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
+  '/privacy': typeof PrivacyRoute
+  '/terms': typeof TermsRoute
   '/intake/aptitude': typeof IntakeAptitudeRoute
   '/intake/basic': typeof IntakeBasicRoute
   '/intake/challenges': typeof IntakeChallengesRoute
@@ -166,6 +182,8 @@ export interface FileRoutesById {
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
+  '/privacy': typeof PrivacyRoute
+  '/terms': typeof TermsRoute
   '/intake/aptitude': typeof IntakeAptitudeRoute
   '/intake/basic': typeof IntakeBasicRoute
   '/intake/challenges': typeof IntakeChallengesRoute
@@ -188,6 +206,8 @@ export interface FileRouteTypes {
     | '/careers'
     | '/contact'
     | '/dashboard'
+    | '/privacy'
+    | '/terms'
     | '/intake/aptitude'
     | '/intake/basic'
     | '/intake/challenges'
@@ -207,6 +227,8 @@ export interface FileRouteTypes {
     | '/careers'
     | '/contact'
     | '/dashboard'
+    | '/privacy'
+    | '/terms'
     | '/intake/aptitude'
     | '/intake/basic'
     | '/intake/challenges'
@@ -227,6 +249,8 @@ export interface FileRouteTypes {
     | '/careers'
     | '/contact'
     | '/dashboard'
+    | '/privacy'
+    | '/terms'
     | '/intake/aptitude'
     | '/intake/basic'
     | '/intake/challenges'
@@ -248,6 +272,8 @@ export interface RootRouteChildren {
   CareersRoute: typeof CareersRoute
   ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRoute
+  PrivacyRoute: typeof PrivacyRoute
+  TermsRoute: typeof TermsRoute
   IntakeAptitudeRoute: typeof IntakeAptitudeRoute
   IntakeBasicRoute: typeof IntakeBasicRoute
   IntakeChallengesRoute: typeof IntakeChallengesRoute
@@ -262,6 +288,20 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
@@ -410,6 +450,8 @@ const rootRouteChildren: RootRouteChildren = {
   CareersRoute: CareersRoute,
   ContactRoute: ContactRoute,
   DashboardRoute: DashboardRoute,
+  PrivacyRoute: PrivacyRoute,
+  TermsRoute: TermsRoute,
   IntakeAptitudeRoute: IntakeAptitudeRoute,
   IntakeBasicRoute: IntakeBasicRoute,
   IntakeChallengesRoute: IntakeChallengesRoute,

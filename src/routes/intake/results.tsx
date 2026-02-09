@@ -1113,7 +1113,7 @@ function ResultsPage() {
         </div>
 
         {/* Retake Assessment - Hidden in print */}
-        <div className="text-center mb-4 print-hidden">
+        <div className="text-center mb-6 print-hidden">
           <button
             type="button"
             onClick={handleRetake}
@@ -1122,6 +1122,22 @@ function ResultsPage() {
             <RefreshCw className="w-4 h-4" />
             Retake Assessment
           </button>
+        </div>
+
+        {/* Legal Disclaimer */}
+        <div className="mb-8 p-4 bg-stone-100 border border-stone-300 rounded-lg text-sm">
+          <p className="text-stone-600 leading-relaxed mb-2">
+            <strong className="text-stone-700">Important:</strong> These results are for informational purposes only and
+            are not professional career counseling or employment advice. Career matches are suggestions based on
+            self-reported data and should not be treated as definitive guidance. We recommend consulting with a
+            licensed career counselor or advisor before making significant career or educational decisions.
+          </p>
+          <p className="text-stone-500 text-xs">
+            By using this assessment, you agree to our{' '}
+            <Link to="/terms" className="text-blue-600 hover:text-blue-800 underline">Terms of Service</Link>
+            {' '}and{' '}
+            <Link to="/privacy" className="text-blue-600 hover:text-blue-800 underline">Privacy Policy</Link>.
+          </p>
         </div>
 
         {/* Back Link - Hidden in print */}
@@ -1137,6 +1153,9 @@ function ResultsPage() {
 
         {/* Print-only footer */}
         <div className="print-only text-center mt-8 pt-4 border-t border-stone-200">
+          <p className="text-xs text-stone-500 mb-2">
+            For informational purposes only. Not professional career counseling. Consult a licensed advisor before making career decisions.
+          </p>
           <p className="text-sm text-stone-600">
             Generated from compasscoaching.org on {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
           </p>

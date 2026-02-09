@@ -18,6 +18,10 @@ const routes = [
   { path: "/resources", priority: 0.9, changefreq: "weekly" },
   { path: "/intake", priority: 0.8, changefreq: "monthly" },
 
+  // Legal pages
+  { path: "/terms", priority: 0.3, changefreq: "yearly" },
+  { path: "/privacy", priority: 0.3, changefreq: "yearly" },
+
   // Resource categories
   { path: "/resources/mental-wellbeing", priority: 0.7, changefreq: "weekly" },
   { path: "/resources/relationships", priority: 0.7, changefreq: "weekly" },

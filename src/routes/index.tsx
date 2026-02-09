@@ -452,7 +452,7 @@ function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="relative py-20 px-6 overflow-hidden">
+      <section className="relative pt-20 pb-0 overflow-hidden">
         {/* Abstract flowing background inspired by organic shapes */}
         <div className="absolute inset-0">
           <svg
@@ -599,7 +599,7 @@ function HomePage() {
           </svg>
         </div>
 
-        <Container size="sm" className="relative z-10">
+        <Container size="sm" className="relative z-10 px-6">
           <div className="text-center">
             <div className="mb-6 inline-flex items-center justify-center w-16 h-16 bg-white/25 backdrop-blur-sm rounded-full animate-pulse-slow border border-white/30">
               <Target className="w-8 h-8 text-white" />
@@ -621,6 +621,39 @@ function HomePage() {
             </Link>
           </div>
         </Container>
+
+        {/* Footer - Glass overlay on CTA section */}
+        <footer className="relative z-10 mt-16">
+          <div className="bg-white/10 backdrop-blur-md border-t border-white/20 py-6 px-6">
+            <div className="max-w-5xl mx-auto">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div className="text-sm text-white/90 font-medium">
+                  © {new Date().getFullYear()} Compass Coaching. All rights reserved.
+                </div>
+                <div className="flex items-center gap-6 text-sm">
+                  <Link
+                    to="/privacy"
+                    className="text-white/90 hover:text-white transition-colors font-medium"
+                  >
+                    Privacy Policy
+                  </Link>
+                  <Link
+                    to="/terms"
+                    className="text-white/90 hover:text-white transition-colors font-medium"
+                  >
+                    Terms of Service
+                  </Link>
+                  <Link
+                    to="/contact"
+                    className="text-white/90 hover:text-white transition-colors font-medium"
+                  >
+                    Contact
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
       </section>
     </div>
   );
