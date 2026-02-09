@@ -56,6 +56,104 @@ export const Route = createFileRoute("/intake/results")({
   }),
 });
 
+// Swoosh pattern for results hero
+function ResultsPattern() {
+  return (
+    <svg
+      className="absolute inset-0 w-full h-full"
+      viewBox="0 0 1200 400"
+      preserveAspectRatio="xMidYMid slice"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        {/* Base gradient - celebratory lime/green */}
+        <linearGradient id="resultsBg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#365314" />
+          <stop offset="50%" stopColor="#3f6212" />
+          <stop offset="100%" stopColor="#4d7c0f" />
+        </linearGradient>
+
+        {/* Lime accent gradient */}
+        <linearGradient id="resultsAccent" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#a3e635" stopOpacity="0.4" />
+          <stop offset="50%" stopColor="#bef264" stopOpacity="0.6" />
+          <stop offset="100%" stopColor="#a3e635" stopOpacity="0.3" />
+        </linearGradient>
+
+        {/* Secondary accent */}
+        <linearGradient id="resultsAccent2" x1="100%" y1="0%" x2="0%" y2="0%">
+          <stop offset="0%" stopColor="#84cc16" stopOpacity="0.5" />
+          <stop offset="50%" stopColor="#a3e635" stopOpacity="0.6" />
+          <stop offset="100%" stopColor="#65a30d" stopOpacity="0.3" />
+        </linearGradient>
+
+        {/* Filled swoosh gradient */}
+        <linearGradient id="resultsSwooshFill" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#65a30d" stopOpacity="0.15" />
+          <stop offset="100%" stopColor="#4d7c0f" stopOpacity="0.05" />
+        </linearGradient>
+      </defs>
+
+      {/* Base fill */}
+      <rect width="100%" height="100%" fill="url(#resultsBg)" />
+
+      {/* Filled swoosh area */}
+      <path
+        d="M0 320 Q200 250 500 280 T900 240 T1200 260 L1200 400 L0 400 Z"
+        fill="url(#resultsSwooshFill)"
+      />
+
+      {/* Primary swoosh */}
+      <path
+        d="M0 310 Q180 260 450 290 Q750 320 1000 250 Q1120 220 1200 240"
+        fill="none"
+        stroke="url(#resultsAccent)"
+        strokeWidth="3"
+      />
+
+      {/* Secondary swoosh */}
+      <path
+        d="M0 260 Q250 280 500 230 Q800 170 1050 200 T1200 180"
+        fill="none"
+        stroke="url(#resultsAccent2)"
+        strokeWidth="2"
+        opacity="0.7"
+      />
+
+      {/* Third swoosh */}
+      <path
+        d="M0 370 Q200 340 400 360 Q650 390 850 320 Q1050 260 1200 290"
+        fill="none"
+        stroke="rgba(163, 230, 53, 0.4)"
+        strokeWidth="2"
+      />
+
+      {/* White accent lines */}
+      <path
+        d="M0 340 Q350 290 600 330 Q850 370 1050 300 T1200 310"
+        fill="none"
+        stroke="rgba(255,255,255,0.1)"
+        strokeWidth="1.5"
+      />
+
+      {/* Top accent curves */}
+      <path
+        d="M800 0 Q880 80 980 50 Q1080 20 1200 70"
+        fill="none"
+        stroke="url(#resultsAccent)"
+        strokeWidth="2"
+        opacity="0.5"
+      />
+      <path
+        d="M900 0 Q960 50 1020 30 Q1100 10 1200 45"
+        fill="none"
+        stroke="rgba(163, 230, 53, 0.3)"
+        strokeWidth="1.5"
+      />
+    </svg>
+  );
+}
+
 function ResultsPage() {
   const navigate = useNavigate();
   const storedResults = useAssessmentStore((state) => state.results);
@@ -174,179 +272,221 @@ function ResultsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-50 py-12 px-6">
-      <Container>
-        <SectionHeader
-          icon={Award}
-          iconBgColor="bg-lime-400"
-          title="Your Career Assessment Results"
-          subtitle={`Hi ${storedResults.basic.name}! Here's your personalized career insights.`}
-        />
-        <p className="text-sm text-stone-500 mb-8">
-          Completed on{" "}
-          {new Date(storedResults.completedAt).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
-        </p>
+    <div className="min-h-screen bg-stone-50">
+      {/* Hero Section with Extended Swoosh Pattern */}
+      <div className="relative overflow-hidden">
+        {/* Pattern extends behind both hero and profile card */}
+        <div className="absolute inset-0 pb-32">
+          <ResultsPattern />
+        </div>
 
-        {/* Migration Warning Banner */}
-        {isOutdated && (
-          <div className="mb-8 p-4 bg-amber-50 border border-amber-200 rounded-lg flex flex-col sm:flex-row items-start sm:items-center gap-4">
-            <div className="flex items-start gap-3 flex-1">
-              <AlertTriangle className="w-6 h-6 text-amber-600 shrink-0 mt-0.5" />
-              <div>
-                <h3 className="font-semibold text-amber-800">Assessment Updated</h3>
-                <p className="text-sm text-amber-700">
-                  Our career assessment has been improved since you last took it.
-                  We recommend retaking the assessment for the most accurate career matches.
-                </p>
-              </div>
+        {/* Hero Content */}
+        <Container className="relative z-10 pt-12 md:pt-16 pb-8">
+          <div className="text-center max-w-3xl mx-auto text-white">
+            <div className="mb-6 inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-md rounded-full border border-white/30">
+              <Award className="w-10 h-10 text-lime-300" />
             </div>
-            <Button
-              variant="primary"
-              size="md"
-              className="shrink-0 bg-amber-600 hover:bg-amber-700"
-              onClick={handleRetake}
-            >
-              <RefreshCw className="w-4 h-4 mr-2" />
-              Retake Assessment
-            </Button>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              Your Career Assessment Results
+            </h1>
+            <p className="text-xl text-lime-100 mb-2">
+              Hi {storedResults.basic.name}! Here's your personalized career insights.
+            </p>
+            <p className="text-sm text-lime-200/70">
+              Completed on{" "}
+              {new Date(storedResults.completedAt).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </p>
           </div>
-        )}
+        </Container>
 
-        {/* Quick Profile Summary */}
-        <section className="mb-12">
-          <Card className="bg-gradient-to-br from-stone-50 via-white to-blue-50 border border-stone-200 shadow-sm">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
-                  <User className="w-6 h-6 text-white" />
-                </div>
+        {/* Quick Profile Summary - Glass Card overlapping pattern */}
+        <Container className="relative z-10 px-6 pb-12">
+          {/* Migration Warning Banner */}
+          {isOutdated && (
+            <div className="mb-8 p-4 bg-amber-50/90 backdrop-blur-sm border border-amber-200 rounded-lg flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="flex items-start gap-3 flex-1">
+                <AlertTriangle className="w-6 h-6 text-amber-600 shrink-0 mt-0.5" />
                 <div>
-                  <h3 className="text-xl font-bold text-stone-700">Your Profile at a Glance</h3>
-                  <p className="text-stone-600">Based on your assessment responses</p>
+                  <h3 className="font-semibold text-amber-800">Assessment Updated</h3>
+                  <p className="text-sm text-amber-700">
+                    Our career assessment has been improved since you last took it.
+                    We recommend retaking the assessment for the most accurate career matches.
+                  </p>
                 </div>
               </div>
+              <Button
+                variant="primary"
+                size="md"
+                className="shrink-0 bg-amber-600 hover:bg-amber-700"
+                onClick={handleRetake}
+              >
+                <RefreshCw className="w-4 h-4 mr-2" />
+                Retake Assessment
+              </Button>
+            </div>
+          )}
 
-              <div className="grid md:grid-cols-3 gap-6">
-                {/* Top Aptitudes */}
-                <div className="bg-white rounded-lg p-4 border border-stone-200">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Puzzle className="w-5 h-5 text-purple-600" />
-                    <h4 className="font-semibold text-stone-700">Top Aptitudes</h4>
+          <section className="mb-8">
+            <Card className="bg-white/20 backdrop-blur-lg border border-white/40 shadow-xl">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-12 h-12 bg-lime-500 rounded-full flex items-center justify-center shadow-lg">
+                    <User className="w-6 h-6 text-white" />
                   </div>
-                  <div className="space-y-2">
-                    {topAptitudes.map((apt, i) => (
-                      <div key={apt.cluster} className="flex items-center justify-between">
-                        <span className="text-sm text-stone-600">
-                          {i === 0 && '🥇'} {i === 1 && '🥈'} {i === 2 && '🥉'} {clusterNames[apt.cluster]}
+                  <div>
+                    <h3 className="text-xl font-bold text-white drop-shadow-md">Your Profile at a Glance</h3>
+                    <p className="text-white/80">Based on your assessment responses</p>
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-3 gap-6">
+                  {/* Top Aptitudes */}
+                  <div className="bg-white/90 backdrop-blur-sm rounded-lg p-4 border border-white/60 shadow-md">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Puzzle className="w-5 h-5 text-purple-600" />
+                      <h4 className="font-semibold text-stone-700">Top Aptitudes</h4>
+                    </div>
+                    <div className="space-y-2">
+                      {topAptitudes.map((apt, i) => (
+                        <div key={apt.cluster} className="flex items-center justify-between">
+                          <span className="text-sm text-stone-600">
+                            {i + 1}. {clusterNames[apt.cluster] || apt.cluster}
+                          </span>
+                          <span className="text-xs font-bold text-lime-600">{apt.score}%</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Top Values */}
+                  <div className="bg-white/90 backdrop-blur-sm rounded-lg p-4 border border-white/60 shadow-md">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Heart className="w-5 h-5 text-pink-600" />
+                      <h4 className="font-semibold text-stone-700">What Matters Most</h4>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {topValues.map((value) => (
+                        <span
+                          key={value.label}
+                          className={`inline-flex items-center text-xs px-2 py-1 rounded-full ${
+                            value.isTop
+                              ? 'bg-pink-100 text-pink-700 border border-pink-300'
+                              : 'bg-stone-100 text-stone-600'
+                          }`}
+                        >
+                          {value.isTop && <Star className="w-3 h-3 mr-1" />}
+                          {value.label}
                         </span>
-                        <span className="text-sm font-semibold text-purple-700">{apt.score}%</span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Education & Status */}
+                  <div className="bg-white/90 backdrop-blur-sm rounded-lg p-4 border border-white/60 shadow-md">
+                    <div className="flex items-center gap-2 mb-3">
+                      <GraduationCap className="w-5 h-5 text-lime-600" />
+                      <h4 className="font-semibold text-stone-700">Current Situation</h4>
+                    </div>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex items-center gap-2 text-stone-600">
+                        <span>Education:</span>
+                        <span className="font-semibold text-stone-700">
+                          {storedResults.basic.educationLevel.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+                        </span>
                       </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Top Values */}
-                <div className="bg-white rounded-lg p-4 border border-stone-200">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Heart className="w-5 h-5 text-pink-600" />
-                    <h4 className="font-semibold text-stone-700">What Matters Most</h4>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {topValues.map((value) => (
-                      <span
-                        key={value.label}
-                        className={`inline-flex items-center text-xs px-2 py-1 rounded-full ${
-                          value.isTop
-                            ? 'bg-pink-100 text-pink-700 border border-pink-300'
-                            : 'bg-stone-100 text-stone-600'
-                        }`}
-                      >
-                        {value.isTop && <Star className="w-3 h-3 mr-1" />}
-                        {value.label}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Education & Status */}
-                <div className="bg-white rounded-lg p-4 border border-stone-200">
-                  <div className="flex items-center gap-2 mb-3">
-                    <GraduationCap className="w-5 h-5 text-blue-600" />
-                    <h4 className="font-semibold text-stone-700">Current Situation</h4>
-                  </div>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex items-center gap-2 text-stone-600">
-                      <span>Education:</span>
-                      <span className="font-medium text-stone-700">
-                        {storedResults.basic.educationLevel.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2 text-stone-600">
-                      <span>Status:</span>
-                      <span className="font-medium text-stone-700">
-                        {storedResults.basic.employmentStatus.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
-                      </span>
+                      <div className="flex items-center gap-2 text-stone-600">
+                        <span>Status:</span>
+                        <span className="font-semibold text-stone-700">
+                          {storedResults.basic.employmentStatus.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
+              </CardContent>
+            </Card>
+          </section>
+        </Container>
+
+        {/* Curved bottom edge */}
+        <div className="absolute bottom-0 left-0 right-0 z-0">
+          <svg
+            viewBox="0 0 1200 60"
+            preserveAspectRatio="none"
+            className="w-full h-8 md:h-12"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 40 Q200 60 400 30 Q600 0 800 20 Q1000 40 1200 10 L1200 60 L0 60 Z"
+              fill="#fafaf9"
+            />
+            <path
+              d="M0 40 Q200 60 400 30 Q600 0 800 20 Q1000 40 1200 10"
+              fill="none"
+              stroke="#a3e635"
+              strokeWidth="2"
+              opacity="0.4"
+            />
+          </svg>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <Container className="py-8 md:py-12 px-6">
 
         {/* Work Style Profile */}
         {workStyleProfile && (
           <section className="mb-12">
             <div className="flex items-center gap-3 mb-6">
-              <Compass className="w-6 h-6 text-indigo-600" />
+              <Compass className="w-6 h-6 text-lime-600" />
               <h2 className="text-3xl font-bold text-stone-700">Your Work Style Profile</h2>
             </div>
-            <Card>
+            <Card className="bg-white/80 backdrop-blur-sm border border-stone-200/60">
               <CardContent className="p-6">
                 <p className="text-stone-600 mb-6">
                   Understanding how you prefer to work helps us match you with careers where you'll thrive.
                 </p>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  <div className="flex items-start gap-3 p-3 bg-stone-50 rounded-lg">
-                    <Briefcase className="w-5 h-5 text-blue-600 mt-0.5" />
+                  <div className="flex items-start gap-3 p-3 bg-white/60 rounded-lg border border-stone-100">
+                    <Briefcase className="w-5 h-5 text-lime-600 mt-0.5" />
                     <div>
                       <p className="text-xs text-stone-500 uppercase tracking-wide">Environment</p>
                       <p className="font-medium text-stone-700">{workStyleProfile.environment}</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-3 bg-stone-50 rounded-lg">
+                  <div className="flex items-start gap-3 p-3 bg-white/60 rounded-lg border border-stone-100">
                     <Users className="w-5 h-5 text-purple-600 mt-0.5" />
                     <div>
                       <p className="text-xs text-stone-500 uppercase tracking-wide">Interaction</p>
                       <p className="font-medium text-stone-700">{workStyleProfile.interaction}</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-3 bg-stone-50 rounded-lg">
+                  <div className="flex items-start gap-3 p-3 bg-white/60 rounded-lg border border-stone-100">
                     <Target className="w-5 h-5 text-green-600 mt-0.5" />
                     <div>
                       <p className="text-xs text-stone-500 uppercase tracking-wide">Structure</p>
                       <p className="font-medium text-stone-700">{workStyleProfile.structure}</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-3 bg-stone-50 rounded-lg">
+                  <div className="flex items-start gap-3 p-3 bg-white/60 rounded-lg border border-stone-100">
                     <Clock className="w-5 h-5 text-orange-600 mt-0.5" />
                     <div>
                       <p className="text-xs text-stone-500 uppercase tracking-wide">Work Pace</p>
                       <p className="font-medium text-stone-700">{workStyleProfile.pace}</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-3 bg-stone-50 rounded-lg">
+                  <div className="flex items-start gap-3 p-3 bg-white/60 rounded-lg border border-stone-100">
                     <Lightbulb className="w-5 h-5 text-yellow-600 mt-0.5" />
                     <div>
                       <p className="text-xs text-stone-500 uppercase tracking-wide">Decision Making</p>
                       <p className="font-medium text-stone-700">{workStyleProfile.decisionStyle}</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-3 bg-stone-50 rounded-lg">
+                  <div className="flex items-start gap-3 p-3 bg-white/60 rounded-lg border border-stone-100">
                     <Zap className="w-5 h-5 text-pink-600 mt-0.5" />
                     <div>
                       <p className="text-xs text-stone-500 uppercase tracking-wide">Energy From</p>
@@ -354,7 +494,7 @@ function ResultsPage() {
                     </div>
                   </div>
                   {workStyleProfile.schedule && (
-                    <div className="flex items-start gap-3 p-3 bg-stone-50 rounded-lg">
+                    <div className="flex items-start gap-3 p-3 bg-white/60 rounded-lg border border-stone-100">
                       <Clock className="w-5 h-5 text-teal-600 mt-0.5" />
                       <div>
                         <p className="text-xs text-stone-500 uppercase tracking-wide">Schedule</p>
@@ -363,7 +503,7 @@ function ResultsPage() {
                     </div>
                   )}
                   {workStyleProfile.travel && (
-                    <div className="flex items-start gap-3 p-3 bg-stone-50 rounded-lg">
+                    <div className="flex items-start gap-3 p-3 bg-white/60 rounded-lg border border-stone-100">
                       <MapPin className="w-5 h-5 text-rose-600 mt-0.5" />
                       <div>
                         <p className="text-xs text-stone-500 uppercase tracking-wide">Travel</p>
@@ -372,7 +512,7 @@ function ResultsPage() {
                     </div>
                   )}
                   {workStyleProfile.physicalDemands && (
-                    <div className="flex items-start gap-3 p-3 bg-stone-50 rounded-lg">
+                    <div className="flex items-start gap-3 p-3 bg-white/60 rounded-lg border border-stone-100">
                       <Zap className="w-5 h-5 text-amber-600 mt-0.5" />
                       <div>
                         <p className="text-xs text-stone-500 uppercase tracking-wide">Physical Activity</p>
@@ -389,7 +529,7 @@ function ResultsPage() {
         {/* Top Career Fields */}
         <section className="mb-12">
           <div className="flex items-center gap-3 mb-6">
-            <TrendingUp className="w-6 h-6 text-blue-600" />
+            <TrendingUp className="w-6 h-6 text-lime-600" />
             <h2 className="text-3xl font-bold text-stone-700">
               Your Top Career Fields
             </h2>
@@ -403,8 +543,8 @@ function ResultsPage() {
                 key={index}
                 className={`border-2 transition-colors flex flex-col ${
                   index === 0
-                    ? 'border-blue-300 hover:border-blue-400 bg-gradient-to-br from-blue-50 to-white'
-                    : 'border-stone-200 hover:border-stone-300'
+                    ? 'border-lime-300 hover:border-lime-400 bg-gradient-to-br from-lime-50 to-white'
+                    : 'border-stone-200 hover:border-stone-300 bg-white/80 backdrop-blur-sm'
                 }`}
               >
                 <CardHeader>
@@ -412,7 +552,7 @@ function ResultsPage() {
                     <Badge variant={index === 0 ? 'primary' : 'default'} size="sm">
                       #{index + 1} Match
                     </Badge>
-                    <span className={`text-2xl font-bold ${index === 0 ? 'text-blue-600' : 'text-stone-600'}`}>
+                    <span className={`text-2xl font-bold ${index === 0 ? 'text-lime-600' : 'text-stone-600'}`}>
                       {field.score}%
                     </span>
                   </div>
@@ -422,7 +562,7 @@ function ResultsPage() {
                   <p className="text-stone-600 mb-4 flex-1">{field.description}</p>
                   <div className="w-full bg-stone-200 rounded-full h-2">
                     <div
-                      className={`h-2 rounded-full transition-all duration-500 ${index === 0 ? 'bg-blue-500' : 'bg-stone-400'}`}
+                      className={`h-2 rounded-full transition-all duration-500 ${index === 0 ? 'bg-lime-500' : 'bg-stone-400'}`}
                       style={{ width: `${field.score}%` }}
                     />
                   </div>
@@ -440,7 +580,7 @@ function ResultsPage() {
               Your Core Values
             </h2>
           </div>
-          <Card>
+          <Card className="bg-white/80 backdrop-blur-sm border border-stone-200/60">
             <CardContent className="p-6">
               <div className="grid md:grid-cols-2 gap-6">
                 {analysis?.topValues.map((value, index) => (
@@ -481,7 +621,7 @@ function ResultsPage() {
               Personality Insights
             </h2>
           </div>
-          <Card>
+          <Card className="bg-white/80 backdrop-blur-sm border border-stone-200/60">
             <CardContent className="p-6">
               <ul className="space-y-4">
                 {analysis?.personalityInsights.map((insight, index) => (
@@ -503,7 +643,7 @@ function ResultsPage() {
               Personalized Recommendations
             </h2>
           </div>
-          <Card className="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200">
+          <Card className="bg-gradient-to-br from-amber-50/80 to-orange-50/80 backdrop-blur-sm border border-amber-200/60">
             <CardContent className="p-6">
               <ul className="space-y-4">
                 {analysis?.recommendations.map((recommendation, index) => (
@@ -524,13 +664,13 @@ function ResultsPage() {
         {/* Career Matches Section */}
         <section className="mb-12">
           <div className="flex items-center gap-3 mb-6">
-            <Briefcase className="w-6 h-6 text-emerald-600" />
+            <Briefcase className="w-6 h-6 text-lime-600" />
             <h2 className="text-3xl font-bold text-stone-700">
               Your Personalized Career Matches
             </h2>
           </div>
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-            <p className="text-blue-800 text-sm">
+          <div className="bg-lime-50/80 border border-lime-200 rounded-lg p-4 mb-6">
+            <p className="text-lime-800 text-sm">
               <strong>How we match careers:</strong> We compare your aptitude scores, work style preferences,
               and values against the characteristics of each occupation. Higher match percentages indicate
               stronger alignment. Scores of 60%+ indicate a strong match with your profile.
@@ -576,18 +716,18 @@ function ResultsPage() {
         {/* Next Steps */}
         <section className="mb-12">
           <div className="flex items-center gap-3 mb-6">
-            <CheckCircle className="w-6 h-6 text-violet-600" />
+            <CheckCircle className="w-6 h-6 text-lime-600" />
             <h2 className="text-3xl font-bold text-stone-700">
               Your Next Steps
             </h2>
           </div>
-          <Card>
+          <Card className="bg-white/80 backdrop-blur-sm border border-stone-200/60">
             <CardContent className="p-6">
               <ol className="space-y-4">
                 {analysis?.nextSteps.map((step, index) => (
                   <li key={index} className="flex items-start gap-4">
-                    <div className="shrink-0 w-8 h-8 bg-stone-200 rounded-full flex items-center justify-center">
-                      <span className="font-semibold text-stone-700">
+                    <div className="shrink-0 w-8 h-8 bg-lime-100 rounded-full flex items-center justify-center">
+                      <span className="font-semibold text-lime-700">
                         {index + 1}
                       </span>
                     </div>

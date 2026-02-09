@@ -139,7 +139,7 @@ function AboutPage() {
 
         <Container className="relative z-10">
           <div className="text-center">
-            <div className="mb-6 inline-flex items-center justify-center w-24 h-24 bg-white/50 backdrop-blur-md rounded-full shadow-lg border border-white/40">
+            <div className="mb-6 inline-flex items-center justify-center w-28 h-28 bg-white/50 backdrop-blur-md rounded-full shadow-lg border border-white/40">
               <svg className="w-16 h-16" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg">
                 <path
                   fill="none"
