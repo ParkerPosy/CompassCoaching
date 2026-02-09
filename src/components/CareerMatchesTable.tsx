@@ -112,7 +112,7 @@ export function CareerMatchesTable({
   };
 
   const getMatchColor = (score: number) => {
-    if (score >= 75) return 'text-emerald-600 bg-emerald-50';
+    if (score >= 75) return 'text-lime-700 bg-lime-50';
     if (score >= 60) return 'text-teal-600 bg-teal-50';
     if (score >= 50) return 'text-blue-600 bg-blue-50';
     if (score >= 40) return 'text-amber-600 bg-amber-50';
@@ -120,7 +120,7 @@ export function CareerMatchesTable({
   };
 
   const getMatchBadge = (score: number) => {
-    if (score >= 80) return { label: 'Excellent Match', color: 'bg-emerald-600' };
+    if (score >= 80) return { label: 'Excellent Match', color: 'bg-lime-600' };
     if (score >= 65) return { label: 'Strong Match', color: 'bg-teal-600' };
     if (score >= 55) return { label: 'Good Match', color: 'bg-blue-600' };
     if (score >= 45) return { label: 'Potential Match', color: 'bg-amber-500' };
@@ -173,7 +173,7 @@ export function CareerMatchesTable({
     return (
       <div ref={sentinelRef} className="bg-white rounded-xl border border-stone-200 shadow-lg overflow-hidden min-h-[200px] flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="w-8 h-8 animate-spin text-emerald-600 mx-auto mb-2" />
+          <Loader2 className="w-8 h-8 animate-spin text-lime-600 mx-auto mb-2" />
           <p className="text-sm text-stone-600">Finding your career matches...</p>
         </div>
       </div>
@@ -193,7 +193,7 @@ export function CareerMatchesTable({
         </p>
         <a
           href="/careers"
-          className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium"
+          className="inline-flex items-center gap-2 text-lime-600 hover:text-lime-700 font-medium"
         >
           Browse All Careers →
         </a>
@@ -204,19 +204,19 @@ export function CareerMatchesTable({
   return (
     <div ref={sentinelRef} className="bg-white rounded-xl border border-stone-200 shadow-lg overflow-hidden">
       {/* Header */}
-      <div className="bg-gradient-to-r from-lime-50 via-lime-100/50 to-stone-50 border-b border-lime-200 px-4 sm:px-6 py-3 sm:py-4">
+      <div className="bg-gradient-to-r from-blue-50 via-blue-100/50 to-stone-50 border-b border-blue-200 px-4 sm:px-6 py-3 sm:py-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <div>
             <h3 className="text-base sm:text-lg font-semibold text-stone-700">
-              Found {total} Career Match{total !== 1 ? 'es' : ''}
+              Found <span className="text-blue-950">{total}</span> Career Match{total !== 1 ? 'es' : ''}
             </h3>
             <p className="text-xs sm:text-sm text-stone-600">
               Based on your assessment results {selectedCounty && `• ${selectedCounty} County`}
             </p>
           </div>
-          <div className="flex items-center gap-2 bg-white px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-lime-300 self-start sm:self-auto">
-            <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-lime-600" />
-            <span className="text-xs sm:text-sm font-medium text-lime-700">Personalized</span>
+          <div className="flex items-center gap-2 bg-white px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-blue-300 self-start sm:self-auto">
+            <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-600" />
+            <span className="text-xs sm:text-sm font-medium text-blue-700">Personalized</span>
           </div>
         </div>
       </div>
@@ -238,7 +238,7 @@ export function CareerMatchesTable({
               {hasNextPage && index === matches.length - 3 && (
                 <div ref={loadMoreRef} className="h-0" />
               )}
-              <div className="bg-white rounded-lg shadow-sm border border-stone-200 hover:border-emerald-300 hover:shadow-md transition-all duration-200">
+              <div className="bg-white rounded-lg shadow-sm border border-stone-200 hover:border-lime-300 hover:shadow-md transition-all duration-200">
               {/* Main Row */}
               <div
                 className="p-4 sm:p-5 cursor-pointer"
@@ -248,7 +248,7 @@ export function CareerMatchesTable({
                   {/* Match Score */}
                   <div className="shrink-0">
                     <div
-                      className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full flex flex-col items-center justify-center ${getMatchColor(match.matchScore)} border-2 ${match.matchScore >= 80 ? 'border-emerald-400' : 'border-stone-300'}`}
+                      className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full flex flex-col items-center justify-center ${getMatchColor(match.matchScore)} border-2 ${match.matchScore >= 80 ? 'border-lime-400' : 'border-stone-300'}`}
                     >
                       <span className="text-xl sm:text-2xl font-bold">{match.matchScore}</span>
                       <span className="text-[9px] sm:text-[10px] font-semibold uppercase">Match</span>
@@ -280,7 +280,7 @@ export function CareerMatchesTable({
                             <span className="text-indigo-700">{formatEducationLevel(match.educationLevel)}</span>
                           </div>
                           <div className="flex items-center gap-1">
-                            <span className="font-semibold text-emerald-700">
+                            <span className="font-semibold text-lime-700">
                               {formatCurrency(wageData.annual.median)} median
                             </span>
                           </div>
@@ -349,9 +349,9 @@ export function CareerMatchesTable({
                             {formatCurrency(wageData.annual.entry)}
                           </span>
                         </div>
-                        <div className="flex justify-between items-center bg-emerald-50 px-2 py-1 rounded">
-                          <span className="text-emerald-800 font-medium">Median:</span>
-                          <span className="font-bold text-emerald-700">
+                        <div className="flex justify-between items-center bg-lime-50 px-2 py-1 rounded">
+                          <span className="text-lime-800 font-medium">Median:</span>
+                          <span className="font-bold text-lime-700">
                             {formatCurrency(wageData.annual.median)}
                           </span>
                         </div>
@@ -375,7 +375,7 @@ export function CareerMatchesTable({
                           <span className="text-stone-600">Growth:</span>
                           <span className={`font-semibold capitalize px-2 py-0.5 rounded ${
                             match.metadata.outlook.growth === 'growing' || match.metadata.outlook.growth === 'much_faster_than_average'
-                              ? 'bg-emerald-100 text-emerald-700'
+                              ? 'bg-lime-100 text-lime-700'
                               : match.metadata.outlook.growth === 'stable'
                               ? 'bg-blue-100 text-blue-700'
                               : 'bg-amber-100 text-amber-700'
@@ -387,7 +387,7 @@ export function CareerMatchesTable({
                           <span className="text-stone-600">Automation Risk:</span>
                           <span className={`font-semibold capitalize px-2 py-0.5 rounded ${
                             match.metadata.outlook.automationRisk === 'low'
-                              ? 'bg-emerald-100 text-emerald-700'
+                              ? 'bg-lime-100 text-lime-700'
                               : match.metadata.outlook.automationRisk === 'medium'
                               ? 'bg-amber-100 text-amber-700'
                               : 'bg-rose-100 text-rose-700'

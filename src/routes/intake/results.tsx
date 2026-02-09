@@ -7,6 +7,7 @@ import {
   Briefcase,
   Car,
   CheckCircle,
+  ChevronDown,
   Clock,
   Compass,
   DollarSign,
@@ -31,9 +32,8 @@ import {
 import { useEffect, useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Container } from "@/components/layout/container";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -157,6 +157,41 @@ function ResultsPattern() {
         strokeWidth="1.5"
       />
     </svg>
+  );
+}
+
+// Collapsible section component for streamlined UI
+function CollapsibleSection({
+  title,
+  description,
+  icon: Icon,
+  iconColor,
+  defaultOpen = true,
+  children,
+}: {
+  title: string;
+  description?: string;
+  icon: typeof BookOpen;
+  iconColor: string;
+  defaultOpen?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <details className="group mb-8" open={defaultOpen}>
+      <summary className="cursor-pointer list-none flex items-center justify-between p-4 bg-gradient-to-r from-white/80 to-stone-50/60 backdrop-blur-sm rounded-xl border border-stone-200/60 hover:from-white hover:to-white/80 transition-all shadow-sm">
+        <div className="flex items-center gap-3">
+          <div className={`p-2 rounded-lg bg-gradient-to-br ${iconColor}`}>
+            <Icon className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold text-stone-700">{title}</h2>
+            {description && <p className="text-sm text-stone-500 group-open:hidden">{description}</p>}
+          </div>
+        </div>
+        <ChevronDown className="w-5 h-5 text-stone-400 transition-transform group-open:rotate-180" />
+      </summary>
+      <div className="mt-4 pl-2">{children}</div>
+    </details>
   );
 }
 
@@ -761,171 +796,42 @@ function ResultsPage() {
       {/* Main Content */}
       <Container className="py-8 md:py-12 px-6">
 
-        {/* Work Style Profile */}
-        {workStyleProfile && (
-          <section className="mb-12">
-            <div className="flex items-center gap-3 mb-6">
-              <Compass className="w-6 h-6 text-lime-600" />
-              <h2 className="text-3xl font-bold text-stone-700">Your Work Style Profile</h2>
-            </div>
-            <Card className="bg-white/80 backdrop-blur-sm border border-stone-200/60">
-              <CardContent className="p-6">
-                <p className="text-stone-600 mb-6">
-                  Understanding how you prefer to work helps us match you with careers where you'll thrive.
-                </p>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  <div className="flex items-start gap-3 p-3 bg-white/60 rounded-lg border border-stone-100">
-                    <Briefcase className="w-5 h-5 text-lime-600 mt-0.5" />
-                    <div>
-                      <p className="text-xs text-stone-500 uppercase tracking-wide">Environment</p>
-                      <p className="font-medium text-stone-700">{workStyleProfile.environment}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 p-3 bg-white/60 rounded-lg border border-stone-100">
-                    <Users className="w-5 h-5 text-purple-600 mt-0.5" />
-                    <div>
-                      <p className="text-xs text-stone-500 uppercase tracking-wide">Interaction</p>
-                      <p className="font-medium text-stone-700">{workStyleProfile.interaction}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 p-3 bg-white/60 rounded-lg border border-stone-100">
-                    <Target className="w-5 h-5 text-green-600 mt-0.5" />
-                    <div>
-                      <p className="text-xs text-stone-500 uppercase tracking-wide">Structure</p>
-                      <p className="font-medium text-stone-700">{workStyleProfile.structure}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 p-3 bg-white/60 rounded-lg border border-stone-100">
-                    <Clock className="w-5 h-5 text-orange-600 mt-0.5" />
-                    <div>
-                      <p className="text-xs text-stone-500 uppercase tracking-wide">Work Pace</p>
-                      <p className="font-medium text-stone-700">{workStyleProfile.pace}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 p-3 bg-white/60 rounded-lg border border-stone-100">
-                    <Lightbulb className="w-5 h-5 text-yellow-600 mt-0.5" />
-                    <div>
-                      <p className="text-xs text-stone-500 uppercase tracking-wide">Decision Making</p>
-                      <p className="font-medium text-stone-700">{workStyleProfile.decisionStyle}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 p-3 bg-white/60 rounded-lg border border-stone-100">
-                    <Zap className="w-5 h-5 text-pink-600 mt-0.5" />
-                    <div>
-                      <p className="text-xs text-stone-500 uppercase tracking-wide">Energy From</p>
-                      <p className="font-medium text-stone-700">{workStyleProfile.energySource}</p>
-                    </div>
-                  </div>
-                  {workStyleProfile.schedule && (
-                    <div className="flex items-start gap-3 p-3 bg-white/60 rounded-lg border border-stone-100">
-                      <Clock className="w-5 h-5 text-teal-600 mt-0.5" />
-                      <div>
-                        <p className="text-xs text-stone-500 uppercase tracking-wide">Schedule</p>
-                        <p className="font-medium text-stone-700">{workStyleProfile.schedule}</p>
-                      </div>
-                    </div>
-                  )}
-                  {workStyleProfile.travel && (
-                    <div className="flex items-start gap-3 p-3 bg-white/60 rounded-lg border border-stone-100">
-                      <MapPin className="w-5 h-5 text-rose-600 mt-0.5" />
-                      <div>
-                        <p className="text-xs text-stone-500 uppercase tracking-wide">Travel</p>
-                        <p className="font-medium text-stone-700">{workStyleProfile.travel}</p>
-                      </div>
-                    </div>
-                  )}
-                  {workStyleProfile.physicalDemands && (
-                    <div className="flex items-start gap-3 p-3 bg-white/60 rounded-lg border border-stone-100">
-                      <Zap className="w-5 h-5 text-amber-600 mt-0.5" />
-                      <div>
-                        <p className="text-xs text-stone-500 uppercase tracking-wide">Physical Activity</p>
-                        <p className="font-medium text-stone-700">{workStyleProfile.physicalDemands}</p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-        )}
-
-        {/* Top Career Fields */}
-        <section className="mb-12">
-          <div className="flex items-center gap-3 mb-6">
+        {/* Top Career Fields - Compact Display */}
+        <section className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
             <TrendingUp className="w-6 h-6 text-lime-600" />
-            <h2 className="text-3xl font-bold text-stone-700">
+            <h2 className="text-2xl font-bold text-stone-700">
               Your Top Career Fields
             </h2>
           </div>
-          <p className="text-stone-600 mb-6">
-            Based on your aptitude ratings, these fields align best with your natural strengths.
-          </p>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {analysis?.topCareerFields.map((field, index) => (
-              <Card
-                key={index}
-                className={`border-2 transition-colors flex flex-col ${
-                  index === 0
-                    ? 'border-lime-300 hover:border-lime-400 bg-gradient-to-br from-lime-50 to-white'
-                    : 'border-stone-200 hover:border-stone-300 bg-white/80 backdrop-blur-sm'
-                }`}
-              >
-                <CardHeader>
-                  <div className="flex items-start justify-between mb-2">
-                    <Badge variant={index === 0 ? 'primary' : 'default'} size="sm">
-                      #{index + 1} Match
-                    </Badge>
-                    <span className={`text-2xl font-bold ${index === 0 ? 'text-lime-600' : 'text-stone-600'}`}>
-                      {field.score}%
-                    </span>
-                  </div>
-                  <CardTitle className="text-xl">{field.field}</CardTitle>
-                </CardHeader>
-                <CardContent className="flex flex-col flex-1">
-                  <p className="text-stone-600 mb-4 flex-1">{field.description}</p>
-                  <div className="w-full bg-stone-200 rounded-full h-2">
-                    <div
-                      className={`h-2 rounded-full transition-all duration-500 ${index === 0 ? 'bg-lime-500' : 'bg-stone-400'}`}
-                      style={{ width: `${field.score}%` }}
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        {/* Top Values */}
-        <section className="mb-12">
-          <div className="flex items-center gap-3 mb-6">
-            <Heart className="w-6 h-6 text-rose-500" />
-            <h2 className="text-3xl font-bold text-stone-700">
-              Your Core Values
-            </h2>
-          </div>
           <Card className="bg-white/80 backdrop-blur-sm border border-stone-200/60">
-            <CardContent className="p-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                {analysis?.topValues.map((value, index) => (
-                  <div key={index} className="flex items-center gap-4">
-                    <div className="shrink-0 w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center">
-                      <span className="text-lg font-bold text-rose-600">
-                        {index + 1}
-                      </span>
+            <CardContent className="p-4">
+              <div className="space-y-3">
+                {analysis?.topCareerFields.map((field, index) => (
+                  <div
+                    key={index}
+                    className={`flex items-center gap-4 p-3 rounded-lg ${
+                      index === 0 ? 'bg-lime-50 border border-lime-200' : 'bg-stone-50'
+                    }`}
+                  >
+                    <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${
+                      index === 0 ? 'bg-lime-500 text-white' : 'bg-stone-300 text-stone-600'
+                    }`}>
+                      {index + 1}
                     </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-2">
-                        <h3 className="font-semibold text-stone-700">
-                          {value.value}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-2">
+                        <h3 className={`font-semibold truncate ${index === 0 ? 'text-lime-700' : 'text-stone-700'}`}>
+                          {field.field}
                         </h3>
-                        <span className="text-sm font-medium text-rose-600">
-                          {value.score}%
+                        <span className={`shrink-0 text-lg font-bold ${index === 0 ? 'text-lime-600' : 'text-stone-500'}`}>
+                          {field.score}%
                         </span>
                       </div>
-                      <div className="w-full bg-stone-200 rounded-full h-1.5">
+                      <div className="w-full bg-stone-200 rounded-full h-1.5 mt-1">
                         <div
-                          className="bg-rose-400 h-1.5 rounded-full transition-all duration-500"
-                          style={{ width: `${value.score}%` }}
+                          className={`h-1.5 rounded-full ${index === 0 ? 'bg-lime-500' : 'bg-stone-400'}`}
+                          style={{ width: `${field.score}%` }}
                         />
                       </div>
                     </div>
@@ -936,248 +842,31 @@ function ResultsPage() {
           </Card>
         </section>
 
-        {/* Personality Insights */}
-        <section className="mb-12">
-          <div className="flex items-center gap-3 mb-6">
-            <Lightbulb className="w-6 h-6 text-amber-500" />
-            <h2 className="text-3xl font-bold text-stone-700">
-              Personality Insights
-            </h2>
-          </div>
-          <Card className="bg-white/80 backdrop-blur-sm border border-stone-200/60">
-            <CardContent className="p-6">
-              <ul className="space-y-4">
-                {analysis?.personalityInsights.map((insight, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-teal-600 shrink-0 mt-0.5" />
-                    <span className="text-stone-700">{insight}</span>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Why You're Here - Acknowledge their reason */}
-        {reasonMessage && (
-          <section className="mb-12">
-            <div className="flex items-center gap-3 mb-6">
-              <Sparkles className="w-6 h-6 text-violet-500" />
-              <h2 className="text-3xl font-bold text-stone-700">
-                Why You're Here
-              </h2>
-            </div>
-            <Card className="bg-gradient-to-br from-violet-50/80 to-purple-50/80 backdrop-blur-sm border border-violet-200/60">
-              <CardContent className="p-6">
-                <blockquote className="text-lg text-stone-700 italic border-l-4 border-violet-400 pl-4 mb-4">
-                  "{reasonMessage.message}"
-                </blockquote>
-                <p className="text-stone-600">
-                  {reasonMessage.followUp}
-                </p>
-              </CardContent>
-            </Card>
-          </section>
-        )}
-
-        {/* Age-Appropriate Insights */}
-        {ageInsights && (
-          <section className="mb-12">
-            <div className="flex items-center gap-3 mb-6">
-              <User className="w-6 h-6 text-indigo-500" />
-              <h2 className="text-3xl font-bold text-stone-700">
-                {ageInsights.title}
-              </h2>
-            </div>
-            <Card className="bg-gradient-to-br from-indigo-50/80 to-blue-50/80 backdrop-blur-sm border border-indigo-200/60">
-              <CardContent className="p-6">
-                <p className="text-stone-700 text-lg leading-relaxed">
-                  {ageInsights.message}
-                </p>
-              </CardContent>
-            </Card>
-          </section>
-        )}
-
-        {/* Value Tensions */}
-        {valueTensions.length > 0 && (
-          <section className="mb-12">
-            <div className="flex items-center gap-3 mb-6">
-              <Scale className="w-6 h-6 text-cyan-600" />
-              <h2 className="text-3xl font-bold text-stone-700">
-                Balancing Your Values
-              </h2>
-            </div>
-            <p className="text-stone-600 mb-6">
-              You care deeply about multiple things that may seem to pull in different directions. Here's how they can work together:
-            </p>
-            <div className="grid md:grid-cols-2 gap-6">
-              {valueTensions.map((tension, index) => (
-                <Card key={index} className="bg-white/80 backdrop-blur-sm border border-cyan-200/60">
-                  <CardContent className="p-5">
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className="px-2 py-1 bg-cyan-100 text-cyan-700 rounded text-sm font-medium">
-                        {tension.values[0]}
-                      </span>
-                      <span className="text-stone-400">+</span>
-                      <span className="px-2 py-1 bg-cyan-100 text-cyan-700 rounded text-sm font-medium">
-                        {tension.values[1]}
-                      </span>
-                    </div>
-                    <p className="text-stone-600">{tension.insight}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* Your Path Forward - Challenges-based insights */}
-        {(pathForwardInsights.length > 0 || (storedResults?.challenges?.additionalNotes && storedResults.challenges.additionalNotes.trim() !== '')) && (
-          <section className="mb-12">
-            <div className="flex items-center gap-3 mb-6">
-              <RouteIcon className="w-6 h-6 text-emerald-600" />
-              <h2 className="text-3xl font-bold text-stone-700">
-                Your Path Forward
-              </h2>
-            </div>
-            <p className="text-stone-600 mb-6">
-              Based on your situation, here's how to navigate toward your goals:
-            </p>
-            {pathForwardInsights.length > 0 && (
-              <div className="space-y-4">
-                {pathForwardInsights.map((insight, index) => {
-                  const IconComponent = insight.icon;
-                  return (
-                    <Card key={index} className="bg-white/80 backdrop-blur-sm border border-emerald-200/60">
-                      <CardContent className="p-5">
-                        <div className="flex items-start gap-4">
-                          <div className="shrink-0 w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
-                            <IconComponent className="w-5 h-5 text-emerald-600" />
-                          </div>
-                          <div className="flex-1">
-                            <h4 className="font-semibold text-stone-700 mb-1">{insight.title}</h4>
-                            <p className="text-stone-600 mb-2">{insight.message}</p>
-                            <p className="text-emerald-700 text-sm bg-emerald-50 rounded-lg p-3">
-                              <strong>Action:</strong> {insight.actionable}
-                            </p>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  );
-                })}
-              </div>
-            )}
-
-            {/* Additional Notes - if the user shared extra context */}
-            {storedResults?.challenges?.additionalNotes && storedResults.challenges.additionalNotes.trim() !== '' && (
-              <Card className="mt-6 bg-amber-50/80 backdrop-blur-sm border border-amber-200/60">
-                <CardContent className="p-5">
-                  <div className="flex items-start gap-4">
-                    <div className="shrink-0 w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
-                      <Lightbulb className="w-5 h-5 text-amber-600" />
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-stone-700 mb-1">What You Shared</h4>
-                      <p className="text-stone-600 italic">"{storedResults.challenges.additionalNotes}"</p>
-                      <p className="text-amber-700 text-sm mt-2">
-                        We heard you. Keep this context in mind as you explore the career matches below—your unique circumstances matter in finding the right fit.
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-          </section>
-        )}
-
-        {/* Recommended Resources */}
-        {recommendedResources.length > 0 && (
-          <section className="mb-12">
-            <div className="flex items-center gap-3 mb-6">
-              <BookOpen className="w-6 h-6 text-teal-600" />
-              <h2 className="text-3xl font-bold text-stone-700">
-                Resources For You
-              </h2>
-            </div>
-            <p className="text-stone-600 mb-6">
-              Based on your profile, these resources are most relevant to your journey:
-            </p>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {recommendedResources.map((resource, index) => (
-                <Link
-                  key={index}
-                  to="/resources/$categorySlug"
-                  params={{ categorySlug: resource.slug }}
-                  className="group block"
-                >
-                  <Card className="h-full bg-white/80 backdrop-blur-sm border border-teal-200/60 hover:border-teal-400 hover:shadow-md transition-all">
-                    <CardContent className="p-4">
-                      <h4 className="font-semibold text-stone-700 group-hover:text-teal-600 transition-colors mb-2">
-                        {resource.title}
-                      </h4>
-                      <p className="text-sm text-stone-500">{resource.reason}</p>
-                    </CardContent>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* Recommendations */}
-        <section className="mb-12">
-          <div className="flex items-center gap-3 mb-6">
-            <Target className="w-6 h-6 text-orange-500" />
-            <h2 className="text-3xl font-bold text-stone-700">
-              Personalized Recommendations
-            </h2>
-          </div>
-          <Card className="bg-gradient-to-br from-amber-50/80 to-orange-50/80 backdrop-blur-sm border border-amber-200/60">
-            <CardContent className="p-6">
-              <ul className="space-y-4">
-                {analysis?.recommendations.map((recommendation, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <div className="shrink-0 w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center mt-0.5">
-                      <span className="text-xs font-bold text-white">
-                        {index + 1}
-                      </span>
-                    </div>
-                    <span className="text-stone-700">{recommendation}</span>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Career Matches Section */}
-        <section className="mb-12">
-          <div className="flex items-center gap-3 mb-6">
-            <Briefcase className="w-6 h-6 text-lime-600" />
-            <h2 className="text-3xl font-bold text-stone-700">
+        {/* Career Matches Section - Primary Content */}
+        <section className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <Briefcase className="w-6 h-6 text-blue-600" />
+            <h2 className="text-2xl font-bold text-stone-700">
               Your Personalized Career Matches
             </h2>
           </div>
-          <div className="bg-lime-50/80 border border-lime-200 rounded-lg p-4 mb-6">
-            <p className="text-lime-800 text-sm">
-              <strong>How we match careers:</strong> We compare your aptitude scores, work style preferences,
-              and values against the characteristics of each occupation. Higher match percentages indicate
-              stronger alignment. Scores of 60%+ indicate a strong match with your profile.
+          <div className="bg-blue-50/80 border border-blue-200 rounded-lg p-3 mb-4 text-sm">
+            <p className="text-blue-800">
+              <strong>How we match:</strong> Based on your aptitudes, work style, and values.
+              Scores of 60%+ indicate strong alignment.
             </p>
           </div>
 
           {/* County Filter */}
-          <div className="mb-6 flex items-center gap-4">
-            <MapPin className="w-5 h-5 text-stone-600" />
-            <span className="text-sm font-medium text-stone-700">Show salaries for:</span>
+          <div className="mb-4 flex items-center gap-3 flex-wrap">
+            <MapPin className="w-4 h-4 text-stone-500" />
+            <span className="text-sm text-stone-600">Salaries for:</span>
             <Select
               value={selectedCounty}
               onValueChange={setSelectedCounty}
               disabled={countiesLoading}
             >
-              <SelectTrigger className="bg-white w-[300px]">
+              <SelectTrigger className="bg-white w-[250px] h-9 text-sm">
                 <SelectValue placeholder="All Pennsylvania" />
               </SelectTrigger>
               <SelectContent position="popper" sideOffset={4}>
@@ -1198,40 +887,210 @@ function ResultsPage() {
               selectedCounty={selectedCounty !== 'All' ? selectedCounty : undefined}
             />
           ) : (
-            <div className="text-center py-12 text-stone-600">
+            <div className="text-center py-8 text-stone-600">
               Unable to load career matches. Please try refreshing the page.
             </div>
           )}
         </section>
 
-        {/* Next Steps */}
-        <section className="mb-12">
-          <div className="flex items-center gap-3 mb-6">
-            <CheckCircle className="w-6 h-6 text-lime-600" />
-            <h2 className="text-3xl font-bold text-stone-700">
-              Your Next Steps
-            </h2>
-          </div>
-          <Card className="bg-white/80 backdrop-blur-sm border border-stone-200/60">
-            <CardContent className="p-6">
-              <ol className="space-y-4">
-                {analysis?.nextSteps.map((step, index) => (
-                  <li key={index} className="flex items-start gap-4">
-                    <div className="shrink-0 w-8 h-8 bg-lime-100 rounded-full flex items-center justify-center">
-                      <span className="font-semibold text-lime-700">
-                        {index + 1}
-                      </span>
+        {/* Understanding Your Profile - Collapsible Deep Dive */}
+        <CollapsibleSection
+          title="Understanding Your Profile"
+          description="Your work style, personality insights & core values"
+          icon={User}
+          iconColor="from-purple-500 to-indigo-600"
+        >
+          {workStyleProfile && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-stone-700 mb-3 flex items-center gap-2">
+                <Compass className="w-5 h-5 text-lime-600" />
+                Work Style Preferences
+              </h3>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {[
+                  { label: 'Environment', value: workStyleProfile.environment, icon: Briefcase, color: 'lime' },
+                  { label: 'Interaction', value: workStyleProfile.interaction, icon: Users, color: 'purple' },
+                  { label: 'Structure', value: workStyleProfile.structure, icon: Target, color: 'green' },
+                  { label: 'Work Pace', value: workStyleProfile.pace, icon: Clock, color: 'orange' },
+                  { label: 'Decisions', value: workStyleProfile.decisionStyle, icon: Lightbulb, color: 'yellow' },
+                  { label: 'Energy From', value: workStyleProfile.energySource, icon: Zap, color: 'pink' },
+                ].map((item) => (
+                  <div key={item.label} className="flex items-center gap-2 p-2 bg-white/60 rounded-lg border border-stone-100 text-sm">
+                    <item.icon className={`w-4 h-4 text-${item.color}-600`} />
+                    <span className="text-stone-500">{item.label}:</span>
+                    <span className="font-medium text-stone-700">{item.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {analysis?.personalityInsights && analysis.personalityInsights.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-stone-700 mb-3 flex items-center gap-2">
+                <Lightbulb className="w-5 h-5 text-amber-500" />
+                Personality Insights
+              </h3>
+              <ul className="space-y-2">
+                {analysis.personalityInsights.map((insight, index) => (
+                  <li key={index} className="flex items-start gap-2 text-sm">
+                    <CheckCircle className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
+                    <span className="text-stone-600">{insight}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {reasonMessage && (
+            <div className="mb-6 p-4 bg-violet-50/80 rounded-lg border border-violet-200/60">
+              <h3 className="text-lg font-semibold text-stone-700 mb-2 flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-violet-500" />
+                Why You're Here
+              </h3>
+              <blockquote className="text-stone-600 italic border-l-3 border-violet-400 pl-3 text-sm">
+                "{reasonMessage.message}"
+              </blockquote>
+            </div>
+          )}
+
+          {ageInsights && (
+            <div className="mb-6 p-4 bg-indigo-50/80 rounded-lg border border-indigo-200/60">
+              <h3 className="text-lg font-semibold text-stone-700 mb-2 flex items-center gap-2">
+                <User className="w-5 h-5 text-indigo-500" />
+                {ageInsights.title}
+              </h3>
+              <p className="text-stone-600 text-sm">{ageInsights.message}</p>
+            </div>
+          )}
+
+          {valueTensions.length > 0 && (
+            <div>
+              <h3 className="text-lg font-semibold text-stone-700 mb-3 flex items-center gap-2">
+                <Scale className="w-5 h-5 text-cyan-600" />
+                Balancing Your Values
+              </h3>
+              <div className="space-y-3">
+                {valueTensions.map((tension, index) => (
+                  <div key={index} className="p-3 bg-white/60 rounded-lg border border-cyan-200/60">
+                    <div className="flex items-center gap-2 mb-2 flex-wrap">
+                      {tension.values.map((v, i) => (
+                        <span key={v}>
+                          <span className="px-2 py-0.5 bg-cyan-100 text-cyan-700 rounded text-xs font-medium">
+                            {v}
+                          </span>
+                          {i < tension.values.length - 1 && <span className="text-stone-400 mx-1">+</span>}
+                        </span>
+                      ))}
                     </div>
-                    <span className="text-stone-700 pt-1">{step}</span>
+                    <p className="text-stone-600 text-sm">{tension.insight}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </CollapsibleSection>
+
+        {/* Your Action Plan - Collapsible */}
+        <CollapsibleSection
+          title="Your Action Plan"
+          description="Next steps, resources & personalized recommendations"
+          icon={RouteIcon}
+          iconColor="from-emerald-500 to-teal-600"
+        >
+          {pathForwardInsights.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-stone-700 mb-3">Based on Your Situation</h3>
+              <div className="space-y-3">
+                {pathForwardInsights.map((insight, index) => {
+                  const IconComponent = insight.icon;
+                  return (
+                    <div key={index} className="p-4 bg-white/80 rounded-lg border border-emerald-200/60">
+                      <div className="flex items-start gap-3">
+                        <div className="shrink-0 w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
+                          <IconComponent className="w-4 h-4 text-emerald-600" />
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-medium text-stone-700 text-sm">{insight.title}</h4>
+                          <p className="text-stone-500 text-sm mb-2">{insight.message}</p>
+                          <p className="text-emerald-700 text-xs bg-emerald-50 rounded p-2">
+                            <strong>Action:</strong> {insight.actionable}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {storedResults?.challenges?.additionalNotes && storedResults.challenges.additionalNotes.trim() !== '' && (
+            <div className="mb-6 p-4 bg-amber-50/80 rounded-lg border border-amber-200/60">
+              <h4 className="font-medium text-stone-700 text-sm flex items-center gap-2 mb-2">
+                <Lightbulb className="w-4 h-4 text-amber-600" />
+                What You Shared
+              </h4>
+              <p className="text-stone-600 text-sm italic">"{storedResults.challenges.additionalNotes}"</p>
+            </div>
+          )}
+
+          {recommendedResources.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-stone-700 mb-3">Recommended Resources</h3>
+              <div className="grid sm:grid-cols-2 gap-3">
+                {recommendedResources.map((resource, index) => (
+                  <Link
+                    key={index}
+                    to="/resources/$categorySlug"
+                    params={{ categorySlug: resource.slug }}
+                    className="group block p-3 bg-white/80 rounded-lg border border-teal-200/60 hover:border-teal-400 transition-colors"
+                  >
+                    <h4 className="font-medium text-stone-700 group-hover:text-teal-600 transition-colors text-sm">
+                      {resource.title}
+                    </h4>
+                    <p className="text-xs text-stone-500">{resource.reason}</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {analysis?.recommendations && analysis.recommendations.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-stone-700 mb-3">Personalized Recommendations</h3>
+              <ul className="space-y-2">
+                {analysis.recommendations.map((recommendation, index) => (
+                  <li key={index} className="flex items-start gap-2">
+                    <div className="shrink-0 w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center mt-0.5">
+                      <span className="text-xs font-bold text-white">{index + 1}</span>
+                    </div>
+                    <span className="text-stone-600 text-sm">{recommendation}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {analysis?.nextSteps && analysis.nextSteps.length > 0 && (
+            <div>
+              <h3 className="text-lg font-semibold text-stone-700 mb-3">Your Next Steps</h3>
+              <ol className="space-y-2">
+                {analysis.nextSteps.map((step, index) => (
+                  <li key={index} className="flex items-start gap-3">
+                    <div className="shrink-0 w-6 h-6 bg-lime-100 rounded-full flex items-center justify-center">
+                      <span className="text-sm font-semibold text-lime-700">{index + 1}</span>
+                    </div>
+                    <span className="text-stone-600 text-sm pt-0.5">{step}</span>
                   </li>
                 ))}
               </ol>
-            </CardContent>
-          </Card>
-        </section>
+            </div>
+          )}
+        </CollapsibleSection>
 
         {/* Actions */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
           <Button
             variant="primary"
             size="lg"
@@ -1250,7 +1109,7 @@ function ResultsPage() {
         </div>
 
         {/* Retake Assessment */}
-        <div className="text-center mb-6">
+        <div className="text-center mb-4">
           <button
             type="button"
             onClick={handleRetake}
