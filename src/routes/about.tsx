@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Code, Compass, Heart, Linkedin, Users, Sparkles, Target, MessageCircle } from "lucide-react";
+import { Code, Heart, Linkedin, Users, Sparkles, Target, MessageCircle } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -98,8 +98,37 @@ function AboutPage() {
 
         <Container className="relative z-10">
           <div className="text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-white rounded-full mb-6 shadow-lg border-2 border-lime-200">
-              <Compass className="w-10 h-10 text-lime-600" />
+            <div className="mb-6 inline-flex items-center justify-center">
+              <svg className="w-24 h-24 drop-shadow-lg" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  fill="white"
+                  stroke="#65a30d"
+                  strokeWidth="13"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M34.94,10.53 l21.81,48.63 h-51.62 l60.37,180.31 h119 l60.37,-180.31 h-51.62 l21.81,-48.63 z"
+                />
+                <g style={{ transformOrigin: '122.5px 127.5px' }}>
+                  {/* Lime (NE half): full needle underneath */}
+                  <path
+                    d="M97 113 Q100 103 110 100 L170 80 L148 142 Q145 152 136 155"
+                    fill="none"
+                    stroke="#65a30d"
+                    strokeWidth="15"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  {/* Cyan (SW half): overlaps at exact midpoints */}
+                  <path
+                    d="M144 150 Q140.5 153.5 136 155 L75 175 L97 113 Q98.5 108 102 105"
+                    fill="none"
+                    stroke="#164e63"
+                    strokeWidth="15"
+                    strokeLinecap="butt"
+                    strokeLinejoin="round"
+                  />
+                </g>
+              </svg>
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-stone-900 mb-4">
               About Compass Coaching

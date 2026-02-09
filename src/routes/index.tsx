@@ -256,7 +256,7 @@ function HomePage() {
                   <path
                     d="M97 113 Q100 103 110 100 L170 80 L148 142 Q145 152 136 155"
                     fill="none"
-                    stroke="#84cc16"
+                    stroke="var(--color-lime-600)"
                     strokeWidth="15"
                     strokeLinecap="round"
                     strokeLinejoin="round"
