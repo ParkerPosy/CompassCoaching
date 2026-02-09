@@ -16,7 +16,6 @@ import {
   ChevronDown,
   ChevronRight,
   Circle,
-  Compass,
   Heart,
   Home,
   Info,
@@ -102,7 +101,11 @@ export default function Header() {
 
           <h1 className="text-lg sm:text-2xl font-bold flex items-center">
             <Link to="/" className="flex items-center gap-1.5 group">
-              <Compass className="w-5 h-5 sm:w-7 sm:h-7 text-lime-600 group-hover:rotate-12 transition-transform" />
+              <svg className="w-5 h-5 sm:w-7 sm:h-7 group-hover:scale-110 transition-transform" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#ffffff" stroke="#65a30d" strokeWidth="13" strokeLinecap="round" strokeLinejoin="round" d="M34.94,10.53 l21.81,48.63 h-51.62 l60.37,180.31 h119 l60.37,-180.31 h-51.62 l21.81,-48.63 z" />
+                <path d="M97 113 Q100 103 110 100 L170 80 L148 142 Q145 152 136 155" fill="none" stroke="#65a30d" strokeWidth="15" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M144 150 Q140.5 153.5 136 155 L75 175 L97 113 Q98.5 108 102 105" fill="none" stroke="#164e63" strokeWidth="15" strokeLinecap="butt" strokeLinejoin="round"/>
+              </svg>
               <div className="flex gap-1 sm:gap-1.5">
                 <span className="bg-linear-to-r from-lime-600 to-lime-500 bg-clip-text text-transparent">
                   Compass
@@ -327,7 +330,7 @@ export default function Header() {
               className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-stone-50 transition-colors mb-2 text-stone-900 font-medium"
             >
               <div className="flex items-center gap-3">
-                <Compass size={20} />
+                <Target size={20} />
                 <span>Career Assessment</span>
               </div>
               {showAssessmentMenu ? (
@@ -360,7 +363,7 @@ export default function Header() {
                 onClick={handleContinueAssessment}
                 className="w-full mb-3 px-4 py-2.5 bg-lime-500 hover:bg-lime-600 text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
               >
-                <Compass size={18} />
+                <Target size={18} />
                 Continue Assessment
               </button>
             )}
