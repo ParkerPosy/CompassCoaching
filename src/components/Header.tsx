@@ -88,7 +88,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="px-2 sm:px-4 py-3 sm:py-4 flex items-center justify-between bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm">
+      <header className="px-2 sm:px-4 py-3 sm:py-4 flex items-center justify-between bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm print-hidden">
         <div className="flex items-center gap-3 sm:gap-6">
           <button
             type="button"

@@ -632,7 +632,7 @@ function ResultsPage() {
   return (
     <div className="min-h-screen bg-stone-50">
       {/* Hero Section with Extended Swoosh Pattern */}
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden results-hero bg-gradient-to-br from-lime-900 via-lime-800 to-lime-700">
         {/* Pattern extends behind both hero and profile card */}
         <div className="absolute inset-0 pb-32">
           <ResultsPattern />
@@ -665,7 +665,7 @@ function ResultsPage() {
         <Container className="relative z-10 px-6 pb-12">
           {/* Migration Warning Banner */}
           {isOutdated && (
-            <div className="mb-8 p-4 bg-amber-50/90 backdrop-blur-sm border border-amber-200 rounded-lg flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <div className="mb-8 p-4 bg-amber-50/90 backdrop-blur-sm border border-amber-200 rounded-lg flex flex-col sm:flex-row items-start sm:items-center gap-4 print-hidden">
               <div className="flex items-start gap-3 flex-1">
                 <AlertTriangle className="w-6 h-6 text-amber-600 shrink-0 mt-0.5" />
                 <div>
@@ -688,7 +688,7 @@ function ResultsPage() {
             </div>
           )}
 
-          <section className="mb-8">
+          <section className="mb-8" style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
             <Card className="bg-white/20 backdrop-blur-lg border border-white/40 shadow-xl">
               <CardContent className="p-6">
                 <div className="flex items-center gap-3 mb-6">
@@ -858,7 +858,7 @@ function ResultsPage() {
           </div>
 
           {/* County Filter */}
-          <div className="mb-4 flex items-center gap-3 flex-wrap">
+          <div className="mb-4 flex items-center gap-3 flex-wrap print-hidden">
             <MapPin className="w-4 h-4 text-stone-500" />
             <span className="text-sm text-stone-600">Salaries for:</span>
             <Select
@@ -879,6 +879,10 @@ function ResultsPage() {
               </SelectContent>
             </Select>
           </div>
+          {/* Print-only county indicator */}
+          <p className="print-only text-sm text-stone-600 mb-4">
+            Showing salaries for: {selectedCounty === 'All' ? 'All Pennsylvania (Statewide)' : `${selectedCounty} County`}
+          </p>
 
           {/* Career Matches Table */}
           {storedResults ? (
@@ -1089,8 +1093,8 @@ function ResultsPage() {
           )}
         </CollapsibleSection>
 
-        {/* Actions */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
+        {/* Actions - Hidden in print */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6 print-hidden">
           <Button
             variant="primary"
             size="lg"
@@ -1108,8 +1112,8 @@ function ResultsPage() {
           </Link>
         </div>
 
-        {/* Retake Assessment */}
-        <div className="text-center mb-4">
+        {/* Retake Assessment - Hidden in print */}
+        <div className="text-center mb-4 print-hidden">
           <button
             type="button"
             onClick={handleRetake}
@@ -1120,8 +1124,8 @@ function ResultsPage() {
           </button>
         </div>
 
-        {/* Back Link */}
-        <div className="text-center">
+        {/* Back Link - Hidden in print */}
+        <div className="text-center print-hidden">
           <Link
             to="/intake/review"
             className="inline-flex items-center gap-2 text-stone-600 hover:text-stone-700 transition-colors"
@@ -1129,6 +1133,16 @@ function ResultsPage() {
             <ArrowLeft className="w-4 h-4" />
             Back to Review
           </Link>
+        </div>
+
+        {/* Print-only footer */}
+        <div className="print-only text-center mt-8 pt-4 border-t border-stone-200">
+          <p className="text-sm text-stone-600">
+            Generated from compasscoaching.org on {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </p>
+          <p className="text-xs text-stone-500 mt-1">
+            Visit compasscoaching.org for updated career matches and personalized resources.
+          </p>
         </div>
       </Container>
     </div>

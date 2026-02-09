@@ -297,7 +297,7 @@ export function CareerMatchesTable({
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="shrink-0"
+                        className="shrink-0 print-hidden"
                         onClick={(e) => {
                           e.stopPropagation();
                           toggleRow(match.id);
@@ -458,11 +458,18 @@ export function CareerMatchesTable({
             </div>
           );
         })}
+        {/* Print-only indicator showing more careers exist */}
+        {total > 10 && (
+          <div className="print-only text-center py-4 text-sm text-stone-600 border-t border-stone-200 mt-4">
+            <p className="font-medium">Showing top 10 of {total} career matches</p>
+            <p className="text-xs mt-1">Visit compasscoaching.org to view all matches and explore detailed career information.</p>
+          </div>
+        )}
         </div>
       </div>
 
       {/* Footer with loading state */}
-      <div className="bg-stone-50 border-t border-stone-200 px-6 py-3 text-center">
+      <div className="bg-stone-50 border-t border-stone-200 px-6 py-3 text-center print-hidden">
         {hasNextPage ? (
           <div className="flex items-center justify-center gap-2 text-sm text-stone-600">
             {isFetchingNextPage ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
