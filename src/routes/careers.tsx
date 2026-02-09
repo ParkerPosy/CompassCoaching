@@ -20,6 +20,143 @@ export const Route = createFileRoute('/careers')({
   }),
 });
 
+// Geometric pattern for technical page - clean but present
+function CareersPattern() {
+  return (
+    <svg
+      className="absolute inset-0 w-full h-full"
+      viewBox="0 0 1200 400"
+      preserveAspectRatio="xMidYMid slice"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        {/* Base gradient - deep blue */}
+        <linearGradient id="careersBg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#172554" />
+          <stop offset="50%" stopColor="#1e3a8a" />
+          <stop offset="100%" stopColor="#1e40af" />
+        </linearGradient>
+
+        {/* Lime accent gradient */}
+        <linearGradient id="careersAccent" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#65a30d" stopOpacity="0.4" />
+          <stop offset="50%" stopColor="#84cc16" stopOpacity="0.7" />
+          <stop offset="100%" stopColor="#65a30d" stopOpacity="0.3" />
+        </linearGradient>
+
+        {/* Secondary lime gradient - reversed */}
+        <linearGradient id="careersAccent2" x1="100%" y1="0%" x2="0%" y2="0%">
+          <stop offset="0%" stopColor="#84cc16" stopOpacity="0.5" />
+          <stop offset="50%" stopColor="#a3e635" stopOpacity="0.6" />
+          <stop offset="100%" stopColor="#65a30d" stopOpacity="0.3" />
+        </linearGradient>
+
+        {/* Filled swoosh gradient */}
+        <linearGradient id="careersSwooshFill" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.15" />
+          <stop offset="100%" stopColor="#1e40af" stopOpacity="0.05" />
+        </linearGradient>
+      </defs>
+
+      {/* Base fill */}
+      <rect width="100%" height="100%" fill="url(#careersBg)" />
+
+      {/* Filled swoosh area - subtle wave shape */}
+      <path
+        d="M0 320 Q200 250 500 280 T900 240 T1200 260 L1200 400 L0 400 Z"
+        fill="url(#careersSwooshFill)"
+      />
+
+      {/* Primary swoosh line - lime accent (main) - gentle curve */}
+      <path
+        d="M0 310 Q180 260 450 290 Q750 320 1000 250 Q1120 220 1200 240"
+        fill="none"
+        stroke="url(#careersAccent)"
+        strokeWidth="3"
+      />
+
+      {/* Secondary green swoosh - steeper descent */}
+      <path
+        d="M0 260 Q250 280 500 230 Q800 170 1050 200 T1200 180"
+        fill="none"
+        stroke="url(#careersAccent2)"
+        strokeWidth="2"
+        opacity="0.7"
+      />
+
+      {/* Third green swoosh - rising then falling */}
+      <path
+        d="M0 370 Q200 340 400 360 Q650 390 850 320 Q1050 260 1200 290"
+        fill="none"
+        stroke="rgba(132, 204, 22, 0.4)"
+        strokeWidth="2"
+      />
+
+      {/* Fourth green swoosh - dramatic dip */}
+      <path
+        d="M0 390 Q300 380 500 350 Q700 310 900 340 Q1100 380 1200 350"
+        fill="none"
+        stroke="rgba(163, 230, 53, 0.25)"
+        strokeWidth="1.5"
+      />
+
+      {/* White accent swooshes for depth - varied curves */}
+      <path
+        d="M0 340 Q350 290 600 330 Q850 370 1050 300 T1200 310"
+        fill="none"
+        stroke="rgba(255,255,255,0.1)"
+        strokeWidth="1.5"
+      />
+      <path
+        d="M0 380 Q250 350 450 370 Q700 400 950 350 Q1100 320 1200 340"
+        fill="none"
+        stroke="rgba(255,255,255,0.06)"
+        strokeWidth="1"
+      />
+
+      {/* Top accent curves - green, dynamic varied angles */}
+      <path
+        d="M700 0 Q800 120 950 80 Q1100 40 1200 110"
+        fill="none"
+        stroke="url(#careersAccent)"
+        strokeWidth="2.5"
+        opacity="0.45"
+      />
+      <path
+        d="M850 0 Q900 60 1000 40 Q1150 10 1200 60"
+        fill="none"
+        stroke="url(#careersAccent2)"
+        strokeWidth="2"
+        opacity="0.5"
+      />
+      <path
+        d="M950 0 Q980 80 1050 50 Q1120 20 1200 80"
+        fill="none"
+        stroke="rgba(163, 230, 53, 0.4)"
+        strokeWidth="1.5"
+      />
+      <path
+        d="M1020 0 Q1070 35 1100 60 Q1150 90 1200 45"
+        fill="none"
+        stroke="rgba(132, 204, 22, 0.35)"
+        strokeWidth="1.5"
+      />
+      <path
+        d="M1100 0 Q1120 50 1160 30 Q1180 15 1200 40"
+        fill="none"
+        stroke="rgba(163, 230, 53, 0.25)"
+        strokeWidth="1"
+      />
+      <path
+        d="M780 0 Q850 50 920 20 Q1000 -10 1080 30"
+        fill="none"
+        stroke="rgba(132, 204, 22, 0.2)"
+        strokeWidth="1"
+      />
+    </svg>
+  );
+}
+
 function CareersPage() {
   // Scroll to top on mount to override any incorrect scroll restoration
   useEffect(() => {
@@ -29,8 +166,9 @@ function CareersPage() {
   return (
     <div className="min-h-screen bg-stone-50">
       {/* Header Section */}
-      <section className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white py-12 md:py-16">
-        <Container>
+      <section className="relative text-white py-12 md:py-16 pb-16 md:pb-20 overflow-hidden">
+        <CareersPattern />
+        <Container className="relative z-10">
           <div className="max-w-4xl">
             <div className="flex items-center gap-3 mb-4">
               <Briefcase className="w-10 h-10 text-lime-400" />
@@ -45,7 +183,7 @@ function CareersPage() {
 
             {/* Key Features */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+              <div className="bg-white/15 backdrop-blur-md rounded-lg p-4 border border-white/20">
                 <div className="flex items-center gap-2 mb-2">
                   <Database className="w-5 h-5 text-lime-400" />
                   <h3 className="font-semibold">Real PA Data</h3>
@@ -55,7 +193,7 @@ function CareersPage() {
                 </p>
               </div>
 
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+              <div className="bg-white/15 backdrop-blur-md rounded-lg p-4 border border-white/20">
                 <div className="flex items-center gap-2 mb-2">
                   <MapPin className="w-5 h-5 text-lime-400" />
                   <h3 className="font-semibold">67 Counties</h3>
@@ -65,7 +203,7 @@ function CareersPage() {
                 </p>
               </div>
 
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+              <div className="bg-white/15 backdrop-blur-md rounded-lg p-4 border border-white/20">
                 <div className="flex items-center gap-2 mb-2">
                   <Briefcase className="w-5 h-5 text-lime-400" />
                   <h3 className="font-semibold">Career Planning</h3>
@@ -77,10 +215,32 @@ function CareersPage() {
             </div>
           </div>
         </Container>
+
+        {/* Curved bottom edge */}
+        <div className="absolute bottom-0 left-0 right-0 z-10">
+          <svg
+            viewBox="0 0 1200 60"
+            preserveAspectRatio="none"
+            className="w-full h-8 md:h-12"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 40 Q200 60 400 30 Q600 0 800 20 Q1000 40 1200 10 L1200 60 L0 60 Z"
+              fill="#fafaf9"
+            />
+            <path
+              d="M0 40 Q200 60 400 30 Q600 0 800 20 Q1000 40 1200 10"
+              fill="none"
+              stroke="#84cc16"
+              strokeWidth="2"
+              opacity="0.4"
+            />
+          </svg>
+        </div>
       </section>
 
       {/* Table Section */}
-      <section className="py-12">
+      <section className="py-8 md:py-12">
         <Container>
           <div id="browse-occupations" className="mb-8">
             <h2 className="text-2xl font-bold text-stone-700 mb-2">
