@@ -141,7 +141,7 @@ function AboutPage() {
 
         {/* Wave divider */}
         <div className="absolute bottom-0 left-0 right-0">
-          <svg className="w-full h-10 md:h-14" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <svg className="w-full h-10 md:h-14 block" viewBox="0 0 1200 120" preserveAspectRatio="none">
             <path
               d="M0,60 C300,100 600,20 900,60 C1050,80 1150,80 1200,60 L1200,120 L0,120 Z"
               fill="#fafaf9"
@@ -314,7 +314,7 @@ function AboutPage() {
 
         {/* Wavy top edge */}
         <div className="absolute top-0 left-0 right-0 z-10">
-          <svg className="w-full h-12 md:h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <svg className="w-full h-12 md:h-16 block" viewBox="0 0 1200 120" preserveAspectRatio="none">
             <path
               d="M0,60 C300,20 600,100 900,60 C1050,40 1150,40 1200,60 L1200,0 L0,0 Z"
               fill="#fafaf9"
