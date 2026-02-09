@@ -114,7 +114,7 @@ function NotFoundComponent() {
       <div className="max-w-2xl w-full text-center space-y-8">
         <div className="space-y-4">
           <h1 className="text-9xl font-bold text-lime-600">404</h1>
-          <h2 className="text-3xl font-bold text-stone-900">Page Not Found</h2>
+          <h2 className="text-3xl font-bold text-stone-800">Page Not Found</h2>
           <p className="text-lg text-stone-600 max-w-md mx-auto">
             The page you're looking for doesn't exist or has been moved. Let's get you back on track.
           </p>
