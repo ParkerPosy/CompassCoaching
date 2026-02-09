@@ -154,10 +154,10 @@ function ResourcesIndexPage() {
   return (
     <div className="min-h-screen bg-stone-50">
       {/* Hero Section */}
-      <section className="relative py-16 md:py-20 px-6 overflow-hidden">
+      <section className="relative py-16 md:py-20 px-6">
         <ResourcesPattern />
 
-        <Container className="relative z-10">
+        <Container className="relative z-20">
           <div className="max-w-3xl mx-auto text-center mb-10">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-white/50 backdrop-blur-md rounded-full mb-5 shadow-lg border border-white/40">
               <BookOpen className="w-8 h-8 text-sky-800" />
@@ -187,7 +187,7 @@ function ResourcesIndexPage() {
 
               {/* Dropdown Results */}
               {showDropdown && searchQuery && (
-                <div className="absolute top-full left-0 right-0 bg-white border-2 border-sky-200 rounded-lg shadow-xl max-h-96 overflow-y-auto z-50">
+                <div className="absolute top-full left-0 right-0 bg-white border-2 border-sky-200 rounded-lg shadow-xl max-h-96 overflow-y-auto z-[100]">
                   {filteredResources.length > 0 ? (
                     <div className="py-2">
                       {filteredResources.map((resource, index) => {
@@ -266,7 +266,7 @@ function ResourcesIndexPage() {
         </Container>
 
         {/* Wave divider */}
-        <div className="absolute bottom-0 left-0 right-0">
+        <div className="absolute bottom-0 left-0 right-0 z-10">
           <svg className="w-full h-16 md:h-24" viewBox="0 0 1200 120" preserveAspectRatio="none">
             <path
               d="M0,50 C300,90 600,10 900,50 C1050,70 1150,70 1200,50 L1200,120 L0,120 Z"
@@ -277,7 +277,7 @@ function ResourcesIndexPage() {
       </section>
 
       {/* Categories Section */}
-      <section className="py-16 px-6">
+      <section className="relative z-0 py-16 px-6 bg-stone-50">
         <Container>
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-stone-800 mb-4">
