@@ -235,7 +235,7 @@ function HomePage() {
   return (
     <div className="min-h-screen bg-stone-50">
       {/* Hero Section with Flowing Wave Pattern */}
-      <section className="relative pt-20 md:pt-32 pb-32 md:pb-40 px-6 overflow-hidden">
+      <section className="relative pt-20 md:pt-32 pb-50 md:pb-70 px-6 overflow-hidden">
         <HeroPattern />
 
         {/* Content overlay */}
@@ -311,17 +311,17 @@ function HomePage() {
 
         {/* Stats cards positioned over the wave */}
         <Container className="relative z-20 mt-16 md:mt-20 mb-[-6.5rem] md:mb-[-9rem]">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          <div className="flex flex-wrap justify-center gap-3 md:gap-5">
             {stats.map((stat, index) => (
               <div
                 key={stat.label}
-                className="text-center p-4 md:p-6 rounded-xl bg-white border-[3px] border-blue-900 transition-all duration-300 hover:scale-105 transform"
+                className="text-center px-5 py-4 md:px-7 md:py-5 rounded-2xl bg-white/70 backdrop-blur-md border border-white/40 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-white/80 transform"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-blue-700 mb-2 leading-tight">
+                <div className="text-2xl md:text-3xl font-bold text-blue-800 mb-1 leading-tight">
                   {stat.value}
                 </div>
-                <div className="text-xs md:text-sm text-slate-600 font-medium leading-snug">
+                <div className="text-xs md:text-sm text-blue-900/70 font-medium leading-snug">
                   {stat.label}
                 </div>
               </div>
