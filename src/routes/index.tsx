@@ -235,7 +235,7 @@ function HomePage() {
   return (
     <div className="min-h-screen bg-stone-50">
       {/* Hero Section with Flowing Wave Pattern */}
-      <section className="relative pt-20 md:pt-32 pb-24 md:pb-32 px-6 overflow-hidden">
+      <section className="relative pt-20 md:pt-32 pb-32 md:pb-40 px-6 overflow-hidden">
         <HeroPattern />
 
         {/* Content overlay */}
@@ -307,13 +307,15 @@ function HomePage() {
               </Link>
             </div>
           </div>
+        </Container>
 
-          {/* Stats cards on blue background */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mt-16 md:mt-20">
+        {/* Stats cards positioned over the wave */}
+        <Container className="relative z-20 mt-16 md:mt-20 mb-[-6.5rem] md:mb-[-9rem]">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {stats.map((stat, index) => (
               <div
                 key={stat.label}
-                className="text-center p-4 md:p-6 rounded-xl bg-white border border-blue-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 transform"
+                className="text-center p-4 md:p-6 rounded-xl bg-white border-[3px] border-blue-900 transition-all duration-300 hover:scale-105 transform"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-blue-700 mb-2 leading-tight">
@@ -328,9 +330,9 @@ function HomePage() {
         </Container>
 
         {/* Wave divider */}
-        <div className="absolute bottom-0 left-0 right-0">
+        <div className="absolute bottom-0 left-0 right-0 z-10">
           <svg
-            className="w-full h-16 md:h-24"
+            className="w-full h-24 md:h-32"
             viewBox="0 0 1200 120"
             preserveAspectRatio="none"
           >
