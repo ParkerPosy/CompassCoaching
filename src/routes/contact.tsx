@@ -110,7 +110,7 @@ function ContactPage() {
   return (
     <div className="min-h-screen bg-stone-50">
       {/* Hero Section - Conversational Style */}
-      <section className="relative py-16 md:py-24 px-6 bg-stone-900 overflow-hidden">
+      <section className="relative py-16 md:py-24 px-6 bg-blue-950 overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute top-10 left-10 w-20 h-20 bg-lime-500/10 rounded-full blur-2xl" />
         <div className="absolute bottom-10 right-10 w-32 h-32 bg-lime-500/10 rounded-full blur-3xl" />
@@ -122,11 +122,11 @@ function ContactPage() {
               <div className="w-12 h-12 bg-lime-500 rounded-full flex items-center justify-center shrink-0 shadow-lg shadow-lime-500/20">
                 <MessageCircle className="w-6 h-6 text-white" />
               </div>
-              <div className="bg-stone-800 rounded-2xl rounded-tl-none p-6 shadow-xl">
+              <div className="bg-blue-900 rounded-2xl rounded-tl-none p-6 shadow-xl">
                 <p className="text-xl md:text-2xl text-white font-medium">
                   Hey there! 👋
                 </p>
-                <p className="text-stone-300 mt-2">
+                <p className="text-blue-200 mt-2">
                   We're Jimmy and Parker, the founders of Compass Coaching.
                   We read every message personally and would love to hear from you.
                 </p>
@@ -140,7 +140,7 @@ function ContactPage() {
                   What would you like to chat about?
                 </p>
               </div>
-              <div className="w-12 h-12 bg-stone-700 rounded-full flex items-center justify-center shrink-0">
+              <div className="w-12 h-12 bg-blue-800 rounded-full flex items-center justify-center shrink-0">
                 <span className="text-lg">🧭</span>
               </div>
             </div>
@@ -272,7 +272,7 @@ function ContactPage() {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full bg-stone-900 text-white px-6 py-3.5 rounded-xl font-semibold hover:bg-stone-800 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:ring-offset-2 flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full bg-blue-950 text-white px-6 py-3.5 rounded-xl font-semibold hover:bg-blue-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-950 focus:ring-offset-2 flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {isSubmitting ? "Sending..." : "Send Message"}
                         <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -326,9 +326,9 @@ function ContactPage() {
               </div>
 
               {/* CTA */}
-              <div className="bg-stone-900 rounded-xl p-6 text-white">
+              <div className="bg-blue-950 rounded-xl p-6 text-white">
                 <p className="font-medium mb-2">Haven't taken the assessment yet?</p>
-                <p className="text-stone-400 text-sm mb-4">
+                <p className="text-blue-300 text-sm mb-4">
                   Discover your career matches and get personalized guidance.
                 </p>
                 <Link
