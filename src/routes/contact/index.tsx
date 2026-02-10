@@ -78,7 +78,7 @@ function ContactPage() {
 
     // Add Web3Forms access key - get yours free at https://web3forms.com
     formData.append("access_key", "7b4352b3-25e5-4f4d-9389-b7e7474f565f");
-    formData.append("from_name", "Compass Career Coaching Contact Form");
+    formData.append("from_name", "Compass Coaching - Coaching Request");
 
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
