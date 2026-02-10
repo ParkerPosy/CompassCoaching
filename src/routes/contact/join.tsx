@@ -111,21 +111,21 @@ function JoinPattern() {
 
         {/* Blue accent gradient */}
         <linearGradient id="joinAccent" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.4" />
-          <stop offset="50%" stopColor="#60a5fa" stopOpacity="0.7" />
-          <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.3" />
+          <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.25" />
+          <stop offset="50%" stopColor="#60a5fa" stopOpacity="0.5" />
+          <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.25" />
         </linearGradient>
 
         {/* Secondary blue gradient - reversed */}
         <linearGradient id="joinAccent2" x1="100%" y1="0%" x2="0%" y2="0%">
-          <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.5" />
-          <stop offset="50%" stopColor="#93c5fd" stopOpacity="0.6" />
-          <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.3" />
+          <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.35" />
+          <stop offset="50%" stopColor="#93c5fd" stopOpacity="0.45" />
+          <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.25" />
         </linearGradient>
 
-        {/* Filled swoosh gradient */}
+        {/* Filled swoosh gradient - bottom area */}
         <linearGradient id="joinSwooshFill" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#a855f7" stopOpacity="0.15" />
+          <stop offset="0%" stopColor="#a855f7" stopOpacity="0.12" />
           <stop offset="100%" stopColor="#6b21a8" stopOpacity="0.05" />
         </linearGradient>
       </defs>
@@ -133,85 +133,80 @@ function JoinPattern() {
       {/* Base fill */}
       <rect width="100%" height="100%" fill="url(#joinBg)" />
 
-      {/* Filled swoosh area - subtle wave shape */}
+      {/* Filled swoosh area - bottom only */}
       <path
-        d="M0 320 Q200 250 500 280 T900 240 T1200 260 L1200 400 L0 400 Z"
+        d="M0 340 C200 300 400 360 600 320 C800 280 1000 340 1200 300 L1200 400 L0 400 Z"
         fill="url(#joinSwooshFill)"
       />
 
-      {/* Primary swoosh line - blue accent (main) - gentle curve */}
+      {/* Bottom swoosh lines - smooth curves with varied flow */}
       <path
-        d="M0 310 Q180 260 450 290 Q750 320 1000 250 Q1120 220 1200 240"
+        d="M0 320 C100 280 250 360 400 310 C550 260 700 340 850 290 C1000 240 1100 320 1200 280"
         fill="none"
         stroke="url(#joinAccent)"
-        strokeWidth="3"
+        strokeWidth="2.5"
       />
-
-      {/* Secondary blue swoosh - steeper descent */}
       <path
-        d="M0 260 Q250 280 500 230 Q800 170 1050 200 T1200 180"
+        d="M0 360 C150 390 300 320 500 370 C700 420 850 300 1000 360 C1100 400 1150 340 1200 370"
         fill="none"
         stroke="url(#joinAccent2)"
         strokeWidth="2"
-        opacity="0.7"
       />
-
-      {/* Third blue swoosh - rising then falling */}
       <path
-        d="M0 370 Q200 340 400 360 Q650 390 850 320 Q1050 260 1200 290"
+        d="M0 390 C200 350 350 400 550 340 C750 280 900 380 1050 320 C1150 280 1180 360 1200 340"
         fill="none"
-        stroke="rgba(96, 165, 250, 0.4)"
+        stroke="rgba(96, 165, 250, 0.35)"
         strokeWidth="2"
       />
-
-      {/* Fourth blue swoosh - dramatic dip */}
       <path
-        d="M0 390 Q300 380 500 350 Q700 310 900 340 Q1100 380 1200 350"
+        d="M0 340 C100 380 300 300 450 360 C600 420 800 340 950 390 C1050 420 1150 370 1200 395"
         fill="none"
         stroke="rgba(147, 197, 253, 0.25)"
         strokeWidth="1.5"
       />
 
-      {/* White accent swooshes for depth - varied curves */}
+      {/* Right side decorative curves - varied directions */}
       <path
-        d="M0 340 Q350 290 600 330 Q850 370 1050 300 T1200 310"
-        fill="none"
-        stroke="rgba(255,255,255,0.1)"
-        strokeWidth="1.5"
-      />
-      <path
-        d="M0 380 Q250 350 450 370 Q700 400 950 350 Q1100 320 1200 340"
-        fill="none"
-        stroke="rgba(255,255,255,0.06)"
-        strokeWidth="1"
-      />
-
-      {/* Top accent curves - blue, dynamic varied angles */}
-      <path
-        d="M700 0 Q800 120 950 80 Q1100 40 1200 110"
+        d="M650 0 C700 100 850 80 900 180 C950 280 1100 220 1200 280"
         fill="none"
         stroke="url(#joinAccent)"
-        strokeWidth="2.5"
-        opacity="0.45"
+        strokeWidth="2"
+        opacity="0.4"
       />
       <path
-        d="M850 0 Q900 60 1000 40 Q1150 10 1200 60"
+        d="M800 0 C750 60 820 140 950 120 C1080 100 1050 200 1200 180"
         fill="none"
         stroke="url(#joinAccent2)"
+        strokeWidth="1.5"
+        opacity="0.35"
+      />
+      <path
+        d="M950 0 C1050 80 1000 160 1100 200 C1150 220 1120 300 1200 340"
+        fill="none"
+        stroke="rgba(147, 197, 253, 0.3)"
+        strokeWidth="1.5"
+      />
+      <path
+        d="M1050 0 C1000 50 1080 120 1050 180 C1020 240 1150 280 1200 260"
+        fill="none"
+        stroke="rgba(96, 165, 250, 0.25)"
+        strokeWidth="1.5"
+      />
+
+      {/* Top-right accent curves - crossing arcs */}
+      <path
+        d="M550 0 C650 120 850 40 1000 100 C1100 140 1150 60 1200 100"
+        fill="none"
+        stroke="url(#joinAccent)"
         strokeWidth="2"
-        opacity="0.5"
+        opacity="0.3"
       />
       <path
-        d="M950 0 Q980 80 1050 50 Q1120 20 1200 80"
+        d="M720 0 C800 80 850 20 950 80 C1050 140 1100 40 1200 60"
         fill="none"
-        stroke="rgba(147, 197, 253, 0.4)"
+        stroke="url(#joinAccent2)"
         strokeWidth="1.5"
-      />
-      <path
-        d="M1020 0 Q1070 35 1100 60 Q1150 90 1200 45"
-        fill="none"
-        stroke="rgba(96, 165, 250, 0.35)"
-        strokeWidth="1.5"
+        opacity="0.25"
       />
     </svg>
   );
@@ -379,6 +374,28 @@ function JoinTeamPage() {
             </p>
           </div>
         </Container>
+
+        {/* Curved bottom edge */}
+        <div className="absolute bottom-0 left-0 right-0 z-10">
+          <svg
+            viewBox="0 0 1200 60"
+            preserveAspectRatio="none"
+            className="w-full h-8 md:h-12"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 40 Q200 60 400 30 Q600 0 800 20 Q1000 40 1200 10 L1200 60 L0 60 Z"
+              fill="#fafaf9"
+            />
+            <path
+              d="M0 40 Q200 60 400 30 Q600 0 800 20 Q1000 40 1200 10"
+              fill="none"
+              stroke="#60a5fa"
+              strokeWidth="2"
+              opacity="0.4"
+            />
+          </svg>
+        </div>
       </section>
 
       {/* Form Section */}
