@@ -9,6 +9,8 @@ import {
   type ArticleResource,
 } from "@/data/resources";
 
+const HOSTNAME = "https://compasscoachingpa.org";
+
 export const Route = createFileRoute("/resources/articles/$slug")({
   component: ArticlePage,
   loader: ({ params }) => {
@@ -25,6 +27,78 @@ export const Route = createFileRoute("/resources/articles/$slug")({
     }
 
     return { article };
+  },
+  head: ({ loaderData }) => {
+    const article = loaderData?.article;
+    if (!article) return {};
+
+    const title = `${article.title} | Compass Coaching`;
+    const description =
+      article.description ||
+      article.sections?.[0]?.content[0]?.slice(0, 155).replace(/\*\*/g, "") +
+        "..." ||
+      "Free career and life guidance article from Compass Coaching.";
+    const canonicalUrl = `${HOSTNAME}/resources/articles/${article.slug}`;
+    const author = article.author || "Compass Coaching Team";
+
+    // Build article structured data
+    const structuredData = {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: article.title,
+      description,
+      author: {
+        "@type": "Organization",
+        name: author,
+        url: HOSTNAME,
+      },
+      publisher: {
+        "@type": "Organization",
+        name: "Compass Coaching",
+        url: HOSTNAME,
+        logo: {
+          "@type": "ImageObject",
+          url: `${HOSTNAME}/discord-icon.png`,
+        },
+      },
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": canonicalUrl,
+      },
+      isAccessibleForFree: true,
+      inLanguage: "en-US",
+    };
+
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { name: "author", content: author },
+        { name: "robots", content: "index, follow" },
+
+        // Open Graph
+        { property: "og:type", content: "article" },
+        { property: "og:title", content: article.title },
+        { property: "og:description", content: description },
+        { property: "og:url", content: canonicalUrl },
+        { property: "og:site_name", content: "Compass Coaching" },
+        { property: "og:image", content: `${HOSTNAME}/discord-icon.png` },
+        { property: "article:author", content: author },
+
+        // Twitter Card
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: article.title },
+        { name: "twitter:description", content: description },
+        { name: "twitter:image", content: `${HOSTNAME}/discord-icon.png` },
+      ],
+      links: [{ rel: "canonical", href: canonicalUrl }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(structuredData),
+        },
+      ],
+    };
   },
 });
 
