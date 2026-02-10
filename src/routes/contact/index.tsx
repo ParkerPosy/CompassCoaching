@@ -9,7 +9,7 @@ import {
   Textarea,
 } from "@/components/ui";
 
-export const Route = createFileRoute("/contact")({
+export const Route = createFileRoute("/contact/")({
   component: ContactPage,
   head: () => ({
     meta: [
@@ -336,6 +336,26 @@ function ContactPage() {
                   className="inline-flex items-center gap-2 text-lime-400 hover:text-lime-300 font-medium text-sm group"
                 >
                   Start Free Assessment
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+
+              {/* Join Our Team CTA */}
+              <div className="bg-purple-50 rounded-xl p-6 border border-purple-200">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center">
+                    <Users className="w-5 h-5 text-white" />
+                  </div>
+                  <h3 className="font-bold text-stone-700">Want to Help?</h3>
+                </div>
+                <p className="text-stone-600 text-sm mb-4">
+                  Join our team of volunteer coaches and help Pennsylvanians navigate their careers.
+                </p>
+                <Link
+                  to="/contact/join"
+                  className="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium text-sm group"
+                >
+                  Join Our Team
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
