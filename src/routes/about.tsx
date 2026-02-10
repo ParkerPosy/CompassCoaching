@@ -265,7 +265,7 @@ function AboutPage() {
               return (
                 <Card
                   key={founder.name}
-                  className="border-stone-200 hover:border-lime-300 transition-all duration-300 shadow-md hover:shadow-lg overflow-hidden h-full"
+                  className="border-0 overflow-hidden h-full bg-stone-100 rounded-2xl shadow-[10px_10px_30px_#c8c8c7,-10px_-10px_30px_#ffffff]"
                 >
                   <CardContent className="p-0 h-full flex flex-col">
                     {/* Photo section with gradient background */}
@@ -286,11 +286,11 @@ function AboutPage() {
                     </div>
 
                     {/* Name and role - overlapping section */}
-                    <div className="relative -mt-8 mx-4 mb-4 bg-white rounded-xl shadow-lg p-4 text-center">
+                    <div className={`relative -mt-8 mx-4 mb-4 rounded-xl p-4 text-center ${founder.color === "lime" ? "bg-[#f5f8f0] shadow-[inset_4px_4px_12px_#b8c5a0,inset_-4px_-4px_12px_#ffffff]" : "bg-[#f0f8f7] shadow-[inset_4px_4px_12px_#a8c8c4,inset_-4px_-4px_12px_#ffffff]"}`}>
                       <h3 className="text-xl font-bold text-stone-800">
                         {founder.nickname ? `${founder.name} "${founder.nickname}"` : founder.name}
                       </h3>
-                      <p className={`text-sm font-medium ${founder.color === "lime" ? "text-lime-600" : "text-teal-600"}`}>
+                      <p className={`text-sm font-semibold ${founder.color === "lime" ? "text-lime-800" : "text-teal-800"}`}>
                         {founder.role}
                       </p>
                     </div>
@@ -308,7 +308,7 @@ function AboutPage() {
                           {founder.expertise.map((skill) => (
                             <span
                               key={skill}
-                              className={`px-3 py-1 rounded-full text-sm ${founder.color === "lime" ? "bg-lime-100 text-lime-700" : "bg-teal-100 text-teal-700"}`}
+                              className={`px-3 py-1 rounded-full text-sm border ${founder.color === "lime" ? "bg-lime-100 text-lime-800 border-lime-800" : "bg-teal-100 text-teal-800 border-teal-800"}`}
                             >
                               {skill}
                             </span>
@@ -385,7 +385,7 @@ function AboutPage() {
               return (
                 <Card
                   key={coach.name}
-                  className="border-stone-200 hover:border-purple-300 transition-all duration-300 shadow-md hover:shadow-lg overflow-hidden bg-white"
+                  className="border-0 overflow-hidden bg-stone-100 rounded-2xl shadow-[10px_10px_30px_#c8c8c7,-10px_-10px_30px_#ffffff]"
                 >
                   <CardContent className="p-0">
                     {/* Photo section with gradient background */}
@@ -406,9 +406,9 @@ function AboutPage() {
                     </div>
 
                     {/* Name and role - overlapping section */}
-                    <div className="relative -mt-8 mx-4 mb-4 bg-white rounded-xl shadow-lg p-4 text-center">
+                    <div className="relative -mt-8 mx-4 mb-4 bg-[#f3f0f8] rounded-xl shadow-[inset_4px_4px_12px_#b5a8c8,inset_-4px_-4px_12px_#ffffff] p-4 text-center">
                       <h3 className="text-xl font-bold text-stone-800">{coach.name}</h3>
-                      <p className="text-sm font-medium text-purple-600">{coach.role}</p>
+                      <p className="text-sm font-semibold text-purple-800">{coach.role}</p>
                     </div>
 
                     {/* Content */}
@@ -424,7 +424,7 @@ function AboutPage() {
                           {coach.expertise.map((skill) => (
                             <span
                               key={skill}
-                              className="px-3 py-1 rounded-full text-sm bg-purple-100 text-purple-700"
+                              className="px-3 py-1 rounded-full text-sm border bg-purple-100 text-purple-800 border-purple-800"
                             >
                               {skill}
                             </span>
