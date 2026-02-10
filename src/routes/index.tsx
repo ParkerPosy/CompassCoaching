@@ -393,7 +393,7 @@ function HomePage() {
       </section>
 
       {/* Features Grid */}
-      <section className="py-16 md:py-24 px-6 bg-linear-to-b from-white to-blue-50/30">
+      <section className="py-16 md:py-24 px-6 bg-blue-50/30">
         <Container>
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-stone-700 mb-4">
@@ -577,7 +577,7 @@ function HomePage() {
             {/* Organic flowing top edge - wavy cutout that matches page background */}
             <path
               d="M-10,-10 L-10,30 Q200,60 450,35 Q750,5 1000,40 Q1150,55 1210,25 L1210,-10 Z"
-              fill="#fafaf9"
+              fill="#f7f9fb"
             />
           </svg>
         </div>
