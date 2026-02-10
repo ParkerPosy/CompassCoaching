@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import {
   ArrowLeft,
   CheckCircle2,
@@ -222,8 +222,7 @@ function JoinTeamPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
   const [contactPreference, setContactPreference] = useState<string>("");
-  const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
-  const [selectedDays, setSelectedDays] = useState<string[]>([]);
+  const [availability, setAvailability] = useState<Record<string, string[]>>({});
   const [experience, setExperience] = useState<string>("");
 
   const toggleInterest = (id: string) => {
@@ -232,16 +231,66 @@ function JoinTeamPage() {
     );
   };
 
-  const toggleTime = (id: string) => {
-    setSelectedTimes((prev) =>
-      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
-    );
+  const toggleAvailability = (day: string, time: string) => {
+    setAvailability((prev) => {
+      const dayTimes = prev[day] || [];
+      if (dayTimes.includes(time)) {
+        const newTimes = dayTimes.filter((t) => t !== time);
+        if (newTimes.length === 0) {
+          const { [day]: _, ...rest } = prev;
+          return rest;
+        }
+        return { ...prev, [day]: newTimes };
+      } else {
+        return { ...prev, [day]: [...dayTimes, time] };
+      }
+    });
   };
 
-  const toggleDay = (id: string) => {
-    setSelectedDays((prev) =>
-      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
-    );
+  const toggleEntireDay = (day: string) => {
+    setAvailability((prev) => {
+      const dayTimes = prev[day] || [];
+      const allTimes = timeOfDayOptions.map((t) => t.id);
+      if (dayTimes.length === allTimes.length) {
+        // All selected, so deselect all
+        const { [day]: _, ...rest } = prev;
+        return rest;
+      } else {
+        // Select all times for this day
+        return { ...prev, [day]: allTimes };
+      }
+    });
+  };
+
+  const toggleEntireTime = (time: string) => {
+    setAvailability((prev) => {
+      const allDays = dayOptions.map((d) => d.id);
+      const daysWithThisTime = allDays.filter((day) => (prev[day] || []).includes(time));
+
+      if (daysWithThisTime.length === allDays.length) {
+        // All days have this time, remove it from all
+        const newAvail = { ...prev };
+        for (const day of allDays) {
+          const newTimes = (newAvail[day] || []).filter((t) => t !== time);
+          if (newTimes.length === 0) {
+            delete newAvail[day];
+          } else {
+            newAvail[day] = newTimes;
+          }
+        }
+        return newAvail;
+      } else {
+        // Add this time to all days
+        const newAvail = { ...prev };
+        for (const day of allDays) {
+          const dayTimes = newAvail[day] || [];
+          if (!dayTimes.includes(time)) {
+            newAvail[day] = [...dayTimes, time];
+          }
+        }
+        return newAvail;
+      }
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -263,15 +312,15 @@ function JoinTeamPage() {
     formData.append("interests", interestLabels.join(", ") || "None selected");
     formData.append("contact_preference", contactPreference || "Not specified");
 
-    // Add availability as formatted strings
-    const timeLabels = selectedTimes.map(
-      (id) => timeOfDayOptions.find((opt) => opt.id === id)?.label
-    );
-    const dayLabels = selectedDays.map(
-      (id) => dayOptions.find((opt) => opt.id === id)?.label
-    );
-    formData.append("available_times", timeLabels.join(", ") || "Not specified");
-    formData.append("available_days", dayLabels.join(", ") || "Not specified");
+    // Format availability as readable schedule
+    const availabilityText = Object.entries(availability)
+      .map(([day, times]) => {
+        const dayLabel = dayOptions.find((d) => d.id === day)?.label;
+        const timeLabels = times.map((t) => timeOfDayOptions.find((opt) => opt.id === t)?.label).join(", ");
+        return `${dayLabel}: ${timeLabels}`;
+      })
+      .join("; ") || "Not specified";
+    formData.append("availability", availabilityText);
 
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
@@ -286,8 +335,7 @@ function JoinTeamPage() {
         form.reset();
         setSelectedInterests([]);
         setContactPreference("");
-        setSelectedTimes([]);
-        setSelectedDays([]);
+        setAvailability({});
         setExperience("");
       } else {
         alert(
@@ -637,70 +685,91 @@ function JoinTeamPage() {
                     <CardTitle>Availability & Additional Information</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-6">
-                    {/* Time of Day */}
+                    {/* Schedule Grid */}
                     <div>
                       <label className="block text-sm font-medium text-stone-700 mb-3">
-                        When are you typically available?
+                        When are you available?
                       </label>
-                      <div className="grid grid-cols-3 gap-3">
-                        {timeOfDayOptions.map((time) => {
-                          const Icon = time.icon;
-                          const isSelected = selectedTimes.includes(time.id);
-                          return (
-                            <button
-                              key={time.id}
-                              type="button"
-                              onClick={() => toggleTime(time.id)}
-                              className={`p-4 rounded-xl border-2 transition-all duration-200 flex flex-col items-center text-center ${
-                                isSelected
-                                  ? "border-purple-500 bg-purple-50"
-                                  : "border-stone-200 hover:border-purple-300 bg-white"
-                              }`}
-                            >
-                              <Icon
-                                className={`w-6 h-6 mb-1 ${
-                                  isSelected ? "text-purple-600" : "text-stone-400"
-                                }`}
-                              />
-                              <span
-                                className={`text-sm font-medium ${
-                                  isSelected ? "text-purple-700" : "text-stone-700"
+                      <p className="text-xs text-stone-500 mb-3">
+                        Click cells to toggle, or click row/column headers to select all
+                      </p>
+                      <div className="overflow-x-auto">
+                        <div className="inline-grid gap-1" style={{ gridTemplateColumns: 'auto repeat(7, 1fr)' }}>
+                          {/* Header row with day names */}
+                          <div /> {/* Empty corner cell */}
+                          {dayOptions.map((day) => {
+                            const allTimes = timeOfDayOptions.map((t) => t.id);
+                            const dayTimes = availability[day.id] || [];
+                            const allSelected = dayTimes.length === allTimes.length;
+                            return (
+                              <button
+                                key={day.id}
+                                type="button"
+                                onClick={() => toggleEntireDay(day.id)}
+                                className={`px-2 py-1.5 text-xs font-semibold rounded-lg transition-all ${
+                                  allSelected
+                                    ? "bg-purple-500 text-white"
+                                    : dayTimes.length > 0
+                                    ? "bg-purple-100 text-purple-700 hover:bg-purple-200"
+                                    : "text-stone-600 hover:bg-stone-100"
                                 }`}
                               >
-                                {time.label}
-                              </span>
-                              <span className="text-xs text-stone-400 mt-0.5">
-                                {time.hint}
-                              </span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
+                                {day.label}
+                              </button>
+                            );
+                          })}
 
-                    {/* Days of Week */}
-                    <div>
-                      <label className="block text-sm font-medium text-stone-700 mb-3">
-                        Which days work best?
-                      </label>
-                      <div className="flex flex-wrap gap-2">
-                        {dayOptions.map((day) => {
-                          const isSelected = selectedDays.includes(day.id);
-                          return (
-                            <button
-                              key={day.id}
-                              type="button"
-                              onClick={() => toggleDay(day.id)}
-                              className={`px-4 py-2 rounded-full border-2 text-sm font-medium transition-all duration-200 ${
-                                isSelected
-                                  ? "border-purple-500 bg-purple-500 text-white"
-                                  : "border-stone-200 hover:border-purple-300 bg-white text-stone-600"
-                              }`}
-                            >
-                              {day.label}
-                            </button>
-                          );
-                        })}
+                          {/* Time rows */}
+                          {timeOfDayOptions.map((time) => {
+                            const Icon = time.icon;
+                            const allDays = dayOptions.map((d) => d.id);
+                            const daysWithTime = allDays.filter((d) => (availability[d] || []).includes(time.id));
+                            const allSelected = daysWithTime.length === allDays.length;
+
+                            return (
+                              <Fragment key={time.id}>
+                                {/* Row header */}
+                                <button
+                                  type="button"
+                                  onClick={() => toggleEntireTime(time.id)}
+                                  className={`flex items-center gap-1.5 px-2 py-2 rounded-lg transition-all ${
+                                    allSelected
+                                      ? "bg-purple-500 text-white"
+                                      : daysWithTime.length > 0
+                                      ? "bg-purple-100 text-purple-700 hover:bg-purple-200"
+                                      : "text-stone-600 hover:bg-stone-100"
+                                  }`}
+                                >
+                                  <Icon className="w-4 h-4" />
+                                  <span className="text-xs font-medium whitespace-nowrap">{time.label}</span>
+                                </button>
+
+                                {/* Day cells for this time */}
+                                {dayOptions.map((day) => {
+                                  const isSelected = (availability[day.id] || []).includes(time.id);
+                                  return (
+                                    <button
+                                      key={`${day.id}-${time.id}`}
+                                      type="button"
+                                      onClick={() => toggleAvailability(day.id, time.id)}
+                                      className={`w-10 h-10 rounded-lg border-2 transition-all duration-200 flex items-center justify-center ${
+                                        isSelected
+                                          ? "border-purple-500 bg-purple-500 text-white"
+                                          : "border-stone-200 hover:border-purple-300 bg-white"
+                                      }`}
+                                    >
+                                      {isSelected && (
+                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                        </svg>
+                                      )}
+                                    </button>
+                                  );
+                                })}
+                              </Fragment>
+                            );
+                          })}
+                        </div>
                       </div>
                     </div>
                     <div>
