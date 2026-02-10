@@ -255,7 +255,9 @@ function VideoCard({ resource, colors }: { resource: VideoResource; colors: Cate
 }
 
 function ArticleCard({ resource, colors }: { resource: ArticleResource; colors: CategoryColorStyle }) {
-  return (
+  const hasContent = resource.active && resource.slug;
+
+  const cardContent = (
     <Card
       variant="outlined"
       className={`${colors.borderHover} transition-all duration-300 hover:shadow-lg hover:scale-[1.01] transform cursor-pointer group ${!resource.active ? 'opacity-75' : ''}`}
@@ -280,9 +282,9 @@ function ArticleCard({ resource, colors }: { resource: ArticleResource; colors: 
       </CardHeader>
       <CardContent>
         <p className="text-stone-600 line-clamp-2">
-          {resource.active
+          {resource.description || (resource.active
             ? 'In-depth guidance and practical advice to help you succeed'
-            : 'Content being developed'}
+            : 'Content being developed')}
         </p>
         <span className={`inline-flex items-center gap-1 mt-3 text-sm font-medium ${colors.iconText}`}>
           Read article <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -290,6 +292,16 @@ function ArticleCard({ resource, colors }: { resource: ArticleResource; colors: 
       </CardContent>
     </Card>
   );
+
+  if (hasContent && resource.slug) {
+    return (
+      <Link to="/resources/articles/$slug" params={{ slug: resource.slug }}>
+        {cardContent}
+      </Link>
+    );
+  }
+
+  return cardContent;
 }
 
 function DownloadCard({ resource, colors }: { resource: DownloadResource; colors: CategoryColorStyle }) {

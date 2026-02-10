@@ -47,11 +47,20 @@ export interface VideoResource extends BaseResource {
   description?: string;
 }
 
+// Article content section
+export interface ArticleSection {
+  heading: string;
+  content: string[]; // array of paragraphs
+}
+
 // Article (on-site text content)
 export interface ArticleResource extends BaseResource {
   type: typeof RESOURCE_TYPES.ARTICLE;
   readTime: string; // "8 min read"
   slug?: string; // for content routing
+  description?: string;
+  author?: string;
+  sections?: ArticleSection[];
 }
 
 // Downloadable file (PDF, templates, worksheets)
@@ -212,20 +221,94 @@ export const ALL_RESOURCES: Resource[] = [
     title: "The Art of Listening",
     type: RESOURCE_TYPES.ARTICLE,
     readTime: "15 min",
+    slug: "the-art-of-listening",
+    description: "Learn how to truly hear what others are saying and transform your relationships through the power of active, empathetic listening.",
+    author: "Compass Coaching Team",
     category: CATEGORY_NAMES.RELATIONSHIPS,
-    active: false,
+    active: true,
+    sections: [
+      {
+        heading: "The Art of Listening",
+        content: [
+          "When was the last time you felt truly heard? Not just acknowledged with a nod or an \"uh-huh,\" but genuinely understood by another person? That feeling—of being seen and validated—is one of the most powerful gifts we can give each other. Yet in our fast-paced, notification-filled world, real listening has become increasingly rare.",
+          "The good news? Listening is a skill, not a talent. And like any skill, it can be learned, practiced, and mastered. This guide will show you how."
+        ]
+      },
+      {
+        heading: "Why Listening Matters More Than You Think",
+        content: [
+          "Most communication problems aren't actually about what we say—they're about what we fail to hear. Research consistently shows that people who feel listened to are more likely to trust, cooperate, and open up. In professional settings, strong listeners are perceived as more competent leaders. In personal relationships, feeling heard is one of the strongest predictors of satisfaction and longevity.",
+          "Yet studies suggest we only retain about 25% of what we hear. The rest? Lost to wandering thoughts, mental rebuttals, and the constant urge to jump in with our own stories."
+        ]
+      },
+      {
+        heading: "The Five Levels of Listening",
+        content: [
+          "Not all listening is created equal. Understanding these levels can help you recognize where you typically operate—and where you want to be.",
+          "**Level 1: Ignoring** — You're physically present but mentally elsewhere. Your phone is more interesting than the conversation. We've all been here, and it's worth admitting when we're doing it.",
+          "**Level 2: Pretend Listening** — You're making eye contact and nodding, but you're not actually processing anything. You're thinking about what you'll have for dinner or how to respond.",
+          "**Level 3: Selective Listening** — You're catching keywords and phrases, but filtering everything through your own perspective. You're listening for what relates to you.",
+          "**Level 4: Attentive Listening** — You're genuinely focused on the words being said. You can repeat back what someone told you. This is where most \"good listeners\" operate.",
+          "**Level 5: Empathetic Listening** — You're not just hearing words—you're understanding the emotion, context, and meaning behind them. You're putting yourself in the speaker's shoes. This is the level that transforms relationships."
+        ]
+      },
+      {
+        heading: "Practical Techniques You Can Use Today",
+        content: [
+          "Moving from Level 3 or 4 to Level 5 requires intentional practice. Here are concrete techniques that work:",
+          "**Put away your phone—completely.** Not face-down on the table. In your pocket, in another room, or turned off. Research shows that even the presence of a phone on the table reduces the quality of conversation, even if no one touches it. This simple act signals: \"You have my full attention.\"",
+          "**Use the 2-second rule.** After someone finishes speaking, wait two full seconds before responding. This feels uncomfortable at first, but it accomplishes two things: it ensures they're actually finished (people often have more to say), and it gives your brain time to process what you heard rather than what you want to say.",
+          "**Reflect before you redirect.** Before sharing your own experience or advice, first reflect back what you heard. \"It sounds like you're feeling overwhelmed by all the changes at work.\" This isn't about parroting their words—it's about confirming you understood their meaning.",
+          "**Ask questions that go deeper.** Instead of \"What happened next?\" try \"How did that make you feel?\" or \"What was that like for you?\" These questions invite emotional honesty rather than just factual recounting.",
+          "**Notice what's not being said.** Pay attention to body language, tone of voice, and what topics someone seems to avoid or return to. Often the most important communication happens between the words."
+        ]
+      },
+      {
+        heading: "The Hardest Part: Listening Without Fixing",
+        content: [
+          "For many of us—especially those who care deeply about others—the hardest aspect of listening is resisting the urge to fix. When someone shares a problem, our instinct is to offer solutions. But often, people don't want solutions. They want to feel heard.",
+          "A simple question can save you from this trap: \"Do you want me to just listen, or would you like suggestions?\" This question respects the other person's autonomy and ensures you're giving them what they actually need.",
+          "When you're not sure, default to listening. You can always offer advice later if asked. But you can't un-give advice that made someone feel dismissed or unheard."
+        ]
+      },
+      {
+        heading: "Listening to Difficult Emotions",
+        content: [
+          "It's easy to listen when someone shares good news or casual updates. It's much harder when they're angry, sad, or sharing something painful. Our natural instinct is to minimize (\"It's not that bad\"), fix (\"Have you tried...\"), or redirect (\"At least...\").",
+          "Instead, try staying present with phrases like: \"That sounds really hard.\" \"I'm here with you.\" \"Thank you for trusting me with this.\" These responses don't try to change the emotion—they honor it."
+        ]
+      },
+      {
+        heading: "When You're Struggling to Listen",
+        content: [
+          "Sometimes we can't be good listeners—and that's okay. If you're exhausted, overwhelmed, or triggered by what someone is sharing, it's better to be honest than to pretend.",
+          "You might say: \"I really want to give you my full attention, but I'm struggling to focus right now. Can we talk about this tonight/tomorrow when I can be more present?\" This is actually a form of respect—it says their words matter enough that you want to hear them properly."
+        ]
+      },
+      {
+        heading: "Building Your Listening Practice",
+        content: [
+          "Like any skill, listening improves with deliberate practice. Here's a simple weekly challenge to build your capacity:",
+          "**Week 1:** In one conversation per day, put your phone completely away and maintain eye contact. Notice how it changes the interaction.",
+          "**Week 2:** Practice the 2-second rule in every conversation. Notice the urge to interrupt and let it pass.",
+          "**Week 3:** Before responding in any meaningful conversation, reflect back what you heard. \"So what you're saying is...\" or \"It sounds like...\"",
+          "**Week 4:** Ask at least one \"How did that feel?\" question per day. Notice what opens up when you invite emotional honesty."
+        ]
+      },
+      {
+        heading: "The Ripple Effect",
+        content: [
+          "Here's the beautiful thing about becoming a better listener: it's contagious. When people feel heard by you, they're more likely to listen to others. The conversations you have will deepen. The relationships you build will strengthen. The trust you earn will compound.",
+          "You can't control how others communicate with you. But you can control how you receive what they share. And in doing so, you create space for the kind of connection that makes life meaningful.",
+          "Start today. Pick one conversation. Put your phone away. Really listen. And see what happens."
+        ]
+      }
+    ],
   },
   {
     title: "Building Genuine Connections",
     type: RESOURCE_TYPES.DOWNLOAD,
     format: "pdf",
-    category: CATEGORY_NAMES.RELATIONSHIPS,
-    active: false,
-  },
-  {
-    title: "Setting Healthy Boundaries",
-    type: RESOURCE_TYPES.ARTICLE,
-    readTime: "20 min",
     category: CATEGORY_NAMES.RELATIONSHIPS,
     active: false,
   },

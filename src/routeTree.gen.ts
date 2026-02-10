@@ -29,6 +29,7 @@ import { Route as IntakeChallengesRouteImport } from './routes/intake/challenges
 import { Route as IntakeBasicRouteImport } from './routes/intake/basic'
 import { Route as IntakeAptitudeRouteImport } from './routes/intake/aptitude'
 import { Route as ContactJoinRouteImport } from './routes/contact/join'
+import { Route as ResourcesArticlesSlugRouteImport } from './routes/resources/articles.$slug'
 import { Route as AdminUserUserIdRouteImport } from './routes/admin/user.$userId'
 
 const TermsRoute = TermsRouteImport.update({
@@ -131,6 +132,11 @@ const ContactJoinRoute = ContactJoinRouteImport.update({
   path: '/contact/join',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResourcesArticlesSlugRoute = ResourcesArticlesSlugRouteImport.update({
+  id: '/resources/articles/$slug',
+  path: '/resources/articles/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminUserUserIdRoute = AdminUserUserIdRouteImport.update({
   id: '/user/$userId',
   path: '/user/$userId',
@@ -159,6 +165,7 @@ export interface FileRoutesByFullPath {
   '/intake/': typeof IntakeIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/admin/user/$userId': typeof AdminUserUserIdRoute
+  '/resources/articles/$slug': typeof ResourcesArticlesSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -181,6 +188,7 @@ export interface FileRoutesByTo {
   '/intake': typeof IntakeIndexRoute
   '/resources': typeof ResourcesIndexRoute
   '/admin/user/$userId': typeof AdminUserUserIdRoute
+  '/resources/articles/$slug': typeof ResourcesArticlesSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -205,6 +213,7 @@ export interface FileRoutesById {
   '/intake/': typeof IntakeIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/admin/user/$userId': typeof AdminUserUserIdRoute
+  '/resources/articles/$slug': typeof ResourcesArticlesSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -230,6 +239,7 @@ export interface FileRouteTypes {
     | '/intake/'
     | '/resources/'
     | '/admin/user/$userId'
+    | '/resources/articles/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -252,6 +262,7 @@ export interface FileRouteTypes {
     | '/intake'
     | '/resources'
     | '/admin/user/$userId'
+    | '/resources/articles/$slug'
   id:
     | '__root__'
     | '/'
@@ -275,6 +286,7 @@ export interface FileRouteTypes {
     | '/intake/'
     | '/resources/'
     | '/admin/user/$userId'
+    | '/resources/articles/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -297,6 +309,7 @@ export interface RootRouteChildren {
   ContactIndexRoute: typeof ContactIndexRoute
   IntakeIndexRoute: typeof IntakeIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
+  ResourcesArticlesSlugRoute: typeof ResourcesArticlesSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -441,6 +454,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactJoinRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/resources/articles/$slug': {
+      id: '/resources/articles/$slug'
+      path: '/resources/articles/$slug'
+      fullPath: '/resources/articles/$slug'
+      preLoaderRoute: typeof ResourcesArticlesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/user/$userId': {
       id: '/admin/user/$userId'
       path: '/user/$userId'
@@ -483,6 +503,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactIndexRoute: ContactIndexRoute,
   IntakeIndexRoute: IntakeIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
+  ResourcesArticlesSlugRoute: ResourcesArticlesSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
