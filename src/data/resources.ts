@@ -230,77 +230,77 @@ export const ALL_RESOURCES: Resource[] = [
       {
         heading: "The Art of Listening",
         content: [
-          "When was the last time you felt truly heard? Not just acknowledged with a nod or an \"uh-huh,\" but genuinely understood by another person? That feeling—of being seen and validated—is one of the most powerful gifts we can give each other. Yet in our fast-paced, notification-filled world, real listening has become increasingly rare.",
-          "The good news? Listening is a skill, not a talent. And like any skill, it can be learned, practiced, and mastered. This guide will show you how."
+          "Think about the last time someone really listened to you. Not just waited for their turn to talk, but actually took in what you were saying and responded to the meaning behind it. That experience is rare, and it stays with you. Feeling truly understood by another person is one of the deepest forms of validation we can receive.",
+          "Most of us were never taught how to listen. We learned to read, write, and speak, but listening was assumed to come naturally. It doesn't. Listening well is a skill that takes awareness, effort, and practice. The good news is that anyone can get better at it, and the people around you will notice when you do."
         ]
       },
       {
         heading: "Why Listening Matters More Than You Think",
         content: [
-          "Most communication problems aren't actually about what we say—they're about what we fail to hear. Research consistently shows that people who feel listened to are more likely to trust, cooperate, and open up. In professional settings, strong listeners are perceived as more competent leaders. In personal relationships, feeling heard is one of the strongest predictors of satisfaction and longevity.",
-          "Yet studies suggest we only retain about 25% of what we hear. The rest? Lost to wandering thoughts, mental rebuttals, and the constant urge to jump in with our own stories."
+          "Most communication breakdowns don't come from saying the wrong thing. They come from failing to hear what the other person was actually telling us. Decades of research in psychology and relationship science point to the same conclusion: people who feel heard are more trusting, more open, and more willing to be vulnerable. In workplaces, the ability to listen is consistently rated as one of the most valued qualities in a leader. In close relationships, feeling genuinely understood by your partner is among the strongest predictors of long-term satisfaction.",
+          "And yet, research from the International Listening Association suggests we retain only about 25% of what we hear in a given conversation. The rest is lost to internal noise: planning what we'll say next, making judgments, or simply drifting. There's often a real gap between how well we think we listen and how well we actually do."
         ]
       },
       {
         heading: "The Five Levels of Listening",
         content: [
-          "Not all listening is created equal. Understanding these levels can help you recognize where you typically operate—and where you want to be.",
-          "**Level 1: Ignoring** — You're physically present but mentally elsewhere. Your phone is more interesting than the conversation. We've all been here, and it's worth admitting when we're doing it.",
-          "**Level 2: Pretend Listening** — You're making eye contact and nodding, but you're not actually processing anything. You're thinking about what you'll have for dinner or how to respond.",
-          "**Level 3: Selective Listening** — You're catching keywords and phrases, but filtering everything through your own perspective. You're listening for what relates to you.",
-          "**Level 4: Attentive Listening** — You're genuinely focused on the words being said. You can repeat back what someone told you. This is where most \"good listeners\" operate.",
-          "**Level 5: Empathetic Listening** — You're not just hearing words—you're understanding the emotion, context, and meaning behind them. You're putting yourself in the speaker's shoes. This is the level that transforms relationships."
+          "Listening isn't all or nothing. It exists on a spectrum, and being honest with yourself about where you fall in a given moment is the first step toward getting better.",
+          "**Level 1: Ignoring.** You're physically present but your mind is somewhere else. Your phone, your to-do list, the thing someone said to you an hour ago. We've all been here. The key is noticing when it's happening.",
+          "**Level 2: Pretend Listening.** You're nodding and making eye contact, but you're not really taking anything in. This happens more than most of us would like to admit, especially in conversations that feel routine.",
+          "**Level 3: Selective Listening.** You're tuned in, but only to the parts that relate to your own experience or concerns. You're filtering everything through your own perspective instead of trying to understand theirs.",
+          "**Level 4: Attentive Listening.** You're genuinely focused on what the other person is saying. You could repeat it back accurately. This is where most thoughtful communicators operate on a good day, and it's a solid foundation.",
+          "**Level 5: Empathetic Listening.** You're paying attention not just to the words but to the feelings, context, and meaning behind them. You're working to see the situation from their perspective, not yours. Carl Rogers, the founder of person-centered therapy, considered this kind of listening the foundation of any meaningful helping relationship. But it matters just as much in friendships, partnerships, and everyday conversations."
         ]
       },
       {
-        heading: "Practical Techniques You Can Use Today",
+        heading: "Practical Techniques for Deeper Listening",
         content: [
-          "Moving from Level 3 or 4 to Level 5 requires intentional practice. Here are concrete techniques that work:",
-          "**Put away your phone—completely.** Not face-down on the table. In your pocket, in another room, or turned off. Research shows that even the presence of a phone on the table reduces the quality of conversation, even if no one touches it. This simple act signals: \"You have my full attention.\"",
-          "**Use the 2-second rule.** After someone finishes speaking, wait two full seconds before responding. This feels uncomfortable at first, but it accomplishes two things: it ensures they're actually finished (people often have more to say), and it gives your brain time to process what you heard rather than what you want to say.",
-          "**Reflect before you redirect.** Before sharing your own experience or advice, first reflect back what you heard. \"It sounds like you're feeling overwhelmed by all the changes at work.\" This isn't about parroting their words—it's about confirming you understood their meaning.",
-          "**Ask questions that go deeper.** Instead of \"What happened next?\" try \"How did that make you feel?\" or \"What was that like for you?\" These questions invite emotional honesty rather than just factual recounting.",
-          "**Notice what's not being said.** Pay attention to body language, tone of voice, and what topics someone seems to avoid or return to. Often the most important communication happens between the words."
+          "Getting from Level 4 to Level 5 doesn't happen by accident. It takes deliberate practice, but the techniques themselves are straightforward.",
+          "**Put your phone out of sight.** Not face-down on the table. Actually put it away. A 2014 study in Environment and Behavior found that even having a phone visible during a conversation reduced both the quality of the interaction and the empathic connection between people, even when no one touched it. Removing it from the space is a small act, but it sends a clear message: you have my full attention.",
+          "**Pause before you respond.** After someone finishes speaking, give yourself a full two seconds before you say anything. It will feel uncomfortable at first, but it does two important things: it makes sure they're actually finished (people will often continue if given the space), and it gives you a moment to process what they said rather than defaulting to whatever was already on the tip of your tongue.",
+          "**Reflect their meaning before adding yours.** Before jumping in with your experience or perspective, first try to articulate what you understood them to mean. Something like: \"It sounds like all these changes at work have left you feeling really uncertain about where you stand.\" This isn't about repeating their words back. It's about showing that you grasped the feeling underneath. It also gives them a chance to clarify if you missed something.",
+          "**Ask questions that go deeper.** \"What happened next?\" keeps the conversation at the level of events. \"What was that like for you?\" or \"How are you feeling about it now?\" invites something more honest. These kinds of questions tell the other person you're interested in them, not just the story.",
+          "**Pay attention to what isn't being said.** Tone of voice, body language, the topics someone keeps returning to or carefully avoiding. A lot of the most important communication happens in the spaces between words. Someone who circles back to the same point three times is telling you something matters more than they've said directly."
         ]
       },
       {
-        heading: "The Hardest Part: Listening Without Fixing",
+        heading: "Listening Without the Impulse to Fix",
         content: [
-          "For many of us—especially those who care deeply about others—the hardest aspect of listening is resisting the urge to fix. When someone shares a problem, our instinct is to offer solutions. But often, people don't want solutions. They want to feel heard.",
-          "A simple question can save you from this trap: \"Do you want me to just listen, or would you like suggestions?\" This question respects the other person's autonomy and ensures you're giving them what they actually need.",
-          "When you're not sure, default to listening. You can always offer advice later if asked. But you can't un-give advice that made someone feel dismissed or unheard."
+          "If you care about someone, your first instinct when they share a problem is probably to try to solve it. That instinct comes from a good place, but it can accidentally send the message that their feelings are a problem to be managed rather than something worth sitting with.",
+          "More often than not, what people need most isn't a solution. It's the experience of being heard. One question can help you figure out which one they're looking for: \"Would it be helpful if I just listened, or are you looking for input?\" It's a simple thing to ask, but it respects the other person's needs and keeps you from assuming you know what they want.",
+          "When you're not sure, lean toward listening. You can always offer thoughts later if they ask. But once you've jumped in with advice, the tone of the conversation has already changed, and the other person may feel like what they shared didn't fully land."
         ]
       },
       {
-        heading: "Listening to Difficult Emotions",
+        heading: "Sitting with Difficult Emotions",
         content: [
-          "It's easy to listen when someone shares good news or casual updates. It's much harder when they're angry, sad, or sharing something painful. Our natural instinct is to minimize (\"It's not that bad\"), fix (\"Have you tried...\"), or redirect (\"At least...\").",
-          "Instead, try staying present with phrases like: \"That sounds really hard.\" \"I'm here with you.\" \"Thank you for trusting me with this.\" These responses don't try to change the emotion—they honor it."
+          "Listening is easy when someone is sharing good news or telling you about their day. It gets a lot harder when they're angry, grieving, or in pain. In those moments, our own discomfort tends to take over. We minimize (\"I'm sure it'll work out\"), problem-solve (\"Have you considered...\"), or try to reframe (\"At least you still have...\"). These responses are well-intentioned, but they often leave the other person feeling unheard.",
+          "The harder and more meaningful response is simply to stay present. \"That sounds really difficult.\" \"I'm glad you told me.\" \"I'm here.\" These words don't try to change what someone is feeling. They make room for it. That kind of presence is uncomfortable because it asks us to sit with someone's pain without trying to fix it. But it is also one of the most valuable things we can offer another person."
         ]
       },
       {
-        heading: "When You're Struggling to Listen",
+        heading: "Recognizing Your Own Limits",
         content: [
-          "Sometimes we can't be good listeners—and that's okay. If you're exhausted, overwhelmed, or triggered by what someone is sharing, it's better to be honest than to pretend.",
-          "You might say: \"I really want to give you my full attention, but I'm struggling to focus right now. Can we talk about this tonight/tomorrow when I can be more present?\" This is actually a form of respect—it says their words matter enough that you want to hear them properly."
+          "Sometimes you won't be able to listen well, and that's worth being honest about. Fatigue, stress, or your own emotional state can all make it hard to give someone the attention they deserve. In those moments, pretending to listen does more harm than good.",
+          "It's better to say something like: \"I really want to hear this, and I want to give it my full attention. I'm not in a good place to do that right now. Can we come back to this tonight?\" That kind of honesty is actually a form of respect. It tells the other person their words matter enough that you don't want to half-listen."
         ]
       },
       {
-        heading: "Building Your Listening Practice",
+        heading: "A Four-Week Listening Practice",
         content: [
-          "Like any skill, listening improves with deliberate practice. Here's a simple weekly challenge to build your capacity:",
-          "**Week 1:** In one conversation per day, put your phone completely away and maintain eye contact. Notice how it changes the interaction.",
-          "**Week 2:** Practice the 2-second rule in every conversation. Notice the urge to interrupt and let it pass.",
-          "**Week 3:** Before responding in any meaningful conversation, reflect back what you heard. \"So what you're saying is...\" or \"It sounds like...\"",
-          "**Week 4:** Ask at least one \"How did that feel?\" question per day. Notice what opens up when you invite emotional honesty."
+          "Like any skill, listening improves with structured practice. Here's a simple progression you can follow over four weeks.",
+          "**Week 1:** Once a day, put your phone completely out of sight during a conversation and keep steady eye contact. Notice how it changes the dynamic between you and the other person.",
+          "**Week 2:** Start using the two-second pause before responding. Pay attention to the impulse to jump in right away, and practice letting that moment pass.",
+          "**Week 3:** Before responding to anything meaningful, reflect back what you heard first. \"What I'm hearing is...\" or \"It sounds like you're saying...\" Then wait for them to confirm or correct you.",
+          "**Week 4:** In at least one conversation each day, ask a question that invites the other person to share how they felt, not just what happened. Notice what opens up when you do."
         ]
       },
       {
-        heading: "The Ripple Effect",
+        heading: "The Broader Impact",
         content: [
-          "Here's the beautiful thing about becoming a better listener: it's contagious. When people feel heard by you, they're more likely to listen to others. The conversations you have will deepen. The relationships you build will strengthen. The trust you earn will compound.",
-          "You can't control how others communicate with you. But you can control how you receive what they share. And in doing so, you create space for the kind of connection that makes life meaningful.",
-          "Start today. Pick one conversation. Put your phone away. Really listen. And see what happens."
+          "When you listen well, the effects reach beyond that single conversation. People who feel heard by you start to bring that same quality of attention to their own relationships. Trust builds. Conversations go deeper. Relationships become stronger and more resilient when things get hard.",
+          "You can't control how others communicate with you. But you can choose how you receive what they share. That choice, made consistently, is one of the most meaningful things you can do for the people in your life.",
+          "Start with one conversation today. Put the distractions away. Listen to understand, not to respond. See what changes."
         ]
       }
     ],

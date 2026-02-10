@@ -107,7 +107,7 @@ function ArticlePage() {
           <Link
             to="/resources/$categorySlug"
             params={{ categorySlug: category.slug }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-stone-200/50 text-stone-700 hover:text-stone-700 hover:bg-white font-medium transition-all hover:shadow-lg"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-stone-200/50 text-stone-800 hover:text-stone-800 hover:bg-white font-medium transition-all hover:shadow-lg"
           >
             <ArrowLeft className={`w-4 h-4 ${colors.iconText}`} />
             {category.title}
@@ -115,7 +115,7 @@ function ArticlePage() {
         ) : (
           <Link
             to="/resources"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-stone-200/50 text-stone-700 hover:text-stone-700 hover:bg-white font-medium transition-all hover:shadow-lg"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-stone-200/50 text-stone-800 hover:text-stone-800 hover:bg-white font-medium transition-all hover:shadow-lg"
           >
             <ArrowLeft className={`w-4 h-4 ${colors.iconText}`} />
             All Resources
@@ -130,7 +130,7 @@ function ArticlePage() {
         <Container size="sm" className="relative z-10">
           <div className="text-center pt-8">
             <div className="inline-flex items-center justify-center w-14 h-14 bg-white/50 backdrop-blur-md rounded-full mb-5 border border-white/40 shadow-lg">
-              <BookOpen className="w-7 h-7 text-stone-700" />
+              <BookOpen className="w-7 h-7 text-stone-800" />
             </div>
             <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-md">
               {article.title}
@@ -178,17 +178,17 @@ function ArticlePage() {
               {article.sections?.map((section, sectionIndex) => (
                 <div key={sectionIndex} className="mb-8 last:mb-0">
                   {section.heading && (
-                    <h2 className="text-2xl font-bold text-stone-800 mt-8 mb-4 first:mt-0">
+                    <h2 className="text-2xl font-bold text-stone-700 mt-8 mb-4 first:mt-0">
                       {section.heading}
                     </h2>
                   )}
                   {section.content.map((paragraph, pIndex) => (
-                    <p key={pIndex} className="text-stone-700 leading-relaxed mb-4 last:mb-0">
+                    <p key={pIndex} className="text-stone-600 leading-relaxed mb-4 last:mb-0">
                       {paragraph.split("**").map((part, i) =>
                         i % 2 === 0 ? (
                           <span key={i}>{part}</span>
                         ) : (
-                          <strong key={i} className="font-semibold text-stone-800">
+                          <strong key={i} className="font-semibold text-stone-600">
                             {part}
                           </strong>
                         )
@@ -207,7 +207,7 @@ function ArticlePage() {
                     <BookOpen className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <p className="font-semibold text-stone-800">
+                    <p className="font-semibold text-stone-700">
                       {article.author || "Compass Coaching"}
                     </p>
                     <p className="text-sm text-stone-500">
