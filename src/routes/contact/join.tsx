@@ -13,6 +13,9 @@ import {
   Presentation,
   Eye,
   MessageSquare,
+  Sun,
+  Sunrise,
+  Moon,
 } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import {
@@ -68,14 +71,169 @@ const contactPreferences = [
   { id: "either", label: "Either is fine" },
 ];
 
+const timeOfDayOptions = [
+  { id: "morning", icon: Sunrise, label: "Mornings", hint: "Before noon" },
+  { id: "afternoon", icon: Sun, label: "Afternoons", hint: "12pm - 5pm" },
+  { id: "evening", icon: Moon, label: "Evenings", hint: "After 5pm" },
+];
+
+const dayOptions = [
+  { id: "mon", label: "Mon" },
+  { id: "tue", label: "Tue" },
+  { id: "wed", label: "Wed" },
+  { id: "thu", label: "Thu" },
+  { id: "fri", label: "Fri" },
+  { id: "sat", label: "Sat" },
+  { id: "sun", label: "Sun" },
+];
+
+// Geometric pattern for join page - purple version of careers pattern
+function JoinPattern() {
+  return (
+    <svg
+      className="absolute inset-0 w-full h-full"
+      viewBox="0 0 1200 400"
+      preserveAspectRatio="xMidYMid slice"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        {/* Base gradient - deep purple */}
+        <linearGradient id="joinBg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#3b0764" />
+          <stop offset="50%" stopColor="#581c87" />
+          <stop offset="100%" stopColor="#6b21a8" />
+        </linearGradient>
+
+        {/* Blue accent gradient */}
+        <linearGradient id="joinAccent" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.4" />
+          <stop offset="50%" stopColor="#60a5fa" stopOpacity="0.7" />
+          <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.3" />
+        </linearGradient>
+
+        {/* Secondary blue gradient - reversed */}
+        <linearGradient id="joinAccent2" x1="100%" y1="0%" x2="0%" y2="0%">
+          <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.5" />
+          <stop offset="50%" stopColor="#93c5fd" stopOpacity="0.6" />
+          <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.3" />
+        </linearGradient>
+
+        {/* Filled swoosh gradient */}
+        <linearGradient id="joinSwooshFill" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#a855f7" stopOpacity="0.15" />
+          <stop offset="100%" stopColor="#6b21a8" stopOpacity="0.05" />
+        </linearGradient>
+      </defs>
+
+      {/* Base fill */}
+      <rect width="100%" height="100%" fill="url(#joinBg)" />
+
+      {/* Filled swoosh area - subtle wave shape */}
+      <path
+        d="M0 320 Q200 250 500 280 T900 240 T1200 260 L1200 400 L0 400 Z"
+        fill="url(#joinSwooshFill)"
+      />
+
+      {/* Primary swoosh line - blue accent (main) - gentle curve */}
+      <path
+        d="M0 310 Q180 260 450 290 Q750 320 1000 250 Q1120 220 1200 240"
+        fill="none"
+        stroke="url(#joinAccent)"
+        strokeWidth="3"
+      />
+
+      {/* Secondary blue swoosh - steeper descent */}
+      <path
+        d="M0 260 Q250 280 500 230 Q800 170 1050 200 T1200 180"
+        fill="none"
+        stroke="url(#joinAccent2)"
+        strokeWidth="2"
+        opacity="0.7"
+      />
+
+      {/* Third blue swoosh - rising then falling */}
+      <path
+        d="M0 370 Q200 340 400 360 Q650 390 850 320 Q1050 260 1200 290"
+        fill="none"
+        stroke="rgba(96, 165, 250, 0.4)"
+        strokeWidth="2"
+      />
+
+      {/* Fourth blue swoosh - dramatic dip */}
+      <path
+        d="M0 390 Q300 380 500 350 Q700 310 900 340 Q1100 380 1200 350"
+        fill="none"
+        stroke="rgba(147, 197, 253, 0.25)"
+        strokeWidth="1.5"
+      />
+
+      {/* White accent swooshes for depth - varied curves */}
+      <path
+        d="M0 340 Q350 290 600 330 Q850 370 1050 300 T1200 310"
+        fill="none"
+        stroke="rgba(255,255,255,0.1)"
+        strokeWidth="1.5"
+      />
+      <path
+        d="M0 380 Q250 350 450 370 Q700 400 950 350 Q1100 320 1200 340"
+        fill="none"
+        stroke="rgba(255,255,255,0.06)"
+        strokeWidth="1"
+      />
+
+      {/* Top accent curves - blue, dynamic varied angles */}
+      <path
+        d="M700 0 Q800 120 950 80 Q1100 40 1200 110"
+        fill="none"
+        stroke="url(#joinAccent)"
+        strokeWidth="2.5"
+        opacity="0.45"
+      />
+      <path
+        d="M850 0 Q900 60 1000 40 Q1150 10 1200 60"
+        fill="none"
+        stroke="url(#joinAccent2)"
+        strokeWidth="2"
+        opacity="0.5"
+      />
+      <path
+        d="M950 0 Q980 80 1050 50 Q1120 20 1200 80"
+        fill="none"
+        stroke="rgba(147, 197, 253, 0.4)"
+        strokeWidth="1.5"
+      />
+      <path
+        d="M1020 0 Q1070 35 1100 60 Q1150 90 1200 45"
+        fill="none"
+        stroke="rgba(96, 165, 250, 0.35)"
+        strokeWidth="1.5"
+      />
+    </svg>
+  );
+}
+
 function JoinTeamPage() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
   const [contactPreference, setContactPreference] = useState<string>("");
+  const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
+  const [selectedDays, setSelectedDays] = useState<string[]>([]);
 
   const toggleInterest = (id: string) => {
     setSelectedInterests((prev) =>
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
+    );
+  };
+
+  const toggleTime = (id: string) => {
+    setSelectedTimes((prev) =>
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
+    );
+  };
+
+  const toggleDay = (id: string) => {
+    setSelectedDays((prev) =>
       prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
     );
   };
@@ -99,6 +257,16 @@ function JoinTeamPage() {
     formData.append("interests", interestLabels.join(", ") || "None selected");
     formData.append("contact_preference", contactPreference || "Not specified");
 
+    // Add availability as formatted strings
+    const timeLabels = selectedTimes.map(
+      (id) => timeOfDayOptions.find((opt) => opt.id === id)?.label
+    );
+    const dayLabels = selectedDays.map(
+      (id) => dayOptions.find((opt) => opt.id === id)?.label
+    );
+    formData.append("available_times", timeLabels.join(", ") || "Not specified");
+    formData.append("available_days", dayLabels.join(", ") || "Not specified");
+
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
@@ -112,6 +280,8 @@ function JoinTeamPage() {
         form.reset();
         setSelectedInterests([]);
         setContactPreference("");
+        setSelectedTimes([]);
+        setSelectedDays([]);
       } else {
         alert(
           "Something went wrong. Please email us directly at hello@compasscoachingpa.org"
@@ -129,11 +299,8 @@ function JoinTeamPage() {
   return (
     <div className="min-h-screen bg-stone-50">
       {/* Hero Section */}
-      <section className="relative py-16 md:py-20 px-6 bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700 overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-10 left-10 w-24 h-24 bg-lime-500/10 rounded-full blur-2xl" />
-        <div className="absolute bottom-10 right-10 w-40 h-40 bg-lime-500/10 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-white/5 rounded-full blur-xl" />
+      <section className="relative py-16 md:py-20 px-6 overflow-hidden">
+        <JoinPattern />
 
         <Container className="relative z-10">
           <Link
@@ -461,20 +628,72 @@ function JoinTeamPage() {
                   <CardHeader>
                     <CardTitle>Availability & Additional Information</CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-4">
+                  <CardContent className="space-y-6">
+                    {/* Time of Day */}
                     <div>
-                      <label
-                        htmlFor="availability"
-                        className="block text-sm font-medium text-stone-700 mb-1"
-                      >
-                        General Availability
+                      <label className="block text-sm font-medium text-stone-700 mb-3">
+                        When are you typically available?
                       </label>
-                      <Textarea
-                        id="availability"
-                        name="availability"
-                        rows={2}
-                        placeholder="e.g., Weekday evenings, Saturday mornings, flexible schedule"
-                      />
+                      <div className="grid grid-cols-3 gap-3">
+                        {timeOfDayOptions.map((time) => {
+                          const Icon = time.icon;
+                          const isSelected = selectedTimes.includes(time.id);
+                          return (
+                            <button
+                              key={time.id}
+                              type="button"
+                              onClick={() => toggleTime(time.id)}
+                              className={`p-4 rounded-xl border-2 transition-all duration-200 flex flex-col items-center text-center ${
+                                isSelected
+                                  ? "border-purple-500 bg-purple-50"
+                                  : "border-stone-200 hover:border-purple-300 bg-white"
+                              }`}
+                            >
+                              <Icon
+                                className={`w-6 h-6 mb-1 ${
+                                  isSelected ? "text-purple-600" : "text-stone-400"
+                                }`}
+                              />
+                              <span
+                                className={`text-sm font-medium ${
+                                  isSelected ? "text-purple-700" : "text-stone-700"
+                                }`}
+                              >
+                                {time.label}
+                              </span>
+                              <span className="text-xs text-stone-400 mt-0.5">
+                                {time.hint}
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Days of Week */}
+                    <div>
+                      <label className="block text-sm font-medium text-stone-700 mb-3">
+                        Which days work best?
+                      </label>
+                      <div className="flex flex-wrap gap-2">
+                        {dayOptions.map((day) => {
+                          const isSelected = selectedDays.includes(day.id);
+                          return (
+                            <button
+                              key={day.id}
+                              type="button"
+                              onClick={() => toggleDay(day.id)}
+                              className={`px-4 py-2 rounded-full border-2 text-sm font-medium transition-all duration-200 ${
+                                isSelected
+                                  ? "border-purple-500 bg-purple-500 text-white"
+                                  : "border-stone-200 hover:border-purple-300 bg-white text-stone-600"
+                              }`}
+                            >
+                              {day.label}
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
                     <div>
                       <label
