@@ -559,20 +559,20 @@ function ResourceCategoryPage() {
 
   return (
     <div className="min-h-screen bg-stone-50">
-      {/* Hero Section */}
-      <section className="relative py-16 px-6 overflow-hidden">
-        <CategoryPattern color={category.color} />
+      {/* Back link - sticky pill */}
+      <div className="sticky top-20 md:top-[76px] z-40 w-fit ml-4 md:ml-6 pt-4 md:pt-6">
+        <Link
+          to="/resources"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-stone-200/50 text-stone-700 hover:text-stone-700 hover:bg-white font-medium transition-all hover:shadow-lg"
+        >
+          <ArrowLeft className={`w-4 h-4 ${colors.iconText}`} />
+          All Resources
+        </Link>
+      </div>
 
-        {/* Back link - floating pill */}
-        <div className="absolute top-4 left-4 md:top-6 md:left-6 z-20">
-          <Link
-            to="/resources"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-stone-200/50 text-stone-700 hover:text-stone-700 hover:bg-white font-medium transition-all hover:shadow-lg"
-          >
-            <ArrowLeft className={`w-4 h-4 ${colors.iconText}`} />
-            All Resources
-          </Link>
-        </div>
+      {/* Hero Section */}
+      <section className="relative py-16 px-6 overflow-hidden -mt-14 md:-mt-16">
+        <CategoryPattern color={category.color} />
 
         <Container size="sm" className="relative z-10">
           <div className="text-center pt-6">
