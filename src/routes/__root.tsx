@@ -98,6 +98,11 @@ export const Route = createRootRoute({
     links: [
       {
         rel: "icon",
+        href: "/favicon.ico",
+        sizes: "any",
+      },
+      {
+        rel: "icon",
         type: "image/svg+xml",
         href: "/discord-icon.svg",
       },

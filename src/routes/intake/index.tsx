@@ -13,6 +13,7 @@ import { Container } from "@/components/layout/container";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAssessmentProgress } from "@/hooks";
+import { useHasHydrated } from "@/stores/assessmentStore";
 
 export const Route = createFileRoute("/intake/")({
   component: IntakePage,
@@ -31,10 +32,12 @@ export const Route = createFileRoute("/intake/")({
 });
 
 function IntakePage() {
+  const hasHydrated = useHasHydrated();
   const progress = useAssessmentProgress();
-  const hasStarted = progress.percentComplete > 0;
+  // Only show "Continue" if hydrated and has progress
+  const hasStarted = hasHydrated && progress.percentComplete > 0;
   const buttonText = hasStarted ? "Continue Assessment" : "Start Assessment";
-  const buttonDestination = progress.nextSection;
+  const buttonDestination = hasHydrated ? progress.nextSection : "/intake/basic";
 
   const sections = [
     {

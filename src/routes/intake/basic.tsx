@@ -1,7 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { User } from "lucide-react";
-import { useState } from "react";
-import { NavigationButtons } from "@/components/assessment/NavigationButtons";
+import { AssessmentFooter } from "@/components/assessment/AssessmentFooter";
 import { SectionHeader } from "@/components/assessment/SectionHeader";
 import { Container } from "@/components/layout/container";
 import {
@@ -15,7 +14,7 @@ import {
   SelectValue,
   Textarea,
 } from "@/components/ui";
-import { useAssessmentStore } from "@/stores/assessmentStore";
+import { useAssessmentStore, useHasHydrated } from "@/stores/assessmentStore";
 
 export const Route = createFileRoute("/intake/basic")({
   component: BasicInfoPage,
@@ -33,35 +32,29 @@ export const Route = createFileRoute("/intake/basic")({
   }),
 });
 
-interface BasicFormData {
-  name: string;
-  ageRange: string;
-  educationLevel: string;
-  employmentStatus: string;
-  primaryReason: string;
-}
-
 function BasicInfoPage() {
   const navigate = useNavigate();
-  const basic = useAssessmentStore((state) => state.basic);
-  const setBasic = useAssessmentStore((state) => state.setBasic);
+  const hasHydrated = useHasHydrated();
 
-  // Initialize form with store data or empty values
-  const [formData, setFormData] = useState<BasicFormData>(() => ({
+  // Read directly from store - auto-updates on any change
+  const basic = useAssessmentStore((state) => state.basic);
+  const updateBasic = useAssessmentStore((state) => state.updateBasic);
+
+  // Safe accessors with defaults
+  const formData = {
     name: basic?.name || "",
     ageRange: basic?.ageRange || "",
     educationLevel: basic?.educationLevel || "",
     employmentStatus: basic?.employmentStatus || "",
     primaryReason: basic?.primaryReason || "",
-  }));
+  };
 
-  const handleChange = (field: keyof BasicFormData, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+  const handleChange = (field: string, value: string) => {
+    updateBasic({ [field]: value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setBasic(formData);
     navigate({ to: "/intake/personality" });
   };
 
@@ -71,8 +64,37 @@ function BasicInfoPage() {
     formData.educationLevel &&
     formData.employmentStatus;
 
+  // Calculate section progress (4 required fields)
+  const requiredFields = [formData.name, formData.ageRange, formData.educationLevel, formData.employmentStatus];
+  const filledFields = requiredFields.filter(Boolean).length;
+  const sectionProgress = (filledFields / requiredFields.length) * 100;
+
+  // Show loading state while hydrating
+  if (!hasHydrated) {
+    return (
+      <div className="min-h-screen bg-stone-50 py-12 px-6 pb-40">
+        <Container size="sm">
+          <div className="animate-pulse space-y-6">
+            <div className="h-8 bg-stone-200 rounded w-1/3" />
+            <div className="h-4 bg-stone-200 rounded w-2/3" />
+            <Card>
+              <CardContent className="space-y-6 pt-6">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <div key={i} className="space-y-2">
+                    <div className="h-4 bg-stone-200 rounded w-1/4" />
+                    <div className="h-10 bg-stone-200 rounded" />
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </div>
+        </Container>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-stone-50 py-12 px-6">
+    <div className="min-h-screen bg-stone-50 py-12 px-6 pb-40">
       <Container size="sm">
         <SectionHeader
           icon={User}
@@ -110,7 +132,7 @@ function BasicInfoPage() {
                   <span className="text-error-500">*</span>
                 </label>
                 <Select
-                  value={formData.ageRange}
+                  value={formData.ageRange || undefined}
                   onValueChange={(value) => handleChange("ageRange", value)}
                 >
                   <SelectTrigger id="ageRange">
@@ -137,7 +159,7 @@ function BasicInfoPage() {
                   <span className="text-error-500">*</span>
                 </label>
                 <Select
-                  value={formData.educationLevel}
+                  value={formData.educationLevel || undefined}
                   onValueChange={(value) =>
                     handleChange("educationLevel", value)
                   }
@@ -177,7 +199,7 @@ function BasicInfoPage() {
                   <span className="text-error-500">*</span>
                 </label>
                 <Select
-                  value={formData.employmentStatus}
+                  value={formData.employmentStatus || undefined}
                   onValueChange={(value) =>
                     handleChange("employmentStatus", value)
                   }
@@ -225,11 +247,12 @@ function BasicInfoPage() {
             </CardContent>
           </Card>
 
-          <NavigationButtons
+          <AssessmentFooter
+            currentStep={1}
             backTo="/intake"
-            backLabel="Back to Overview"
             nextLabel="Next: Personality"
             nextDisabled={!isValid}
+            sectionProgress={sectionProgress}
           />
         </form>
       </Container>

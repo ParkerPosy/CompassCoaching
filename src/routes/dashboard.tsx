@@ -5,7 +5,7 @@ import { User, Shield, Clock, BarChart3, Download, CheckCircle, AlertCircle, Log
 import { Container } from "@/components/layout/container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useAssessmentStore } from "@/stores/assessmentStore";
+import { useAssessmentStore, useHasHydrated } from "@/stores/assessmentStore";
 
 // Server function to check authentication and get admin message
 const getDashboardData = createServerFn().handler(async () => {
@@ -48,7 +48,8 @@ export const Route = createFileRoute("/dashboard")({
 function DashboardPage() {
   const { user, isLoaded } = useUser();
   const loaderData = Route.useLoaderData();
-  const { basic, personality, values, aptitude, challenges, results, _hasHydrated } = useAssessmentStore();
+  const hasHydrated = useHasHydrated();
+  const { basic, personality, values, aptitude, challenges, results } = useAssessmentStore();
 
   const hasAnyData = basic || personality || values || aptitude || challenges || results;
   const sectionsCompleted = [basic, personality, values, aptitude, challenges].filter(Boolean).length;
@@ -137,7 +138,7 @@ function DashboardPage() {
                 <div>
                   <p className="text-sm text-stone-500">Assessment Progress</p>
                   <p className="text-lg font-semibold text-stone-700">
-                    {!_hasHydrated ? "Loading..." : results ? "Completed" : `${sectionsCompleted}/5 Sections`}
+                    {!hasHydrated ? "Loading..." : results ? "Completed" : `${sectionsCompleted}/5 Sections`}
                   </p>
                 </div>
               </div>
@@ -199,7 +200,7 @@ function DashboardPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {!_hasHydrated ? (
+              {!hasHydrated ? (
                 <p className="text-stone-500 text-sm">Loading assessment data...</p>
               ) : hasAnyData ? (
                 <div className="space-y-4">

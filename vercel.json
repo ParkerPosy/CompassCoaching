@@ -33,11 +33,5 @@
       ]
     }
   ],
-  "rewrites": [
-    {
-      "source": "/favicon.ico",
-      "destination": "/discord-icon.png"
-    }
-  ],
   "crons": []
 }

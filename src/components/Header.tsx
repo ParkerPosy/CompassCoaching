@@ -29,11 +29,13 @@ import {
 import { useState } from "react";
 import { CATEGORY_COLOR_STYLES, RESOURCE_CATEGORIES } from "@/data/resources";
 import { useAssessmentProgress } from "@/hooks";
+import { useHasHydrated } from "@/stores/assessmentStore";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [showAssessmentMenu, setShowAssessmentMenu] = useState(false);
   const [showResourcesMenu, setShowResourcesMenu] = useState(false);
+  const hasHydrated = useHasHydrated();
   const progress = useAssessmentProgress();
   const navigate = useNavigate();
   const { user } = useUser();
@@ -352,19 +354,19 @@ export default function Header() {
               <div className="flex items-center justify-between text-xs text-stone-600 mb-1">
                 <span>Progress</span>
                 <span>
-                  {completedCount}/{totalCount}
+                  {hasHydrated ? `${completedCount}/${totalCount}` : "..."}
                 </span>
               </div>
               <div className="w-full h-2 bg-stone-100 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-lime-500 transition-all duration-500 rounded-full"
-                  style={{ width: `${(completedCount / totalCount) * 100}%` }}
+                  style={{ width: hasHydrated ? `${(completedCount / totalCount) * 100}%` : "0%" }}
                 />
               </div>
             </div>
 
             {/* Continue Assessment Button */}
-            {completedCount < totalCount && (
+            {hasHydrated && completedCount < totalCount && (
               <button
                 type="button"
                 onClick={handleContinueAssessment}
@@ -393,7 +395,9 @@ export default function Header() {
                     >
                       <Icon size={16} />
                       <span className="flex-1">{section.label}</span>
-                      {section.completed ? (
+                      {!hasHydrated ? (
+                        <Circle size={16} className="text-stone-200 animate-pulse" />
+                      ) : section.completed ? (
                         <CheckCircle2 size={16} className="text-lime-600" />
                       ) : (
                         <Circle size={16} className="text-stone-300" />

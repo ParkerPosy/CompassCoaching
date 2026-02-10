@@ -1,9 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import { NavigationButtons } from "@/components/assessment/NavigationButtons";
+import { AssessmentFooter } from "@/components/assessment/AssessmentFooter";
 import { Container } from "@/components/layout/container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useAssessmentStore } from "@/stores/assessmentStore";
+import { useAssessmentStore, useHasHydrated } from "@/stores/assessmentStore";
 
 export const Route = createFileRoute("/intake/values")({
   component: ValuesPage,
@@ -15,10 +14,6 @@ export const Route = createFileRoute("/intake/values")({
     ],
   }),
 });
-
-interface ValueRating {
-  [key: string]: number;
-}
 
 const values = [
   {
@@ -85,49 +80,61 @@ const values = [
 
 function ValuesPage() {
   const navigate = useNavigate();
-  const valuesData = useAssessmentStore((state) => state.values);
-  const setValues = useAssessmentStore((state) => state.setValues);
+  const hasHydrated = useHasHydrated();
 
-  // Initialize form with store data or empty values
-  const [ratings, setRatings] = useState<ValueRating>(() => valuesData || {});
+  // Read directly from store - auto-updates on any change
+  const valuesData = useAssessmentStore((state) => state.values);
+  const updateValues = useAssessmentStore((state) => state.updateValues);
+
+  // Safe accessor with default
+  const ratings = valuesData || {};
 
   const handleRating = (valueId: string, rating: number) => {
-    setRatings((prev) => ({ ...prev, [valueId]: rating }));
+    updateValues({ [valueId]: rating });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setValues(ratings);
     navigate({ to: "/intake/aptitude" });
   };
 
   const progress = (Object.keys(ratings).length / values.length) * 100;
   const isComplete = Object.keys(ratings).length === values.length;
 
-  return (
-    <div className="min-h-screen bg-stone-50 py-12 px-6">
-      <Container size="sm">
-        {/* Progress Bar */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-stone-600">
-              Section 3 of 5
-            </span>
-            <span className="text-sm font-medium text-stone-600">
-              60% Complete
-            </span>
+  // Show loading state while hydrating
+  if (!hasHydrated) {
+    return (
+      <div className="min-h-screen bg-stone-50 py-12 px-6 pb-40">
+        <Container size="sm">
+          <div className="animate-pulse space-y-6">
+            <Card>
+              <CardHeader>
+                <div className="h-6 bg-stone-200 rounded w-1/2" />
+                <div className="h-4 bg-stone-200 rounded w-3/4 mt-2" />
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="space-y-2">
+                    <div className="h-5 bg-stone-200 rounded w-1/3" />
+                    <div className="h-4 bg-stone-200 rounded w-2/3" />
+                    <div className="flex gap-2">
+                      {[1, 2, 3, 4, 5].map((j) => (
+                        <div key={j} className="h-8 w-8 bg-stone-200 rounded-full" />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
           </div>
-          <div className="w-full h-2 bg-stone-200 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-lime-600 transition-all duration-500"
-              style={{ width: "60%" }}
-            />
-          </div>
-          <div className="mt-2 text-sm text-stone-600">
-            {Object.keys(ratings).length} of {values.length} values rated
-          </div>
-        </div>
+        </Container>
+      </div>
+    );
+  }
 
+  return (
+    <div className="min-h-screen bg-stone-50 py-12 px-6 pb-40">
+      <Container size="sm">
         <form onSubmit={handleSubmit}>
           <Card className="mb-6">
             <CardHeader>
@@ -197,31 +204,14 @@ function ValuesPage() {
             </CardContent>
           </Card>
 
-          {/* Section Progress */}
-          <div className="mb-6">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-stone-600">
-                Section Progress
-              </span>
-              <span className="text-sm font-medium text-lime-700">
-                {Math.round(progress)}%
-              </span>
-            </div>
-            <div className="w-full h-2 bg-stone-200 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-lime-600 transition-all duration-300"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-          </div>
-
-          {/* Navigation */}
-          <NavigationButtons
+          <AssessmentFooter
+            currentStep={3}
             backTo="/intake/personality"
             backLabel="Previous"
             nextLabel="Next: Aptitude"
             nextDisabled={!isComplete}
             nextButtonType="submit"
+            sectionProgress={progress}
           />
         </form>
       </Container>

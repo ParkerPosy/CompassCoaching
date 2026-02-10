@@ -3,6 +3,7 @@
  * This replaces direct localStorage access with a reactive state management solution
  */
 
+import { useState, useEffect } from "react";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
@@ -39,10 +40,6 @@ export interface AssessmentProgress {
  * Assessment store state interface
  */
 interface AssessmentState {
-  // Hydration tracking
-  _hasHydrated: boolean;
-  setHasHydrated: (state: boolean) => void;
-
   // Assessment section data
   basic: BasicInfo | null;
   personality: PersonalityAnswers | null;
@@ -51,12 +48,12 @@ interface AssessmentState {
   challenges: ChallengesData | null;
   results: AssessmentResults | null;
 
-  // Actions to update state
-  setBasic: (data: BasicInfo) => void;
-  setPersonality: (data: PersonalityAnswers) => void;
-  setValues: (data: ValueRatings) => void;
-  setAptitude: (data: AptitudeData) => void;
-  setChallenges: (data: ChallengesData) => void;
+  // Actions to update state (partial updates, merged with existing)
+  updateBasic: (data: Partial<BasicInfo>) => void;
+  updatePersonality: (data: Partial<PersonalityAnswers>) => void;
+  updateValues: (data: Partial<ValueRatings>) => void;
+  updateAptitude: (data: Partial<AptitudeData>) => void;
+  updateChallenges: (data: Partial<ChallengesData>) => void;
   setResults: (data: AssessmentResults) => void;
 
   // Utility actions
@@ -86,10 +83,6 @@ const createSafeStorage = () => {
 export const useAssessmentStore = create<AssessmentState>()(
   persist(
     (set, get) => ({
-      // Hydration tracking
-      _hasHydrated: false,
-      setHasHydrated: (state: boolean) => set({ _hasHydrated: state }),
-
       // Initial state
       basic: null,
       personality: null,
@@ -98,12 +91,22 @@ export const useAssessmentStore = create<AssessmentState>()(
       challenges: null,
       results: null,
 
-      // Setters for each section
-      setBasic: (data: BasicInfo) => set({ basic: data }),
-      setPersonality: (data: PersonalityAnswers) => set({ personality: data }),
-      setValues: (data: ValueRatings) => set({ values: data }),
-      setAptitude: (data: AptitudeData) => set({ aptitude: data }),
-      setChallenges: (data: ChallengesData) => set({ challenges: data }),
+      // Setters for each section (partial updates merged with existing data)
+      updateBasic: (data: Partial<BasicInfo>) => set((state) => ({
+        basic: { ...(state.basic || { name: "", ageRange: "", educationLevel: "", employmentStatus: "", primaryReason: "" }), ...data } as BasicInfo
+      })),
+      updatePersonality: (data: Partial<PersonalityAnswers>) => set((state) => ({
+        personality: { ...(state.personality || {}), ...data } as PersonalityAnswers
+      })),
+      updateValues: (data: Partial<ValueRatings>) => set((state) => ({
+        values: { ...(state.values || {}), ...data } as ValueRatings
+      })),
+      updateAptitude: (data: Partial<AptitudeData>) => set((state) => ({
+        aptitude: { ...(state.aptitude || { stem: [0,0,0,0], arts: [0,0,0,0], communication: [0,0,0,0], business: [0,0,0,0], healthcare: [0,0,0,0], trades: [0,0,0,0], socialServices: [0,0,0,0], law: [0,0,0,0] }), ...data } as AptitudeData
+      })),
+      updateChallenges: (data: Partial<ChallengesData>) => set((state) => ({
+        challenges: { ...(state.challenges || { financial: "", timeAvailability: "", locationFlexibility: "", familyObligations: "", transportation: "", healthConsiderations: "", educationGaps: [], supportSystem: "", additionalNotes: "" }), ...data } as ChallengesData
+      })),
       setResults: (data: AssessmentResults) => set({ results: data }),
 
       // Clear all assessment data
@@ -192,10 +195,6 @@ export const useAssessmentStore = create<AssessmentState>()(
         challenges: state.challenges,
         results: state.results,
       }),
-      // Track hydration completion
-      onRehydrateStorage: () => (state) => {
-        state?.setHasHydrated(true);
-      },
     },
   ),
 );
@@ -212,8 +211,41 @@ export const useChallenges = () =>
   useAssessmentStore((state) => state.challenges);
 export const useAssessmentResults = () =>
   useAssessmentStore((state) => state.results);
-export const useHasHydrated = () =>
-  useAssessmentStore((state) => state._hasHydrated);
+
+/**
+ * Hook to check if the store has finished hydrating from localStorage.
+ * Uses Zustand persist's built-in hydration tracking.
+ */
+export const useHasHydrated = () => {
+  const [hasHydrated, setHasHydrated] = useState(() => {
+    // Check if persist API is available (not during SSR)
+    if (typeof window === "undefined") return false;
+    return useAssessmentStore.persist?.hasHydrated?.() ?? false;
+  });
+
+  useEffect(() => {
+    // Skip if persist API isn't available
+    if (!useAssessmentStore.persist?.onFinishHydration) {
+      setHasHydrated(true);
+      return;
+    }
+
+    // If already hydrated, update state
+    if (useAssessmentStore.persist.hasHydrated()) {
+      setHasHydrated(true);
+      return;
+    }
+
+    const unsubFinishHydration = useAssessmentStore.persist.onFinishHydration(
+      () => setHasHydrated(true)
+    );
+    return () => {
+      unsubFinishHydration();
+    };
+  }, []);
+
+  return hasHydrated;
+};
 
 /**
  * Check if stored results are from an outdated assessment version

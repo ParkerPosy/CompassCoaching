@@ -1,7 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { CheckCircle2 } from "lucide-react";
-import { useState } from "react";
-import { NavigationButtons } from "@/components/assessment/NavigationButtons";
+import { AssessmentFooter } from "@/components/assessment/AssessmentFooter";
 import { Container } from "@/components/layout/container";
 import {
   Card,
@@ -15,7 +13,7 @@ import {
   SelectValue,
   Textarea,
 } from "@/components/ui";
-import { useAssessmentStore } from "@/stores/assessmentStore";
+import { useAssessmentStore, useHasHydrated } from "@/stores/assessmentStore";
 
 export const Route = createFileRoute("/intake/challenges")({
   component: ChallengesPage,
@@ -28,65 +26,46 @@ export const Route = createFileRoute("/intake/challenges")({
   }),
 });
 
-interface ChallengesData {
-  financial: string;
-  timeAvailability: string;
-  locationFlexibility: string;
-  familyObligations: string;
-  transportation: string;
-  healthConsiderations: string;
-  educationGaps: string[];
-  supportSystem: string;
-  additionalNotes: string;
-}
-
 function ChallengesPage() {
   const navigate = useNavigate();
-  const challengesData = useAssessmentStore((state) => state.challenges);
-  const setChallenges = useAssessmentStore((state) => state.setChallenges);
+  const hasHydrated = useHasHydrated();
 
-  // Initialize form with store data or empty values
-  const [formData, setFormData] = useState<ChallengesData>(
-    () =>
-      challengesData || {
-        financial: "",
-        timeAvailability: "",
-        locationFlexibility: "",
-        familyObligations: "",
-        transportation: "",
-        healthConsiderations: "",
-        educationGaps: [],
-        supportSystem: "",
-        additionalNotes: "",
-      },
-  );
+  // Read directly from store - auto-updates on any change
+  const challenges = useAssessmentStore((state) => state.challenges);
+  const updateChallenges = useAssessmentStore((state) => state.updateChallenges);
 
-  const handleChange = (
-    field: keyof ChallengesData,
-    value: string | string[],
-  ) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+  // Safe accessors with defaults
+  const formData = {
+    financial: challenges?.financial || "",
+    timeAvailability: challenges?.timeAvailability || "",
+    locationFlexibility: challenges?.locationFlexibility || "",
+    familyObligations: challenges?.familyObligations || "",
+    transportation: challenges?.transportation || "",
+    healthConsiderations: challenges?.healthConsiderations || "",
+    educationGaps: challenges?.educationGaps || [],
+    supportSystem: challenges?.supportSystem || "",
+    additionalNotes: challenges?.additionalNotes || "",
+  };
+
+  const handleChange = (field: string, value: string | string[]) => {
+    updateChallenges({ [field]: value });
   };
 
   const handleCheckboxChange = (
-    field: keyof ChallengesData,
+    field: string,
     value: string,
     checked: boolean,
   ) => {
-    const current = formData[field] as string[];
+    const current = formData.educationGaps;
     if (checked) {
-      handleChange(field, [...current, value]);
+      updateChallenges({ [field]: [...current, value] });
     } else {
-      handleChange(
-        field,
-        current.filter((v) => v !== value),
-      );
+      updateChallenges({ [field]: current.filter((v) => v !== value) });
     }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setChallenges(formData);
     navigate({ to: "/intake/review" });
   };
 
@@ -97,31 +76,40 @@ function ChallengesPage() {
     "supportSystem",
   ];
   const filledRequired = requiredFields.filter(
-    (field) => formData[field as keyof ChallengesData],
+    (field) => formData[field as keyof typeof formData],
   );
   const isValid = filledRequired.length === requiredFields.length;
+  const sectionProgress = (filledRequired.length / requiredFields.length) * 100;
+
+  // Show loading state while hydrating
+  if (!hasHydrated) {
+    return (
+      <div className="min-h-screen bg-stone-50 py-12 px-6 pb-40">
+        <Container size="sm">
+          <div className="animate-pulse space-y-6">
+            <Card>
+              <CardHeader>
+                <div className="h-6 bg-stone-200 rounded w-1/2" />
+                <div className="h-4 bg-stone-200 rounded w-3/4 mt-2" />
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="space-y-2">
+                    <div className="h-4 bg-stone-200 rounded w-1/3" />
+                    <div className="h-10 bg-stone-200 rounded" />
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </div>
+        </Container>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-stone-50 py-12 px-6">
+    <div className="min-h-screen bg-stone-50 py-12 px-6 pb-40">
       <Container size="sm">
-        {/* Progress Bar */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-stone-600">
-              Section 5 of 5
-            </span>
-            <span className="text-sm font-medium text-lime-700">
-              Final Section!
-            </span>
-          </div>
-          <div className="w-full h-2 bg-stone-200 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-lime-600 transition-all duration-500"
-              style={{ width: "90%" }}
-            />
-          </div>
-        </div>
-
         <form onSubmit={handleSubmit}>
           <Card className="mb-6">
             <CardHeader>
@@ -145,7 +133,7 @@ function ChallengesPage() {
                   education/training? <span className="text-error-500">*</span>
                 </label>
                 <Select
-                  value={formData.financial}
+                  value={formData.financial || undefined}
                   onValueChange={(value) => handleChange("financial", value)}
                 >
                   <SelectTrigger className="w-full">
@@ -181,7 +169,7 @@ function ChallengesPage() {
                   <span className="text-error-500">*</span>
                 </label>
                 <Select
-                  value={formData.timeAvailability}
+                  value={formData.timeAvailability || undefined}
                   onValueChange={(value) =>
                     handleChange("timeAvailability", value)
                   }
@@ -217,7 +205,7 @@ function ChallengesPage() {
                   <span className="text-error-500">*</span>
                 </label>
                 <Select
-                  value={formData.locationFlexibility}
+                  value={formData.locationFlexibility || undefined}
                   onValueChange={(value) =>
                     handleChange("locationFlexibility", value)
                   }
@@ -251,7 +239,7 @@ function ChallengesPage() {
                   Do you have significant family or caregiving responsibilities?
                 </label>
                 <Select
-                  value={formData.familyObligations}
+                  value={formData.familyObligations || undefined}
                   onValueChange={(value) =>
                     handleChange("familyObligations", value)
                   }
@@ -288,7 +276,7 @@ function ChallengesPage() {
                   What's your transportation situation?
                 </label>
                 <Select
-                  value={formData.transportation}
+                  value={formData.transportation || undefined}
                   onValueChange={(value) =>
                     handleChange("transportation", value)
                   }
@@ -323,7 +311,7 @@ function ChallengesPage() {
                   choices?
                 </label>
                 <Select
-                  value={formData.healthConsiderations}
+                  value={formData.healthConsiderations || undefined}
                   onValueChange={(value) =>
                     handleChange("healthConsiderations", value)
                   }
@@ -398,7 +386,7 @@ function ChallengesPage() {
                   <span className="text-error-500">*</span>
                 </label>
                 <Select
-                  value={formData.supportSystem}
+                  value={formData.supportSystem || undefined}
                   onValueChange={(value) =>
                     handleChange("supportSystem", value)
                   }
@@ -440,30 +428,15 @@ function ChallengesPage() {
             </CardContent>
           </Card>
 
-          {/* Almost Done Message */}
-          <div className="mb-6 p-6 bg-lime-50 border-2 border-lime-200 rounded-lg">
-            <div className="flex items-start gap-3">
-              <CheckCircle2 className="w-6 h-6 text-lime-600 mt-1 shrink-0" />
-              <div>
-                <h3 className="font-semibold text-lime-900 mb-1">
-                  Almost done!
-                </h3>
-                <p className="text-lime-800">
-                  You're on the final section. After submitting, you'll be able
-                  to review all your answers before getting your personalized
-                  results.
-                </p>
-              </div>
-            </div>
-          </div>
-
           {/* Navigation */}
-          <NavigationButtons
+          <AssessmentFooter
+            currentStep={5}
             backTo="/intake/aptitude"
-            backLabel="Previous"
+            backLabel="Back to Aptitude"
             nextDisabled={!isValid}
             nextButtonType="submit"
             nextLabel="Review Answers"
+            sectionProgress={sectionProgress}
           />
         </form>
       </Container>

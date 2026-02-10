@@ -1,9 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import { NavigationButtons } from "@/components/assessment/NavigationButtons";
+import { AssessmentFooter } from "@/components/assessment/AssessmentFooter";
 import { Container } from "@/components/layout/container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useAssessmentStore } from "@/stores/assessmentStore";
+import { useAssessmentStore, useHasHydrated } from "@/stores/assessmentStore";
 
 export const Route = createFileRoute("/intake/aptitude")({
   component: AptitudeAssessmentPage,
@@ -117,38 +116,49 @@ const aptitudeCategories = [
 
 function AptitudeAssessmentPage() {
   const navigate = useNavigate();
-  const aptitudeData = useAssessmentStore((state) => state.aptitude);
-  const setAptitude = useAssessmentStore((state) => state.setAptitude);
+  const hasHydrated = useHasHydrated();
 
-  // Initialize form with store data or default values
-  const [formData, setFormData] = useState<AptitudeData>(
-    () =>
-      aptitudeData || {
-        stem: [0, 0, 0, 0],
-        arts: [0, 0, 0, 0],
-        communication: [0, 0, 0, 0],
-        business: [0, 0, 0, 0],
-        healthcare: [0, 0, 0, 0],
-        trades: [0, 0, 0, 0],
-        socialServices: [0, 0, 0, 0],
-        law: [0, 0, 0, 0],
-      },
-  );
+  // Read directly from store - auto-updates on any change
+  const aptitudeData = useAssessmentStore((state) => state.aptitude);
+  const updateAptitude = useAssessmentStore((state) => state.updateAptitude);
+
+  const defaultFormData: AptitudeData = {
+    stem: [0, 0, 0, 0],
+    arts: [0, 0, 0, 0],
+    communication: [0, 0, 0, 0],
+    business: [0, 0, 0, 0],
+    healthcare: [0, 0, 0, 0],
+    trades: [0, 0, 0, 0],
+    socialServices: [0, 0, 0, 0],
+    law: [0, 0, 0, 0],
+  };
+
+  // Safe accessor with defaults
+  const formData: AptitudeData = {
+    stem: aptitudeData?.stem || defaultFormData.stem,
+    arts: aptitudeData?.arts || defaultFormData.arts,
+    communication: aptitudeData?.communication || defaultFormData.communication,
+    business: aptitudeData?.business || defaultFormData.business,
+    healthcare: aptitudeData?.healthcare || defaultFormData.healthcare,
+    trades: aptitudeData?.trades || defaultFormData.trades,
+    socialServices: aptitudeData?.socialServices || defaultFormData.socialServices,
+    law: aptitudeData?.law || defaultFormData.law,
+  };
 
   const handleRatingChange = (
     category: keyof AptitudeData,
     index: number,
     rating: number,
   ) => {
-    setFormData((prev) => ({
-      ...prev,
-      [category]: prev[category].map((val, i) => (i === index ? rating : val)),
-    }));
+    const currentCategoryRatings = formData[category];
+    const updatedRatings = currentCategoryRatings.map((val, i) =>
+      i === index ? rating : val
+    );
+    updateAptitude({ [category]: updatedRatings });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setAptitude(formData);
     navigate({ to: "/intake/challenges" });
   };
 
@@ -156,27 +166,52 @@ function AptitudeAssessmentPage() {
     (categoryRatings) => categoryRatings.every((rating: number) => rating > 0),
   );
 
-  return (
-    <div className="min-h-screen bg-stone-50 py-12 px-6">
-      <Container size="sm">
-        {/* Progress Bar */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-stone-600">
-              Section 4 of 5
-            </span>
-            <span className="text-sm font-medium text-stone-600">
-              80% Complete
-            </span>
-          </div>
-          <div className="w-full h-2 bg-stone-200 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-lime-600 transition-all duration-500"
-              style={{ width: "80%" }}
-            />
-          </div>
-        </div>
+  // Calculate section progress
+  const totalQuestions = Object.values(formData).reduce(
+    (sum, categoryRatings) => sum + categoryRatings.length,
+    0,
+  );
+  const answeredQuestions = Object.values(formData).reduce(
+    (sum, categoryRatings) =>
+      sum + categoryRatings.filter((rating: number) => rating > 0).length,
+    0,
+  );
+  const sectionProgress = totalQuestions > 0 ? (answeredQuestions / totalQuestions) * 100 : 0;
 
+  // Show loading state while hydrating
+  if (!hasHydrated) {
+    return (
+      <div className="min-h-screen bg-stone-50 py-12 px-6 pb-40">
+        <Container size="sm">
+          <div className="animate-pulse space-y-6">
+            <Card>
+              <CardHeader>
+                <div className="h-6 bg-stone-200 rounded w-1/2" />
+                <div className="h-4 bg-stone-200 rounded w-3/4 mt-2" />
+              </CardHeader>
+              <CardContent className="space-y-8">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="space-y-4">
+                    <div className="h-5 bg-stone-200 rounded w-1/4" />
+                    {[1, 2, 3, 4].map((j) => (
+                      <div key={j} className="space-y-2">
+                        <div className="h-4 bg-stone-200 rounded w-1/2" />
+                        <div className="h-2 bg-stone-200 rounded" />
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </div>
+        </Container>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-stone-50 py-12 px-6 pb-40">
+      <Container size="sm">
         <form onSubmit={handleSubmit}>
           <Card>
             <CardHeader>
@@ -236,13 +271,14 @@ function AptitudeAssessmentPage() {
             </CardContent>
           </Card>
 
-          {/* Navigation */}
-          <NavigationButtons
+          <AssessmentFooter
+            currentStep={4}
             backTo="/intake/values"
             backLabel="Back to Values"
             nextLabel="Next: Challenges"
             nextDisabled={!allQuestionsAnswered}
             nextButtonType="submit"
+            sectionProgress={sectionProgress}
           />
         </form>
       </Container>

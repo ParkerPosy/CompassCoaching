@@ -1,9 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import { NavigationButtons } from "@/components/assessment/NavigationButtons";
+import { AssessmentFooter } from "@/components/assessment/AssessmentFooter";
 import { Container } from "@/components/layout/container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useAssessmentStore } from "@/stores/assessmentStore";
+import { useAssessmentStore, useHasHydrated } from "@/stores/assessmentStore";
 
 export const Route = createFileRoute("/intake/personality")({
   component: PersonalityPage,
@@ -15,10 +14,6 @@ export const Route = createFileRoute("/intake/personality")({
     ],
   }),
 });
-
-interface PersonalityAnswers {
-  [key: string]: number;
-}
 
 const questions = [
   {
@@ -135,52 +130,60 @@ const questions = [
 
 function PersonalityPage() {
   const navigate = useNavigate();
-  const personality = useAssessmentStore((state) => state.personality);
-  const setPersonality = useAssessmentStore((state) => state.setPersonality);
+  const hasHydrated = useHasHydrated();
 
-  // Initialize form with store data or empty values
-  const [answers, setAnswers] = useState<PersonalityAnswers>(
-    () => personality || {},
-  );
+  // Read directly from store - auto-updates on any change
+  const personality = useAssessmentStore((state) => state.personality);
+  const updatePersonality = useAssessmentStore((state) => state.updatePersonality);
+
+  // Safe accessor with default
+  const answers = personality || {};
 
   const handleAnswer = (questionId: string, value: number) => {
-    setAnswers((prev) => ({ ...prev, [questionId]: value }));
+    updatePersonality({ [questionId]: value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setPersonality(answers);
     navigate({ to: "/intake/values" });
   };
 
   const progress = (Object.keys(answers).length / questions.length) * 100;
   const isComplete = Object.keys(answers).length === questions.length;
 
-  return (
-    <div className="min-h-screen bg-stone-50 py-12 px-6">
-      <Container size="sm">
-        {/* Progress Bar */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-stone-600">
-              Section 2 of 5
-            </span>
-            <span className="text-sm font-medium text-stone-600">
-              40% Complete
-            </span>
+  // Show loading state while hydrating
+  if (!hasHydrated) {
+    return (
+      <div className="min-h-screen bg-stone-50 py-12 px-6 pb-40">
+        <Container size="sm">
+          <div className="animate-pulse space-y-6">
+            <Card>
+              <CardHeader>
+                <div className="h-6 bg-stone-200 rounded w-1/2" />
+                <div className="h-4 bg-stone-200 rounded w-3/4 mt-2" />
+              </CardHeader>
+              <CardContent className="space-y-8">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="space-y-4">
+                    <div className="h-5 bg-stone-200 rounded w-2/3" />
+                    <div className="flex gap-2">
+                      {[1, 2, 3, 4].map((j) => (
+                        <div key={j} className="h-10 bg-stone-200 rounded flex-1" />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
           </div>
-          <div className="w-full h-2 bg-stone-200 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-lime-600 transition-all duration-500"
-              style={{ width: "40%" }}
-            />
-          </div>
-          <div className="mt-2 text-sm text-stone-600">
-            {Object.keys(answers).length} of {questions.length} questions
-            answered
-          </div>
-        </div>
+        </Container>
+      </div>
+    );
+  }
 
+  return (
+    <div className="min-h-screen bg-stone-50 py-12 px-6 pb-40">
+      <Container size="sm">
         <form onSubmit={handleSubmit}>
           <Card className="mb-6">
             <CardHeader>
@@ -233,31 +236,14 @@ function PersonalityPage() {
             </CardContent>
           </Card>
 
-          {/* Section Progress */}
-          <div className="mb-6">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-stone-600">
-                Section Progress
-              </span>
-              <span className="text-sm font-medium text-lime-700">
-                {Math.round(progress)}%
-              </span>
-            </div>
-            <div className="w-full h-2 bg-stone-200 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-lime-600 transition-all duration-300"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-          </div>
-
-          {/* Navigation */}
-          <NavigationButtons
+          <AssessmentFooter
+            currentStep={2}
             backTo="/intake/basic"
             backLabel="Previous"
             nextLabel="Next: Values"
             nextDisabled={!isComplete}
             nextButtonType="submit"
+            sectionProgress={progress}
           />
         </form>
       </Container>
