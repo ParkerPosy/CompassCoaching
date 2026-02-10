@@ -60,7 +60,7 @@ export const HOME_SEO = {
       name: 'Pennsylvania',
     },
     knowsAbout: [
-      'Career Counseling',
+      'Career Coaching',
       'Life Coaching',
       'Career Assessment',
       'Mental Wellbeing',
@@ -267,7 +267,7 @@ export function generateLocalBusinessSchema() {
       // Add social media URLs when available
     ],
     knowsAbout: [
-      'Career Counseling',
+      'Career Coaching',
       'Salary Information',
       'Wage Data',
       'Career Assessment',

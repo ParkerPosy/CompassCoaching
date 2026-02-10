@@ -320,7 +320,7 @@ function AdminUserPage() {
           <CardContent>
             <p className="text-sm text-stone-600 mb-4">
               This message will be displayed on the user's dashboard. Use it to share personalized guidance,
-              resources, or follow-up information after a counseling session.
+              resources, or follow-up information after a coaching session.
             </p>
             <Textarea
               value={adminMessage}

@@ -31,7 +31,7 @@ export const Route = createRootRoute({
       {
         name: "keywords",
         content:
-          "career coaching, career assessment, college guidance, student resources, career exploration, career counseling, aptitude test, career planning, educational resources, student support",
+          "career coaching, career assessment, college guidance, student resources, career exploration, aptitude test, career planning, educational resources, student support",
       },
       {
         name: "author",

@@ -84,7 +84,7 @@ function AboutPage() {
       nickname: "Jimmy",
       role: "Co-Founder & Executive Director",
       image: "/jimmy-profile.png",
-      bio: "Jimmy is the visionary leader behind Compass Coaching. With three years of experience as a Resident Advisor, including one year as Senior RA overseeing a full staff, he developed exceptional skills in mediation, communication, and counseling. His natural ability to connect with people and guide them through challenges makes him the heart of our organization.",
+      bio: "Jimmy is the visionary leader behind Compass Coaching. With three years of experience as a Resident Advisor, including one year as Senior RA overseeing a full staff, he developed exceptional skills in mediation, communication, and mentorship. His natural ability to connect with people and guide them through challenges makes him the heart of our organization.",
       expertise: [
         "Leadership & Team Development",
         "Civil Engineering Guidance",
@@ -205,7 +205,7 @@ function AboutPage() {
                 Compass Coaching was born from a friendship forged in the residence halls. Jimmy and Parker served together on the same Resident Advisor staff for two years, watching each other grow as mentors and leaders. They saw firsthand how the right guidance at the right time can transform someone's trajectory.
               </p>
               <p className="text-lg text-stone-700 leading-relaxed mb-6">
-                After Parker graduated and Jimmy stepped into the Senior RA role, they stayed connected, sharing stories of students they'd helped, challenges they'd navigated, and dreams of making a bigger impact. That dream became Compass Coaching: a free platform combining Jimmy's natural counseling abilities with Parker's technical skills.
+                After Parker graduated and Jimmy stepped into the Senior RA role, they stayed connected, sharing stories of students they'd helped, challenges they'd navigated, and dreams of making a bigger impact. That dream became Compass Coaching: a free platform combining Jimmy's natural coaching abilities with Parker's technical skills.
               </p>
               <p className="text-lg text-stone-700 leading-relaxed">
                 Today, we're building something we wish we'd had: a comprehensive resource that meets people where they are, whether they're exploring career paths, negotiating salaries, or simply trying to find balance in life.

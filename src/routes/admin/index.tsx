@@ -476,7 +476,7 @@ function AdminPage() {
               <p>
                 Visitors take a 5-section assessment covering personality, values, aptitudes, and life challenges.
                 Results are stored in their browser—not on our servers—for privacy. Users can download their results
-                to share during counseling sessions.
+                to share during coaching sessions.
               </p>
             </div>
             <div>
