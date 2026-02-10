@@ -60,6 +60,8 @@ export interface ArticleResource extends BaseResource {
   slug?: string; // for content routing
   description?: string;
   author?: string;
+  publishDate?: string; // ISO date string e.g. "2026-01-15"
+  keywords?: string[]; // SEO keywords for this article
   sections?: ArticleSection[];
 }
 
@@ -224,6 +226,8 @@ export const ALL_RESOURCES: Resource[] = [
     slug: "the-art-of-listening",
     description: "Learn how to truly hear what others are saying and transform your relationships through the power of active, empathetic listening.",
     author: "Compass Coaching Team",
+    publishDate: "2026-02-01",
+    keywords: ["active listening", "empathetic listening", "communication skills", "relationship building", "listening techniques", "interpersonal skills"],
     category: CATEGORY_NAMES.RELATIONSHIPS,
     active: true,
     sections: [

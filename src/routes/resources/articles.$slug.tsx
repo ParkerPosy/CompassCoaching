@@ -33,20 +33,36 @@ export const Route = createFileRoute("/resources/articles/$slug")({
     if (!article) return {};
 
     const title = `${article.title} | Compass Coaching`;
+    const fallbackDesc = article.sections?.[0]?.content[0]
+      ?.slice(0, 155)
+      .replace(/\*\*/g, "");
     const description =
       article.description ||
-      article.sections?.[0]?.content[0]?.slice(0, 155).replace(/\*\*/g, "") +
-        "..." ||
-      "Free career and life guidance article from Compass Coaching.";
+      (fallbackDesc ? `${fallbackDesc}...` : "Free career and life guidance article from Compass Coaching.");
     const canonicalUrl = `${HOSTNAME}/resources/articles/${article.slug}`;
     const author = article.author || "Compass Coaching Team";
+    const categoryName = article.category || "Life Guidance";
 
-    // Build article structured data
-    const structuredData = {
+    // Estimate word count from sections for structured data
+    const wordCount = article.sections
+      ?.flatMap((s) => s.content)
+      .join(" ")
+      .replace(/\*\*/g, "")
+      .split(/\s+/).length || 0;
+
+    // Article structured data
+    const articleSchema = {
       "@context": "https://schema.org",
       "@type": "Article",
       headline: article.title,
       description,
+      wordCount,
+      articleSection: categoryName,
+      ...(article.keywords && { keywords: article.keywords.join(", ") }),
+      ...(article.publishDate && {
+        datePublished: article.publishDate,
+        dateModified: article.publishDate,
+      }),
       author: {
         "@type": "Organization",
         name: author,
@@ -69,12 +85,50 @@ export const Route = createFileRoute("/resources/articles/$slug")({
       inLanguage: "en-US",
     };
 
+    // Breadcrumb structured data for rich SERP snippets
+    const breadcrumbSchema = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Resources",
+          item: `${HOSTNAME}/resources`,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: categoryName,
+          item: `${HOSTNAME}/resources/${categoryName.toLowerCase().replace(/[&\s]+/g, "-").replace(/[^a-z0-9-]/g, "")}`,
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: article.title,
+          item: canonicalUrl,
+        },
+      ],
+    };
+
+    // Build keyword tags from article keywords
+    const keywordTags = article.keywords
+      ? [{ name: "keywords", content: article.keywords.join(", ") }]
+      : [];
+
+    // Build article:tag OG tags for topic discoverability
+    const articleTagMeta = (article.keywords || []).map((kw: string) => ({
+      property: "article:tag",
+      content: kw,
+    }));
+
     return {
       meta: [
         { title },
         { name: "description", content: description },
         { name: "author", content: author },
-        { name: "robots", content: "index, follow" },
+        { name: "robots", content: "index, follow, max-snippet:-1, max-image-preview:large" },
+        ...keywordTags,
 
         // Open Graph
         { property: "og:type", content: "article" },
@@ -82,20 +136,36 @@ export const Route = createFileRoute("/resources/articles/$slug")({
         { property: "og:description", content: description },
         { property: "og:url", content: canonicalUrl },
         { property: "og:site_name", content: "Compass Coaching" },
+        { property: "og:locale", content: "en_US" },
         { property: "og:image", content: `${HOSTNAME}/discord-icon.png` },
+        { property: "og:image:alt", content: `${article.title} - Compass Coaching` },
         { property: "article:author", content: author },
+        { property: "article:section", content: categoryName },
+        ...(article.publishDate
+          ? [
+              { property: "article:published_time", content: article.publishDate },
+              { property: "article:modified_time", content: article.publishDate },
+            ]
+          : []),
+        ...articleTagMeta,
 
         // Twitter Card
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: article.title },
         { name: "twitter:description", content: description },
         { name: "twitter:image", content: `${HOSTNAME}/discord-icon.png` },
+        { name: "twitter:label1", content: "Reading time" },
+        { name: "twitter:data1", content: article.readTime },
       ],
       links: [{ rel: "canonical", href: canonicalUrl }],
       scripts: [
         {
           type: "application/ld+json",
-          children: JSON.stringify(structuredData),
+          children: JSON.stringify(articleSchema),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(breadcrumbSchema),
         },
       ],
     };
@@ -250,9 +320,12 @@ function ArticlePage() {
           <article className="bg-white rounded-2xl shadow-lg border border-stone-200 p-6 md:p-10">
             <div className="prose prose-stone prose-lg max-w-none">
               {article.sections?.map((section, sectionIndex) => (
-                <div key={sectionIndex} className="mb-8 last:mb-0">
+                <section key={sectionIndex} className="mb-8 last:mb-0">
                   {section.heading && (
-                    <h2 className="text-2xl font-bold text-stone-700 mt-8 mb-4 first:mt-0">
+                    <h2
+                      id={section.heading.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}
+                      className="text-2xl font-bold text-stone-700 mt-8 mb-4 first:mt-0"
+                    >
                       {section.heading}
                     </h2>
                   )}
@@ -269,7 +342,7 @@ function ArticlePage() {
                       )}
                     </p>
                   ))}
-                </div>
+                </section>
               ))}
             </div>
 
