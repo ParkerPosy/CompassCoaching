@@ -26,6 +26,11 @@ import {
   CardTitle,
   Input,
   Textarea,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui";
 
 export const Route = createFileRoute("/contact/join")({
@@ -219,6 +224,7 @@ function JoinTeamPage() {
   const [contactPreference, setContactPreference] = useState<string>("");
   const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
+  const [experience, setExperience] = useState<string>("");
 
   const toggleInterest = (id: string) => {
     setSelectedInterests((prev) =>
@@ -282,6 +288,7 @@ function JoinTeamPage() {
         setContactPreference("");
         setSelectedTimes([]);
         setSelectedDays([]);
+        setExperience("");
       } else {
         alert(
           "Something went wrong. Please email us directly at hello@compasscoachingpa.org"
@@ -493,18 +500,19 @@ function JoinTeamPage() {
                       >
                         Years of Experience in Your Field
                       </label>
-                      <select
-                        id="experience"
-                        name="experience"
-                        className="w-full h-11 rounded-lg border border-stone-200 bg-white px-3 text-stone-700 focus:border-lime-500 focus:outline-none focus:ring-2 focus:ring-lime-500/20"
-                      >
-                        <option value="">Select...</option>
-                        <option value="0-2">0-2 years</option>
-                        <option value="3-5">3-5 years</option>
-                        <option value="6-10">6-10 years</option>
-                        <option value="11-20">11-20 years</option>
-                        <option value="20+">20+ years</option>
-                      </select>
+                      <input type="hidden" name="experience" value={experience} />
+                      <Select value={experience} onValueChange={setExperience}>
+                        <SelectTrigger id="experience">
+                          <SelectValue placeholder="Select..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="0-2">0-2 years</SelectItem>
+                          <SelectItem value="3-5">3-5 years</SelectItem>
+                          <SelectItem value="6-10">6-10 years</SelectItem>
+                          <SelectItem value="11-20">11-20 years</SelectItem>
+                          <SelectItem value="20+">20+ years</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                     <div>
                       <label
