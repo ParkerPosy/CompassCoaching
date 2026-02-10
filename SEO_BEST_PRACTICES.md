@@ -2,6 +2,8 @@
 
 This document outlines SEO strategy and implementation guidelines for the Compass Coaching platform.
 
+> **Last updated**: February 2026
+
 ## 🎯 Core Mission & SEO Focus
 
 **Primary Offering**: Personalized career and life guidance through assessment-driven resource matching
@@ -17,23 +19,25 @@ This document outlines SEO strategy and implementation guidelines for the Compas
 - 67 county coverage
 - Mental wellbeing and life resources
 
-## 📊 Current SEO Status
+## 📊 Current SEO Implementation Status
 
-### ✅ Strengths
-- **Free comprehensive service**: Strong conversion driver
-- **Personalized assessment**: Clear value proposition
-- **Geographic targeting**: Pennsylvania focus (excellent for local SEO)
-- **Holistic approach**: Career + life guidance (unique in market)
-- **Supporting data**: 810+ careers, 67 counties (trust & authority)
+### ✅ Completed
+- **Full meta tags on all public pages**: title, description, OG, Twitter, canonical
+- **Structured data**: WebSite (root), NonprofitOrganization (homepage), Dataset (careers), Article + BreadcrumbList (articles)
+- **Sitemap**: Auto-generated pre-build via `scripts/generate-sitemap.ts` with dynamic article routes
+- **robots.txt**: Configured in `public/robots.txt`
+- **noindex on private pages**: Dashboard, all assessment steps (basic, personality, values, aptitude, challenges, review, results)
+- **Article SEO**: Full Article schema, BreadcrumbList, OG article tags, Twitter reading time labels
+- **Canonical URLs**: Every public page has a canonical link
 
 ### 🎯 Target Keywords
 
 #### Primary Keywords (High Priority)
-1. **"Pennsylvania career guidance"** - Main service
-2. **"free career assessment Pennsylvania"** - Primary offering
-3. **"career and life coaching PA"** - Holistic approach
-4. **"personalized career guidance"** - Differentiator
-5. **"free life guidance Pennsylvania"** - Secondary service
+1. **"Pennsylvania career guidance"** — Main service
+2. **"free career assessment Pennsylvania"** — Primary offering
+3. **"career and life coaching PA"** — Holistic approach
+4. **"personalized career guidance"** — Differentiator
+5. **"free life guidance Pennsylvania"** — Secondary service
 
 #### Secondary Keywords
 - "career resources Pennsylvania"
@@ -58,93 +62,90 @@ This document outlines SEO strategy and implementation guidelines for the Compas
 
 ## 🔍 Technical SEO Implementation
 
-### Page Titles
-**Format**: `[Benefit/Topic] | Compass Coaching`
+### Route-Level `head()` Functions
 
-**Best Practices**:
-- **Always use `|` as separator** (not `-` or `:`). This is our standard across all pages.
-- 50-60 characters for standard pages
-- Include primary keyword
-- Put most important words first
-- Include location (Pennsylvania/PA) where relevant
-- Brand name at end
+Every route uses TanStack Router's `head()` function to set per-page meta tags. The `__root.tsx` provides fallback meta (title, description, OG, Twitter, WebSite schema) that child routes override.
 
-**Extended Titles for Backlink Opportunity Pages**:
-For pages with high backlink potential (career data, salary information, comprehensive guides), intentionally exceed the standard 60-character limit. Google A/B tests different title combinations and will use the available content to find optimal display versions.
-
-**Standard Page Examples** (50-60 chars):
-- ✅ `Free Career Assessment | Compass Coaching`
-- ✅ `Contact Us | Compass Coaching`
-- ✅ `Dashboard | Compass Coaching`
-
-**Extended Title Examples** (backlink opportunity pages):
-- ✅ `Pennsylvania Salary Data for 810+ Careers | Compare Wages Across 67 Counties | Free Career Explorer | Compass Coaching` (careers page)
-- ✅ `Free Career & Life Resources for Pennsylvania | 90+ Curated Guides for Career Success, Mental Wellbeing & Healthy Living | Compass Coaching` (resources page)
-
-**Avoid**:
-- ❌ `Compass Coaching - A Non-Profit Career Platform` (brand first, no benefit, uses `-`)
-- ❌ `Home - Compass Coaching` (generic, no keywords, uses `-`)
-- ❌ `Dashboard: Compass Coaching` (uses `:` instead of `|`)
-
-### Meta Descriptions
-**Format**: Benefit + Feature + Call-to-Action
-
-**Best Practices**:
-- 150-160 characters maximum (Google truncates at ~160)
-- Include primary keyword naturally
-- Address user pain point or desire
-- Include specific numbers/facts
-- End with call-to-action
-- Write for humans first, search engines second
-
-**Formula**:
-```
-[What user gets] + [How/unique feature] + [Specific benefit] + [CTA]
+**Pattern for public pages**:
+```tsx
+export const Route = createFileRoute("/example")({
+  component: ExamplePage,
+  head: () => ({
+    meta: [
+      { title: "Page Title | Compass Coaching" },
+      { name: "description", content: "150-160 char description." },
+      { property: "og:type", content: "website" },
+      { property: "og:title", content: "Page Title" },
+      { property: "og:description", content: "Short OG description." },
+      { property: "og:url", content: "https://compasscoachingpa.org/example" },
+      { property: "og:site_name", content: "Compass Coaching" },
+      { property: "og:image", content: "https://compasscoachingpa.org/discord-icon.png" },
+      { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Page Title" },
+      { name: "twitter:description", content: "Short Twitter description." },
+    ],
+    links: [{ rel: "canonical", href: "https://compasscoachingpa.org/example" }],
+  }),
+});
 ```
 
-**Examples**:
-- ✅ `Free personalized career and life guidance for Pennsylvania. Take our assessment, get matched to tailored resources & find your path forward. 100% free.` (158 chars)
-- ✅ `Discover your path with our free assessment. Personalized career & life resources for Pennsylvania residents. 90+ guides, tools & expert insights.` (152 chars)
-- ✅ `Navigate your future with confidence. Free assessment matches your values & personality to career resources and life guidance. Serving all of PA.` (149 chars)
-- ❌ `We are a donation-funded non-profit organization providing career and life guidance resources with PA salary data.` (No clear benefit, reads like "about us")
-
-### Headers (H1-H6)
-
-**Best Practices**:
-- One H1 per page (main page title)
-- Include primary keyword in H1
-- Use H2-H6 for content hierarchy
-- Make headers descriptive and benefit-focused
-- Use question format for H2/H3 when appropriate (matches voice search)
-
-**Examples**:
-```html
-<!-- Homepage -->
-<h1>Free Career & Life Guidance for Pennsylvania</h1>
-<h2>Discover Your Path with Our Free Assessment</h2>
-<h2>90+ Resources Matched to Your Values & Goals</h2>
-
-<!-- Assessment Page -->
-<h1>Free Career & Life Assessment</h1>
-<h2>How Does the Assessment Work?</h2>
-<h3>Step 1: Tell Us About Your Personality</h3>
-<h3>Step 2: Share Your Core Values</h3>
-
-<!-- Resources Page -->
-<h1>Free Career & Life Resources for Pennsylvania</h1>
-<h2>Career Guidance Resources</h2>
-<h2>Life Wellbeing Resources</h2>
-
-<!-- Salary Feature Page (Supporting) -->
-<h1>Pennsylvania Salary Data - Career Planning Tool</h1>
-<h2>How to Use Salary Data for Career Decisions</h2>
-<h3>Compare Salaries Across PA Counties</h3>
-
-<!-- Blog/Resource Articles -->
-<h1>How to Choose the Right Career Path for You</h1>
-<h2>5 Steps to Career Clarity</h2>
-<h2>Why Values Matter in Career Decisions</h2>
+**Pattern for private/non-indexable pages** (dashboard, assessment steps):
+```tsx
+head: () => ({
+  meta: [
+    { title: "Dashboard | Compass Coaching" },
+    { name: "description", content: "Description for accessibility." },
+    { name: "robots", content: "noindex, nofollow" },
+  ],
+}),
 ```
+
+### Current Page SEO Matrix
+
+| Route | Title | Desc | OG | Twitter | Canonical | robots | Schema |
+|-------|-------|------|----|---------|-----------|--------|--------|
+| `__root.tsx` | ✅ | ✅ | ✅ Full | ✅ Full | ✅ | `index, follow` | WebSite |
+| `/` (index) | ✅ | ✅ | ✅ Full | ✅ Full | ✅ | — | NonprofitOrganization |
+| `/about` | ✅ | ✅ | ✅ Full | ✅ | ✅ | — | — |
+| `/careers` | ✅ | ✅ | ✅ Full | ✅ Full | ✅ | — | Dataset |
+| `/contact` | ✅ | ✅ | ✅ Full | ✅ | ✅ | — | — |
+| `/contact/join` | ✅ | ✅ | ✅ Full | ✅ | ✅ | — | — |
+| `/resources` | ✅ | ✅ | ✅ Full | ✅ | ✅ | — | — |
+| `/resources/$categorySlug` | ✅ Dynamic | ✅ | ✅ Full | ✅ | ✅ | — | — |
+| `/resources/articles/$slug` | ✅ Dynamic | ✅ | ✅ Full | ✅ + reading time | ✅ | `index, follow, max-snippet:-1` | Article + BreadcrumbList |
+| `/intake` | ✅ | ✅ | ✅ Full | ✅ | ✅ | — | — |
+| `/intake/basic` | ✅ | ✅ | — | — | — | `noindex, nofollow` | — |
+| `/intake/personality` | ✅ | ✅ | — | — | — | `noindex, nofollow` | — |
+| `/intake/values` | ✅ | ✅ | — | — | — | `noindex, nofollow` | — |
+| `/intake/aptitude` | ✅ | ✅ | — | — | — | `noindex, nofollow` | — |
+| `/intake/challenges` | ✅ | ✅ | — | — | — | `noindex, nofollow` | — |
+| `/intake/review` | ✅ | ✅ | — | — | — | `noindex, nofollow` | — |
+| `/intake/results` | ✅ | ✅ | — | — | — | `noindex, nofollow` | — |
+| `/dashboard` | ✅ | ✅ | — | — | — | `noindex, nofollow` | — |
+| `/admin` | ✅ | ✅ | — | — | — | `noindex, nofollow` | — |
+| `/privacy` | ✅ | ✅ | ✅ Full | ✅ | ✅ | — | — |
+| `/terms` | ✅ | ✅ | ✅ Full | ✅ | ✅ | — | — |
+
+### Structured Data (Schema.org)
+
+Currently implemented schemas:
+
+1. **WebSite** — `__root.tsx`: Site name, URL, alternate name
+2. **NonprofitOrganization** — `/` (homepage): Name, URL, description, founding date, area served
+3. **Dataset** — `/careers`: PA wage data description, spatial/temporal coverage, variables measured
+4. **Article** — `/resources/articles/$slug`: Headline, description, word count, section, keywords, dates, author, publisher
+5. **BreadcrumbList** — `/resources/articles/$slug`: Resources → Category → Article navigation
+
+### Sitemap
+
+Auto-generated by `scripts/generate-sitemap.ts` during the build step (`npm run build` runs `tsx scripts/generate-sitemap.ts && vite build`).
+
+**Features**:
+- All static public routes with priority and changefreq
+- Dynamic article routes — automatically collected from `ALL_RESOURCES`, filtered to only include active articles with content (`sections.length > 0`)
+- Legal pages included with low priority (0.3) and yearly changefreq
+
+**To add a new page to the sitemap**: Add an entry to the `routes` array in `scripts/generate-sitemap.ts`. Article routes are added automatically when you create the article content in `resources.ts`.
 
 ## 📝 Content Writing for SEO
 
@@ -389,54 +390,30 @@ First screenful should include:
 
 ## 🔧 Technical Implementation
 
-### Current State
-```typescript
-// ✅ Good: SEO constants centralized
-import { HOME_SEO } from '@/lib/seo';
+### SEO Constants
+Centralized in `src/lib/seo.ts`:
+- `HOME_SEO` — Homepage structured data, keywords
+- `SALARY_SEO` — Careers page metadata
+- `RESOURCES_SEO` — Resource library metadata
+- `CONTACT_SEO` — Contact page metadata
+- `ASSESSMENT_SEO` — Assessment landing page metadata
+- `PRIMARY_KEYWORDS`, `PAGE_KEYWORDS` — Keyword lists
+- `generatePageTitle()`, `generateMetaDescription()` — Helper functions
+- `generateLocalBusinessSchema()` — Schema.org generator
 
-// ✅ Good: Using semantic HTML
-<h1>Navigate Your Future</h1>
-
-// ✅ Good: Descriptive links
-<Link to="/salaries">Explore PA Salary Data</Link>
+### Hostname Constant
+Use a local `HOSTNAME` constant in route files for URL construction:
+```tsx
+const HOSTNAME = "https://compasscoachingpa.org";
+// Then: `${HOSTNAME}/about`, `${HOSTNAME}/resources/articles/${slug}`, etc.
 ```
 
-### Recommendations
+### Adding SEO to a New Page
 
-#### 1. Add Structured Data (Schema.org)
-```typescript
-// In __root.tsx or layout component
-<script type="application/ld+json">
-  {JSON.stringify(generateLocalBusinessSchema())}
-</script>
-```
-
-#### 2. Dynamic Meta Tags
-```typescript
-// For occupation pages
-const occupationMeta = {
-  title: `${occupation.title} Salary in PA | Compass Coaching`,
-  description: `Average ${occupation.title} salary: ${formatCurrency(median)}.
-                View entry to experienced wages across 67 PA counties.`
-};
-```
-
-#### 3. XML Sitemap (Future)
-Generate sitemap.xml including:
-- All static pages
-- All occupation pages (810+)
-- County-specific pages (when created)
-- Resource categories
-
-#### 4. Robots.txt
-```
-User-agent: *
-Allow: /
-Disallow: /api/
-Disallow: /admin/
-
-Sitemap: https://compasscoaching.org/sitemap.xml
-```
+1. **Public page**: Add full `head()` with title, description, OG, Twitter, canonical (see pattern above)
+2. **Private page**: Add `head()` with title, description, and `robots: "noindex, nofollow"`
+3. **Add to sitemap**: Add route to `scripts/generate-sitemap.ts` routes array
+4. **Structured data** (if applicable): Add `scripts` array with `application/ld+json` in the `head()` return
 
 ## 📊 Measurement & Analytics
 
@@ -461,31 +438,33 @@ Sitemap: https://compasscoaching.org/sitemap.xml
 - [ ] Review top performing pages
 - [ ] Identify high-bounce pages for improvement
 
-## 🚀 Quick Wins (Implement First)
+## 🚀 Implementation Progress
 
-### Week 1
-- [x] Create SEO constants file
-- [x] Update homepage meta tags
-- [x] Improve hero copy (benefit-focused)
-- [ ] Add Open Graph images
+### ✅ Completed
+- [x] SEO constants file (`src/lib/seo.ts`)
+- [x] Homepage meta tags with NonprofitOrganization schema
+- [x] Hero copy (benefit-focused)
+- [x] Open Graph tags on all public pages
+- [x] Structured data (WebSite, NonprofitOrganization, Dataset, Article, BreadcrumbList)
+- [x] All page titles optimized with `|` separator
+- [x] Sitemap auto-generated pre-build (`scripts/generate-sitemap.ts`)
+- [x] Dynamic article routes in sitemap (filtered by active + has content)
+- [x] Full Open Graph + Twitter Cards on all public pages
+- [x] Canonical URLs on all public pages
+- [x] noindex on all private pages (dashboard, admin, assessment steps)
+- [x] Article page SEO (Article schema, BreadcrumbList, OG article tags, reading time)
+- [x] robots.txt configured
+- [x] Semantic HTML (`<article>`, `<section>`, `<nav>`, `<main>`)
+- [x] Heading IDs on article sections for fragment linking
 
-### Week 2
-- [ ] Add structured data (schema.org)
-- [ ] Optimize all page titles
-- [ ] Create sitemap.xml
-- [ ] Submit to Google Search Console
-
-### Week 3
-- [ ] Write salary-focused landing page
-- [ ] Create "How to Use Our Salary Data" guide
-- [ ] Add FAQ section (great for voice search)
-- [ ] Internal linking audit
-
-### Week 4
-- [ ] Create county-specific content plan
-- [ ] Optimize images (alt text, compression)
-- [ ] Add blog/resource section
-- [ ] Set up Google Analytics goals
+### 🔜 Next Steps
+- [ ] Add real OG images (currently using `discord-icon.png` placeholder)
+- [ ] Create county-specific landing pages
+- [ ] FAQ section with FAQ schema
+- [ ] Google Search Console setup and monitoring
+- [ ] Google Analytics 4 integration
+- [ ] Content calendar for regular article publishing
+- [ ] Backlink outreach to PA education sites
 
 ## 🎯 Success Metrics
 
