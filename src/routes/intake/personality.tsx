@@ -209,7 +209,7 @@ function PersonalityPage() {
                     {question.options.map((option) => (
                       <label
                         key={option.value}
-                        className={`flex items-start gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                        className={`flex items-start gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all select-none ${
                           answers[question.id] === option.value
                             ? "border-lime-600 bg-lime-50"
                             : "border-stone-200 hover:border-lime-300 hover:bg-stone-50"

@@ -220,10 +220,10 @@ export function AssessmentFooter({
                       >
                         <div
                           className={`w-2 h-2 rounded-full ${
-                            isCompleted
-                              ? "bg-lime-500"
-                              : isCurrent
-                                ? "bg-lime-600 ring-2 ring-lime-200"
+                            isCurrent
+                              ? "bg-lime-600 ring-2 ring-lime-200"
+                              : isCompleted
+                                ? "bg-lime-500"
                                 : "bg-stone-300"
                           }`}
                         />

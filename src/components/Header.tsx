@@ -61,6 +61,7 @@ export default function Header() {
       icon: User,
       path: "/intake/basic",
       completed: progress.basic,
+      enabled: true, // Always enabled - first section
     },
     {
       id: "personality",
@@ -68,6 +69,7 @@ export default function Header() {
       icon: Brain,
       path: "/intake/personality",
       completed: progress.personality,
+      enabled: progress.basic, // Enabled after basic is complete
     },
     {
       id: "values",
@@ -75,6 +77,7 @@ export default function Header() {
       icon: Heart,
       path: "/intake/values",
       completed: progress.values,
+      enabled: progress.personality, // Enabled after personality is complete
     },
     {
       id: "aptitude",
@@ -82,6 +85,7 @@ export default function Header() {
       icon: Target,
       path: "/intake/aptitude",
       completed: progress.aptitude,
+      enabled: progress.values, // Enabled after values is complete
     },
     {
       id: "challenges",
@@ -89,6 +93,7 @@ export default function Header() {
       icon: AlertCircle,
       path: "/intake/challenges",
       completed: progress.challenges,
+      enabled: progress.aptitude, // Enabled after aptitude is complete
     },
   ];
 
@@ -326,18 +331,27 @@ export default function Header() {
               <span>About Us</span>
             </Link>
 
-            <Link
-              to="/intake/results"
-              onClick={() => setIsOpen(false)}
-              className="flex items-center gap-3 p-3 rounded-lg hover:bg-stone-50 transition-colors mb-1 text-stone-700"
-              activeProps={{
-                className:
-                  "flex items-center gap-3 p-3 rounded-lg bg-lime-50 text-lime-700 transition-colors mb-1 font-medium",
-              }}
-            >
-              <BarChart3 size={20} />
-              <span>My Results</span>
-            </Link>
+{hasHydrated && completedCount < totalCount && (
+              <button
+                type="button"
+                onClick={handleContinueAssessment}
+                className="w-full mb-3 px-4 py-2.5 bg-lime-500 hover:bg-lime-600 text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
+              >
+                <Target size={20} />
+                {completedCount === 0 ? "Start Assessment" : "Continue Assessment"}
+              </button>
+            )}
+
+            {hasHydrated && progress.isComplete && (
+              <Link
+                to="/intake/results"
+                onClick={() => setIsOpen(false)}
+                className="w-full mb-3 px-4 py-2.5 bg-lime-500 hover:bg-lime-600 text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
+              >
+                <BarChart3 size={20} />
+                <span>My Results</span>
+              </Link>
+            )}
           </div>
 
           {/* Assessment Section */}
@@ -374,23 +388,29 @@ export default function Header() {
               </div>
             </div>
 
-            {/* Continue Assessment Button */}
-            {hasHydrated && completedCount < totalCount && (
-              <button
-                type="button"
-                onClick={handleContinueAssessment}
-                className="w-full mb-3 px-4 py-2.5 bg-lime-500 hover:bg-lime-600 text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
-              >
-                <Target size={18} />
-                Continue Assessment
-              </button>
-            )}
 
             {/* Assessment Sections */}
             {showAssessmentMenu && (
               <div className="space-y-1 pl-3">
                 {assessmentSections.map((section) => {
                   const Icon = section.icon;
+                  const isEnabled = !hasHydrated || section.enabled;
+
+                  if (!isEnabled) {
+                    // Disabled state - not clickable
+                    return (
+                      <div
+                        key={section.id}
+                        className="flex items-center gap-3 p-2.5 rounded-lg text-sm text-stone-400 cursor-not-allowed"
+                        title="Complete previous sections first"
+                      >
+                        <Icon size={16} />
+                        <span className="flex-1">{section.label}</span>
+                        <Circle size={16} className="text-stone-200" />
+                      </div>
+                    );
+                  }
+
                   return (
                     <Link
                       key={section.id}
