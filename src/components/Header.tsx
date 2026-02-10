@@ -331,6 +331,8 @@ export default function Header() {
               <span>About Us</span>
             </Link>
 
+            <div className="mt-3" />
+
 {hasHydrated && completedCount < totalCount && (
               <button
                 type="button"
