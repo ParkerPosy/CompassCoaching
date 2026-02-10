@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
@@ -48,11 +47,6 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const CareersRoute = CareersRouteImport.update({
   id: '/careers',
   path: '/careers',
@@ -84,9 +78,9 @@ const IntakeIndexRoute = IntakeIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactIndexRoute = ContactIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ContactRoute,
+  id: '/contact/',
+  path: '/contact/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
@@ -154,7 +148,6 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
   '/careers': typeof CareersRoute
-  '/contact': typeof ContactRouteWithChildren
   '/dashboard': typeof DashboardRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
@@ -203,7 +196,6 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
   '/careers': typeof CareersRoute
-  '/contact': typeof ContactRouteWithChildren
   '/dashboard': typeof DashboardRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
@@ -230,7 +222,6 @@ export interface FileRouteTypes {
     | '/about'
     | '/admin'
     | '/careers'
-    | '/contact'
     | '/dashboard'
     | '/privacy'
     | '/terms'
@@ -278,7 +269,6 @@ export interface FileRouteTypes {
     | '/about'
     | '/admin'
     | '/careers'
-    | '/contact'
     | '/dashboard'
     | '/privacy'
     | '/terms'
@@ -304,7 +294,6 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRouteWithChildren
   CareersRoute: typeof CareersRoute
-  ContactRoute: typeof ContactRouteWithChildren
   DashboardRoute: typeof DashboardRoute
   PrivacyRoute: typeof PrivacyRoute
   TermsRoute: typeof TermsRoute
@@ -316,6 +305,7 @@ export interface RootRouteChildren {
   IntakeReviewRoute: typeof IntakeReviewRoute
   IntakeValuesRoute: typeof IntakeValuesRoute
   ResourcesCategorySlugRoute: typeof ResourcesCategorySlugRoute
+  ContactIndexRoute: typeof ContactIndexRoute
   IntakeIndexRoute: typeof IntakeIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
   ResourcesArticlesSlugRoute: typeof ResourcesArticlesSlugRoute
@@ -342,13 +332,6 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/careers': {
@@ -395,10 +378,10 @@ declare module '@tanstack/react-router' {
     }
     '/contact/': {
       id: '/contact/'
-      path: '/'
+      path: '/contact'
       fullPath: '/contact/'
       preLoaderRoute: typeof ContactIndexRouteImport
-      parentRoute: typeof ContactRoute
+      parentRoute: typeof rootRouteImport
     }
     '/admin/': {
       id: '/admin/'
@@ -499,25 +482,11 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
-interface ContactRouteChildren {
-  ContactJoinRoute: typeof ContactJoinRoute
-  ContactIndexRoute: typeof ContactIndexRoute
-}
-
-const ContactRouteChildren: ContactRouteChildren = {
-  ContactJoinRoute: ContactJoinRoute,
-  ContactIndexRoute: ContactIndexRoute,
-}
-
-const ContactRouteWithChildren =
-  ContactRoute._addFileChildren(ContactRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AdminRoute: AdminRouteWithChildren,
   CareersRoute: CareersRoute,
-  ContactRoute: ContactRouteWithChildren,
   DashboardRoute: DashboardRoute,
   PrivacyRoute: PrivacyRoute,
   TermsRoute: TermsRoute,
@@ -529,6 +498,7 @@ const rootRouteChildren: RootRouteChildren = {
   IntakeReviewRoute: IntakeReviewRoute,
   IntakeValuesRoute: IntakeValuesRoute,
   ResourcesCategorySlugRoute: ResourcesCategorySlugRoute,
+  ContactIndexRoute: ContactIndexRoute,
   IntakeIndexRoute: IntakeIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
   ResourcesArticlesSlugRoute: ResourcesArticlesSlugRoute,

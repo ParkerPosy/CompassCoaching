@@ -13,15 +13,19 @@ export const Route = createFileRoute("/contact/")({
   component: ContactPage,
   head: () => ({
     meta: [
-      {
-        title: "Contact Us | Compass Coaching",
-      },
-      {
-        name: "description",
-        content:
-          "Have questions about career coaching or our free resources? Contact Compass Coaching for guidance and support. We're here to help you navigate your future.",
-      },
+      { title: "Contact Us | Compass Coaching" },
+      { name: "description", content: "Have questions about career coaching or our free resources? Contact Compass Coaching for guidance and support. We're here to help you navigate your future." },
+      { property: "og:type", content: "website" },
+      { property: "og:title", content: "Contact Compass Coaching" },
+      { property: "og:description", content: "Questions about free career guidance or resources? We're here to help." },
+      { property: "og:url", content: "https://compasscoachingpa.org/contact" },
+      { property: "og:site_name", content: "Compass Coaching" },
+      { property: "og:image", content: "https://compasscoachingpa.org/discord-icon.png" },
+      { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Contact Compass Coaching" },
+      { name: "twitter:description", content: "Questions about free career guidance or resources? We're here to help." },
     ],
+    links: [{ rel: "canonical", href: "https://compasscoachingpa.org/contact" }],
   }),
 });
 
