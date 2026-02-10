@@ -119,8 +119,27 @@ function ResourcesPattern() {
   );
 }
 
+const HOSTNAME = "https://compasscoachingpa.org";
+
 export const Route = createFileRoute("/resources/")({
   component: ResourcesIndexPage,
+  head: () => ({
+    meta: [
+      { title: "Free Career & Life Resources | Compass Coaching" },
+      { name: "description", content: "Browse 90+ free resources for career exploration, resume building, interview prep, mental wellbeing, relationships, and more. Curated for Pennsylvania residents." },
+      { property: "og:type", content: "website" },
+      { property: "og:title", content: "Free Career & Life Resources" },
+      { property: "og:description", content: "90+ free resources for career exploration, mental wellbeing, relationships, and more. Curated for Pennsylvania residents." },
+      { property: "og:url", content: `${HOSTNAME}/resources` },
+      { property: "og:site_name", content: "Compass Coaching" },
+      { property: "og:image", content: `${HOSTNAME}/discord-icon.png` },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Free Career & Life Resources | Compass Coaching" },
+      { name: "twitter:description", content: "90+ free resources for career exploration, mental wellbeing, relationships, and more." },
+      { name: "keywords", content: "free career resources, life guidance resources, resume help, interview prep, mental wellbeing, Pennsylvania career support" },
+    ],
+    links: [{ rel: "canonical", href: `${HOSTNAME}/resources` }],
+  }),
 });
 
 function ResourcesIndexPage() {

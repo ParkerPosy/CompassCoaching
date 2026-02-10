@@ -37,15 +37,19 @@ export const Route = createFileRoute("/contact/join")({
   component: JoinTeamPage,
   head: () => ({
     meta: [
-      {
-        title: "Join Our Team | Compass Coaching",
-      },
-      {
-        name: "description",
-        content:
-          "Join the Compass Coaching team as a volunteer coach, presenter, or mentor. Help Pennsylvanians navigate their careers and lives.",
-      },
+      { title: "Join Our Team | Compass Coaching" },
+      { name: "description", content: "Join the Compass Coaching team as a volunteer coach, presenter, or mentor. Help Pennsylvanians navigate their careers and lives." },
+      { property: "og:type", content: "website" },
+      { property: "og:title", content: "Join Our Team | Compass Coaching" },
+      { property: "og:description", content: "Volunteer as a coach, presenter, or mentor. Help Pennsylvanians navigate their careers and lives." },
+      { property: "og:url", content: "https://compasscoachingpa.org/contact/join" },
+      { property: "og:site_name", content: "Compass Coaching" },
+      { property: "og:image", content: "https://compasscoachingpa.org/discord-icon.png" },
+      { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Join Our Team | Compass Coaching" },
+      { name: "twitter:description", content: "Volunteer as a coach, presenter, or mentor. Help Pennsylvanians navigate their careers and lives." },
     ],
+    links: [{ rel: "canonical", href: "https://compasscoachingpa.org/contact/join" }],
   }),
 });
 

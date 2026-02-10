@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
@@ -47,6 +48,11 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CareersRoute = CareersRouteImport.update({
   id: '/careers',
   path: '/careers',
@@ -78,9 +84,9 @@ const IntakeIndexRoute = IntakeIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactIndexRoute = ContactIndexRouteImport.update({
-  id: '/contact/',
-  path: '/contact/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => ContactRoute,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
@@ -128,9 +134,9 @@ const IntakeAptitudeRoute = IntakeAptitudeRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactJoinRoute = ContactJoinRouteImport.update({
-  id: '/contact/join',
-  path: '/contact/join',
-  getParentRoute: () => rootRouteImport,
+  id: '/join',
+  path: '/join',
+  getParentRoute: () => ContactRoute,
 } as any)
 const ResourcesArticlesSlugRoute = ResourcesArticlesSlugRouteImport.update({
   id: '/resources/articles/$slug',
@@ -148,6 +154,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
   '/careers': typeof CareersRoute
+  '/contact': typeof ContactRouteWithChildren
   '/dashboard': typeof DashboardRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
@@ -196,6 +203,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
   '/careers': typeof CareersRoute
+  '/contact': typeof ContactRouteWithChildren
   '/dashboard': typeof DashboardRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
@@ -222,6 +230,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/admin'
     | '/careers'
+    | '/contact'
     | '/dashboard'
     | '/privacy'
     | '/terms'
@@ -269,6 +278,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/admin'
     | '/careers'
+    | '/contact'
     | '/dashboard'
     | '/privacy'
     | '/terms'
@@ -294,10 +304,10 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRouteWithChildren
   CareersRoute: typeof CareersRoute
+  ContactRoute: typeof ContactRouteWithChildren
   DashboardRoute: typeof DashboardRoute
   PrivacyRoute: typeof PrivacyRoute
   TermsRoute: typeof TermsRoute
-  ContactJoinRoute: typeof ContactJoinRoute
   IntakeAptitudeRoute: typeof IntakeAptitudeRoute
   IntakeBasicRoute: typeof IntakeBasicRoute
   IntakeChallengesRoute: typeof IntakeChallengesRoute
@@ -306,7 +316,6 @@ export interface RootRouteChildren {
   IntakeReviewRoute: typeof IntakeReviewRoute
   IntakeValuesRoute: typeof IntakeValuesRoute
   ResourcesCategorySlugRoute: typeof ResourcesCategorySlugRoute
-  ContactIndexRoute: typeof ContactIndexRoute
   IntakeIndexRoute: typeof IntakeIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
   ResourcesArticlesSlugRoute: typeof ResourcesArticlesSlugRoute
@@ -333,6 +342,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/careers': {
@@ -379,10 +395,10 @@ declare module '@tanstack/react-router' {
     }
     '/contact/': {
       id: '/contact/'
-      path: '/contact'
+      path: '/'
       fullPath: '/contact/'
       preLoaderRoute: typeof ContactIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ContactRoute
     }
     '/admin/': {
       id: '/admin/'
@@ -449,10 +465,10 @@ declare module '@tanstack/react-router' {
     }
     '/contact/join': {
       id: '/contact/join'
-      path: '/contact/join'
+      path: '/join'
       fullPath: '/contact/join'
       preLoaderRoute: typeof ContactJoinRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ContactRoute
     }
     '/resources/articles/$slug': {
       id: '/resources/articles/$slug'
@@ -483,15 +499,28 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface ContactRouteChildren {
+  ContactJoinRoute: typeof ContactJoinRoute
+  ContactIndexRoute: typeof ContactIndexRoute
+}
+
+const ContactRouteChildren: ContactRouteChildren = {
+  ContactJoinRoute: ContactJoinRoute,
+  ContactIndexRoute: ContactIndexRoute,
+}
+
+const ContactRouteWithChildren =
+  ContactRoute._addFileChildren(ContactRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AdminRoute: AdminRouteWithChildren,
   CareersRoute: CareersRoute,
+  ContactRoute: ContactRouteWithChildren,
   DashboardRoute: DashboardRoute,
   PrivacyRoute: PrivacyRoute,
   TermsRoute: TermsRoute,
-  ContactJoinRoute: ContactJoinRoute,
   IntakeAptitudeRoute: IntakeAptitudeRoute,
   IntakeBasicRoute: IntakeBasicRoute,
   IntakeChallengesRoute: IntakeChallengesRoute,
@@ -500,7 +529,6 @@ const rootRouteChildren: RootRouteChildren = {
   IntakeReviewRoute: IntakeReviewRoute,
   IntakeValuesRoute: IntakeValuesRoute,
   ResourcesCategorySlugRoute: ResourcesCategorySlugRoute,
-  ContactIndexRoute: ContactIndexRoute,
   IntakeIndexRoute: IntakeIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
   ResourcesArticlesSlugRoute: ResourcesArticlesSlugRoute,

@@ -4,8 +4,26 @@ import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
+const HOSTNAME = "https://compasscoachingpa.org";
+
 export const Route = createFileRoute("/about")({
   component: AboutPage,
+  head: () => ({
+    meta: [
+      { title: "About Us | Compass Coaching" },
+      { name: "description", content: "Meet the team behind Compass Coaching. Free career and life guidance for Pennsylvania residents, founded on the belief that everyone deserves support finding their path." },
+      { property: "og:type", content: "website" },
+      { property: "og:title", content: "About Compass Coaching" },
+      { property: "og:description", content: "Meet the team behind Compass Coaching. Free career and life guidance for Pennsylvania residents." },
+      { property: "og:url", content: `${HOSTNAME}/about` },
+      { property: "og:site_name", content: "Compass Coaching" },
+      { property: "og:image", content: `${HOSTNAME}/discord-icon.png` },
+      { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "About Compass Coaching" },
+      { name: "twitter:description", content: "Meet the team behind Compass Coaching. Free career and life guidance for Pennsylvania residents." },
+    ],
+    links: [{ rel: "canonical", href: `${HOSTNAME}/about` }],
+  }),
 });
 
 // Swoosh pattern for about page - warm violet theme for founders

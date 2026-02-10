@@ -20,14 +20,9 @@ export const Route = createFileRoute("/intake/basic")({
   component: BasicInfoPage,
   head: () => ({
     meta: [
-      {
-        title: "Basic Information | Compass Coaching Assessment",
-      },
-      {
-        name: "description",
-        content:
-          "Start your career assessment journey with basic information about yourself.",
-      },
+      { title: "Basic Information | Compass Coaching Assessment" },
+      { name: "description", content: "Start your career assessment journey with basic information about yourself." },
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
 });

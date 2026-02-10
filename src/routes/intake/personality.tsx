@@ -8,9 +8,9 @@ export const Route = createFileRoute("/intake/personality")({
   component: PersonalityPage,
   head: () => ({
     meta: [
-      {
-        title: "Personality Assessment | Compass Coaching",
-      },
+      { title: "Personality Assessment | Compass Coaching" },
+      { name: "description", content: "Discover your work style and personality preferences as part of your free career assessment." },
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
 });

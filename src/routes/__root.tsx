@@ -119,6 +119,10 @@ export const Route = createRootRoute({
         rel: "stylesheet",
         href: appCss,
       },
+      {
+        rel: "canonical",
+        href: "https://compasscoachingpa.org",
+      },
     ],
     scripts: [
       {

@@ -226,9 +226,9 @@ export const Route = createFileRoute("/intake/review")({
   component: ReviewPage,
   head: () => ({
     meta: [
-      {
-        title: "Review Your Assessment | Compass Coaching",
-      },
+      { title: "Review Your Assessment | Compass Coaching" },
+      { name: "description", content: "Review your assessment answers before getting your personalized career recommendations." },
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
 });

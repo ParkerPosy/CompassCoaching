@@ -50,14 +50,9 @@ export const Route = createFileRoute("/intake/results")({
   component: ResultsPage,
   head: () => ({
     meta: [
-      {
-        title: "Your Career Assessment Results | Compass Coaching",
-      },
-      {
-        name: "description",
-        content:
-          "View your personalized career assessment results and recommendations.",
-      },
+      { title: "Your Career Assessment Results | Compass Coaching" },
+      { name: "description", content: "View your personalized career assessment results and recommendations." },
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
 });

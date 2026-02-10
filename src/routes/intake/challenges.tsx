@@ -19,9 +19,9 @@ export const Route = createFileRoute("/intake/challenges")({
   component: ChallengesPage,
   head: () => ({
     meta: [
-      {
-        title: "Challenges & Constraints | Compass Coaching",
-      },
+      { title: "Challenges & Constraints | Compass Coaching" },
+      { name: "description", content: "Tell us about your circumstances so we can tailor career recommendations to your situation." },
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
 });

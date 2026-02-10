@@ -6,14 +6,19 @@ export const Route = createFileRoute('/privacy')({
   component: PrivacyPage,
   head: () => ({
     meta: [
-      {
-        title: 'Privacy Policy | Compass Coaching',
-      },
-      {
-        name: 'description',
-        content: 'Privacy Policy for Compass Coaching - Learn how we protect your data and respect your privacy.',
-      },
+      { title: 'Privacy Policy | Compass Coaching' },
+      { name: 'description', content: 'Privacy Policy for Compass Coaching - Learn how we protect your data and respect your privacy.' },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:title', content: 'Privacy Policy | Compass Coaching' },
+      { property: 'og:description', content: 'Learn how Compass Coaching protects your data and respects your privacy.' },
+      { property: 'og:url', content: 'https://compasscoachingpa.org/privacy' },
+      { property: 'og:site_name', content: 'Compass Coaching' },
+      { property: 'og:image', content: 'https://compasscoachingpa.org/discord-icon.png' },
+      { name: 'twitter:card', content: 'summary' },
+      { name: 'twitter:title', content: 'Privacy Policy | Compass Coaching' },
+      { name: 'twitter:description', content: 'Learn how Compass Coaching protects your data and respects your privacy.' },
     ],
+    links: [{ rel: 'canonical', href: 'https://compasscoachingpa.org/privacy' }],
   }),
 });
 

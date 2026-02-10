@@ -138,43 +138,26 @@ export const Route = createFileRoute("/")({
   component: HomePage,
   head: () => ({
     meta: [
+      { title: HOME_SEO.titleShort },
+      { name: "description", content: HOME_SEO.description },
+      { property: "og:title", content: HOME_SEO.ogTitle },
+      { property: "og:description", content: HOME_SEO.ogDescription },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://compasscoachingpa.org" },
+      { property: "og:site_name", content: "Compass Coaching" },
+      { property: "og:image", content: "https://compasscoachingpa.org/discord-icon.png" },
+      { property: "og:locale", content: "en_US" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: HOME_SEO.ogTitle },
+      { name: "twitter:description", content: HOME_SEO.ogDescription },
+      { name: "twitter:image", content: "https://compasscoachingpa.org/discord-icon.png" },
+      { name: "keywords", content: "Pennsylvania career guidance, free career assessment, life guidance PA, personalized coaching, career resources Pennsylvania, mental wellbeing, career and life support" },
+    ],
+    links: [{ rel: "canonical", href: "https://compasscoachingpa.org" }],
+    scripts: [
       {
-        title: HOME_SEO.titleShort,
-      },
-      {
-        name: "description",
-        content: HOME_SEO.description,
-      },
-      // Open Graph tags for social media
-      {
-        property: "og:title",
-        content: HOME_SEO.ogTitle,
-      },
-      {
-        property: "og:description",
-        content: HOME_SEO.ogDescription,
-      },
-      {
-        property: "og:type",
-        content: "website",
-      },
-      // Twitter Card
-      {
-        name: "twitter:card",
-        content: "summary_large_image",
-      },
-      {
-        name: "twitter:title",
-        content: HOME_SEO.ogTitle,
-      },
-      {
-        name: "twitter:description",
-        content: HOME_SEO.ogDescription,
-      },
-      // Keywords for older search engines
-      {
-        name: "keywords",
-        content: "Pennsylvania career guidance, free career assessment, life guidance PA, personalized coaching, career resources Pennsylvania, mental wellbeing, career and life support",
+        type: "application/ld+json",
+        children: JSON.stringify(HOME_SEO.structuredData),
       },
     ],
   }),

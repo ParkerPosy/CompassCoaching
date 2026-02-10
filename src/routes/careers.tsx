@@ -22,17 +22,47 @@ export const Route = createFileRoute('/careers')({
       page: typeof search.page === 'number' ? search.page : undefined,
     };
   },
-  head: () => ({
-    meta: [
-      {
-        title: SALARY_SEO.title,
-      },
-      {
-        name: 'description',
-        content: SALARY_SEO.description,
-      },
-    ],
-  }),
+  head: () => {
+    const canonicalUrl = 'https://compasscoachingpa.org/careers';
+    return {
+      meta: [
+        { title: SALARY_SEO.title },
+        { name: 'description', content: SALARY_SEO.description },
+        { property: 'og:type', content: 'website' },
+        { property: 'og:title', content: 'Pennsylvania Salary Data for 810+ Careers | Compass Coaching' },
+        { property: 'og:description', content: SALARY_SEO.description },
+        { property: 'og:url', content: canonicalUrl },
+        { property: 'og:site_name', content: 'Compass Coaching' },
+        { property: 'og:image', content: 'https://compasscoachingpa.org/discord-icon.png' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:title', content: 'PA Salary Data for 810+ Careers' },
+        { name: 'twitter:description', content: SALARY_SEO.description },
+        { name: 'keywords', content: 'Pennsylvania salary data, PA wages, occupation salary, county wage comparison, career explorer, salary negotiation PA' },
+      ],
+      links: [{ rel: 'canonical', href: canonicalUrl }],
+      scripts: [
+        {
+          type: 'application/ld+json',
+          children: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Dataset',
+            name: 'Pennsylvania Occupation Wage Data',
+            description: 'Real wage data for 810+ occupations across all 67 Pennsylvania counties, sourced from the PA Department of Labor & Industry.',
+            url: canonicalUrl,
+            license: 'https://creativecommons.org/publicdomain/zero/1.0/',
+            creator: {
+              '@type': 'Organization',
+              name: 'Compass Coaching',
+              url: 'https://compasscoachingpa.org',
+            },
+            spatialCoverage: 'Pennsylvania, United States',
+            temporalCoverage: '2024',
+            variableMeasured: ['Annual Wage', 'Hourly Wage', 'Entry Level Wage', 'Experienced Wage'],
+          }),
+        },
+      ],
+    };
+  },
 });
 
 // Geometric pattern for technical page - clean but present

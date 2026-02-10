@@ -6,14 +6,19 @@ export const Route = createFileRoute('/terms')({
   component: TermsPage,
   head: () => ({
     meta: [
-      {
-        title: 'Terms of Service | Compass Coaching',
-      },
-      {
-        name: 'description',
-        content: 'Terms of Service for Compass Coaching career assessment and resources platform.',
-      },
+      { title: 'Terms of Service | Compass Coaching' },
+      { name: 'description', content: 'Terms of Service for Compass Coaching career assessment and resources platform.' },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:title', content: 'Terms of Service | Compass Coaching' },
+      { property: 'og:description', content: 'Terms of Service for Compass Coaching career assessment and resources platform.' },
+      { property: 'og:url', content: 'https://compasscoachingpa.org/terms' },
+      { property: 'og:site_name', content: 'Compass Coaching' },
+      { property: 'og:image', content: 'https://compasscoachingpa.org/discord-icon.png' },
+      { name: 'twitter:card', content: 'summary' },
+      { name: 'twitter:title', content: 'Terms of Service | Compass Coaching' },
+      { name: 'twitter:description', content: 'Terms of Service for Compass Coaching career assessment and resources platform.' },
     ],
+    links: [{ rel: 'canonical', href: 'https://compasscoachingpa.org/terms' }],
   }),
 });
 

@@ -19,15 +19,20 @@ export const Route = createFileRoute("/intake/")({
   component: IntakePage,
   head: () => ({
     meta: [
-      {
-        title: "Free Career Assessment | Compass Coaching",
-      },
-      {
-        name: "description",
-        content:
-          "Take our comprehensive 5-section career assessment covering personality, values, aptitudes, and challenges. Get personalized career recommendations and life guidance resources. 100% free.",
-      },
+      { title: "Free Career Assessment | Compass Coaching" },
+      { name: "description", content: "Take our comprehensive 5-section career assessment covering personality, values, aptitudes, and challenges. Get personalized career recommendations and life guidance resources. 100% free." },
+      { property: "og:type", content: "website" },
+      { property: "og:title", content: "Free Career & Life Assessment" },
+      { property: "og:description", content: "Discover career paths matched to your personality, values, and goals. 100% free, takes about 10 minutes." },
+      { property: "og:url", content: "https://compasscoachingpa.org/intake" },
+      { property: "og:site_name", content: "Compass Coaching" },
+      { property: "og:image", content: "https://compasscoachingpa.org/discord-icon.png" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Free Career & Life Assessment | Compass Coaching" },
+      { name: "twitter:description", content: "Discover career paths matched to your personality, values, and goals. 100% free." },
+      { name: "keywords", content: "free career assessment, career aptitude test, personality career match, career guidance quiz, find your career path" },
     ],
+    links: [{ rel: "canonical", href: "https://compasscoachingpa.org/intake" }],
   }),
 });
 

@@ -8,14 +8,9 @@ export const Route = createFileRoute("/intake/aptitude")({
   component: AptitudeAssessmentPage,
   head: () => ({
     meta: [
-      {
-        title: "Aptitude Assessment | Compass Coaching",
-      },
-      {
-        name: "description",
-        content:
-          "Discover your natural aptitudes and interests across various career fields.",
-      },
+      { title: "Aptitude Assessment | Compass Coaching" },
+      { name: "description", content: "Discover your natural aptitudes and interests across various career fields." },
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
 });

@@ -8,9 +8,9 @@ export const Route = createFileRoute("/intake/values")({
   component: ValuesPage,
   head: () => ({
     meta: [
-      {
-        title: "Values Assessment | Compass Coaching",
-      },
+      { title: "Values Assessment | Compass Coaching" },
+      { name: "description", content: "Identify your core career values and what matters most to you in a work environment." },
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
 });

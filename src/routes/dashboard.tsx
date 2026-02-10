@@ -30,13 +30,9 @@ export const Route = createFileRoute("/dashboard")({
   component: DashboardPage,
   head: () => ({
     meta: [
-      {
-        title: "Dashboard | Compass Coaching",
-      },
-      {
-        name: "description",
-        content: "Your personal Compass Coaching dashboard. View your assessment progress and saved career matches.",
-      },
+      { title: "Dashboard | Compass Coaching" },
+      { name: "description", content: "Your personal Compass Coaching dashboard. View your assessment progress and saved career matches." },
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
   beforeLoad: async () => await getDashboardData(),

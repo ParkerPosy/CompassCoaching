@@ -493,8 +493,35 @@ function ResourceCard({ resource, colors }: { resource: Resource; colors: Catego
   }
 }
 
+const HOSTNAME = "https://compasscoachingpa.org";
+
 export const Route = createFileRoute("/resources/$categorySlug")({
   component: ResourceCategoryPage,
+  head: ({ params }) => {
+    const category = RESOURCE_CATEGORIES.find((c) => c.slug === params.categorySlug);
+    if (!category) return {};
+
+    const title = `${category.title} Resources | Compass Coaching`;
+    const description = `Free ${category.title.toLowerCase()} resources and guides. ${category.description}`;
+    const canonicalUrl = `${HOSTNAME}/resources/${category.slug}`;
+
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { property: "og:type", content: "website" },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:url", content: canonicalUrl },
+        { property: "og:site_name", content: "Compass Coaching" },
+        { property: "og:image", content: `${HOSTNAME}/discord-icon.png` },
+        { name: "twitter:card", content: "summary" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
+      ],
+      links: [{ rel: "canonical", href: canonicalUrl }],
+    };
+  },
 });
 
 function ResourceCategoryPage() {
