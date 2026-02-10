@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Code, Heart, Linkedin, Users, Sparkles, Target, MessageCircle } from "lucide-react";
+import { Code, Heart, Linkedin, Users, Sparkles, Target, MessageCircle, Palette, Dumbbell } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -128,6 +128,24 @@ function AboutPage() {
       icon: MessageCircle,
       title: "Holistic Support",
       description: "Career guidance paired with life skills, because success means more than a paycheck.",
+    },
+  ];
+
+  const coaches = [
+    {
+      name: "Duncan Wentzel",
+      role: "Coach",
+      image: "/duncan-profile.jpg",
+      bio: "Duncan brings a unique blend of creative and physical expertise to Compass Coaching. With a strong background in graphic design, he helps clients explore careers in creative fields and visual communication. As a dedicated fitness enthusiast, Duncan also guides those interested in health, wellness, and fitness-related career paths.",
+      expertise: [
+        "Graphic Design",
+        "Visual Communication",
+        "Fitness & Wellness",
+        "Creative Industries",
+      ],
+      linkedin: "https://www.linkedin.com/in/duncan-wentzel-5605081b6/",
+      icon: Palette,
+      color: "purple",
     },
   ];
 
@@ -328,6 +346,89 @@ function AboutPage() {
         </Container>
       </section>
 
+      {/* Coaches Section */}
+      <section className="py-16 px-6 bg-stone-100">
+        <Container>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-stone-700 mb-4">Meet Our Coaches</h2>
+            <div className="w-16 h-1 bg-purple-500 mx-auto rounded-full" />
+            <p className="text-stone-600 mt-4 max-w-2xl mx-auto">
+              Our volunteer coaches bring diverse expertise to help you explore different career paths.
+            </p>
+          </div>
+
+          <div className="max-w-lg mx-auto">
+            {coaches.map((coach) => {
+              const Icon = coach.icon;
+              return (
+                <Card
+                  key={coach.name}
+                  className="border-stone-200 hover:border-purple-300 transition-all duration-300 shadow-md hover:shadow-lg overflow-hidden bg-white"
+                >
+                  <CardContent className="p-0">
+                    {/* Header with photo */}
+                    <div className="p-6 bg-gradient-to-r from-purple-500 to-purple-600">
+                      <div className="flex items-center gap-4">
+                        {coach.image ? (
+                          <img
+                            src={coach.image}
+                            alt={coach.name}
+                            className="w-16 h-16 rounded-full object-cover border-2 border-white/50 shadow-lg"
+                          />
+                        ) : (
+                          <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/30">
+                            <Icon className="w-8 h-8 text-white" />
+                          </div>
+                        )}
+                        <div>
+                          <h3 className="text-xl font-bold text-white">{coach.name}</h3>
+                          <p className="text-white/90 text-sm">{coach.role}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-6">
+                      <p className="text-stone-700 mb-6 leading-relaxed">
+                        {coach.bio}
+                      </p>
+
+                      {/* Expertise tags */}
+                      <div className="mb-6">
+                        <p className="text-sm font-medium text-stone-500 mb-2">Areas of Expertise</p>
+                        <div className="flex flex-wrap gap-2">
+                          {coach.expertise.map((skill) => (
+                            <span
+                              key={skill}
+                              className="px-3 py-1 rounded-full text-sm bg-purple-100 text-purple-700"
+                            >
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* LinkedIn link */}
+                      <div className="flex justify-center">
+                        <a
+                          href={coach.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold bg-[#0A66C2] text-white hover:bg-[#004182] transition-colors shadow-md hover:shadow-lg"
+                        >
+                          <Linkedin className="w-5 h-5" />
+                          Connect on LinkedIn
+                        </a>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </Container>
+      </section>
+
       {/* CTA Section */}
       <section className="relative py-20 px-6 overflow-hidden">
         {/* Gradient background */}
@@ -358,7 +459,7 @@ function AboutPage() {
           <svg className="w-full h-12 md:h-16 block" viewBox="0 0 1200 120" preserveAspectRatio="none">
             <path
               d="M0,60 C300,20 600,100 900,60 C1050,40 1150,40 1200,60 L1200,0 L0,0 Z"
-              fill="#fafaf9"
+              fill="#f5f5f4"
             />
           </svg>
         </div>

@@ -77,10 +77,10 @@ function PrivacyPage() {
                 <div>
                   <h2 className="text-xl font-bold text-stone-800 mb-3">1. Information We Collect</h2>
 
-                  <h3 className="font-semibold text-stone-700 mt-4 mb-2">Assessment Data (Stored Locally)</h3>
+                  <h3 className="font-semibold text-stone-700 mt-4 mb-2">Assessment Data</h3>
                   <p className="text-stone-600 leading-relaxed mb-3">
                     When you complete our career assessment, the following information is stored <strong>only in your
-                    browser's local storage</strong>—not on our servers:
+                    browser's local storage</strong>:
                   </p>
                   <ul className="list-disc list-inside text-stone-600 space-y-1 ml-4 mb-4">
                     <li>Your name (if provided)</li>
@@ -88,7 +88,7 @@ function PrivacyPage() {
                     <li>Generated career matches and recommendations</li>
                   </ul>
 
-                  <h3 className="font-semibold text-stone-700 mt-4 mb-2">Account Information (If You Create an Account)</h3>
+                  <h3 className="font-semibold text-stone-700 mt-4 mb-2">Account Information</h3>
                   <p className="text-stone-600 leading-relaxed mb-3">
                     If you choose to create an account for coaching features, we collect:
                   </p>
@@ -253,7 +253,7 @@ function PrivacyPage() {
                 students can use the assessment tools without providing personal information to our servers.
               </p>
               <p className="text-stone-600 leading-relaxed">
-                For users under 13 who wish to create an account, we recommend parental guidance and supervision.
+                For users under 13 who wish to create an account, we require parental guidance and supervision.
                 Parents can contact us to request deletion of any account created by their child.
               </p>
             </div>
