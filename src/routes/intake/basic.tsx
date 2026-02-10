@@ -249,7 +249,6 @@ function BasicInfoPage() {
 
           <AssessmentFooter
             currentStep={1}
-            backTo="/intake"
             nextLabel="Next: Personality"
             nextDisabled={!isValid}
             sectionProgress={sectionProgress}

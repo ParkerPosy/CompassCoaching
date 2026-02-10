@@ -694,7 +694,7 @@ function ReviewPage() {
                 currentStep={5}
                 isReview
                 backTo="/intake/challenges"
-                backLabel="Back to Edit"
+                backLabel="Back to Challenges"
                 nextLabel={
                   isSubmitting ? (
                     <>

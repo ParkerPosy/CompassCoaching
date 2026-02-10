@@ -207,7 +207,7 @@ function ValuesPage() {
           <AssessmentFooter
             currentStep={3}
             backTo="/intake/personality"
-            backLabel="Previous"
+            backLabel="Back to Personality"
             nextLabel="Next: Aptitude"
             nextDisabled={!isComplete}
             nextButtonType="submit"

@@ -126,30 +126,39 @@ export default function Header() {
         </div>
 
         {/* Auth Buttons - hidden on mobile */}
-        <div className="hidden sm:flex items-center gap-3">
+        <div className="hidden sm:flex items-center gap-2">
+          <Link
+            to="/contact"
+            className="px-3 py-2 text-sm font-medium text-stone-600 hover:text-stone-800 hover:bg-stone-100 rounded-lg transition-colors flex items-center gap-1.5"
+          >
+            <Mail className="w-4 h-4" />
+            Contact
+          </Link>
           <button
             type="button"
             onClick={() => alert("Coming soon!")}
-            className="px-4 py-2 text-sm font-medium text-lime-700 hover:text-lime-800 hover:bg-lime-50 rounded-lg transition-colors flex items-center gap-1.5"
+            className="px-3 py-2 text-sm font-medium text-lime-700 hover:text-lime-800 hover:bg-lime-50 rounded-lg transition-colors flex items-center gap-1.5"
           >
             <Heart className="w-4 h-4" />
             Donate
           </button>
           <SignedOut>
             <SignInButton mode="modal">
-              <button className="px-4 py-2 text-sm font-medium text-stone-700 hover:text-stone-700 hover:bg-stone-100 rounded-lg transition-colors">
+              <button className="px-3 py-2 text-sm font-medium text-stone-600 hover:text-stone-800 hover:bg-stone-100 rounded-lg transition-colors">
                 Sign In
               </button>
             </SignInButton>
           </SignedOut>
           <SignedIn>
-            <UserButton
-              appearance={{
-                elements: {
-                  avatarBox: "w-9 h-9",
-                },
-              }}
-            />
+            <div className="px-1.5">
+              <UserButton
+                appearance={{
+                  elements: {
+                    avatarBox: "w-9 h-9",
+                  },
+                }}
+              />
+            </div>
           </SignedIn>
         </div>
       </header>

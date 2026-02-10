@@ -239,7 +239,7 @@ function PersonalityPage() {
           <AssessmentFooter
             currentStep={2}
             backTo="/intake/basic"
-            backLabel="Previous"
+            backLabel="Back to Basic Info"
             nextLabel="Next: Values"
             nextDisabled={!isComplete}
             nextButtonType="submit"

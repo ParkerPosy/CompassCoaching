@@ -50,8 +50,8 @@ interface AssessmentFooterProps {
   currentStep: number;
   /** Total number of assessment steps (default: 5) */
   totalSteps?: number;
-  /** Link destination for the back button */
-  backTo: string;
+  /** Link destination for the back button (omit to hide back button) */
+  backTo?: string;
   /** Text label for the back button */
   backLabel?: string;
   /** Text label for the next button */
@@ -245,13 +245,17 @@ export function AssessmentFooter({
 
         {/* Navigation Buttons */}
         <div className="flex items-center justify-between">
-          <Link
-            to={backTo}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border-2 border-stone-300 text-stone-700 hover:bg-stone-50 transition-colors font-medium text-sm"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            {backLabel}
-          </Link>
+          {backTo ? (
+            <Link
+              to={backTo}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border-2 border-stone-300 text-stone-700 hover:bg-stone-50 transition-colors font-medium text-sm"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              {backLabel}
+            </Link>
+          ) : (
+            <div />
+          )}
 
           <div className="flex items-center gap-3">
             {showReviewButton && (
