@@ -40,9 +40,16 @@ export default function Header() {
 
   const isAdmin = user?.publicMetadata?.role === "admin";
 
+  // Close menu and reset all submenus
+  const closeMenu = () => {
+    setIsOpen(false);
+    setShowAssessmentMenu(false);
+    setShowResourcesMenu(false);
+  };
+
   const handleContinueAssessment = () => {
     navigate({ to: progress.nextSection });
-    setIsOpen(false);
+    closeMenu();
   };
 
   const assessmentSections = [
@@ -155,7 +162,7 @@ export default function Header() {
           <h2 className="text-xl font-bold text-stone-700">Navigation</h2>
           <button
             type="button"
-            onClick={() => setIsOpen(false)}
+            onClick={closeMenu}
             className="p-2 hover:bg-stone-100 rounded-lg transition-colors"
             aria-label="Close menu"
           >
@@ -449,10 +456,10 @@ export default function Header() {
           role="button"
           tabIndex={0}
           className="fixed inset-0 bg-black/20 z-40"
-          onClick={() => setIsOpen(false)}
+          onClick={closeMenu}
           onKeyDown={(e) => {
             if (e.key === "Escape" || e.key === "Enter") {
-              setIsOpen(false);
+              closeMenu();
             }
           }}
           aria-label="Close menu"
