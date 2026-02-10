@@ -214,10 +214,10 @@ function AboutPage() {
         <Container>
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-stone-700 mb-4">Our Story</h2>
-            <div className="w-16 h-1 bg-lime-500 mx-auto rounded-full" />
+            <div className="w-16 h-1 bg-blue-900 mx-auto rounded-full" />
           </div>
 
-          <Card className="border-lime-200 bg-linear-to-br from-lime-50 to-white">
+          <Card className="border-blue-200 bg-gradient-to-br from-blue-50 to-white">
             <CardContent className="p-8 md:p-10">
               <p className="text-lg text-stone-700 leading-relaxed mb-6">
                 Compass Coaching was born from a friendship forged in the residence halls. Jimmy and Parker served together on the same Resident Advisor staff for two years, watching each other grow as mentors and leaders. They saw firsthand how the right guidance at the right time can transform someone's trajectory.
@@ -247,35 +247,39 @@ function AboutPage() {
               return (
                 <Card
                   key={founder.name}
-                  className="border-stone-200 hover:border-lime-300 transition-all duration-300 hover:shadow-lg overflow-hidden h-full"
+                  className="border-stone-200 hover:border-lime-300 transition-all duration-300 shadow-md hover:shadow-lg overflow-hidden h-full"
                 >
                   <CardContent className="p-0 h-full flex flex-col">
-                    {/* Header with photo */}
-                    <div className={`p-6 bg-linear-to-r ${founder.color === "lime" ? "from-lime-500 to-lime-600" : "from-teal-500 to-teal-600"}`}>
-                      <div className="flex items-center gap-4">
+                    {/* Photo section with gradient background */}
+                    <div className={`relative pt-8 pb-16 bg-gradient-to-br ${founder.color === "lime" ? "from-lime-400 via-lime-500 to-lime-600" : "from-teal-400 via-teal-500 to-teal-600"}`}>
+                      <div className="flex justify-center">
                         {founder.image ? (
                           <img
                             src={founder.image}
                             alt={founder.name}
-                            className="w-16 h-16 rounded-full object-cover border-2 border-white/50 shadow-lg"
+                            className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-xl"
                           />
                         ) : (
-                          <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/30">
-                            <Icon className="w-8 h-8 text-white" />
+                          <div className="w-32 h-32 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border-4 border-white/30">
+                            <Icon className="w-12 h-12 text-white" />
                           </div>
                         )}
-                        <div>
-                          <h3 className="text-xl font-bold text-white">
-                            {founder.nickname ? `${founder.name} "${founder.nickname}"` : founder.name}
-                          </h3>
-                          <p className="text-white/90 text-sm">{founder.role}</p>
-                        </div>
                       </div>
                     </div>
 
+                    {/* Name and role - overlapping section */}
+                    <div className="relative -mt-8 mx-4 mb-4 bg-white rounded-xl shadow-lg p-4 text-center">
+                      <h3 className="text-xl font-bold text-stone-800">
+                        {founder.nickname ? `${founder.name} "${founder.nickname}"` : founder.name}
+                      </h3>
+                      <p className={`text-sm font-medium ${founder.color === "lime" ? "text-lime-600" : "text-teal-600"}`}>
+                        {founder.role}
+                      </p>
+                    </div>
+
                     {/* Content */}
-                    <div className="p-6 flex flex-col flex-grow">
-                      <p className="text-stone-700 mb-6 leading-relaxed flex-grow">
+                    <div className="px-6 pb-6 flex flex-col flex-grow">
+                      <p className="text-stone-600 mb-6 leading-relaxed flex-grow">
                         {founder.bio}
                       </p>
 
@@ -366,30 +370,32 @@ function AboutPage() {
                   className="border-stone-200 hover:border-purple-300 transition-all duration-300 shadow-md hover:shadow-lg overflow-hidden bg-white"
                 >
                   <CardContent className="p-0">
-                    {/* Header with photo */}
-                    <div className="p-6 bg-gradient-to-r from-purple-500 to-purple-600">
-                      <div className="flex items-center gap-4">
+                    {/* Photo section with gradient background */}
+                    <div className="relative pt-8 pb-16 bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600">
+                      <div className="flex justify-center">
                         {coach.image ? (
                           <img
                             src={coach.image}
                             alt={coach.name}
-                            className="w-16 h-16 rounded-full object-cover border-2 border-white/50 shadow-lg"
+                            className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-xl"
                           />
                         ) : (
-                          <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/30">
-                            <Icon className="w-8 h-8 text-white" />
+                          <div className="w-32 h-32 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border-4 border-white/30">
+                            <Icon className="w-12 h-12 text-white" />
                           </div>
                         )}
-                        <div>
-                          <h3 className="text-xl font-bold text-white">{coach.name}</h3>
-                          <p className="text-white/90 text-sm">{coach.role}</p>
-                        </div>
                       </div>
                     </div>
 
+                    {/* Name and role - overlapping section */}
+                    <div className="relative -mt-8 mx-4 mb-4 bg-white rounded-xl shadow-lg p-4 text-center">
+                      <h3 className="text-xl font-bold text-stone-800">{coach.name}</h3>
+                      <p className="text-sm font-medium text-purple-600">{coach.role}</p>
+                    </div>
+
                     {/* Content */}
-                    <div className="p-6">
-                      <p className="text-stone-700 mb-6 leading-relaxed">
+                    <div className="px-6 pb-6">
+                      <p className="text-stone-600 mb-6 leading-relaxed">
                         {coach.bio}
                       </p>
 
