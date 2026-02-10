@@ -37,11 +37,6 @@ const conversationTopics = [
     subject: "I have a resource suggestion",
   },
   {
-    icon: Users,
-    label: "Partnership inquiry",
-    subject: "Partnership inquiry",
-  },
-  {
     icon: Heart,
     label: "Just saying thanks",
     subject: "Thank you!",
@@ -160,7 +155,7 @@ function ContactPage() {
                   <button
                     key={topic.label}
                     onClick={() => handleTopicClick(topic.subject)}
-                    className={`p-4 rounded-xl border-2 transition-all duration-200 text-left hover:shadow-md ${
+                    className={`p-4 rounded-xl border-2 transition-all duration-200 hover:shadow-md flex flex-col items-center text-center ${
                       selectedTopic === topic.subject
                         ? "border-lime-500 bg-lime-50"
                         : "border-stone-200 hover:border-lime-300 bg-white"
@@ -173,6 +168,16 @@ function ContactPage() {
                   </button>
                 );
               })}
+              {/* Join Our Team CTA */}
+              <Link
+                to="/contact/join"
+                className="p-4 rounded-xl border-2 border-purple-200 hover:border-purple-400 bg-purple-50 transition-all duration-200 hover:shadow-md group flex flex-col items-center text-center"
+              >
+                <Users className="w-6 h-6 mb-2 text-purple-500 group-hover:text-purple-600" />
+                <p className="text-sm font-medium text-purple-700">
+                  Join our team
+                </p>
+              </Link>
             </div>
           </div>
         </Container>
@@ -336,26 +341,6 @@ function ContactPage() {
                   className="inline-flex items-center gap-2 text-lime-400 hover:text-lime-300 font-medium text-sm group"
                 >
                   Start Free Assessment
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
-
-              {/* Join Our Team CTA */}
-              <div className="bg-purple-50 rounded-xl p-6 border border-purple-200">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center">
-                    <Users className="w-5 h-5 text-white" />
-                  </div>
-                  <h3 className="font-bold text-stone-700">Want to Help?</h3>
-                </div>
-                <p className="text-stone-600 text-sm mb-4">
-                  Join our team of volunteer coaches and help Pennsylvanians navigate their careers.
-                </p>
-                <Link
-                  to="/contact/join"
-                  className="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium text-sm group"
-                >
-                  Join Our Team
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
