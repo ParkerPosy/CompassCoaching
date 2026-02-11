@@ -4,6 +4,7 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ClerkProvider } from "@clerk/tanstack-react-start";
 
+import { DialogRenderer } from "../components/DialogRenderer";
 import Header from "../components/Header";
 
 import appCss from "../styles.css?url";
@@ -161,6 +162,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <ClerkProvider>
           <Header />
           <main id="main-content">{children}</main>
+          <DialogRenderer />
         </ClerkProvider>
         {import.meta.env.DEV && (
           <TanStackDevtools

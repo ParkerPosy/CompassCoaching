@@ -43,6 +43,7 @@ import {
 } from "@/components/ui/select";
 import { CareerMatchesTable } from "@/components/CareerMatchesTable";
 import { analyzeAssessment } from "@/lib/analyzer";
+import { DialogService } from "@/lib/dialogService";
 import { getAvailableCounties } from "@/lib/occupationService";
 import { useAssessmentStore, useHasHydrated, useIsResultsOutdated } from "@/stores/assessmentStore";
 
@@ -199,7 +200,16 @@ function ResultsPage() {
   const [selectedCounty, setSelectedCounty] = useState<string>('All');
 
   // Handler for retaking the assessment
-  const handleRetake = () => {
+  const handleRetake = async () => {
+    const confirmed = await DialogService.confirm({
+      title: "Retake Assessment?",
+      description:
+        "This will permanently erase all of your current answers and results. You'll need to start the assessment from the beginning. Are you sure you want to continue?",
+      confirmLabel: "Reset & Retake",
+      cancelLabel: "Keep Results",
+      intent: "warning",
+    });
+    if (!confirmed) return;
     clearResults();
     navigate({ to: "/intake" });
   };
