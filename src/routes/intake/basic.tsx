@@ -1,5 +1,6 @@
+import { useRef } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { User } from "lucide-react";
+import { Award, Trash2, User } from "lucide-react";
 import { AssessmentFooter } from "@/components/assessment/AssessmentFooter";
 import { SectionHeader } from "@/components/assessment/SectionHeader";
 import { Container } from "@/components/layout/container";
@@ -15,6 +16,7 @@ import {
   Textarea,
 } from "@/components/ui";
 import { useAssessmentStore, useHasHydrated } from "@/stores/assessmentStore";
+import type { Degree } from "@/types/assessment";
 
 export const Route = createFileRoute("/intake/basic")({
   component: BasicInfoPage,
@@ -42,10 +44,59 @@ function BasicInfoPage() {
     educationLevel: basic?.educationLevel || "",
     employmentStatus: basic?.employmentStatus || "",
     primaryReason: basic?.primaryReason || "",
+    degrees: basic?.degrees || [],
   };
+
+  const isCollegeEducation = ["some-college", "associates", "bachelors", "masters", "trade-cert"].includes(formData.educationLevel);
+
+  // Stable unique IDs for degree rows to avoid remount on edit
+  const degreeIdCounter = useRef(formData.degrees.length);
+  const degreeKeys = useRef<number[]>(formData.degrees.map((_, i) => i));
+  // Sync keys array length with degrees array
+  while (degreeKeys.current.length < formData.degrees.length) {
+    degreeKeys.current.push(++degreeIdCounter.current);
+  }
+  if (degreeKeys.current.length > formData.degrees.length) {
+    degreeKeys.current = degreeKeys.current.slice(0, formData.degrees.length);
+  }
 
   const handleChange = (field: string, value: string) => {
     updateBasic({ [field]: value });
+    // Clear degrees when switching away from college education
+    if (field === "educationLevel" && !["some-college", "associates", "bachelors", "masters", "trade-cert"].includes(value)) {
+      updateBasic({ degrees: [] });
+    }
+    // Initialize with one empty degree when selecting college education
+    if (field === "educationLevel" && ["some-college", "associates", "bachelors", "masters", "trade-cert"].includes(value) && formData.degrees.length === 0) {
+      updateBasic({ degrees: [{ level: "", name: "" }] });
+    }
+  };
+
+  const updateDegree = (index: number, field: keyof Degree, value: string) => {
+    const updated = [...formData.degrees];
+    updated[index] = { ...updated[index], [field]: value };
+
+    const current = updated[index];
+    const isLastRow = index === updated.length - 1;
+    const requiredFilled = !!(current.level && current.name?.trim());
+
+    // Auto-add a new empty row when required fields are filled on the last row
+    if (isLastRow && requiredFilled) {
+      updated.push({ level: "", name: "" });
+    }
+
+    updateBasic({ degrees: updated });
+  };
+
+  const removeDegree = (index: number) => {
+    const updated = formData.degrees.filter((_, i) => i !== index);
+    degreeKeys.current = degreeKeys.current.filter((_, i) => i !== index);
+    // Always keep at least one row
+    if (updated.length === 0) {
+      updateBasic({ degrees: [{ level: "", name: "" }] });
+    } else {
+      updateBasic({ degrees: updated });
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -53,14 +104,28 @@ function BasicInfoPage() {
     navigate({ to: "/intake/personality" });
   };
 
+  const degreeRequirementMet = !isCollegeEducation || !!(
+    formData.degrees[0]?.level &&
+    formData.degrees[0]?.name?.trim()
+  );
+
   const isValid =
     formData.name &&
     formData.ageRange &&
     formData.educationLevel &&
-    formData.employmentStatus;
+    formData.employmentStatus &&
+    degreeRequirementMet;
 
-  // Calculate section progress (4 required fields)
-  const requiredFields = [formData.name, formData.ageRange, formData.educationLevel, formData.employmentStatus];
+  // Calculate section progress
+  const requiredFields = [
+    formData.name,
+    formData.ageRange,
+    formData.educationLevel,
+    formData.employmentStatus,
+    ...(isCollegeEducation
+      ? [formData.degrees[0]?.level, formData.degrees[0]?.name?.trim()]
+      : []),
+  ];
   const filledFields = requiredFields.filter(Boolean).length;
   const sectionProgress = (filledFields / requiredFields.length) * 100;
 
@@ -183,6 +248,80 @@ function BasicInfoPage() {
                   </SelectContent>
                 </Select>
               </div>
+
+              {/* Dynamic Degree Fields */}
+              {isCollegeEducation && formData.degrees.length > 0 && (
+                <div className="ml-4 pl-4 border-l-2 border-blue-200 space-y-4 animate-in fade-in duration-200">
+                  <div className="flex items-center gap-2 text-sm font-medium text-stone-600">
+                    <Award className="w-4 h-4 text-blue-600" />
+                    <span>Degrees & Certifications</span>
+                  </div>
+
+                  {formData.degrees.map((degree, index) => {
+                    const isLastEmpty =
+                      index === formData.degrees.length - 1 &&
+                      !(degree.level && degree.name?.trim());
+                    return (
+                      <div
+                        key={degreeKeys.current[index]}
+                        className={`flex gap-3 items-start ${isLastEmpty ? "opacity-60" : ""}`}
+                      >
+                        <div className="flex-1">
+                          <div className="grid grid-cols-1 sm:grid-cols-[160px_1fr_120px] gap-2 items-center">
+                            <Select
+                              size="sm"
+                              value={degree.level || undefined}
+                              onValueChange={(value) => updateDegree(index, "level", value)}
+                            >
+                              <SelectTrigger className={index === 0 ? "[&_[data-placeholder]]:text-stone-700" : ""}>
+                                <SelectValue placeholder={index === 0 ? "Degree level *" : "Level"} />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="certificate">Certificate</SelectItem>
+                                <SelectItem value="associate">Associate</SelectItem>
+                                <SelectItem value="bachelor">Bachelor</SelectItem>
+                                <SelectItem value="master">Master</SelectItem>
+                                <SelectItem value="doctorate">Doctorate</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <Input
+                              type="text"
+                              placeholder={index === 0 ? "Major or program *" : "Add another degree..."}
+                              value={degree.name}
+                              onChange={(e) => updateDegree(index, "name", e.target.value)}
+                              className={`h-8 text-sm px-2.5 ${index === 0 ? "placeholder:text-stone-700" : ""}`}
+                            />
+                            <Input
+                              type="text"
+                              inputMode="decimal"
+                              placeholder="GPA (optional)"
+                              value={degree.gpa || ""}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                if (val === "" || /^\d*\.?\d{0,2}$/.test(val)) {
+                                  updateDegree(index, "gpa", val);
+                                }
+                              }}
+                              className="h-8 text-sm px-2.5"
+                            />
+                          </div>
+                        </div>
+                        {/* Show remove button for all filled rows except if it's the only one */}
+                        {degree.name && formData.degrees.filter(d => d.name).length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => removeDegree(index)}
+                            className="mt-2 p-1.5 text-stone-400 hover:text-red-500 hover:bg-red-50 rounded-md transition-colors"
+                            title="Remove degree"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
 
               {/* Employment Status */}
               <div>

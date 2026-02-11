@@ -2,12 +2,19 @@
  * Assessment data type definitions
  */
 
+export interface Degree {
+  level: string;
+  name: string;
+  gpa?: string;
+}
+
 export interface BasicInfo {
   name: string;
   ageRange: string;
   educationLevel: string;
   employmentStatus: string;
   primaryReason: string;
+  degrees?: Degree[];
 }
 
 export interface PersonalityAnswers {

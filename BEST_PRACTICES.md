@@ -355,6 +355,32 @@ const filteredItems = useMemo(() => {
 - Store persistent data in **localStorage** via storage wrapper
 - Avoid prop drilling - use **context** for deeply nested shared state
 
+## Assessment Updates
+
+### Process for Adding or Changing Fields
+
+1. Update the core types in [src/types/assessment.ts](src/types/assessment.ts) (section interfaces + `AssessmentResults`).
+2. Add defaults and merge behavior in [src/stores/assessmentStore.ts](src/stores/assessmentStore.ts) (update functions and `compileResults()`).
+3. Update the intake form UI and validation in the relevant section route under [src/routes/intake/](src/routes/intake/).
+4. Update the review display (label maps + summary blocks) in [src/routes/intake/review.tsx](src/routes/intake/review.tsx).
+5. Verify the results page presentation in [src/routes/intake/results.tsx](src/routes/intake/results.tsx) and adjust the layout or analysis outputs as needed.
+6. If the field affects analysis, update scoring/insights in [src/lib/analyzer.ts](src/lib/analyzer.ts).
+7. If you add a new section (not just a field), also update progress flow and storage keys:
+  - [src/stores/assessmentStore.ts](src/stores/assessmentStore.ts) (`useAssessmentProgress`, progress math, `compileResults()`)
+  - [src/lib/storage.ts](src/lib/storage.ts) (new `StorageKey` + persistence if still used)
+
+### Assessment Field Update Checklist
+
+- [ ] Types updated in [src/types/assessment.ts](src/types/assessment.ts)
+- [ ] Defaults/merge logic updated in [src/stores/assessmentStore.ts](src/stores/assessmentStore.ts)
+- [ ] Form UI + validation updated in the relevant [src/routes/intake/](src/routes/intake/) step
+- [ ] Review page labels/summary updated in [src/routes/intake/review.tsx](src/routes/intake/review.tsx)
+- [ ] Results page layout verified and updated in [src/routes/intake/results.tsx](src/routes/intake/results.tsx)
+- [ ] Analyzer rules updated in [src/lib/analyzer.ts](src/lib/analyzer.ts) (if insights use the new field)
+- [ ] `CURRENT_ASSESSMENT_VERSION` bumped in [src/stores/assessmentStore.ts](src/stores/assessmentStore.ts) if older results should be invalidated
+- [ ] Retake flow still clears new fields and results (use the reset/retake UI)
+- [ ] Manual walkthrough: complete intake, review, submit, and results render without missing fields
+
 ## Performance
 
 ### Optimization Patterns

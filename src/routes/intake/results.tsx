@@ -284,6 +284,25 @@ function ResultsPage() {
       }));
   }, [storedResults]);
 
+  const degreeSummary = useMemo(() => {
+    const degrees = storedResults?.basic?.degrees || [];
+    const levelLabels: Record<string, string> = {
+      certificate: "Certificate",
+      associate: "Associate",
+      bachelor: "Bachelor",
+      master: "Master",
+      doctorate: "Doctorate",
+    };
+
+    return degrees
+      .filter((degree) => degree.name?.trim())
+      .map((degree) => {
+        const levelLabel = degree.level ? levelLabels[degree.level] : "";
+        const base = levelLabel ? `${levelLabel}: ${degree.name}` : degree.name;
+        return degree.gpa ? `${base} (GPA ${degree.gpa})` : base;
+      });
+  }, [storedResults]);
+
   // Generate path forward insights from challenges data
   const pathForwardInsights = useMemo(() => {
     if (!storedResults?.challenges) return [];
@@ -751,6 +770,16 @@ function ResultsPage() {
                           {storedResults.basic.educationLevel.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
                         </span>
                       </div>
+                      {degreeSummary.length > 0 && (
+                        <div className="text-stone-600">
+                          <span className="block">Degrees & Certifications:</span>
+                          <ul className="mt-1 list-disc list-inside text-stone-700 space-y-1">
+                            {degreeSummary.map((degree, index) => (
+                              <li key={`${degree}-${index}`}>{degree}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                       <div className="flex items-center gap-2 text-stone-600">
                         <span>Status:</span>
                         <span className="font-semibold text-stone-700">

@@ -1,11 +1,11 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { SignedIn, SignOutButton, useUser } from "@clerk/tanstack-react-start";
+import { SignOutButton, useUser } from "@clerk/tanstack-react-start";
 import { User, Shield, Clock, BarChart3, Download, CheckCircle, AlertCircle, LogOut, MessageSquare } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useAssessmentStore, useHasHydrated } from "@/stores/assessmentStore";
+import { useAssessmentStore, useHasHydrated, useSectionCompletion } from "@/stores/assessmentStore";
 
 // Server function to check authentication and get admin message
 const getDashboardData = createServerFn().handler(async () => {
@@ -41,15 +41,20 @@ export const Route = createFileRoute("/dashboard")({
   },
 });
 
+function Shimmer({ className }: { className?: string }) {
+  return <div className={`animate-pulse bg-stone-200 rounded ${className ?? ""}`} />;
+}
+
 function DashboardPage() {
   const { user, isLoaded } = useUser();
   const loaderData = Route.useLoaderData();
   const hasHydrated = useHasHydrated();
   const { basic, personality, values, aptitude, challenges, results } = useAssessmentStore();
+  const { completedSections: sectionsCompleted, allComplete } = useSectionCompletion();
 
   const hasAnyData = basic || personality || values || aptitude || challenges || results;
-  const sectionsCompleted = [basic, personality, values, aptitude, challenges].filter(Boolean).length;
   const adminMessage = loaderData.adminMessage;
+  const isLoading = !isLoaded || !hasHydrated;
 
   const handleDownloadResults = () => {
     const data = {
@@ -78,9 +83,13 @@ function DashboardPage() {
       <Container size="sm">
         {/* Welcome Section */}
         <div className="mb-8 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-          <div>
+          <div className="min-h-20 flex flex-col justify-center">
             <h1 className="text-3xl font-bold text-stone-700 mb-2">
-              Welcome back{isLoaded && user?.firstName ? `, ${user.firstName}` : ""}!
+              {isLoaded ? (
+                `Welcome back${user?.firstName ? `, ${user.firstName}` : ""}!`
+              ) : (
+                <Shimmer className="h-7 w-56 inline-block" />
+              )}
             </h1>
             <p className="text-stone-600">
               This is your personal dashboard. Here you'll be able to track your progress and access saved results.
@@ -119,7 +128,9 @@ function DashboardPage() {
                 </div>
                 <div>
                   <p className="text-sm text-stone-500">Account Status</p>
-                  <p className="text-lg font-semibold text-stone-700">Active</p>
+                  <div className="h-7 flex items-center">
+                    <p className="text-lg font-semibold text-stone-700">Active</p>
+                  </div>
                 </div>
               </div>
             </CardContent>
@@ -127,15 +138,21 @@ function DashboardPage() {
 
           <Card>
             <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center shrink-0">
                   <BarChart3 className="w-6 h-6 text-blue-600" />
                 </div>
                 <div>
                   <p className="text-sm text-stone-500">Assessment Progress</p>
-                  <p className="text-lg font-semibold text-stone-700">
-                    {!hasHydrated ? "Loading..." : results ? "Completed" : `${sectionsCompleted}/5 Sections`}
-                  </p>
+                  <div className="h-7 flex items-center">
+                    {isLoading ? (
+                      <Shimmer className="h-5 w-28" />
+                    ) : (
+                      <p className="text-lg font-semibold text-stone-700">
+                        {results ? "Completed" : `${sectionsCompleted}/5 Sections`}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             </CardContent>
@@ -149,14 +166,20 @@ function DashboardPage() {
                 </div>
                 <div>
                   <p className="text-sm text-stone-500">Member Since</p>
-                  <p className="text-lg font-semibold text-stone-700">
-                    {isLoaded && user?.createdAt
-                      ? new Date(user.createdAt).toLocaleDateString("en-US", {
-                          month: "short",
-                          year: "numeric",
-                        })
-                      : "Today"}
-                  </p>
+                  <div className="h-7 flex items-center">
+                    {!isLoaded ? (
+                      <Shimmer className="h-5 w-24" />
+                    ) : (
+                      <p className="text-lg font-semibold text-stone-700">
+                        {user?.createdAt
+                          ? new Date(user.createdAt).toLocaleDateString("en-US", {
+                              month: "short",
+                              year: "numeric",
+                            })
+                          : "Today"}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             </CardContent>
@@ -174,16 +197,20 @@ function DashboardPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <SignedIn>
-                <div className="space-y-4">
-                  <div>
-                    <p className="text-sm text-stone-500">Email</p>
-                    <p className="text-stone-700">
-                      {isLoaded ? user?.primaryEmailAddress?.emailAddress : "Loading..."}
-                    </p>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-sm text-stone-500">Email</p>
+                  <div className="h-6 flex items-center">
+                    {!isLoaded ? (
+                      <Shimmer className="h-4 w-48" />
+                    ) : (
+                      <p className="text-stone-700">
+                        {user?.primaryEmailAddress?.emailAddress}
+                      </p>
+                    )}
                   </div>
                 </div>
-              </SignedIn>
+              </div>
             </CardContent>
           </Card>
 
@@ -195,13 +222,17 @@ function DashboardPage() {
                 Download My Results
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="min-h-33">
               {!hasHydrated ? (
-                <p className="text-stone-500 text-sm">Loading assessment data...</p>
+                <div className="animate-pulse space-y-4">
+                  <Shimmer className="h-5 w-40" />
+                  <Shimmer className="h-10 w-full" />
+                  <Shimmer className="h-10 w-full rounded-lg" />
+                </div>
               ) : hasAnyData ? (
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 text-sm">
-                    {sectionsCompleted === 5 ? (
+                    {allComplete ? (
                       <CheckCircle className="w-4 h-4 text-lime-600" />
                     ) : (
                       <AlertCircle className="w-4 h-4 text-amber-500" />

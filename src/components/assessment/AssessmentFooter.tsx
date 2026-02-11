@@ -2,48 +2,7 @@ import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, Award, CheckCircle2 } from "lucide-react";
 import { Button } from "../ui/button";
-import { useAssessmentStore, useHasHydrated } from "@/stores/assessmentStore";
-import type { AptitudeData } from "@/types/assessment";
-
-// Section completion requirements
-const PERSONALITY_QUESTIONS = 11;
-const VALUES_COUNT = 12;
-
-// Helper to check if basic section is complete
-function isBasicComplete(basic: { name?: string; ageRange?: string; educationLevel?: string; employmentStatus?: string } | null): boolean {
-  if (!basic) return false;
-  return !!(basic.name && basic.ageRange && basic.educationLevel && basic.employmentStatus);
-}
-
-// Helper to check if personality section is complete
-function isPersonalityComplete(personality: Record<string, number> | null): boolean {
-  if (!personality) return false;
-  return Object.keys(personality).length >= PERSONALITY_QUESTIONS;
-}
-
-// Helper to check if values section is complete
-function isValuesComplete(values: Record<string, number> | null): boolean {
-  if (!values) return false;
-  return Object.keys(values).length >= VALUES_COUNT;
-}
-
-// Helper to check if aptitude section is complete
-function isAptitudeComplete(aptitude: AptitudeData | null): boolean {
-  if (!aptitude) return false;
-  const categories = [
-    aptitude.stem, aptitude.arts, aptitude.communication, aptitude.business,
-    aptitude.healthcare, aptitude.trades, aptitude.socialServices, aptitude.law
-  ];
-  return categories.every(arr =>
-    Array.isArray(arr) && arr.length >= 4 && arr.every(v => v > 0)
-  );
-}
-
-// Helper to check if challenges section is complete
-function isChallengesComplete(challenges: { financial?: string; timeAvailability?: string; locationFlexibility?: string; supportSystem?: string } | null): boolean {
-  if (!challenges) return false;
-  return !!(challenges.financial && challenges.timeAvailability && challenges.locationFlexibility && challenges.supportSystem);
-}
+import { useHasHydrated, useSectionCompletion } from "@/stores/assessmentStore";
 
 interface AssessmentFooterProps {
   /** Current step number (1-indexed), for assessment steps 1-5 */
@@ -93,29 +52,17 @@ export function AssessmentFooter({
 }: AssessmentFooterProps) {
   const hasHydrated = useHasHydrated();
 
-  // Get store data to calculate actual completion
-  const basic = useAssessmentStore((state) => state.basic);
-  const personality = useAssessmentStore((state) => state.personality);
-  const values = useAssessmentStore((state) => state.values);
-  const aptitude = useAssessmentStore((state) => state.aptitude);
-  const challenges = useAssessmentStore((state) => state.challenges);
+  // Centralized section completion from the store
+  const { sectionCompletion, allComplete: allSectionsComplete, overallProgress } = useSectionCompletion();
 
-  // Calculate actual section completion status
-  const sectionCompletion = hasHydrated ? [
-    isBasicComplete(basic),
-    isPersonalityComplete(personality),
-    isValuesComplete(values),
-    isAptitudeComplete(aptitude),
-    isChallengesComplete(challenges),
-  ] : [false, false, false, false, false];
-
-  const completedSections = sectionCompletion.filter(Boolean).length;
-  const allSectionsComplete = completedSections === totalSteps;
+  // Gate on hydration so we don't flash stale state
+  const displayCompletion = hasHydrated ? sectionCompletion : [false, false, false, false, false] as [boolean, boolean, boolean, boolean, boolean];
 
   // Calculate actual overall progress based on store data
-  const actualOverallProgress = isReview
-    ? 100
-    : Math.round((completedSections / totalSteps) * 100);
+  const actualOverallProgress = isReview ? 100 : overallProgress;
+
+  const displayProgressText =
+    sectionProgress !== undefined ? Math.round(sectionProgress) : actualOverallProgress;
 
   // Show review button when all sections complete and not on challenges or review page
   const showReviewButton = allSectionsComplete && !isReview && currentStep !== totalSteps;
@@ -182,7 +129,7 @@ export function AssessmentFooter({
                     </span>
                   ) : (
                     <span className="text-sm font-semibold text-lime-700">
-                      {actualOverallProgress}% complete
+                      {displayProgressText}% complete
                     </span>
                   )}
                 </div>
@@ -208,7 +155,7 @@ export function AssessmentFooter({
                 <div className="relative w-full h-6 mt-1">
                   {stepLabels.map((label, index) => {
                     const position = ((index + 1) / totalSteps) * 100;
-                    const isCompleted = sectionCompletion[index];
+                    const isCompleted = displayCompletion[index];
                     const isCurrent = index + 1 === currentStep;
                     return (
                       <div

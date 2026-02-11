@@ -128,9 +128,9 @@ const IntakeAptitudeRoute = IntakeAptitudeRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactJoinRoute = ContactJoinRouteImport.update({
-  id: '/join',
-  path: '/join',
-  getParentRoute: () => ContactRoute,
+  id: '/contact/join',
+  path: '/contact/join',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ResourcesArticlesSlugRoute = ResourcesArticlesSlugRouteImport.update({
   id: '/resources/articles/$slug',
@@ -297,6 +297,7 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   PrivacyRoute: typeof PrivacyRoute
   TermsRoute: typeof TermsRoute
+  ContactJoinRoute: typeof ContactJoinRoute
   IntakeAptitudeRoute: typeof IntakeAptitudeRoute
   IntakeBasicRoute: typeof IntakeBasicRoute
   IntakeChallengesRoute: typeof IntakeChallengesRoute
@@ -448,10 +449,10 @@ declare module '@tanstack/react-router' {
     }
     '/contact/join': {
       id: '/contact/join'
-      path: '/join'
+      path: '/contact/join'
       fullPath: '/contact/join'
       preLoaderRoute: typeof ContactJoinRouteImport
-      parentRoute: typeof ContactRoute
+      parentRoute: typeof rootRouteImport
     }
     '/resources/articles/$slug': {
       id: '/resources/articles/$slug'
@@ -490,6 +491,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   PrivacyRoute: PrivacyRoute,
   TermsRoute: TermsRoute,
+  ContactJoinRoute: ContactJoinRoute,
   IntakeAptitudeRoute: IntakeAptitudeRoute,
   IntakeBasicRoute: IntakeBasicRoute,
   IntakeChallengesRoute: IntakeChallengesRoute,

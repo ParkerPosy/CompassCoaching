@@ -27,6 +27,14 @@ const educationLabels: Record<string, string> = {
   "trade-cert": "Trade School/Certification",
 };
 
+const degreeLevelLabels: Record<string, string> = {
+  certificate: "Certificate",
+  associate: "Associate",
+  bachelor: "Bachelor",
+  master: "Master",
+  doctorate: "Doctorate",
+};
+
 const employmentLabels: Record<string, string> = {
   "student": "Full-time Student",
   "employed-ft": "Employed Full-time",
@@ -376,6 +384,27 @@ function ReviewPage() {
                       {educationLabels[basicData.educationLevel] || basicData.educationLevel}
                     </dd>
                   </div>
+                  {basicData.degrees && basicData.degrees.some((degree) => degree.name?.trim()) && (
+                    <div className="md:col-span-2">
+                      <dt className="text-sm font-medium text-stone-600">
+                        Degrees & Certifications
+                      </dt>
+                      <dd className="text-stone-700 mt-1">
+                        <ul className="list-disc list-inside space-y-1">
+                          {basicData.degrees
+                            .filter((degree) => degree.name?.trim())
+                            .map((degree, index) => (
+                              <li key={`${degree.name}-${index}`}>
+                                {(degree.level && degreeLevelLabels[degree.level])
+                                  ? `${degreeLevelLabels[degree.level]}: ${degree.name}`
+                                  : degree.name}
+                                {degree.gpa ? ` (GPA ${degree.gpa})` : ""}
+                              </li>
+                            ))}
+                        </ul>
+                      </dd>
+                    </div>
+                  )}
                   <div>
                     <dt className="text-sm font-medium text-stone-600">
                       Employment Status

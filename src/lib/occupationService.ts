@@ -3,6 +3,48 @@ import type { Occupation } from '@/types/wages';
 import type { AssessmentResults } from '@/types/assessment';
 import { getAllOccupations, getSpecificOccupations, getAvailableCounties as getCountiesList } from './wages.server';
 
+const TEXT_MATCH_WEIGHT = 10;
+const TEXT_MATCH_MIN_TOKEN_LENGTH = 4;
+const TEXT_MATCH_STOPWORDS = new Set([
+  'a', 'an', 'and', 'are', 'as', 'at', 'be', 'but', 'by', 'for', 'from', 'has', 'have', 'if',
+  'in', 'into', 'is', 'it', 'its', 'of', 'on', 'or', 'that', 'the', 'their', 'to', 'was',
+  'were', 'will', 'with', 'without', 'your', 'you', 'we', 'our', 'they', 'them', 'this',
+  'those', 'these', 'i', 'me', 'my', 'mine', 'about', 'help', 'career', 'job', 'jobs',
+  'work', 'working', 'field', 'fields', 'role', 'roles', 'position', 'positions', 'like',
+  'looking', 'seeking', 'interest', 'interests', 'learn', 'learning', 'grow', 'growth',
+  'change', 'changing', 'better', 'new', 'next', 'step', 'steps', 'goal', 'goals',
+]);
+
+function extractTokens(text: string): string[] {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, ' ')
+    .split(/\s+/)
+    .map((token) => token.trim())
+    .filter((token) => token.length >= TEXT_MATCH_MIN_TOKEN_LENGTH)
+    .filter((token) => !TEXT_MATCH_STOPWORDS.has(token));
+}
+
+function getAssessmentTokens(assessment: AssessmentResults): string[] {
+  const primaryReason = assessment.basic?.primaryReason || '';
+  const additionalNotes = assessment.challenges?.additionalNotes || '';
+  const degreeNames = (assessment.basic?.degrees || [])
+    .map((degree) => degree.name || '')
+    .join(' ');
+
+  const combined = `${primaryReason} ${additionalNotes} ${degreeNames}`.trim();
+  if (!combined) return [];
+  return Array.from(new Set(extractTokens(combined)));
+}
+
+function getOccupationTokens(occupation: Occupation): string[] {
+  const keywordText = occupation.metadata?.keywords?.join(' ') || '';
+  const certText = occupation.metadata?.certifications?.join(' ') || '';
+  const combined = `${occupation.title} ${occupation.description || ''} ${keywordText} ${certText}`.trim();
+  if (!combined) return [];
+  return Array.from(new Set(extractTokens(combined)));
+}
+
 /**
  * Career match with score and reasons
  */
@@ -280,6 +322,28 @@ function calculateMatchScore(
       (decisionStyle === 2 && metadata.skills.creative >= 7) ||
       (decisionStyle === 3 && metadata.skills.social >= 7)) {
     totalScore += 5;
+  }
+
+  // 6. Text match bonus (up to 10 points)
+  const assessmentTokens = getAssessmentTokens(assessment);
+  const occupationTokens = getOccupationTokens(occupation);
+
+  if (assessmentTokens.length > 0 && occupationTokens.length > 0) {
+    maxScore += TEXT_MATCH_WEIGHT;
+    const occupationTokenSet = new Set(occupationTokens);
+    const matched = assessmentTokens.filter((token) => occupationTokenSet.has(token));
+    const uniqueMatches = Array.from(new Set(matched));
+
+    if (uniqueMatches.length >= 3) {
+      totalScore += TEXT_MATCH_WEIGHT;
+      reasons.push(`Keyword match: ${uniqueMatches.slice(0, 3).join(', ')}`);
+    } else if (uniqueMatches.length === 2) {
+      totalScore += 7;
+      reasons.push(`Keyword match: ${uniqueMatches.join(', ')}`);
+    } else if (uniqueMatches.length === 1) {
+      totalScore += 4;
+      reasons.push(`Keyword match: ${uniqueMatches[0]}`);
+    }
   }
 
   const percentage = maxScore > 0 ? Math.round((totalScore / maxScore) * 100) : 0;
