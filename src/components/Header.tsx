@@ -333,18 +333,22 @@ export default function Header() {
 
             <div className="mt-3" />
 
-{hasHydrated && completedCount < totalCount && (
+{hasHydrated && (!progress.isComplete || !progress.hasResults) && (
               <button
                 type="button"
                 onClick={handleContinueAssessment}
                 className="w-full mb-3 px-4 py-2.5 bg-lime-500 hover:bg-lime-600 text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
               >
                 <Target size={20} />
-                {completedCount === 0 ? "Start Assessment" : "Continue Assessment"}
+                {completedCount === 0
+                  ? "Start Assessment"
+                  : progress.isComplete
+                    ? "Submit Assessment"
+                    : "Continue Assessment"}
               </button>
             )}
 
-            {hasHydrated && progress.isComplete && (
+            {hasHydrated && progress.hasResults && (
               <Link
                 to="/intake/results"
                 onClick={() => setIsOpen(false)}

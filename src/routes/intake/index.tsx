@@ -43,7 +43,11 @@ function IntakePage() {
   const progress = useAssessmentProgress();
   // Only show "Continue" if hydrated and has progress
   const hasStarted = hasHydrated && progress.percentComplete > 0;
-  const buttonText = hasStarted ? "Continue Assessment" : "Start Assessment";
+  const buttonText = progress.hasResults
+    ? "View My Results"
+    : hasStarted
+      ? "Continue Assessment"
+      : "Start Assessment";
   const buttonDestination = hasHydrated ? progress.nextSection : "/intake/basic";
 
   const sections = [
@@ -145,9 +149,11 @@ function IntakePage() {
               <ArrowRight className="w-5 h-5" />
             </Link>
             <p className="text-sm text-stone-500">
-              {hasStarted
-                ? `${Math.round(progress.percentComplete)}% complete - Pick up where you left off`
-                : "You can save your progress and resume anytime"}
+              {progress.hasResults
+                ? "Your personalized career matches are ready"
+                : hasStarted
+                  ? `${Math.round(progress.percentComplete)}% complete - Pick up where you left off`
+                  : "You can save your progress and resume anytime"}
             </p>
           </div>
         </Container>

@@ -73,6 +73,7 @@ export interface AssessmentProgress {
   challenges: boolean;
   nextSection: string;
   isComplete: boolean;
+  hasResults: boolean;
   percentComplete: number;
 }
 
@@ -322,12 +323,14 @@ export const useAssessmentProgress = (): AssessmentProgress => {
   const values = useAssessmentStore((state) => state.values);
   const aptitude = useAssessmentStore((state) => state.aptitude);
   const challenges = useAssessmentStore((state) => state.challenges);
+  const results = useAssessmentStore((state) => state.results);
 
   const basicDone = isBasicComplete(basic);
   const personalityDone = isPersonalityComplete(personality);
   const valuesDone = isValuesComplete(values);
   const aptitudeDone = isAptitudeComplete(aptitude);
   const challengesDone = isChallengesComplete(challenges);
+  const hasResults = results !== null;
 
   // Determine next section to complete
   let nextSection = "/intake/basic";
@@ -336,7 +339,8 @@ export const useAssessmentProgress = (): AssessmentProgress => {
   else if (!valuesDone) nextSection = "/intake/values";
   else if (!aptitudeDone) nextSection = "/intake/aptitude";
   else if (!challengesDone) nextSection = "/intake/challenges";
-  else nextSection = "/intake/results";
+  else if (hasResults) nextSection = "/intake/results";
+  else nextSection = "/intake/review";
 
   const completedCount = [basicDone, personalityDone, valuesDone, aptitudeDone, challengesDone].filter(Boolean).length;
   const percentComplete = (completedCount / 5) * 100;
@@ -350,6 +354,7 @@ export const useAssessmentProgress = (): AssessmentProgress => {
     challenges: challengesDone,
     nextSection,
     isComplete,
+    hasResults,
     percentComplete,
   };
 };
