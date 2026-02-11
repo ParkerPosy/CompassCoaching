@@ -265,7 +265,7 @@ function AboutPage() {
               return (
                 <Card
                   key={founder.name}
-                  className="border-0 overflow-hidden h-full bg-stone-100 rounded-2xl shadow-[10px_10px_30px_#c8c8c7,-10px_-10px_30px_#ffffff]"
+                  className="border-0 overflow-hidden h-full bg-[#f5f5f4] rounded-2xl shadow-[0_0_24px_rgba(0,0,0,0.1)]"
                 >
                   <CardContent className="p-0 h-full flex flex-col">
                     {/* Photo section with gradient background */}
@@ -286,7 +286,7 @@ function AboutPage() {
                     </div>
 
                     {/* Name and role - overlapping section */}
-                    <div className={`relative -mt-8 mx-4 mb-4 rounded-xl p-4 text-center ${founder.color === "lime" ? "bg-[#f5f8f0] shadow-[inset_4px_4px_12px_#b8c5a0,inset_-4px_-4px_12px_#ffffff]" : "bg-[#f0f8f7] shadow-[inset_4px_4px_12px_#a8c8c4,inset_-4px_-4px_12px_#ffffff]"}`}>
+                    <div className={`relative -mt-8 mx-4 mb-4 rounded-xl p-4 text-center ${founder.color === "lime" ? "bg-gradient-to-br from-[#e8eee0] to-[#f7f9f4] shadow-[5px_5px_14px_#ccd4c0,-5px_-5px_14px_#ffffff]" : "bg-gradient-to-br from-[#dfecea] to-[#f4f9f8] shadow-[5px_5px_14px_#c0d4d0,-5px_-5px_14px_#ffffff]"}`}>
                       <h3 className="text-xl font-bold text-stone-800">
                         {founder.nickname ? `${founder.name} "${founder.nickname}"` : founder.name}
                       </h3>
@@ -296,7 +296,7 @@ function AboutPage() {
                     </div>
 
                     {/* Content */}
-                    <div className="px-6 pb-6 flex flex-col flex-grow">
+                    <div className="px-8 pt-2 pb-8 flex flex-col flex-grow">
                       <p className="text-stone-600 mb-6 leading-relaxed flex-grow">
                         {founder.bio}
                       </p>
@@ -385,7 +385,7 @@ function AboutPage() {
               return (
                 <Card
                   key={coach.name}
-                  className="border-0 overflow-hidden bg-stone-100 rounded-2xl shadow-[10px_10px_30px_#c8c8c7,-10px_-10px_30px_#ffffff]"
+                  className="border-0 overflow-hidden bg-[#f5f5f4] rounded-2xl shadow-[0_0_24px_rgba(0,0,0,0.1)]"
                 >
                   <CardContent className="p-0">
                     {/* Photo section with gradient background */}
@@ -406,13 +406,13 @@ function AboutPage() {
                     </div>
 
                     {/* Name and role - overlapping section */}
-                    <div className="relative -mt-8 mx-4 mb-4 bg-[#f3f0f8] rounded-xl shadow-[inset_4px_4px_12px_#b5a8c8,inset_-4px_-4px_12px_#ffffff] p-4 text-center">
+                    <div className="relative -mt-8 mx-4 mb-4 bg-gradient-to-br from-[#e4dced] to-[#f6f4f9] rounded-xl shadow-[5px_5px_14px_#c8c0d4,-5px_-5px_14px_#ffffff] p-4 text-center">
                       <h3 className="text-xl font-bold text-stone-800">{coach.name}</h3>
                       <p className="text-sm font-semibold text-purple-800">{coach.role}</p>
                     </div>
 
                     {/* Content */}
-                    <div className="px-6 pb-6">
+                    <div className="px-8 pt-2 pb-8">
                       <p className="text-stone-600 mb-6 leading-relaxed">
                         {coach.bio}
                       </p>
