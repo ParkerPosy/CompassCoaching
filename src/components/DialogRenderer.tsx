@@ -108,7 +108,7 @@ function DialogModal({ entry, isTop }: { entry: DialogEntry; isTop: boolean }) {
     <div className="fixed inset-0 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm animate-in fade-in duration-150"
+        className="absolute inset-0 bg-black/40 backdrop-blur-[2px] animate-in fade-in duration-150"
         onClick={handleCancel}
         aria-hidden
       />

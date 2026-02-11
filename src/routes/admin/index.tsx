@@ -17,6 +17,7 @@ import {
   ExternalLink,
   Settings,
   Eye,
+  DatabaseZap,
 } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -187,11 +188,54 @@ function AdminPage() {
   const [savingUsers, setSavingUsers] = useState<Set<string>>(new Set());
   const [savedUsers, setSavedUsers] = useState<Set<string>>(new Set());
   const [resetConfirmed, setResetConfirmed] = useState(false);
+  const [populateConfirmed, setPopulateConfirmed] = useState(false);
 
   const handleResetAssessment = () => {
     clearAll();
     setResetConfirmed(true);
     setTimeout(() => setResetConfirmed(false), 2000);
+  };
+
+  const handlePopulateTestData = () => {
+    useAssessmentStore.setState({
+      basic: {
+        name: "Parker J Conn",
+        ageRange: "25-34",
+        educationLevel: "bachelors",
+        employmentStatus: "employed-ft",
+        primaryReason: "Testing What Brings You",
+        degrees: [
+          { level: "bachelor", name: "software development & information management", gpa: "3.75" },
+          { level: "bachelor", name: "information assurance & cyber security", gpa: "3.75" },
+          { level: "", name: "" },
+        ],
+      },
+      personality: {
+        work_environment: 1, interaction_style: 2, decision_making: 1, structure: 1,
+        energy_source: 1, problem_solving: 1, communication: 1, pace: 1,
+        schedule: 2, travel: 1, physical_demands: 1,
+      },
+      values: {
+        work_life_balance: 5, income_potential: 5, helping_others: 5, creativity: 3,
+        job_security: 5, independence: 5, leadership: 5, learning_growth: 5,
+        recognition: 5, physical_activity: 3, environmental_impact: 2, variety: 5,
+      },
+      aptitude: {
+        stem: [5, 5, 5, 4], arts: [3, 4, 2, 1], communication: [3, 4, 2, 1],
+        business: [4, 2, 2, 1], healthcare: [1, 1, 2, 1], trades: [2, 2, 2, 2],
+        socialServices: [4, 3, 3, 1], law: [3, 2, 1, 1],
+      },
+      challenges: {
+        financial: "no-constraints", timeAvailability: "full-time",
+        locationFlexibility: "yes-anywhere", familyObligations: "none",
+        transportation: "own-vehicle", healthConsiderations: "none",
+        educationGaps: ["None of the above"], supportSystem: "strong",
+        additionalNotes: "Testing Challenges",
+      },
+      results: null,
+    });
+    setPopulateConfirmed(true);
+    setTimeout(() => setPopulateConfirmed(false), 2000);
   };
 
   const handleNotesChange = (clerkId: string, notes: string) => {
@@ -537,6 +581,24 @@ function AdminPage() {
                   title="Copy state to clipboard"
                 >
                   <Copy className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={handlePopulateTestData}
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded bg-stone-700 hover:bg-stone-600 text-sm transition-colors"
+                  title="Populate all sections with test data"
+                >
+                  {populateConfirmed ? (
+                    <>
+                      <Check className="w-4 h-4 text-lime-400" />
+                      <span className="text-lime-400">Loaded</span>
+                    </>
+                  ) : (
+                    <>
+                      <DatabaseZap className="w-4 h-4 text-stone-400" />
+                      <span>Seed Data</span>
+                    </>
+                  )}
                 </button>
                 <button
                   type="button"
