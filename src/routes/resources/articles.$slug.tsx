@@ -74,7 +74,7 @@ export const Route = createFileRoute("/resources/articles/$slug")({
         url: HOSTNAME,
         logo: {
           "@type": "ImageObject",
-          url: `${HOSTNAME}/discord-icon.png`,
+          url: `${HOSTNAME}/og-image.png`,
         },
       },
       mainEntityOfPage: {
@@ -137,7 +137,9 @@ export const Route = createFileRoute("/resources/articles/$slug")({
         { property: "og:url", content: canonicalUrl },
         { property: "og:site_name", content: "Compass Coaching" },
         { property: "og:locale", content: "en_US" },
-        { property: "og:image", content: `${HOSTNAME}/discord-icon.png` },
+        { property: "og:image", content: `${HOSTNAME}/og-image.png` },
+        { property: "og:image:width", content: "1200" },
+        { property: "og:image:height", content: "630" },
         { property: "og:image:alt", content: `${article.title} - Compass Coaching` },
         { property: "article:author", content: author },
         { property: "article:section", content: categoryName },
@@ -153,7 +155,7 @@ export const Route = createFileRoute("/resources/articles/$slug")({
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: article.title },
         { name: "twitter:description", content: description },
-        { name: "twitter:image", content: `${HOSTNAME}/discord-icon.png` },
+        { name: "twitter:image", content: `${HOSTNAME}/og-image.png` },
         { name: "twitter:label1", content: "Reading time" },
         { name: "twitter:data1", content: article.readTime },
       ],

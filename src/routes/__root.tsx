@@ -45,50 +45,6 @@ export const Route = createRootRoute({
         name: "robots",
         content: "index, follow",
       },
-      // Open Graph
-      {
-        property: "og:type",
-        content: "website",
-      },
-      {
-        property: "og:title",
-        content: "Compass Coaching - Navigate Your Future",
-      },
-      {
-        property: "og:description",
-        content:
-          "Free career coaching and resources to help students discover their path. Take our comprehensive career assessment and get personalized guidance.",
-      },
-      {
-        property: "og:site_name",
-        content: "Compass Coaching",
-      },
-      {
-        property: "og:url",
-        content: "https://compasscoachingpa.org",
-      },
-      {
-        property: "og:image",
-        content: "https://compasscoachingpa.org/discord-icon.png",
-      },
-      // Twitter Card
-      {
-        name: "twitter:card",
-        content: "summary_large_image",
-      },
-      {
-        name: "twitter:title",
-        content: "Compass Coaching - Navigate Your Future",
-      },
-      {
-        name: "twitter:description",
-        content:
-          "Free career coaching and resources to help students discover their path.",
-      },
-      {
-        name: "twitter:image",
-        content: "https://compasscoachingpa.org/discord-icon.png",
-      },
       // Theme
       {
         name: "theme-color",
@@ -118,10 +74,6 @@ export const Route = createRootRoute({
       {
         rel: "stylesheet",
         href: appCss,
-      },
-      {
-        rel: "canonical",
-        href: "https://compasscoachingpa.org",
       },
     ],
     scripts: [

@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <!-- Background gradient matching hero -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#1e3a8a"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+    <!-- Lime flow -->
+    <linearGradient id="limeFlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#65a30d" stop-opacity="0.7"/>
+      <stop offset="50%" stop-color="#84cc16" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#a3e635" stop-opacity="0.4"/>
+    </linearGradient>
+    <!-- Blue flow -->
+    <linearGradient id="blueFlow" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#60a5fa" stop-opacity="0.25"/>
+    </linearGradient>
+    <!-- Dot pattern -->
+    <pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1" fill="rgba(163,230,53,0.12)"/>
+    </pattern>
+  </defs>
+
+  <!-- Base background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Dot pattern -->
+  <rect width="1200" height="630" fill="url(#dots)" opacity="0.5"/>
+
+  <!-- Blue wave -->
+  <path d="M-100,120 C150,160 300,220 500,200 C700,180 900,100 1300,60" fill="none" stroke="url(#blueFlow)" stroke-width="140" stroke-linecap="round" opacity="0.4"/>
+
+  <!-- Large lime wave -->
+  <path d="M-200,380 C0,420 150,480 350,460 C550,440 650,380 800,300 C950,220 1100,180 1400,120" fill="none" stroke="url(#limeFlow)" stroke-width="180" stroke-linecap="round" opacity="0.5"/>
+
+  <!-- Secondary lime wave -->
+  <path d="M-150,480 C50,530 200,590 400,570 C600,550 750,470 900,390 C1050,310 1200,250 1450,190" fill="none" stroke="url(#limeFlow)" stroke-width="120" stroke-linecap="round" opacity="0.35"/>
+
+  <!-- Content area - left side -->
+  <!-- Keystone compass logo -->
+  <g transform="translate(100, 165) scale(1.2)">
+    <path fill="white" stroke="#65a30d" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"
+      d="M34.94,10.53 l21.81,48.63 h-51.62 l60.37,180.31 h119 l60.37,-180.31 h-51.62 l21.81,-48.63 z"/>
+    <!-- Lime needle (NE) -->
+    <path d="M97 113 Q100 103 110 100 L170 80 L148 142 Q145 152 136 155" fill="none" stroke="#65a30d" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Blue needle (SW) -->
+    <path d="M144 150 Q140.5 153.5 136 155 L75 175 L97 113 Q98.5 108 102 105" fill="none" stroke="#172554" stroke-width="15" stroke-linecap="butt" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Text - right side -->
+  <!-- Title -->
+  <text x="440" y="245" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="72" font-weight="800" fill="white" letter-spacing="-1">
+    Navigate Your
+  </text>
+  <text x="440" y="325" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="72" font-weight="800" fill="#84cc16" letter-spacing="-1">
+    Future
+  </text>
+
+  <!-- Subtitle -->
+  <text x="440" y="380" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="24" fill="white" opacity="0.9">
+    Personalized career &amp; life guidance for all Pennsylvanians.
+  </text>
+  <text x="440" y="412" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="24" fill="white" opacity="0.9">
+    Discover your path through our free assessment.
+  </text>
+
+  <!-- Brand name -->
+  <text x="440" y="475" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="20" font-weight="600" fill="#a3e635" letter-spacing="2">
+    COMPASS COACHING
+  </text>
+
+  <!-- Stats bar at bottom -->
+  <rect x="0" y="545" width="1200" height="85" fill="rgba(0,0,0,0.25)"/>
+  <text x="150" y="596" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="28" font-weight="700" fill="white" text-anchor="middle">90+</text>
+  <text x="150" y="618" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13" fill="rgba(255,255,255,0.7)" text-anchor="middle">Free Resources</text>
+
+  <text x="400" y="596" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="28" font-weight="700" fill="white" text-anchor="middle">5-Step</text>
+  <text x="400" y="618" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13" fill="rgba(255,255,255,0.7)" text-anchor="middle">Assessment</text>
+
+  <text x="650" y="596" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="28" font-weight="700" fill="white" text-anchor="middle">810+</text>
+  <text x="650" y="618" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13" fill="rgba(255,255,255,0.7)" text-anchor="middle">PA Careers</text>
+
+  <text x="900" y="596" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="28" font-weight="700" fill="white" text-anchor="middle">100%</text>
+  <text x="900" y="618" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13" fill="rgba(255,255,255,0.7)" text-anchor="middle">Free Forever</text>
+
+  <text x="1100" y="596" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="16" font-weight="600" fill="#a3e635" text-anchor="middle">compasscoachingpa.org</text>
+</svg>
