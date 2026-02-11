@@ -453,7 +453,7 @@ export const fetchCareerMatches = createServerFn({ method: 'POST' })
 export interface OccupationQueryParams {
   page: number;
   pageSize: number;
-  sortBy?: keyof Occupation;
+  sortBy?: keyof Occupation | 'medianSalary' | 'entrySalary';
   sortOrder?: 'asc' | 'desc';
   search?: string;
   educationLevel?: string[];
