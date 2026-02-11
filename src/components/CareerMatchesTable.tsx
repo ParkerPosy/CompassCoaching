@@ -314,7 +314,7 @@ export function CareerMatchesTable({
                     {/* Match Reasons */}
                     {match.matchReasons.length > 0 && (
                       <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-2 sm:mt-3">
-                        {match.matchReasons.map((reason, idx) => {
+                        {match.matchReasons.filter(r => !r.startsWith('Keyword match')).map((reason, idx) => {
                           const colors = getReasonColor(reason);
                           return (
                             <span

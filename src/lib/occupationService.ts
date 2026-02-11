@@ -15,6 +15,34 @@ const TEXT_MATCH_STOPWORDS = new Set([
   'change', 'changing', 'better', 'new', 'next', 'step', 'steps', 'goal', 'goals',
 ]);
 
+/**
+ * Lightweight English stemmer – strips common suffixes so words like
+ * "development", "developers", "developing" all reduce to a shared stem.
+ */
+function stem(word: string): string {
+  // Order matters: check longer suffixes first
+  const suffixes = [
+    'mentation', 'isation', 'ization',
+    'ements', 'ments', 'ators', 'ators',
+    'ement', 'ment', 'ness', 'tion', 'sion', 'ious', 'eous', 'able', 'ible',
+    'ator', 'ling', 'ally', 'ical', 'ical', 'ment',
+    'ers', 'ing', 'ion', 'ous', 'ive', 'ity', 'ful', 'ant', 'ent', 'ism', 'ist', 'ual',
+    'ly', 'ed', 'er', 'es', 'al', 'or',
+  ];
+  let s = word;
+  for (const suffix of suffixes) {
+    if (s.length > suffix.length + 3 && s.endsWith(suffix)) {
+      s = s.slice(0, -suffix.length);
+      break;
+    }
+  }
+  // Trim trailing duplicate consonant (e.g. "develop" from "developper")
+  if (s.length > 3 && s[s.length - 1] === s[s.length - 2]) {
+    s = s.slice(0, -1);
+  }
+  return s;
+}
+
 function extractTokens(text: string): string[] {
   return text
     .toLowerCase()
@@ -330,9 +358,26 @@ function calculateMatchScore(
 
   if (assessmentTokens.length > 0 && occupationTokens.length > 0) {
     maxScore += TEXT_MATCH_WEIGHT;
+
+    // Build a set of stemmed occupation tokens for partial matching
+    const occupationStemMap = new Map<string, string>();
+    for (const token of occupationTokens) {
+      occupationStemMap.set(token, stem(token));
+    }
     const occupationTokenSet = new Set(occupationTokens);
-    const matched = assessmentTokens.filter((token) => occupationTokenSet.has(token));
-    const uniqueMatches = Array.from(new Set(matched));
+    const occupationStemSet = new Set(occupationStemMap.values());
+
+    const matchedTokens: string[] = [];
+    for (const token of assessmentTokens) {
+      // Exact match first
+      if (occupationTokenSet.has(token)) {
+        matchedTokens.push(token);
+      // Stem match: "development" → "develop", "developers" → "develop"
+      } else if (occupationStemSet.has(stem(token))) {
+        matchedTokens.push(token);
+      }
+    }
+    const uniqueMatches = Array.from(new Set(matchedTokens));
 
     if (uniqueMatches.length >= 3) {
       totalScore += TEXT_MATCH_WEIGHT;
