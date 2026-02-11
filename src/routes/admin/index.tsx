@@ -596,7 +596,7 @@ function AdminPage() {
                   ) : (
                     <>
                       <DatabaseZap className="w-4 h-4 text-stone-400" />
-                      <span>Seed Data</span>
+                      <span>Parker Seed Data</span>
                     </>
                   )}
                 </button>
