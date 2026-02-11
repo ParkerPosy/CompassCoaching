@@ -264,7 +264,7 @@ function BasicInfoPage() {
                     return (
                       <div
                         key={degreeKeys.current[index]}
-                        className={`flex gap-3 items-start ${isLastEmpty ? "opacity-60" : ""}`}
+                        className={`flex gap-3 items-center ${isLastEmpty ? "opacity-60" : ""}`}
                       >
                         <div className="flex-1">
                           <div className="grid grid-cols-1 sm:grid-cols-[160px_1fr_120px] gap-2 items-center">
@@ -311,7 +311,7 @@ function BasicInfoPage() {
                           <button
                             type="button"
                             onClick={() => removeDegree(index)}
-                            className="mt-2 p-1.5 text-stone-400 hover:text-red-500 hover:bg-red-50 rounded-md transition-colors"
+                            className="p-1.5 text-stone-400 hover:text-red-500 hover:bg-red-50 rounded-md transition-colors"
                             title="Remove degree"
                           >
                             <Trash2 className="w-4 h-4" />
