@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import type { OccupationWageRaw, Occupation, WageRange, CountyWageData, EducationLevel, AreaType } from '../src/types/wages.js';
-import { generateOccupationMetadata } from './occupation-metadata.js';
+import { generateMetadata } from './generate-occupation-metadata.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -273,7 +273,7 @@ function aggregateOccupations(rawData: OccupationWageRaw[]): Occupation[] {
       }
     }));
 
-    const metadata = generateOccupationMetadata(socCode, firstRecord.title);
+    const metadata = generateMetadata(socCode, firstRecord.title, firstRecord.educationLevel);
 
     occupations.push({
       id: socCode.replace(/-/g, '_'),

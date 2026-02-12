@@ -14,57 +14,12 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import type { Occupation, OccupationMetadata } from '../src/types/wages.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// ─── Types (mirroring src/types/wages.ts) ─────────────────────────────────
-
-type CareerCluster = 'stem' | 'arts' | 'communication' | 'business' | 'healthcare' | 'trades' | 'socialServices' | 'law';
-
-interface OccupationMetadata {
-  careerCluster: CareerCluster;
-  secondaryClusters?: CareerCluster[];
-  workEnvironment: {
-    setting: string[];
-    schedule: string[];
-    physicalDemands: 'sedentary' | 'light' | 'medium' | 'heavy' | 'veryHeavy';
-    travelRequired: 'none' | 'occasional' | 'frequent' | 'constant';
-  };
-  skills: {
-    analytical: number;
-    creative: number;
-    social: number;
-    technical: number;
-    leadership: number;
-    physical: number;
-    detail: number;
-  };
-  workStyle: {
-    independence: 'team' | 'mixed' | 'independent';
-    structure: 'highly_structured' | 'moderate' | 'flexible';
-    variety: 'routine' | 'moderate' | 'high_variety';
-    pace: 'methodical' | 'moderate' | 'fast_paced';
-    peopleInteraction: 'minimal' | 'moderate' | 'extensive';
-  };
-  values: string[];
-  outlook: {
-    growth: 'declining' | 'stable' | 'growing' | 'much_faster_than_average';
-    automationRisk: 'low' | 'medium' | 'high';
-  };
-  keywords: string[];
-  certifications?: string[];
-}
-
-interface Occupation {
-  id: string;
-  socCode: string;
-  title: string;
-  educationLevel: string;
-  description?: string;
-  wages: unknown;
-  metadata?: OccupationMetadata;
-}
+type CareerCluster = OccupationMetadata['careerCluster'];
 
 // ─── Sub-group metadata templates (SOC 2-digit + 4-digit) ──────────────────
 // Each sub-group gets a specialized template. Title keywords further refine.
@@ -1310,7 +1265,7 @@ function resolveSubGroup(socCode: string): string {
 
 // ─── Generate metadata for a single occupation ───────────────────────────────
 
-function generateMetadata(socCode: string, title: string, educationLevel: string): OccupationMetadata {
+export function generateMetadata(socCode: string, title: string, educationLevel: string): OccupationMetadata {
   const titleLower = title.toLowerCase();
 
   // 1. Start with sub-group template
@@ -1441,4 +1396,8 @@ function main() {
   console.log(`Occupations with certifications: ${withCerts}/${occupations.length}`);
 }
 
-main();
+// Only run main when executed directly (not when imported)
+const isDirectRun = process.argv[1] && fileURLToPath(import.meta.url).includes(path.basename(process.argv[1]));
+if (isDirectRun) {
+  main();
+}
