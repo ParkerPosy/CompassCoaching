@@ -1,0 +1,4132 @@
+[
+  {
+    "soc": "11-0000",
+    "title": "Management Occupations",
+    "edu": "#"
+  },
+  {
+    "soc": "11-1011",
+    "title": "Chief Executives",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-1021",
+    "title": "General & Operations Managers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-1031",
+    "title": "Legislators",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-2011",
+    "title": "Advertising & Promotions Managers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-2021",
+    "title": "Marketing Managers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-2022",
+    "title": "Sales Managers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-2032",
+    "title": "Public Relations Managers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-2033",
+    "title": "Fundraising Managers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-3012",
+    "title": "Administrative Services Managers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-3013",
+    "title": "Facilities Managers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-3021",
+    "title": "Computer & Information Systems Managers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-3031",
+    "title": "Financial Managers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-3051",
+    "title": "Industrial Production Managers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-3061",
+    "title": "Purchasing Managers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-3071",
+    "title": "Transportation, Storage & Distribution Managers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "11-3111",
+    "title": "Compensation & Benefits Managers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-3121",
+    "title": "Human Resources Managers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-3131",
+    "title": "Training & Development Managers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-9013",
+    "title": "Farmers, Ranchers & Other Agricultural Managers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "11-9021",
+    "title": "Construction Managers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-9031",
+    "title": "Education Admin., Preschool & Childcare Center/Program",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-9032",
+    "title": "Education Administrators, Elementary & Secondary School",
+    "edu": "MD+"
+  },
+  {
+    "soc": "11-9033",
+    "title": "Education Administrators, Postsecondary",
+    "edu": "MD+"
+  },
+  {
+    "soc": "11-9039",
+    "title": "Education Administrators, Other",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-9041",
+    "title": "Architectural & Engineering Managers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-9051",
+    "title": "Food Service Managers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "11-9071",
+    "title": "Gaming Managers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "11-9072",
+    "title": "Entertainment & Recreation Managers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-9081",
+    "title": "Lodging Managers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "11-9111",
+    "title": "Medical & Health Services Managers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-9121",
+    "title": "Natural Sciences Managers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-9131",
+    "title": "Postmasters & Mail Superintendents",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "11-9141",
+    "title": "Property, Real Estate & Community Association Managers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "11-9151",
+    "title": "Social & Community Service Managers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-9161",
+    "title": "Emergency Management Directors",
+    "edu": "BD+"
+  },
+  {
+    "soc": "11-9171",
+    "title": "Funeral Home Managers",
+    "edu": "AD+"
+  },
+  {
+    "soc": "11-9179",
+    "title": "Personal Service Managers, Other",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "11-9199",
+    "title": "Managers, Other",
+    "edu": "BD+"
+  },
+  {
+    "soc": "13-0000",
+    "title": "Business & Financial Operations Occupations",
+    "edu": "#"
+  },
+  {
+    "soc": "13-1011",
+    "title": "Agents & Business Managers of Artists, Performers & Athletes",
+    "edu": "BD+"
+  },
+  {
+    "soc": "13-1020",
+    "title": "Buyers & Purchasing Agents",
+    "edu": "BD+"
+  },
+  {
+    "soc": "13-1031",
+    "title": "Claims Adjusters, Examiners & Investigators",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "13-1032",
+    "title": "Insurance Appraisers, Auto Damage",
+    "edu": "PS+"
+  },
+  {
+    "soc": "13-1041",
+    "title": "Compliance Officers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "13-1051",
+    "title": "Cost Estimators",
+    "edu": "BD+"
+  },
+  {
+    "soc": "13-1071",
+    "title": "Human Resources Specialists",
+    "edu": "BD"
+  },
+  {
+    "soc": "13-1075",
+    "title": "Labor Relations Specialists",
+    "edu": "BD+"
+  },
+  {
+    "soc": "13-1081",
+    "title": "Logisticians",
+    "edu": "BD"
+  },
+  {
+    "soc": "13-1082",
+    "title": "Project Management Specialists",
+    "edu": "BD"
+  },
+  {
+    "soc": "13-1111",
+    "title": "Management Analysts",
+    "edu": "BD+"
+  },
+  {
+    "soc": "13-1121",
+    "title": "Meeting, Convention & Event Planners",
+    "edu": "BD"
+  },
+  {
+    "soc": "13-1131",
+    "title": "Fundraisers",
+    "edu": "BD"
+  },
+  {
+    "soc": "13-1141",
+    "title": "Compensation, Benefits & Job Analysis Specialists",
+    "edu": "BD+"
+  },
+  {
+    "soc": "13-1151",
+    "title": "Training & Development Specialists",
+    "edu": "BD+"
+  },
+  {
+    "soc": "13-1161",
+    "title": "Market Research Analysts & Marketing Specialists",
+    "edu": "BD"
+  },
+  {
+    "soc": "13-1199",
+    "title": "Business Operations Specialists, Other",
+    "edu": "BD"
+  },
+  {
+    "soc": "13-2011",
+    "title": "Accountants & Auditors",
+    "edu": "BD"
+  },
+  {
+    "soc": "13-2020",
+    "title": "Property Appraisers & Assessors",
+    "edu": "BD+"
+  },
+  {
+    "soc": "13-2031",
+    "title": "Budget Analysts",
+    "edu": "BD"
+  },
+  {
+    "soc": "13-2041",
+    "title": "Credit Analysts",
+    "edu": "BD"
+  },
+  {
+    "soc": "13-2051",
+    "title": "Financial Analysts",
+    "edu": "BD"
+  },
+  {
+    "soc": "13-2052",
+    "title": "Personal Financial Advisors",
+    "edu": "BD+"
+  },
+  {
+    "soc": "13-2053",
+    "title": "Insurance Underwriters",
+    "edu": "BD+"
+  },
+  {
+    "soc": "13-2054",
+    "title": "Financial Risk Specialists",
+    "edu": "BD"
+  },
+  {
+    "soc": "13-2061",
+    "title": "Financial Examiners",
+    "edu": "BD+"
+  },
+  {
+    "soc": "13-2071",
+    "title": "Credit Counselors",
+    "edu": "BD+"
+  },
+  {
+    "soc": "13-2072",
+    "title": "Loan Officers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "13-2081",
+    "title": "Tax Examiners, Collectors & Revenue Agents",
+    "edu": "BD+"
+  },
+  {
+    "soc": "13-2082",
+    "title": "Tax Preparers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "13-2099",
+    "title": "Financial Specialists, Other",
+    "edu": "BD"
+  },
+  {
+    "soc": "15-0000",
+    "title": "Computer & Mathematical Occupations",
+    "edu": "#"
+  },
+  {
+    "soc": "15-1211",
+    "title": "Computer Systems Analysts",
+    "edu": "BD"
+  },
+  {
+    "soc": "15-1212",
+    "title": "Information Security Analysts",
+    "edu": "BD+"
+  },
+  {
+    "soc": "15-1221",
+    "title": "Computer & Information Research Scientists",
+    "edu": "MD"
+  },
+  {
+    "soc": "15-1231",
+    "title": "Computer Network Support Specialists",
+    "edu": "AD+"
+  },
+  {
+    "soc": "15-1232",
+    "title": "Computer User Support Specialists",
+    "edu": "PS+"
+  },
+  {
+    "soc": "15-1241",
+    "title": "Computer Network Architects",
+    "edu": "BD+"
+  },
+  {
+    "soc": "15-1242",
+    "title": "Database Administrators",
+    "edu": "BD"
+  },
+  {
+    "soc": "15-1243",
+    "title": "Database Architects",
+    "edu": "BD+"
+  },
+  {
+    "soc": "15-1244",
+    "title": "Network & Computer Systems Administrators",
+    "edu": "BD"
+  },
+  {
+    "soc": "15-1251",
+    "title": "Computer Programmers",
+    "edu": "BD"
+  },
+  {
+    "soc": "15-1252",
+    "title": "Software Developers",
+    "edu": "BD"
+  },
+  {
+    "soc": "15-1253",
+    "title": "Software Quality Assurance Analysts & Testers",
+    "edu": "BD"
+  },
+  {
+    "soc": "15-1254",
+    "title": "Web Developers",
+    "edu": "BD"
+  },
+  {
+    "soc": "15-1255",
+    "title": "Web & Digital Interface Designers",
+    "edu": "BD"
+  },
+  {
+    "soc": "15-1299",
+    "title": "Computer Occupations, Other",
+    "edu": "BD"
+  },
+  {
+    "soc": "15-2011",
+    "title": "Actuaries",
+    "edu": "BD+"
+  },
+  {
+    "soc": "15-2021",
+    "title": "Mathematicians",
+    "edu": "MD"
+  },
+  {
+    "soc": "15-2031",
+    "title": "Operations Research Analysts",
+    "edu": "BD"
+  },
+  {
+    "soc": "15-2041",
+    "title": "Statisticians",
+    "edu": "MD"
+  },
+  {
+    "soc": "15-2051",
+    "title": "Data Scientists",
+    "edu": "BD"
+  },
+  {
+    "soc": "15-2099",
+    "title": "Mathematical Science Occupations, Other",
+    "edu": "BD"
+  },
+  {
+    "soc": "17-0000",
+    "title": "Architecture & Engineering Occupations",
+    "edu": "#"
+  },
+  {
+    "soc": "17-1011",
+    "title": "Architects",
+    "edu": "BD+"
+  },
+  {
+    "soc": "17-1012",
+    "title": "Landscape Architects",
+    "edu": "BD+"
+  },
+  {
+    "soc": "17-1021",
+    "title": "Cartographers & Photogrammetrists",
+    "edu": "BD"
+  },
+  {
+    "soc": "17-1022",
+    "title": "Surveyors",
+    "edu": "BD+"
+  },
+  {
+    "soc": "17-2011",
+    "title": "Aerospace Engineers",
+    "edu": "BD"
+  },
+  {
+    "soc": "17-2021",
+    "title": "Agricultural Engineers",
+    "edu": "BD"
+  },
+  {
+    "soc": "17-2031",
+    "title": "Biomedical Engineers",
+    "edu": "BD"
+  },
+  {
+    "soc": "17-2041",
+    "title": "Chemical Engineers",
+    "edu": "BD"
+  },
+  {
+    "soc": "17-2051",
+    "title": "Civil Engineers",
+    "edu": "BD"
+  },
+  {
+    "soc": "17-2061",
+    "title": "Computer Hardware Engineers",
+    "edu": "BD"
+  },
+  {
+    "soc": "17-2071",
+    "title": "Electrical Engineers",
+    "edu": "BD"
+  },
+  {
+    "soc": "17-2072",
+    "title": "Electronics Engineers",
+    "edu": "BD"
+  },
+  {
+    "soc": "17-2081",
+    "title": "Environmental Engineers",
+    "edu": "BD"
+  },
+  {
+    "soc": "17-2111",
+    "title": "Health & Safety Engineers",
+    "edu": "BD"
+  },
+  {
+    "soc": "17-2112",
+    "title": "Industrial Engineers",
+    "edu": "BD"
+  },
+  {
+    "soc": "17-2121",
+    "title": "Marine Engineers & Naval Architects",
+    "edu": "BD"
+  },
+  {
+    "soc": "17-2131",
+    "title": "Materials Engineers",
+    "edu": "BD"
+  },
+  {
+    "soc": "17-2141",
+    "title": "Mechanical Engineers",
+    "edu": "BD"
+  },
+  {
+    "soc": "17-2151",
+    "title": "Mining & Geological Engineers",
+    "edu": "BD"
+  },
+  {
+    "soc": "17-2161",
+    "title": "Nuclear Engineers",
+    "edu": "BD"
+  },
+  {
+    "soc": "17-2171",
+    "title": "Petroleum Engineers",
+    "edu": "BD"
+  },
+  {
+    "soc": "17-2199",
+    "title": "Engineers, Other",
+    "edu": "BD"
+  },
+  {
+    "soc": "17-3011",
+    "title": "Architectural & Civil Drafters",
+    "edu": "AD"
+  },
+  {
+    "soc": "17-3012",
+    "title": "Electrical & Electronics Drafters",
+    "edu": "AD"
+  },
+  {
+    "soc": "17-3013",
+    "title": "Mechanical Drafters",
+    "edu": "AD"
+  },
+  {
+    "soc": "17-3019",
+    "title": "Drafters, Other",
+    "edu": "AD"
+  },
+  {
+    "soc": "17-3021",
+    "title": "Aerospace Engineering & Operations Technicians",
+    "edu": "AD"
+  },
+  {
+    "soc": "17-3022",
+    "title": "Civil Engineering Technicians",
+    "edu": "AD"
+  },
+  {
+    "soc": "17-3023",
+    "title": "Electrical & Electronic Engineering Technicians",
+    "edu": "AD"
+  },
+  {
+    "soc": "17-3024",
+    "title": "Electro-Mechanical Technicians",
+    "edu": "AD"
+  },
+  {
+    "soc": "17-3025",
+    "title": "Environmental Engineering Technicians",
+    "edu": "AD"
+  },
+  {
+    "soc": "17-3026",
+    "title": "Industrial Engineering Technicians",
+    "edu": "AD"
+  },
+  {
+    "soc": "17-3027",
+    "title": "Mechanical Engineering Technicians",
+    "edu": "AD"
+  },
+  {
+    "soc": "17-3028",
+    "title": "Calibration Technologists & Technicians",
+    "edu": "AD"
+  },
+  {
+    "soc": "17-3029",
+    "title": "Engineering Technicians, Other",
+    "edu": "AD"
+  },
+  {
+    "soc": "17-3031",
+    "title": "Surveying & Mapping Technicians",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "19-0000",
+    "title": "Life, Physical & Social Science Occupations",
+    "edu": "#"
+  },
+  {
+    "soc": "19-1011",
+    "title": "Animal Scientists",
+    "edu": "BD"
+  },
+  {
+    "soc": "19-1012",
+    "title": "Food Scientists & Technologists",
+    "edu": "BD"
+  },
+  {
+    "soc": "19-1013",
+    "title": "Soil & Plant Scientists",
+    "edu": "BD"
+  },
+  {
+    "soc": "19-1021",
+    "title": "Biochemists & Biophysicists",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "19-1022",
+    "title": "Microbiologists",
+    "edu": "BD"
+  },
+  {
+    "soc": "19-1023",
+    "title": "Zoologists & Wildlife Biologists",
+    "edu": "BD"
+  },
+  {
+    "soc": "19-1029",
+    "title": "Biological Scientists, Other",
+    "edu": "BD"
+  },
+  {
+    "soc": "19-1031",
+    "title": "Conservation Scientists",
+    "edu": "BD"
+  },
+  {
+    "soc": "19-1032",
+    "title": "Foresters",
+    "edu": "BD"
+  },
+  {
+    "soc": "19-1041",
+    "title": "Epidemiologists",
+    "edu": "MD"
+  },
+  {
+    "soc": "19-1042",
+    "title": "Medical Scientists",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "19-1099",
+    "title": "Life Scientists, Other",
+    "edu": "BD"
+  },
+  {
+    "soc": "19-2012",
+    "title": "Physicists",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "19-2021",
+    "title": "Atmospheric & Space Scientists",
+    "edu": "BD"
+  },
+  {
+    "soc": "19-2031",
+    "title": "Chemists",
+    "edu": "BD"
+  },
+  {
+    "soc": "19-2032",
+    "title": "Materials Scientists",
+    "edu": "BD"
+  },
+  {
+    "soc": "19-2041",
+    "title": "Environmental Scientists & Specialists",
+    "edu": "BD"
+  },
+  {
+    "soc": "19-2042",
+    "title": "Geoscientists",
+    "edu": "BD"
+  },
+  {
+    "soc": "19-2043",
+    "title": "Hydrologists",
+    "edu": "BD"
+  },
+  {
+    "soc": "19-2099",
+    "title": "Physical Scientists, Other",
+    "edu": "BD"
+  },
+  {
+    "soc": "19-3011",
+    "title": "Economists",
+    "edu": "MD"
+  },
+  {
+    "soc": "19-3022",
+    "title": "Survey Researchers",
+    "edu": "MD"
+  },
+  {
+    "soc": "19-3033",
+    "title": "Clinical & Counseling Psychologists",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "19-3034",
+    "title": "School Psychologists",
+    "edu": "MD+"
+  },
+  {
+    "soc": "19-3039",
+    "title": "Psychologists, Other",
+    "edu": "MD+"
+  },
+  {
+    "soc": "19-3041",
+    "title": "Sociologists",
+    "edu": "MD"
+  },
+  {
+    "soc": "19-3051",
+    "title": "Urban & Regional Planners",
+    "edu": "MD"
+  },
+  {
+    "soc": "19-3091",
+    "title": "Anthropologists & Archeologists",
+    "edu": "MD"
+  },
+  {
+    "soc": "19-3092",
+    "title": "Geographers",
+    "edu": "BD"
+  },
+  {
+    "soc": "19-3093",
+    "title": "Historians",
+    "edu": "MD"
+  },
+  {
+    "soc": "19-3094",
+    "title": "Political Scientists",
+    "edu": "MD"
+  },
+  {
+    "soc": "19-3099",
+    "title": "Social Scientists & Related Workers, Other",
+    "edu": "BD"
+  },
+  {
+    "soc": "19-4012",
+    "title": "Agricultural Technicians",
+    "edu": "AD+"
+  },
+  {
+    "soc": "19-4013",
+    "title": "Food Science Technicians",
+    "edu": "AD+"
+  },
+  {
+    "soc": "19-4021",
+    "title": "Biological Technicians",
+    "edu": "BD"
+  },
+  {
+    "soc": "19-4031",
+    "title": "Chemical Technicians",
+    "edu": "AD+"
+  },
+  {
+    "soc": "19-4042",
+    "title": "Environmental Science & Protection Technicians",
+    "edu": "AD"
+  },
+  {
+    "soc": "19-4043",
+    "title": "Geological Technicians",
+    "edu": "AD+"
+  },
+  {
+    "soc": "19-4044",
+    "title": "Hydrologic Technicians",
+    "edu": "AD+"
+  },
+  {
+    "soc": "19-4051",
+    "title": "Nuclear Technicians",
+    "edu": "AD+"
+  },
+  {
+    "soc": "19-4061",
+    "title": "Social Science Research Assistants",
+    "edu": "BD"
+  },
+  {
+    "soc": "19-4071",
+    "title": "Forest & Conservation Technicians",
+    "edu": "AD"
+  },
+  {
+    "soc": "19-4092",
+    "title": "Forensic Science Technicians",
+    "edu": "BD+"
+  },
+  {
+    "soc": "19-4099",
+    "title": "Life, Physical & Social Science Technicians, Other",
+    "edu": "AD"
+  },
+  {
+    "soc": "19-5011",
+    "title": "Occupational Health & Safety Specialists",
+    "edu": "BD"
+  },
+  {
+    "soc": "19-5012",
+    "title": "Occupational Health & Safety Technicians",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "21-0000",
+    "title": "Community & Social Services Occupations",
+    "edu": "#"
+  },
+  {
+    "soc": "21-1012",
+    "title": "Educational, Guidance, School & Vocational Counselors",
+    "edu": "MD"
+  },
+  {
+    "soc": "21-1013",
+    "title": "Marriage & Family Therapists",
+    "edu": "MD+"
+  },
+  {
+    "soc": "21-1015",
+    "title": "Rehabilitation Counselors",
+    "edu": "MD"
+  },
+  {
+    "soc": "21-1018",
+    "title": "Substance Abuse, Behavioral Disorder & Mental Health Counselors",
+    "edu": "BD"
+  },
+  {
+    "soc": "21-1019",
+    "title": "Counselors, Other",
+    "edu": "MD"
+  },
+  {
+    "soc": "21-1021",
+    "title": "Child, Family & School Social Workers",
+    "edu": "BD"
+  },
+  {
+    "soc": "21-1022",
+    "title": "Healthcare Social Workers",
+    "edu": "MD+"
+  },
+  {
+    "soc": "21-1023",
+    "title": "Mental Health & Substance Abuse Social Workers",
+    "edu": "MD+"
+  },
+  {
+    "soc": "21-1029",
+    "title": "Social Workers, Other",
+    "edu": "BD"
+  },
+  {
+    "soc": "21-1091",
+    "title": "Health Educators",
+    "edu": "BD"
+  },
+  {
+    "soc": "21-1092",
+    "title": "Probation Officers & Correctional Treatment Specialists",
+    "edu": "BD+"
+  },
+  {
+    "soc": "21-1093",
+    "title": "Social & Human Service Assistants",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "21-1094",
+    "title": "Community Health Workers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "21-1099",
+    "title": "Community & Social Service Specialists, Other",
+    "edu": "BD"
+  },
+  {
+    "soc": "21-2011",
+    "title": "Clergy",
+    "edu": "BD+"
+  },
+  {
+    "soc": "21-2021",
+    "title": "Directors, Religious Activities & Education",
+    "edu": "BD+"
+  },
+  {
+    "soc": "21-2099",
+    "title": "Religious Workers, Other",
+    "edu": "BD"
+  },
+  {
+    "soc": "23-0000",
+    "title": "Legal Occupations",
+    "edu": "#"
+  },
+  {
+    "soc": "23-1011",
+    "title": "Lawyers",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "23-1012",
+    "title": "Judicial Law Clerks",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "23-1021",
+    "title": "Administrative Law Judges, Adjudicators & Hearing Officers",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "23-1022",
+    "title": "Arbitrators, Mediators & Conciliators",
+    "edu": "BD+"
+  },
+  {
+    "soc": "23-1023",
+    "title": "Judges, Magistrate Judges & Magistrates",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "23-2011",
+    "title": "Paralegals & Legal Assistants",
+    "edu": "AD"
+  },
+  {
+    "soc": "23-2093",
+    "title": "Title Examiners, Abstractors & Searchers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "23-2099",
+    "title": "Legal Support Workers, Other",
+    "edu": "AD"
+  },
+  {
+    "soc": "25-0000",
+    "title": "Education, Training & Library Occupations",
+    "edu": "#"
+  },
+  {
+    "soc": "25-1000",
+    "title": "Postsecondary Teachers",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1011",
+    "title": "Business Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1021",
+    "title": "Computer Science Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1022",
+    "title": "Mathematical Science Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1031",
+    "title": "Architecture Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1032",
+    "title": "Engineering Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1041",
+    "title": "Agricultural Sciences Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1042",
+    "title": "Biological Science Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1051",
+    "title": "Atmospheric, Earth, Marine & Space Sciences Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1052",
+    "title": "Chemistry Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1053",
+    "title": "Environmental Science Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1054",
+    "title": "Physics Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1061",
+    "title": "Anthropology & Archeology Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1062",
+    "title": "Area, Ethnic & Cultural Studies Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1063",
+    "title": "Economics Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1064",
+    "title": "Geography Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1065",
+    "title": "Political Science Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1066",
+    "title": "Psychology Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1067",
+    "title": "Sociology Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1069",
+    "title": "Social Sciences Teachers, Postsecondary, Other",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1071",
+    "title": "Health Specialties Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1072",
+    "title": "Nursing Instructors & Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1081",
+    "title": "Education Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1082",
+    "title": "Library Science Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1111",
+    "title": "Criminal Justice & Law Enforcement Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1112",
+    "title": "Law Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1113",
+    "title": "Social Work Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1121",
+    "title": "Art, Drama & Music Teachers, Postsecondary",
+    "edu": "MD"
+  },
+  {
+    "soc": "25-1122",
+    "title": "Communications Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1123",
+    "title": "English Language & Literature Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1124",
+    "title": "Foreign Language & Literature Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1125",
+    "title": "History Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1126",
+    "title": "Philosophy & Religion Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1192",
+    "title": "Home Economics Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1193",
+    "title": "Recreation & Fitness Studies Teachers, Postsecondary",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-1194",
+    "title": "Vocational Education Teachers, Postsecondary",
+    "edu": "BD+"
+  },
+  {
+    "soc": "25-1199",
+    "title": "Postsecondary Teachers, Other",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "25-2011",
+    "title": "Preschool Teachers",
+    "edu": "AD"
+  },
+  {
+    "soc": "25-2012",
+    "title": "Kindergarten Teachers",
+    "edu": "BD"
+  },
+  {
+    "soc": "25-2021",
+    "title": "Elementary School Teachers",
+    "edu": "BD"
+  },
+  {
+    "soc": "25-2022",
+    "title": "Middle School Teachers",
+    "edu": "BD"
+  },
+  {
+    "soc": "25-2023",
+    "title": "Career/Technical Education Teachers, Middle School",
+    "edu": "BD+"
+  },
+  {
+    "soc": "25-2031",
+    "title": "Secondary School Teachers",
+    "edu": "BD"
+  },
+  {
+    "soc": "25-2032",
+    "title": "Career/Technical Education Teachers, Secondary School",
+    "edu": "BD+"
+  },
+  {
+    "soc": "25-2051",
+    "title": "Special Education Teachers, Preschool",
+    "edu": "BD"
+  },
+  {
+    "soc": "25-2052",
+    "title": "Special Education Teachers, Kindergarten & Elementary School",
+    "edu": "BD"
+  },
+  {
+    "soc": "25-2057",
+    "title": "Special Education Teachers, Middle School",
+    "edu": "BD"
+  },
+  {
+    "soc": "25-2058",
+    "title": "Special Education Teachers, Secondary School",
+    "edu": "BD"
+  },
+  {
+    "soc": "25-2059",
+    "title": "Special Education Teachers, Other",
+    "edu": "BD"
+  },
+  {
+    "soc": "25-3011",
+    "title": "Adult Basic & Secondary Education & Literacy Teachers",
+    "edu": "BD"
+  },
+  {
+    "soc": "25-3021",
+    "title": "Self-Enrichment Education Teachers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "25-3031",
+    "title": "Substitute Teachers, Short-Term",
+    "edu": "BD"
+  },
+  {
+    "soc": "25-3041",
+    "title": "Tutors",
+    "edu": "PS"
+  },
+  {
+    "soc": "25-3099",
+    "title": "Teachers & Instructors, Other",
+    "edu": "BD"
+  },
+  {
+    "soc": "25-4011",
+    "title": "Archivists",
+    "edu": "MD"
+  },
+  {
+    "soc": "25-4012",
+    "title": "Curators",
+    "edu": "MD"
+  },
+  {
+    "soc": "25-4013",
+    "title": "Museum Technicians & Conservators",
+    "edu": "BD"
+  },
+  {
+    "soc": "25-4022",
+    "title": "Librarians & Media Collections Specialists",
+    "edu": "MD"
+  },
+  {
+    "soc": "25-4031",
+    "title": "Library Technicians",
+    "edu": "PS"
+  },
+  {
+    "soc": "25-9021",
+    "title": "Farm & Home Management Advisors",
+    "edu": "MD"
+  },
+  {
+    "soc": "25-9031",
+    "title": "Instructional Coordinators",
+    "edu": "MD+"
+  },
+  {
+    "soc": "25-9044",
+    "title": "Teaching Assistants, Postsecondary",
+    "edu": "BD"
+  },
+  {
+    "soc": "25-9045",
+    "title": "Teaching Assistants, Non-Postsecondary",
+    "edu": "PS"
+  },
+  {
+    "soc": "25-9099",
+    "title": "Education, Training & Library Workers, Other",
+    "edu": "BD"
+  },
+  {
+    "soc": "27-0000",
+    "title": "Arts, Design, Entertainment, Sports & Media Occupations",
+    "edu": "#"
+  },
+  {
+    "soc": "27-1011",
+    "title": "Art Directors",
+    "edu": "BD+"
+  },
+  {
+    "soc": "27-1012",
+    "title": "Craft Artists",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "27-1013",
+    "title": "Fine Artists",
+    "edu": "BD+"
+  },
+  {
+    "soc": "27-1014",
+    "title": "Multimedia Artists & Animators",
+    "edu": "BD"
+  },
+  {
+    "soc": "27-1019",
+    "title": "Artists & Related Workers, Other",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "27-1021",
+    "title": "Commercial & Industrial Designers",
+    "edu": "BD"
+  },
+  {
+    "soc": "27-1022",
+    "title": "Fashion Designers",
+    "edu": "BD"
+  },
+  {
+    "soc": "27-1023",
+    "title": "Floral Designers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "27-1024",
+    "title": "Graphic Designers",
+    "edu": "BD"
+  },
+  {
+    "soc": "27-1025",
+    "title": "Interior Designers",
+    "edu": "BD"
+  },
+  {
+    "soc": "27-1026",
+    "title": "Merchandise Displayers & Window Trimmers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "27-1027",
+    "title": "Set & Exhibit Designers",
+    "edu": "BD"
+  },
+  {
+    "soc": "27-1029",
+    "title": "Designers, Other",
+    "edu": "BD"
+  },
+  {
+    "soc": "27-2011",
+    "title": "Actors",
+    "edu": "PS+"
+  },
+  {
+    "soc": "27-2012",
+    "title": "Producers & Directors",
+    "edu": "BD+"
+  },
+  {
+    "soc": "27-2021",
+    "title": "Athletes & Sports Competitors",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "27-2022",
+    "title": "Coaches & Scouts",
+    "edu": "BD"
+  },
+  {
+    "soc": "27-2023",
+    "title": "Umpires, Referees & Other Sports Officials",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "27-2031",
+    "title": "Dancers",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "27-2032",
+    "title": "Choreographers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "27-2041",
+    "title": "Music Directors & Composers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "27-2042",
+    "title": "Musicians & Singers",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "27-2091",
+    "title": "Disc Jockeys",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "27-2099",
+    "title": "Entertainers & Performers, Sports & Related Workers, Other",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "27-3011",
+    "title": "Radio & Television Announcers",
+    "edu": "BD"
+  },
+  {
+    "soc": "27-3023",
+    "title": "News Analysts, Reporters & Journalists",
+    "edu": "BD"
+  },
+  {
+    "soc": "27-3031",
+    "title": "Public Relations Specialists",
+    "edu": "BD"
+  },
+  {
+    "soc": "27-3041",
+    "title": "Editors",
+    "edu": "BD+"
+  },
+  {
+    "soc": "27-3042",
+    "title": "Technical Writers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "27-3043",
+    "title": "Writers & Authors",
+    "edu": "BD+"
+  },
+  {
+    "soc": "27-3091",
+    "title": "Interpreters & Translators",
+    "edu": "BD"
+  },
+  {
+    "soc": "27-3092",
+    "title": "Court Reporters & Simultaneous Captioners",
+    "edu": "PS"
+  },
+  {
+    "soc": "27-3099",
+    "title": "Media & Communication Workers, Other",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "27-4011",
+    "title": "Audio & Video Equipment Technicians",
+    "edu": "PS"
+  },
+  {
+    "soc": "27-4012",
+    "title": "Broadcast Technicians",
+    "edu": "AD"
+  },
+  {
+    "soc": "27-4014",
+    "title": "Sound Engineering Technicians",
+    "edu": "PS"
+  },
+  {
+    "soc": "27-4015",
+    "title": "Lighting Technicians",
+    "edu": "PS"
+  },
+  {
+    "soc": "27-4021",
+    "title": "Photographers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "27-4031",
+    "title": "Camera Operators: TV, Video & Motion Picture",
+    "edu": "BD"
+  },
+  {
+    "soc": "27-4032",
+    "title": "Film & Video Editors",
+    "edu": "BD"
+  },
+  {
+    "soc": "27-4099",
+    "title": "Media & Communication Equipment Workers, Other",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "29-0000",
+    "title": "Healthcare Practitioners & Technical Occupations",
+    "edu": "#"
+  },
+  {
+    "soc": "29-1011",
+    "title": "Chiropractors",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1021",
+    "title": "Dentists, General",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1022",
+    "title": "Oral & Maxillofacial Surgeons",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1023",
+    "title": "Orthodontists",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1029",
+    "title": "Dentists, Other Specialists",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1031",
+    "title": "Dietitians & Nutritionists",
+    "edu": "BD+"
+  },
+  {
+    "soc": "29-1041",
+    "title": "Optometrists",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1051",
+    "title": "Pharmacists",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1071",
+    "title": "Physician Assistants",
+    "edu": "MD"
+  },
+  {
+    "soc": "29-1081",
+    "title": "Podiatrists",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1122",
+    "title": "Occupational Therapists",
+    "edu": "MD"
+  },
+  {
+    "soc": "29-1123",
+    "title": "Physical Therapists",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1124",
+    "title": "Radiation Therapists",
+    "edu": "AD"
+  },
+  {
+    "soc": "29-1125",
+    "title": "Recreational Therapists",
+    "edu": "BD"
+  },
+  {
+    "soc": "29-1126",
+    "title": "Respiratory Therapists",
+    "edu": "AD"
+  },
+  {
+    "soc": "29-1127",
+    "title": "Speech-Language Pathologists",
+    "edu": "MD+"
+  },
+  {
+    "soc": "29-1128",
+    "title": "Exercise Physiologists",
+    "edu": "BD"
+  },
+  {
+    "soc": "29-1129",
+    "title": "Therapists, Other",
+    "edu": "BD"
+  },
+  {
+    "soc": "29-1131",
+    "title": "Veterinarians",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1141",
+    "title": "Registered Nurses",
+    "edu": "BD"
+  },
+  {
+    "soc": "29-1151",
+    "title": "Nurse Anesthetists",
+    "edu": "MD"
+  },
+  {
+    "soc": "29-1161",
+    "title": "Nurse Midwives",
+    "edu": "MD"
+  },
+  {
+    "soc": "29-1171",
+    "title": "Nurse Practitioners",
+    "edu": "MD"
+  },
+  {
+    "soc": "29-1181",
+    "title": "Audiologists",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1211",
+    "title": "Anesthesiologists",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1213",
+    "title": "Dermatologists",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1214",
+    "title": "Emergency Medicine Physicians",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1215",
+    "title": "Family Medicine Physicians",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1216",
+    "title": "General Internal Medicine Physicians",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1217",
+    "title": "Neurologists",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1218",
+    "title": "Obstetricians & Gynecologists",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1221",
+    "title": "Pediatricians, General",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1222",
+    "title": "Physicians, Pathologists",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1223",
+    "title": "Psychiatrists",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1224",
+    "title": "Radiologists",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1229",
+    "title": "Physicians, Other",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1241",
+    "title": "Ophthalmologists",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1249",
+    "title": "Surgeons, Other",
+    "edu": "DOCT"
+  },
+  {
+    "soc": "29-1292",
+    "title": "Dental Hygienists",
+    "edu": "AD"
+  },
+  {
+    "soc": "29-1299",
+    "title": "Healthcare Diagnosing or Treating Practitioners, Other",
+    "edu": "MD"
+  },
+  {
+    "soc": "29-2010",
+    "title": "Clinical Laboratory Technologists & Technicians",
+    "edu": "BD"
+  },
+  {
+    "soc": "29-2031",
+    "title": "Cardiovascular Technologists & Technicians",
+    "edu": "AD"
+  },
+  {
+    "soc": "29-2032",
+    "title": "Diagnostic Medical Sonographers",
+    "edu": "AD"
+  },
+  {
+    "soc": "29-2033",
+    "title": "Nuclear Medicine Technologists",
+    "edu": "AD"
+  },
+  {
+    "soc": "29-2034",
+    "title": "Radiologic Technologists",
+    "edu": "AD"
+  },
+  {
+    "soc": "29-2035",
+    "title": "Magnetic Resonance Imaging Technologists",
+    "edu": "AD+"
+  },
+  {
+    "soc": "29-2036",
+    "title": "Medical Dosimetrists",
+    "edu": "BD"
+  },
+  {
+    "soc": "29-2042",
+    "title": "Emergency Medical Technicians",
+    "edu": "PS"
+  },
+  {
+    "soc": "29-2043",
+    "title": "Paramedics",
+    "edu": "PS+"
+  },
+  {
+    "soc": "29-2051",
+    "title": "Dietetic Technicians",
+    "edu": "AD"
+  },
+  {
+    "soc": "29-2052",
+    "title": "Pharmacy Technicians",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "29-2053",
+    "title": "Psychiatric Technicians",
+    "edu": "PS+"
+  },
+  {
+    "soc": "29-2055",
+    "title": "Surgical Technologists",
+    "edu": "PS"
+  },
+  {
+    "soc": "29-2056",
+    "title": "Veterinary Technologists & Technicians",
+    "edu": "AD"
+  },
+  {
+    "soc": "29-2057",
+    "title": "Ophthalmic Medical Technicians",
+    "edu": "PS"
+  },
+  {
+    "soc": "29-2061",
+    "title": "Licensed Practical & Licensed Vocational Nurses",
+    "edu": "PS"
+  },
+  {
+    "soc": "29-2072",
+    "title": "Medical Records Specialists",
+    "edu": "PS"
+  },
+  {
+    "soc": "29-2081",
+    "title": "Opticians, Dispensing",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "29-2091",
+    "title": "Orthotists & Prosthetists",
+    "edu": "MD+"
+  },
+  {
+    "soc": "29-2092",
+    "title": "Hearing Aid Specialists",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "29-2099",
+    "title": "Health Technologists & Technicians, Other",
+    "edu": "PS"
+  },
+  {
+    "soc": "29-9021",
+    "title": "Health Information Technologists & Medical Registrars",
+    "edu": "AD"
+  },
+  {
+    "soc": "29-9091",
+    "title": "Athletic Trainers",
+    "edu": "MD"
+  },
+  {
+    "soc": "29-9092",
+    "title": "Genetic Counselors",
+    "edu": "MD"
+  },
+  {
+    "soc": "29-9093",
+    "title": "Surgical Assistants",
+    "edu": "PS"
+  },
+  {
+    "soc": "29-9099",
+    "title": "Healthcare Practitioners & Technical Workers, Other",
+    "edu": "PS"
+  },
+  {
+    "soc": "31-0000",
+    "title": "Healthcare Support Occupations",
+    "edu": "#"
+  },
+  {
+    "soc": "31-1120",
+    "title": "Home Health & Personal Care Aides",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "31-1131",
+    "title": "Nursing Assistants",
+    "edu": "PS"
+  },
+  {
+    "soc": "31-1132",
+    "title": "Orderlies",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "31-1133",
+    "title": "Psychiatric Aides",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "31-2011",
+    "title": "Occupational Therapy Assistants",
+    "edu": "AD"
+  },
+  {
+    "soc": "31-2012",
+    "title": "Occupational Therapy Aides",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "31-2021",
+    "title": "Physical Therapist Assistants",
+    "edu": "AD"
+  },
+  {
+    "soc": "31-2022",
+    "title": "Physical Therapist Aides",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "31-9011",
+    "title": "Massage Therapists",
+    "edu": "PS"
+  },
+  {
+    "soc": "31-9091",
+    "title": "Dental Assistants",
+    "edu": "PS"
+  },
+  {
+    "soc": "31-9092",
+    "title": "Medical Assistants",
+    "edu": "PS"
+  },
+  {
+    "soc": "31-9093",
+    "title": "Medical Equipment Preparers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "31-9094",
+    "title": "Medical Transcriptionists",
+    "edu": "PS"
+  },
+  {
+    "soc": "31-9095",
+    "title": "Pharmacy Aides",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "31-9096",
+    "title": "Veterinary Assistants & Laboratory Animal Caretakers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "31-9097",
+    "title": "Phlebotomists",
+    "edu": "PS"
+  },
+  {
+    "soc": "31-9099",
+    "title": "Healthcare Support Workers, Other",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "33-0000",
+    "title": "Protective Service Occupations",
+    "edu": "#"
+  },
+  {
+    "soc": "33-1011",
+    "title": "Supervisors - Correctional Officers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "33-1012",
+    "title": "Supervisors - Police & Detectives",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "33-1021",
+    "title": "Supervisors - Fire Fighting & Prevention",
+    "edu": "PS+"
+  },
+  {
+    "soc": "33-1091",
+    "title": "Supervisors - Security Workers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "33-1099",
+    "title": "Supervisors - Other Protective Service Workers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "33-2011",
+    "title": "Firefighters",
+    "edu": "PS+"
+  },
+  {
+    "soc": "33-2021",
+    "title": "Fire Inspectors & Investigators",
+    "edu": "PS+"
+  },
+  {
+    "soc": "33-2022",
+    "title": "Forest Fire Inspectors & Prevention Specialists",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "33-3011",
+    "title": "Bailiffs",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "33-3012",
+    "title": "Correctional Officers & Jailers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "33-3021",
+    "title": "Detectives & Criminal Investigators",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "33-3031",
+    "title": "Fish & Game Wardens",
+    "edu": "BD+"
+  },
+  {
+    "soc": "33-3041",
+    "title": "Parking Enforcement Workers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "33-3051",
+    "title": "Police & Sheriff's Patrol Officers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "33-3052",
+    "title": "Transit & Railroad Police",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "33-9011",
+    "title": "Animal Control Workers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "33-9021",
+    "title": "Private Detectives & Investigators",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "33-9031",
+    "title": "Gaming Surveillance Officers & Gaming Investigators",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "33-9032",
+    "title": "Security Guards",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "33-9091",
+    "title": "Crossing Guards",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "33-9092",
+    "title": "Lifeguards, Ski Patrol & Other Recreational Protective Service",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "33-9093",
+    "title": "Transportation Security Screeners",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "33-9094",
+    "title": "School Bus Monitors",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "33-9099",
+    "title": "Protective Service Workers, Other",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "35-0000",
+    "title": "Food Preparation & Serving Related Occupations",
+    "edu": "#"
+  },
+  {
+    "soc": "35-1011",
+    "title": "Chefs & Head Cooks",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "35-1012",
+    "title": "Supervisors - Food Preparation & Serving Workers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "35-2011",
+    "title": "Cooks, Fast Food",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "35-2012",
+    "title": "Cooks, Institution & Cafeteria",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "35-2014",
+    "title": "Cooks, Restaurant",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "35-2015",
+    "title": "Cooks, Short Order",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "35-2019",
+    "title": "Cooks, Other",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "35-2021",
+    "title": "Food Preparation Workers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "35-3011",
+    "title": "Bartenders",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "35-3023",
+    "title": "Fast Food & Counter Workers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "35-3031",
+    "title": "Waiters & Waitresses",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "35-3041",
+    "title": "Food Servers, Nonrestaurant",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "35-9011",
+    "title": "Dining Room & Cafeteria Attendants & Bartender Helpers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "35-9021",
+    "title": "Dishwashers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "35-9031",
+    "title": "Hosts & Hostesses: Restaurant, Lounge & Coffee Shop",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "35-9099",
+    "title": "Food Preparation & Serving Related Workers, Other",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "37-0000",
+    "title": "Building & Grounds Cleaning & Maintenance Occupations",
+    "edu": "#"
+  },
+  {
+    "soc": "37-1011",
+    "title": "Supervisors - Housekeeping & Janitorial Workers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "37-1012",
+    "title": "Supervisors - Landscaping & Groundskeeping Workers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "37-2011",
+    "title": "Janitors & Cleaners",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "37-2012",
+    "title": "Maids & Housekeeping Cleaners",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "37-2019",
+    "title": "Building Cleaning Workers, Other",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "37-2021",
+    "title": "Pest Control Workers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "37-3011",
+    "title": "Landscaping & Groundskeeping Workers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "37-3012",
+    "title": "Pesticide Handlers, Sprayers & Applicators, Vegetation",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "37-3013",
+    "title": "Tree Trimmers & Pruners",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "37-3019",
+    "title": "Grounds Maintenance Workers, Other",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "39-0000",
+    "title": "Personal Care & Service Occupations",
+    "edu": "#"
+  },
+  {
+    "soc": "39-1013",
+    "title": "Supervisors - Gambling Services Workers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "39-1014",
+    "title": "Supervisors - Entertainment & Recreation Workers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "39-1022",
+    "title": "Supervisors - Personal Service Workers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "39-2011",
+    "title": "Animal Trainers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "39-2021",
+    "title": "Nonfarm Animal Caretakers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "39-3011",
+    "title": "Gaming Dealers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "39-3012",
+    "title": "Gaming & Sports Book Writers & Runners",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "39-3019",
+    "title": "Gaming Service Workers, Other",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "39-3021",
+    "title": "Motion Picture Projectionists",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "39-3031",
+    "title": "Ushers, Lobby Attendants & Ticket Takers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "39-3091",
+    "title": "Amusement & Recreation Attendants",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "39-3092",
+    "title": "Costume Attendants",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "39-3093",
+    "title": "Locker Room, Coatroom & Dressing Room Attendants",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "39-3099",
+    "title": "Entertainment Attendants & Related Workers, Other",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "39-4012",
+    "title": "Crematory Operators",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "39-4021",
+    "title": "Funeral Attendants",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "39-4031",
+    "title": "Morticians, Undertakers & Funeral Directors",
+    "edu": "AD+"
+  },
+  {
+    "soc": "39-5011",
+    "title": "Barbers",
+    "edu": "PS"
+  },
+  {
+    "soc": "39-5012",
+    "title": "Hairdressers, Hairstylists & Cosmetologists",
+    "edu": "PS"
+  },
+  {
+    "soc": "39-5092",
+    "title": "Manicurists & Pedicurists",
+    "edu": "PS"
+  },
+  {
+    "soc": "39-5093",
+    "title": "Shampooers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "39-5094",
+    "title": "Skincare Specialists",
+    "edu": "PS"
+  },
+  {
+    "soc": "39-6011",
+    "title": "Baggage Porters & Bellhops",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "39-6012",
+    "title": "Concierges",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "39-7010",
+    "title": "Tour & Travel Guides",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "39-9011",
+    "title": "Childcare Workers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "39-9031",
+    "title": "Fitness Trainers & Aerobics Instructors",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "39-9032",
+    "title": "Recreation Workers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "39-9041",
+    "title": "Residential Advisors",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "39-9099",
+    "title": "Personal Care & Service Workers, Other",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "41-0000",
+    "title": "Sales & Related Occupations",
+    "edu": "#"
+  },
+  {
+    "soc": "41-1011",
+    "title": "Supervisors - Retail Sales Workers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "41-1012",
+    "title": "Supervisors - Non-Retail Sales Workers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "41-2011",
+    "title": "Cashiers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "41-2012",
+    "title": "Gaming Change Persons & Booth Cashiers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "41-2021",
+    "title": "Counter & Rental Clerks",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "41-2022",
+    "title": "Parts Salespersons",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "41-2031",
+    "title": "Retail Salespersons",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "41-3011",
+    "title": "Advertising Sales Agents",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "41-3021",
+    "title": "Insurance Sales Agents",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "41-3031",
+    "title": "Securities, Commodities & Financial Services Sales Agents",
+    "edu": "BD+"
+  },
+  {
+    "soc": "41-3041",
+    "title": "Travel Agents",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "41-3091",
+    "title": "Sales Representatives - Services",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "41-4011",
+    "title": "Sales Representatives, Technical & Scientific Products",
+    "edu": "BD+"
+  },
+  {
+    "soc": "41-4012",
+    "title": "Sales Representatives",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "41-9011",
+    "title": "Demonstrators & Product Promoters",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "41-9012",
+    "title": "Models",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "41-9021",
+    "title": "Real Estate Brokers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "41-9022",
+    "title": "Real Estate Sales Agents",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "41-9031",
+    "title": "Sales Engineers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "41-9041",
+    "title": "Telemarketers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "41-9099",
+    "title": "Sales & Related Workers, Other",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-0000",
+    "title": "Office & Administrative Support Occupations",
+    "edu": "#"
+  },
+  {
+    "soc": "43-1011",
+    "title": "Supervisors - Office & Administrative Support Workers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "43-2011",
+    "title": "Switchboard Operators",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-2021",
+    "title": "Telephone Operators",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-3011",
+    "title": "Bill & Account Collectors",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "43-3021",
+    "title": "Billing & Posting Clerks",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "43-3031",
+    "title": "Bookkeeping, Accounting & Auditing Clerks",
+    "edu": "PS+"
+  },
+  {
+    "soc": "43-3041",
+    "title": "Gaming Cage Workers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-3051",
+    "title": "Payroll & Timekeeping Clerks",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "43-3061",
+    "title": "Procurement Clerks",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "43-3071",
+    "title": "Tellers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-3099",
+    "title": "Financial Clerks, Other",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-4011",
+    "title": "Brokerage Clerks",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "43-4021",
+    "title": "Correspondence Clerks",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-4031",
+    "title": "Court, Municipal & License Clerks",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "43-4041",
+    "title": "Credit Authorizers, Checkers & Clerks",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "43-4051",
+    "title": "Customer Service Representatives",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-4061",
+    "title": "Eligibility Interviewers, Government Programs",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "43-4071",
+    "title": "File Clerks",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-4081",
+    "title": "Hotel, Motel & Resort Desk Clerks",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-4111",
+    "title": "Interviewers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-4121",
+    "title": "Library Assistants, Clerical",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-4131",
+    "title": "Loan Interviewers & Clerks",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-4141",
+    "title": "New Accounts Clerks",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "43-4151",
+    "title": "Order Clerks",
+    "edu": "PS"
+  },
+  {
+    "soc": "43-4161",
+    "title": "Human Resources Assistants",
+    "edu": "AD"
+  },
+  {
+    "soc": "43-4171",
+    "title": "Receptionists & Information Clerks",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-4181",
+    "title": "Reservation & Transportation Ticket Agents & Travel Clerks",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-4199",
+    "title": "Information & Record Clerks, Other",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-5011",
+    "title": "Cargo & Freight Agents",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-5021",
+    "title": "Couriers & Messengers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-5031",
+    "title": "Police, Fire & Ambulance Dispatchers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "43-5032",
+    "title": "Dispatchers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "43-5041",
+    "title": "Meter Readers, Utilities",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-5051",
+    "title": "Postal Service Clerks",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-5052",
+    "title": "Postal Service Mail Carriers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-5053",
+    "title": "Postal Service Mail Sorters, Processors & Processing Machine Operators",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-5061",
+    "title": "Production, Planning & Expediting Clerks",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "43-5071",
+    "title": "Shipping, Receiving & Traffic Clerks",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-5111",
+    "title": "Weighers, Measurers, Checkers & Samplers, Recordkeeping",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-6011",
+    "title": "Executive Secretaries & Executive Administrative Assistants",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "43-6012",
+    "title": "Legal Secretaries",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "43-6013",
+    "title": "Medical Secretaries",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "43-6014",
+    "title": "Secretaries",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-9021",
+    "title": "Data Entry Keyers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-9022",
+    "title": "Word Processors & Typists",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-9031",
+    "title": "Desktop Publishers",
+    "edu": "AD"
+  },
+  {
+    "soc": "43-9041",
+    "title": "Insurance Claims & Policy Processing Clerks",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "43-9051",
+    "title": "Mail Clerks & Mail Machine Operators",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-9061",
+    "title": "Office Clerks, General",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-9071",
+    "title": "Office Machine Operators",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "43-9081",
+    "title": "Proofreaders & Copy Markers",
+    "edu": "BD"
+  },
+  {
+    "soc": "43-9111",
+    "title": "Statistical Assistants",
+    "edu": "BD"
+  },
+  {
+    "soc": "43-9199",
+    "title": "Office & Administrative Support Workers, Other",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "45-0000",
+    "title": "Farming, Fishing & Forestry Occupations",
+    "edu": "#"
+  },
+  {
+    "soc": "45-1011",
+    "title": "Supervisors - Farming, Fishing & Forestry Workers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "45-2011",
+    "title": "Agricultural Inspectors",
+    "edu": "BD+"
+  },
+  {
+    "soc": "45-2041",
+    "title": "Graders & Sorters, Agricultural Products",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "45-2091",
+    "title": "Agricultural Equipment Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "45-2092",
+    "title": "Farmworkers & Laborers, Crop, Nursery & Greenhouse",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "45-2093",
+    "title": "Farmworkers, Farm, Ranch & Aquacultural Animals",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "45-2099",
+    "title": "Agricultural Workers, Other",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "45-4011",
+    "title": "Forest & Conservation Workers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "45-4021",
+    "title": "Fallers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "45-4022",
+    "title": "Logging Equipment Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "45-4023",
+    "title": "Log Graders & Scalers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "45-4029",
+    "title": "Logging Workers, Other",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "47-0000",
+    "title": "Construction & Extraction Occupations",
+    "edu": "#"
+  },
+  {
+    "soc": "47-1011",
+    "title": "Supervisors - Construction Trades & Extraction Workers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "47-2011",
+    "title": "Boilermakers",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "47-2021",
+    "title": "Brickmasons & Blockmasons",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "47-2022",
+    "title": "Stonemasons",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "47-2031",
+    "title": "Carpenters",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "47-2041",
+    "title": "Carpet Installers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "47-2042",
+    "title": "Floor Layers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "47-2043",
+    "title": "Floor Sanders & Finishers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "47-2044",
+    "title": "Tile & Marble Setters",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "47-2051",
+    "title": "Cement Masons & Concrete Finishers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "47-2061",
+    "title": "Construction Laborers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "47-2071",
+    "title": "Paving, Surfacing & Tamping Equipment Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "47-2072",
+    "title": "Pile-Driver Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "47-2073",
+    "title": "Operating Engineers & Other Construction Equipment Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "47-2081",
+    "title": "Drywall & Ceiling Tile Installers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "47-2082",
+    "title": "Tapers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "47-2111",
+    "title": "Electricians",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "47-2121",
+    "title": "Glaziers",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "47-2131",
+    "title": "Insulation Workers, Floor, Ceiling & Wall",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "47-2132",
+    "title": "Insulation Workers, Mechanical",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "47-2141",
+    "title": "Painters, Construction & Maintenance",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "47-2142",
+    "title": "Paperhangers",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "47-2151",
+    "title": "Pipelayers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "47-2152",
+    "title": "Plumbers, Pipefitters & Steamfitters",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "47-2161",
+    "title": "Plasterers & Stucco Masons",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "47-2171",
+    "title": "Reinforcing Iron & Rebar Workers",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "47-2181",
+    "title": "Roofers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "47-2211",
+    "title": "Sheet Metal Workers",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "47-2221",
+    "title": "Structural Iron & Steel Workers",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "47-2231",
+    "title": "Solar Photovoltaic Installers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "47-3011",
+    "title": "Helpers--Brick, Block, Stonemasons, Tile & Marble Setters",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "47-3012",
+    "title": "Helpers--Carpenters",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "47-3013",
+    "title": "Helpers--Electricians",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "47-3015",
+    "title": "Helpers--Pipelayers, Plumbers, Pipefitters & Steamfitters",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "47-3016",
+    "title": "Helpers--Roofers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "47-3019",
+    "title": "Helpers, Construction Trades, Other",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "47-4011",
+    "title": "Construction & Building Inspectors",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "47-4021",
+    "title": "Elevator Installers & Repairers",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "47-4031",
+    "title": "Fence Erectors",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "47-4041",
+    "title": "Hazardous Materials Removal Workers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "47-4051",
+    "title": "Highway Maintenance Workers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "47-4061",
+    "title": "Rail-Track Laying & Maintenance Equipment Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "47-4071",
+    "title": "Septic Tank Servicers & Sewer Pipe Cleaners",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "47-4090",
+    "title": "Miscellaneous Construction & Related Workers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "47-5011",
+    "title": "Derrick Operators, Oil & Gas",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "47-5012",
+    "title": "Rotary Drill Operators, Oil & Gas",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "47-5013",
+    "title": "Service Unit Operators, Oil, Gas & Mining",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "47-5022",
+    "title": "Excavating & Loading Machine Oprs, Surface Mining",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "47-5023",
+    "title": "Earth Drillers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "47-5032",
+    "title": "Explosives Workers, Ordnance Handling Experts & Blasters",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "47-5041",
+    "title": "Continuous Mining Machine Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "47-5044",
+    "title": "Loading & Moving Machine Operators, Underground Mining",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "47-5049",
+    "title": "Mining Machine Operators, Other",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "47-5051",
+    "title": "Rock Splitters, Quarry",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "47-5071",
+    "title": "Roustabouts, Oil & Gas",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "47-5081",
+    "title": "Helpers--Extraction Workers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "49-0000",
+    "title": "Installation, Maintenance & Repair Occupations",
+    "edu": "#"
+  },
+  {
+    "soc": "49-1011",
+    "title": "Supervisors - Mechanics, Installers & Repairers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "49-2011",
+    "title": "Computer, Automated Teller & Office Machine Repairers",
+    "edu": "PS"
+  },
+  {
+    "soc": "49-2021",
+    "title": "Radio, Cellular & Tower Equipment Installers & Repairers",
+    "edu": "AD+"
+  },
+  {
+    "soc": "49-2022",
+    "title": "Telecommunications Equipment Installers & Repairers",
+    "edu": "PS+"
+  },
+  {
+    "soc": "49-2091",
+    "title": "Avionics Technicians",
+    "edu": "AD"
+  },
+  {
+    "soc": "49-2092",
+    "title": "Electric Motor, Power Tool & Related Repairers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "49-2093",
+    "title": "Electrical & Electronics Installers & Repairers, Transportation Equipment",
+    "edu": "PS+"
+  },
+  {
+    "soc": "49-2094",
+    "title": "Electrical & Electronics Repairers, Commercial & Industrial Equipment",
+    "edu": "PS+"
+  },
+  {
+    "soc": "49-2095",
+    "title": "Electrical & Electronics Repairers, Powerhouse, Substation & Relay",
+    "edu": "PS+"
+  },
+  {
+    "soc": "49-2096",
+    "title": "Electronic Equipment Installers & Repairers, Motor Vehicles",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "49-2097",
+    "title": "Electronic Home Entertainment Equipment Installers & Repairers",
+    "edu": "PS"
+  },
+  {
+    "soc": "49-2098",
+    "title": "Security & Fire Alarm Systems Installers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "49-3011",
+    "title": "Aircraft Mechanics & Service Technicians",
+    "edu": "PS"
+  },
+  {
+    "soc": "49-3021",
+    "title": "Automotive Body & Related Repairers",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "49-3022",
+    "title": "Automotive Glass Installers & Repairers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "49-3023",
+    "title": "Automotive Service Technicians & Mechanics",
+    "edu": "PS"
+  },
+  {
+    "soc": "49-3031",
+    "title": "Bus & Truck Mechanics & Diesel Engine Specialists",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "49-3041",
+    "title": "Farm Equipment Mechanics & Service Technicians",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "49-3042",
+    "title": "Mobile Heavy Equipment Mechanics",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "49-3043",
+    "title": "Rail Car Repairers",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "49-3051",
+    "title": "Motorboat Mechanics & Service Technicians",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "49-3052",
+    "title": "Motorcycle Mechanics",
+    "edu": "PS"
+  },
+  {
+    "soc": "49-3053",
+    "title": "Outdoor Power Equipment & Other Small Engine Mechanics",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "49-3091",
+    "title": "Bicycle Repairers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "49-3092",
+    "title": "Recreational Vehicle Service Technicians",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "49-3093",
+    "title": "Tire Repairers & Changers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "49-9011",
+    "title": "Mechanical Door Repairers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "49-9012",
+    "title": "Control & Valve Installers & Repairers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "49-9021",
+    "title": "Heating, A/C & Refrigeration Mechanics & Installers",
+    "edu": "PS+"
+  },
+  {
+    "soc": "49-9031",
+    "title": "Home Appliance Repairers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "49-9041",
+    "title": "Industrial Machinery Mechanics",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "49-9043",
+    "title": "Maintenance Workers, Machinery",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "49-9044",
+    "title": "Millwrights",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "49-9051",
+    "title": "Electrical Power-Line Installers & Repairers",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "49-9052",
+    "title": "Telecommunications Line Installers & Repairers",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "49-9061",
+    "title": "Camera & Photographic Equipment Repairers",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "49-9062",
+    "title": "Medical Equipment Repairers",
+    "edu": "AD+"
+  },
+  {
+    "soc": "49-9063",
+    "title": "Musical Instrument Repairers & Tuners",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "49-9064",
+    "title": "Watch Repairers",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "49-9069",
+    "title": "Precision Instrument & Equipment Repairers, Other",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "49-9071",
+    "title": "Maintenance & Repair Workers, General",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "49-9081",
+    "title": "Wind Turbine Service Technicians",
+    "edu": "PS+"
+  },
+  {
+    "soc": "49-9091",
+    "title": "Coin, Vending & Amusement Machine Servicers & Repairers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "49-9092",
+    "title": "Commercial Divers",
+    "edu": "PS+"
+  },
+  {
+    "soc": "49-9094",
+    "title": "Locksmiths & Safe Repairers",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "49-9095",
+    "title": "Manufactured Building & Mobile Home Installers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "49-9096",
+    "title": "Riggers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "49-9098",
+    "title": "Helpers--Installation, Maintenance & Repair Workers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "49-9099",
+    "title": "Installation, Maintenance & Repair Workers, Other",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-0000",
+    "title": "Production Occupations",
+    "edu": "#"
+  },
+  {
+    "soc": "51-1011",
+    "title": "Supervisors - Production & Operating Workers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "51-2011",
+    "title": "Aircraft Structure, Surfaces, Rigging & Systems Assemblers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-2021",
+    "title": "Coil Winders, Tapers & Finishers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-2028",
+    "title": "Electrical, Electronic & Electromechanical Assemblers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-2031",
+    "title": "Engine & Other Machine Assemblers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-2041",
+    "title": "Structural Metal Fabricators & Fitters",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-2051",
+    "title": "Fiberglass Laminators & Fabricators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-2061",
+    "title": "Timing Device Assemblers & Adjusters",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-2090",
+    "title": "Misc. Assemblers & Fabricators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-3011",
+    "title": "Bakers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-3021",
+    "title": "Butchers & Meat Cutters",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "51-3022",
+    "title": "Meat, Poultry & Fish Cutters & Trimmers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "51-3023",
+    "title": "Slaughterers & Meat Packers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "51-3091",
+    "title": "Food & Tobacco Roasting, Baking & Drying Machine Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-3092",
+    "title": "Food Batchmakers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-3093",
+    "title": "Food Cooking Machine Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-3099",
+    "title": "Food Processing Workers, Other",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-4021",
+    "title": "Extruding & Drawing Machine Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-4022",
+    "title": "Forging Machine Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-4023",
+    "title": "Rolling Machine Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-4031",
+    "title": "Cutting, Punching & Press Machine Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-4032",
+    "title": "Drilling & Boring Machine Tool Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-4033",
+    "title": "Grinding, Lapping, Polishing & Buffing Machine Tool Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-4034",
+    "title": "Lathe & Turning Machine Tool Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-4035",
+    "title": "Milling & Planing Machine Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-4041",
+    "title": "Machinists",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "51-4051",
+    "title": "Metal-Refining Furnace Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-4052",
+    "title": "Pourers & Casters, Metal",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-4061",
+    "title": "Model Makers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-4062",
+    "title": "Patternmakers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-4071",
+    "title": "Foundry Mold & Coremakers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-4072",
+    "title": "Molding, Coremaking & Casting Machine Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-4081",
+    "title": "Multiple Machine Tool Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-4111",
+    "title": "Tool & Die Makers",
+    "edu": "PS+"
+  },
+  {
+    "soc": "51-4121",
+    "title": "Welders, Cutters, Solderers & Brazers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-4122",
+    "title": "Welding, Soldering & Brazing Machine Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-4191",
+    "title": "Heat Treating Equipment Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-4192",
+    "title": "Layout Workers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-4193",
+    "title": "Plating & Coating Machine Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-4194",
+    "title": "Tool Grinders, Filers & Sharpeners",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-4199",
+    "title": "Metal Workers & Plastic Workers, Other",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-5111",
+    "title": "Prepress Technician & Workers",
+    "edu": "PS"
+  },
+  {
+    "soc": "51-5112",
+    "title": "Printing Press Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-5113",
+    "title": "Print Binding & Finishing Workers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-6011",
+    "title": "Laundry & Dry-Cleaning Workers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "51-6021",
+    "title": "Pressers: Textile, Garment & Related Materials",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "51-6031",
+    "title": "Sewing Machine Operators",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "51-6041",
+    "title": "Shoe & Leather Workers & Repairers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-6051",
+    "title": "Sewers, Hand",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-6052",
+    "title": "Tailors, Dressmakers & Custom Sewers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-6061",
+    "title": "Textile Bleaching & Dyeing Machine Operators",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "51-6062",
+    "title": "Textile Cutting Machine Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-6063",
+    "title": "Textile Knitting & Weaving Machine Operators",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "51-6064",
+    "title": "Textile Winding, Twisting & Drawing Out Machine Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-6091",
+    "title": "Extruding & Forming Machine Operators, Synthetic & Glass Fibers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-6092",
+    "title": "Fabric & Apparel Patternmakers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-6093",
+    "title": "Upholsterers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-6099",
+    "title": "Textile, Apparel & Furnishings Workers, Other",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "51-7011",
+    "title": "Cabinetmakers & Bench Carpenters",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-7021",
+    "title": "Furniture Finishers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "51-7032",
+    "title": "Patternmakers, Wood",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-7041",
+    "title": "Sawing Machine Operators, Wood",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-7042",
+    "title": "Woodworking Machine Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-7099",
+    "title": "Woodworkers, Other",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-8012",
+    "title": "Power Distributors & Dispatchers",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "51-8013",
+    "title": "Power Plant Operators",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "51-8021",
+    "title": "Stationary Engineers & Boiler Operators",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "51-8031",
+    "title": "Water & Wastewater Treatment Plant & System Operators",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "51-8091",
+    "title": "Chemical Plant & System Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-8092",
+    "title": "Gas Plant Operators",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "51-8093",
+    "title": "Petroleum Pump System Operators, Refinery Operators & Gaugers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-8099",
+    "title": "Plant & System Operators, Other",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-9011",
+    "title": "Chemical Equipment Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-9012",
+    "title": "Separating, Filtering, Clarifying, Precipitating & Still Machine Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-9021",
+    "title": "Crushing, Grinding & Polishing Machine Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-9022",
+    "title": "Grinding & Polishing Workers, Hand",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-9023",
+    "title": "Mixing & Blending Machine Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-9031",
+    "title": "Cutters & Trimmers, Hand",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "51-9032",
+    "title": "Cutting & Slicing Machine Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-9041",
+    "title": "Extruding, Forming, Pressing & Compacting Machine Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-9051",
+    "title": "Furnace, Kiln, Oven, Drier & Kettle Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-9061",
+    "title": "Inspectors, Testers, Sorters, Samplers & Weighers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-9071",
+    "title": "Jewelers & Precious Stone & Metal Workers",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "51-9081",
+    "title": "Dental Laboratory Technicians",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-9082",
+    "title": "Medical Appliance Technicians",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-9083",
+    "title": "Ophthalmic Laboratory Technicians",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-9111",
+    "title": "Packaging & Filling Machine Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-9123",
+    "title": "Painting, Coating & Decorating Workers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-9124",
+    "title": "Coating, Painting & Spraying Machine Oprs/Tenders",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-9141",
+    "title": "Semiconductor Processors",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-9151",
+    "title": "Photographic Process Workers & Processing Machine Operators",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "51-9161",
+    "title": "CNC Tool Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-9162",
+    "title": "CNC Tool Programmers",
+    "edu": "PS+"
+  },
+  {
+    "soc": "51-9191",
+    "title": "Adhesive Bonding Machine Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-9192",
+    "title": "Cleaning, Washing & Metal Pickling Equipment Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-9193",
+    "title": "Cooling & Freezing Equipment Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-9194",
+    "title": "Etchers & Engravers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-9195",
+    "title": "Molders, Shapers & Casters",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "51-9196",
+    "title": "Paper Goods Machine Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-9197",
+    "title": "Tire Builders",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "51-9198",
+    "title": "Helpers--Production Workers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "51-9199",
+    "title": "Production Workers, Other",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "53-0000",
+    "title": "Transportation & Material Moving Occupations",
+    "edu": "#"
+  },
+  {
+    "soc": "53-1041",
+    "title": "Aircraft Cargo Handling Supervisors",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "53-1047",
+    "title": "Supervisors - Transportation & Material Moving Workers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "53-2011",
+    "title": "Airline Pilots, Copilots & Flight Engineers",
+    "edu": "BD+"
+  },
+  {
+    "soc": "53-2012",
+    "title": "Commercial Pilots",
+    "edu": "PS+"
+  },
+  {
+    "soc": "53-2021",
+    "title": "Air Traffic Controllers",
+    "edu": "AD+"
+  },
+  {
+    "soc": "53-2022",
+    "title": "Airfield Operations Specialists",
+    "edu": "LT OJT"
+  },
+  {
+    "soc": "53-2031",
+    "title": "Flight Attendants",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "53-3011",
+    "title": "Ambulance Drivers & Attendants",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "53-3031",
+    "title": "Driver/Sales Workers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "53-3032",
+    "title": "Heavy & Tractor-Trailer Truck Drivers",
+    "edu": "PS"
+  },
+  {
+    "soc": "53-3033",
+    "title": "Light Truck or Delivery Services Drivers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "53-3051",
+    "title": "Bus Drivers, School",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "53-3052",
+    "title": "Bus Drivers, Transit & Intercity",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "53-3053",
+    "title": "Shuttle Drivers & Chauffeurs",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "53-3054",
+    "title": "Taxi Drivers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "53-3099",
+    "title": "Motor Vehicle Operators, Other",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "53-4011",
+    "title": "Locomotive Engineers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "53-4013",
+    "title": "Rail Yard Engineers, Dinkey Operators & Hostlers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "53-4022",
+    "title": "Railroad Brake/Signal/Switch Oprs & Locomotive Firers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "53-4031",
+    "title": "Railroad Conductors & Yardmasters",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "53-5011",
+    "title": "Sailors & Marine Oilers",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "53-5021",
+    "title": "Captains, Mates & Pilots of Water Vessels",
+    "edu": "PS+"
+  },
+  {
+    "soc": "53-5022",
+    "title": "Motorboat Operators",
+    "edu": "PS+"
+  },
+  {
+    "soc": "53-5031",
+    "title": "Ship Engineers",
+    "edu": "PS+"
+  },
+  {
+    "soc": "53-6011",
+    "title": "Bridge & Lock Tenders",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "53-6021",
+    "title": "Parking Lot Attendants",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "53-6031",
+    "title": "Automotive & Watercraft Service Attendants",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "53-6032",
+    "title": "Aircraft Service Attendants",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "53-6041",
+    "title": "Traffic Technicians",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "53-6051",
+    "title": "Transportation Inspectors",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "53-6061",
+    "title": "Transportation Attendants",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "53-6099",
+    "title": "Transportation Workers, Other",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "53-7011",
+    "title": "Conveyor Operators",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "53-7021",
+    "title": "Crane & Tower Operators",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "53-7051",
+    "title": "Industrial Truck & Tractor Operators",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "53-7061",
+    "title": "Cleaners of Vehicles & Equipment",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "53-7062",
+    "title": "Laborers & Freight, Stock & Material Movers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "53-7063",
+    "title": "Machine Feeders & Offbearers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "53-7064",
+    "title": "Packers & Packagers, Hand",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "53-7065",
+    "title": "Stockers & Order Fillers",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "53-7071",
+    "title": "Gas Compressor & Gas Pumping Station Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "53-7072",
+    "title": "Pump Operators",
+    "edu": "MT OJT"
+  },
+  {
+    "soc": "53-7073",
+    "title": "Wellhead Pumpers",
+    "edu": "WK EXP"
+  },
+  {
+    "soc": "53-7081",
+    "title": "Refuse & Recyclable Material Collectors",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "53-7121",
+    "title": "Tank Car, Truck & Ship Loaders",
+    "edu": "ST OJT"
+  },
+  {
+    "soc": "53-7199",
+    "title": "Material Moving Workers, Other",
+    "edu": "ST OJT"
+  }
+]
