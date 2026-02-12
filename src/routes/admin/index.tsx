@@ -189,6 +189,7 @@ function AdminPage() {
   const [savedUsers, setSavedUsers] = useState<Set<string>>(new Set());
   const [resetConfirmed, setResetConfirmed] = useState(false);
   const [populateConfirmed, setPopulateConfirmed] = useState(false);
+  const [jimmyConfirmed, setJimmyConfirmed] = useState(false);
 
   const handleResetAssessment = () => {
     clearAll();
@@ -236,6 +237,47 @@ function AdminPage() {
     });
     setPopulateConfirmed(true);
     setTimeout(() => setPopulateConfirmed(false), 2000);
+  };
+
+  const handlePopulateJimmy = () => {
+    useAssessmentStore.setState({
+      basic: {
+        name: "James Zagurskie",
+        ageRange: "18-24",
+        educationLevel: "bachelors",
+        employmentStatus: "employed-ft",
+        primaryReason: "I want to provide free coaching to young adults who need assistance in navigating life.",
+        degrees: [
+          { level: "bachelor", name: "civil engineering technology", gpa: "" },
+          { level: "", name: "" },
+        ],
+      },
+      personality: {
+        work_environment: 2, interaction_style: 2, decision_making: 2, structure: 3,
+        energy_source: 4, problem_solving: 1, communication: 2, pace: 2,
+        schedule: 2, travel: 3, physical_demands: 2,
+      },
+      values: {
+        work_life_balance: 4, income_potential: 4, helping_others: 5, creativity: 3,
+        job_security: 4, independence: 4, leadership: 5, learning_growth: 5,
+        recognition: 1, physical_activity: 3, environmental_impact: 3, variety: 3,
+      },
+      aptitude: {
+        stem: [5, 4, 4, 1], arts: [1, 4, 3, 3], communication: [5, 3, 1, 1],
+        business: [3, 1, 2, 4], healthcare: [1, 1, 2, 1], trades: [2, 2, 2, 2],
+        socialServices: [5, 3, 3, 1], law: [3, 1, 1, 3],
+      },
+      challenges: {
+        financial: "working-while-learning", timeAvailability: "evenings-weekends",
+        locationFlexibility: "local-only", familyObligations: "none",
+        transportation: "own-vehicle", healthConsiderations: "none",
+        educationGaps: ["None of the above"], supportSystem: "strong",
+        additionalNotes: "",
+      },
+      results: null,
+    });
+    setJimmyConfirmed(true);
+    setTimeout(() => setJimmyConfirmed(false), 2000);
   };
 
   const handleNotesChange = (clerkId: string, notes: string) => {
@@ -586,7 +628,7 @@ function AdminPage() {
                   type="button"
                   onClick={handlePopulateTestData}
                   className="inline-flex items-center gap-2 px-3 py-1.5 rounded bg-stone-700 hover:bg-stone-600 text-sm transition-colors"
-                  title="Populate all sections with test data"
+                  title="Populate all sections with Parker's test data"
                 >
                   {populateConfirmed ? (
                     <>
@@ -596,7 +638,25 @@ function AdminPage() {
                   ) : (
                     <>
                       <DatabaseZap className="w-4 h-4 text-stone-400" />
-                      <span>Parker Seed Data</span>
+                      <span>Parker</span>
+                    </>
+                  )}
+                </button>
+                <button
+                  type="button"
+                  onClick={handlePopulateJimmy}
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded bg-stone-700 hover:bg-stone-600 text-sm transition-colors"
+                  title="Populate all sections with Jimmy's test data (no degrees)"
+                >
+                  {jimmyConfirmed ? (
+                    <>
+                      <Check className="w-4 h-4 text-lime-400" />
+                      <span className="text-lime-400">Loaded</span>
+                    </>
+                  ) : (
+                    <>
+                      <DatabaseZap className="w-4 h-4 text-stone-400" />
+                      <span>Jimmy</span>
                     </>
                   )}
                 </button>
