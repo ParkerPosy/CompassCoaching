@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { TrendingUp, Briefcase, DollarSign, GraduationCap, MapPin, ChevronDown, ChevronUp, Sparkles, Loader2 } from 'lucide-react';
+import { Link } from '@tanstack/react-router';
+import { TrendingUp, Briefcase, DollarSign, GraduationCap, MapPin, ChevronDown, ChevronUp, Sparkles, Loader2, ArrowRight } from 'lucide-react';
 import type { AssessmentResults } from '@/types/assessment';
 import { fetchCareerMatches } from '@/lib/occupationService';
 import { formatCurrency, formatEducationLevel } from '@/lib/wages';
@@ -214,9 +215,18 @@ export function CareerMatchesTable({
               Based on your assessment results {selectedCounty && `• ${selectedCounty} County`}
             </p>
           </div>
-          <div className="flex items-center gap-2 bg-white px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-blue-300 self-start sm:self-auto">
-            <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-600" />
-            <span className="text-xs sm:text-sm font-medium text-blue-700">Personalized</span>
+          <div className="flex items-center gap-2 self-start sm:self-auto">
+            <div className="flex items-center gap-2 bg-white px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-blue-300">
+              <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-600" />
+              <span className="text-xs sm:text-sm font-medium text-blue-700">Personalized</span>
+            </div>
+            <Link
+              to="/careers"
+              className="flex items-center gap-1.5 bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors"
+            >
+              All PA Careers
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
           </div>
         </div>
       </div>
@@ -480,7 +490,20 @@ export function CareerMatchesTable({
             Showing all {total} career match{total !== 1 ? 'es' : ''}
           </p>
         )}
+        <p className="text-[11px] text-stone-400 mt-1.5">
+          Wage data from the{' '}
+          <a
+            href="https://www.pa.gov/agencies/dli/resources/statistic-materials/products/occupational-wages/county-wages"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline hover:text-stone-500"
+          >
+            PA Dept. of Labor &amp; Industry
+          </a>{' '}
+          (OEWS, May 2024).
+        </p>
       </div>
+
     </div>
   );
 }
