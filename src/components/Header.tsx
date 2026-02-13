@@ -48,10 +48,10 @@ export default function Header() {
   const isAdmin = user?.publicMetadata?.role === "admin";
 
   // Close menu and reset all submenus
-  const closeMenu = () => {
+  const closeMenu = ({isResource = false, isAssessment = false}: {isResource?: boolean; isAssessment?: boolean} = {}) => {
     setIsOpen(false);
-    setShowAssessmentMenu(false);
-    setShowResourcesMenu(false);
+    setShowAssessmentMenu(isAssessment);
+    setShowResourcesMenu(isResource);
   };
 
   const handleUpdateAssessment = async () => {
@@ -66,12 +66,12 @@ export default function Header() {
     if (!confirmed) return;
     clearResults();
     navigate({ to: "/intake" });
-    closeMenu();
+    closeMenu({ isAssessment: true });
   };
 
   const handleContinueAssessment = () => {
     navigate({ to: progress.nextSection });
-    closeMenu();
+    closeMenu({ isAssessment: true });
   };
 
   const assessmentSections = [
@@ -198,7 +198,7 @@ export default function Header() {
           <h2 className="text-xl font-bold text-stone-700">Navigation</h2>
           <button
             type="button"
-            onClick={closeMenu}
+            onClick={() => closeMenu()}
             className="p-2 hover:bg-stone-100 rounded-lg transition-colors"
             aria-label="Close menu"
           >
@@ -212,7 +212,7 @@ export default function Header() {
             <div className="mb-6 m-4">
             <Link
               to="/"
-              onClick={() => setIsOpen(false)}
+              onClick={() => closeMenu()}
               className="flex items-center gap-3 p-3 rounded-lg hover:bg-stone-50 transition-colors mb-1 text-stone-700"
               activeProps={{
                 className:
@@ -227,7 +227,7 @@ export default function Header() {
             <SignedIn>
               <Link
                 to="/dashboard"
-                onClick={() => setIsOpen(false)}
+                onClick={() => closeMenu()}
                 className="flex items-center gap-3 p-3 rounded-lg hover:bg-stone-50 transition-colors mb-1 text-stone-700"
                 activeProps={{
                   className:
@@ -242,7 +242,7 @@ export default function Header() {
               {isAdmin && (
                 <Link
                   to="/admin"
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => closeMenu()}
                   className="flex items-center gap-3 p-3 rounded-lg hover:bg-stone-50 transition-colors mb-1 text-stone-700"
                   activeProps={{
                     className:
@@ -277,7 +277,7 @@ export default function Header() {
                 <div className="ml-3 mt-1 space-y-1 border-l-2 border-stone-200 pl-3">
                   <Link
                     to="/resources"
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => closeMenu({ isResource: true })}
                     className="flex items-center gap-2 p-2 rounded-lg hover:bg-stone-50 transition-colors text-sm text-stone-700"
                     activeOptions={{ exact: true }}
                     activeProps={{
@@ -296,7 +296,7 @@ export default function Header() {
                       <Link
                         key={category.slug}
                         to={category.path}
-                        onClick={() => setIsOpen(false)}
+                        onClick={() => closeMenu({ isResource: true })}
                         className="flex items-center gap-2 p-2 rounded-lg hover:bg-stone-50 transition-colors text-sm text-stone-700"
                         activeProps={{
                           className:
@@ -314,7 +314,7 @@ export default function Header() {
 
             <Link
               to="/careers"
-              onClick={() => setIsOpen(false)}
+              onClick={() => closeMenu()}
               className="flex items-center gap-3 p-3 rounded-lg hover:bg-stone-50 transition-colors mb-1 text-stone-700"
               activeProps={{
                 className:
@@ -327,7 +327,7 @@ export default function Header() {
 
             <Link
               to="/contact"
-              onClick={() => setIsOpen(false)}
+              onClick={() => closeMenu()}
               className="flex items-center gap-3 p-3 rounded-lg hover:bg-stone-50 transition-colors mb-1 text-stone-700"
               activeProps={{
                 className:
@@ -340,7 +340,7 @@ export default function Header() {
 
             <Link
               to="/about"
-              onClick={() => setIsOpen(false)}
+              onClick={() => closeMenu()}
               className="flex items-center gap-3 p-3 rounded-lg hover:bg-stone-50 transition-colors mb-1 text-stone-700"
               activeProps={{
                 className:
@@ -357,7 +357,7 @@ export default function Header() {
               <>
                 <Link
                   to="/intake/results"
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => closeMenu()}
                   className="w-full mb-2 px-4 py-2.5 bg-lime-500 hover:bg-lime-600 text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
                 >
                   <BarChart3 size={20} />
@@ -375,7 +375,7 @@ export default function Header() {
             ) : hasHydrated && progress.hasResults ? (
               <Link
                 to="/intake/results"
-                onClick={() => setIsOpen(false)}
+                onClick={() => closeMenu()}
                 className="w-full mb-3 px-4 py-2.5 bg-lime-500 hover:bg-lime-600 text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
               >
                 <BarChart3 size={20} />
@@ -484,7 +484,7 @@ export default function Header() {
                     <Link
                       key={section.id}
                       to={section.path}
-                      onClick={() => setIsOpen(false)}
+                      onClick={() => closeMenu({ isAssessment: true })}
                       className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-stone-50 transition-colors text-sm text-stone-700"
                       activeProps={{
                         className:
@@ -535,7 +535,7 @@ export default function Header() {
             <div className="flex items-center justify-center gap-3 text-xs">
               <Link
                 to="/privacy"
-                onClick={() => setIsOpen(false)}
+                onClick={() => closeMenu()}
                 className="text-stone-500 hover:text-stone-700 transition-colors"
               >
                 Privacy
@@ -543,7 +543,7 @@ export default function Header() {
               <span className="text-stone-300">·</span>
               <Link
                 to="/terms"
-                onClick={() => setIsOpen(false)}
+                onClick={() => closeMenu()}
                 className="text-stone-500 hover:text-stone-700 transition-colors"
               >
                 Terms
