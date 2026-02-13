@@ -1,26 +1,22 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
   AlertTriangle,
-  ArrowLeft,
   Award,
   BookOpen,
   Briefcase,
-  Car,
   CheckCircle,
-  ChevronDown,
   Clock,
   Compass,
-  DollarSign,
   Download,
   GraduationCap,
   Heart,
-  Home,
   Lightbulb,
   MapPin,
   Puzzle,
   RefreshCw,
   Route as RouteIcon,
   Scale,
+  Shield,
   Sparkles,
   Star,
   Target,
@@ -45,6 +41,7 @@ import { CareerMatchesTable } from "@/components/CareerMatchesTable";
 import { analyzeAssessment } from "@/lib/analyzer";
 import { DialogService } from "@/lib/dialogService";
 import { getAvailableCounties } from "@/lib/occupationService";
+import { RESOURCE_CATEGORIES, CATEGORY_COLOR_STYLES } from "@/data/resources";
 import { useAssessmentStore, useHasHydrated, useIsResultsOutdated } from "@/stores/assessmentStore";
 
 export const Route = createFileRoute("/intake/results")({
@@ -68,31 +65,31 @@ function ResultsPattern() {
       xmlns="http://www.w3.org/2000/svg"
     >
       <defs>
-        {/* Base gradient - celebratory lime/green */}
+        {/* Light warm gradient */}
         <linearGradient id="resultsBg" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#365314" />
-          <stop offset="50%" stopColor="#3f6212" />
-          <stop offset="100%" stopColor="#4d7c0f" />
+          <stop offset="0%" stopColor="#fafaf9" />
+          <stop offset="40%" stopColor="#f7fee7" />
+          <stop offset="100%" stopColor="#ecfccb" />
         </linearGradient>
 
         {/* Lime accent gradient */}
         <linearGradient id="resultsAccent" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#a3e635" stopOpacity="0.4" />
-          <stop offset="50%" stopColor="#bef264" stopOpacity="0.6" />
-          <stop offset="100%" stopColor="#a3e635" stopOpacity="0.3" />
+          <stop offset="0%" stopColor="#84cc16" stopOpacity="0.35" />
+          <stop offset="50%" stopColor="#a3e635" stopOpacity="0.5" />
+          <stop offset="100%" stopColor="#84cc16" stopOpacity="0.25" />
         </linearGradient>
 
         {/* Secondary accent */}
         <linearGradient id="resultsAccent2" x1="100%" y1="0%" x2="0%" y2="0%">
-          <stop offset="0%" stopColor="#84cc16" stopOpacity="0.5" />
-          <stop offset="50%" stopColor="#a3e635" stopOpacity="0.6" />
-          <stop offset="100%" stopColor="#65a30d" stopOpacity="0.3" />
+          <stop offset="0%" stopColor="#65a30d" stopOpacity="0.3" />
+          <stop offset="50%" stopColor="#84cc16" stopOpacity="0.4" />
+          <stop offset="100%" stopColor="#65a30d" stopOpacity="0.2" />
         </linearGradient>
 
         {/* Filled swoosh gradient */}
         <linearGradient id="resultsSwooshFill" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#65a30d" stopOpacity="0.15" />
-          <stop offset="100%" stopColor="#4d7c0f" stopOpacity="0.05" />
+          <stop offset="0%" stopColor="#84cc16" stopOpacity="0.08" />
+          <stop offset="100%" stopColor="#65a30d" stopOpacity="0.03" />
         </linearGradient>
       </defs>
 
@@ -153,41 +150,6 @@ function ResultsPattern() {
         strokeWidth="1.5"
       />
     </svg>
-  );
-}
-
-// Collapsible section component for streamlined UI
-function CollapsibleSection({
-  title,
-  description,
-  icon: Icon,
-  iconColor,
-  defaultOpen = true,
-  children,
-}: {
-  title: string;
-  description?: string;
-  icon: typeof BookOpen;
-  iconColor: string;
-  defaultOpen?: boolean;
-  children: React.ReactNode;
-}) {
-  return (
-    <details className="group mb-8" open={defaultOpen}>
-      <summary className="cursor-pointer list-none flex items-center justify-between p-4 bg-gradient-to-r from-white/80 to-stone-50/60 backdrop-blur-sm rounded-xl border border-stone-200/60 hover:from-white hover:to-white/80 transition-all shadow-sm">
-        <div className="flex items-center gap-3">
-          <div className={`p-2 rounded-lg bg-gradient-to-br ${iconColor}`}>
-            <Icon className="w-5 h-5 text-white" />
-          </div>
-          <div>
-            <h2 className="text-xl font-bold text-stone-700">{title}</h2>
-            {description && <p className="text-sm text-stone-500 group-open:hidden">{description}</p>}
-          </div>
-        </div>
-        <ChevronDown className="w-5 h-5 text-stone-400 transition-transform group-open:rotate-180" />
-      </summary>
-      <div className="mt-4 pl-2">{children}</div>
-    </details>
   );
 }
 
@@ -308,135 +270,9 @@ function ResultsPage() {
       .filter((degree) => degree.name?.trim())
       .map((degree) => {
         const levelLabel = degree.level ? levelLabels[degree.level] : "";
-        const base = levelLabel ? `${levelLabel}: ${degree.name}` : degree.name;
-        return degree.gpa ? `${base} (GPA ${degree.gpa})` : base;
+        const gpa = degree.gpa ? ` (GPA ${degree.gpa})` : "";
+        return { level: levelLabel, name: degree.name, gpa };
       });
-  }, [storedResults]);
-
-  // Generate path forward insights from challenges data
-  const pathForwardInsights = useMemo(() => {
-    if (!storedResults?.challenges) return [];
-    const c = storedResults.challenges;
-    const insights: Array<{ icon: typeof DollarSign; title: string; message: string; actionable: string }> = [];
-
-    // Financial guidance
-    if (c.financial === 'limited-funds' || c.financial === 'need-financial-aid') {
-      insights.push({
-        icon: DollarSign,
-        title: 'Financial Path',
-        message: 'We understand finances are a real consideration for you.',
-        actionable: 'Prioritize careers with paid training, apprenticeships, or employer-sponsored education. Check our Financial Aid resources for PA-specific grants and scholarships.',
-      });
-    } else if (c.financial === 'working-while-learning') {
-      insights.push({
-        icon: DollarSign,
-        title: 'Work + Learn Balance',
-        message: 'Balancing work and education takes real dedication.',
-        actionable: 'Look for evening/weekend programs, online certifications, or employers offering tuition assistance. Many of your top career matches have flexible training paths.',
-      });
-    } else if (c.financial === 'some-savings') {
-      insights.push({
-        icon: DollarSign,
-        title: 'Stretch Your Savings',
-        message: 'Your savings can go further with the right approach.',
-        actionable: 'Combine savings with grants (many PA programs require no repayment), employer tuition programs, or low-cost community college credits. Avoid high-interest loans when free options exist.',
-      });
-    }
-
-    // Time constraints
-    if (c.timeAvailability === 'very-limited' || c.timeAvailability === 'evenings-weekends' || c.timeAvailability === 'part-time') {
-      insights.push({
-        icon: Clock,
-        title: 'Time-Conscious Path',
-        message: `With ${c.timeAvailability === 'very-limited' ? 'limited hours' : c.timeAvailability === 'part-time' ? 'part-time availability' : 'only evenings/weekends'} available, efficiency matters.`,
-        actionable: 'Focus on shorter certificate programs (3-6 months) or self-paced online learning. Skilled trades apprenticeships often work around schedules.',
-      });
-    }
-
-    // Location constraints
-    if (c.locationFlexibility === 'local-only' || c.locationFlexibility === 'same-region') {
-      insights.push({
-        icon: Home,
-        title: c.locationFlexibility === 'local-only' ? 'Local Opportunities' : 'Regional Focus',
-        message: c.locationFlexibility === 'local-only'
-          ? 'Staying in your area is completely valid—roots matter.'
-          : 'Staying in your region gives you more options while keeping you close to home.',
-        actionable: 'We\'ve filtered career matches to show Pennsylvania wage data. Check local community colleges and workforce development boards for area-specific opportunities.',
-      });
-    } else if (c.locationFlexibility === 'remote-preferred') {
-      insights.push({
-        icon: Home,
-        title: 'Remote-Friendly Paths',
-        message: 'Remote work opens doors regardless of location.',
-        actionable: 'Your STEM, Communication, and Business aptitudes align well with remote-friendly careers. Look for roles marked "remote" in your career matches.',
-      });
-    }
-
-    // Family obligations
-    if (c.familyObligations === 'childcare' || c.familyObligations === 'elder-care' || c.familyObligations === 'both' || c.familyObligations === 'other') {
-      insights.push({
-        icon: Users,
-        title: 'Caregiving Balance',
-        message: 'Caring for family while building a career takes strength.',
-        actionable: 'Prioritize careers with predictable schedules, remote options, or good benefits. Many healthcare and education roles understand family needs firsthand.',
-      });
-    }
-
-    // Transportation
-    if (c.transportation === 'limited' || c.transportation === 'none' || c.transportation === 'public-transit') {
-      insights.push({
-        icon: Car,
-        title: 'Transportation Solutions',
-        message: 'Getting to work reliably is essential.',
-        actionable: 'Look for remote work, positions near public transit, or employers offering transportation assistance. Some trade unions provide rides to job sites.',
-      });
-    }
-
-    // Support system
-    if (c.supportSystem === 'limited' || c.supportSystem === 'independent') {
-      insights.push({
-        icon: Users,
-        title: 'Building Your Network',
-        message: 'Going it alone is harder, but you\'re not truly alone.',
-        actionable: 'Connect with career mentors through PA CareerLink, join professional associations, or find study groups. Our Networking resources can help you build connections.',
-      });
-    }
-
-    // Education gaps
-    if (c.educationGaps && c.educationGaps.length > 0 && !c.educationGaps.includes('None of the above')) {
-      insights.push({
-        icon: BookOpen,
-        title: 'Skill Building',
-        message: `You identified areas for growth: ${c.educationGaps.slice(0, 2).join(', ')}${c.educationGaps.length > 2 ? ', and more' : ''}.`,
-        actionable: 'That self-awareness is valuable! Free resources like Khan Academy, local library programs, and PA workforce centers can help you strengthen these areas.',
-      });
-    }
-
-    // Health considerations
-    if (c.healthConsiderations === 'physical') {
-      insights.push({
-        icon: Heart,
-        title: 'Physical Accommodations',
-        message: 'Physical considerations shouldn\'t limit your career potential.',
-        actionable: 'Look for desk-based, remote, or light-duty roles. Many employers offer accommodations under ADA. PA Office of Vocational Rehabilitation provides free services for job seekers with disabilities.',
-      });
-    } else if (c.healthConsiderations === 'mental-health') {
-      insights.push({
-        icon: Heart,
-        title: 'Mental Wellbeing at Work',
-        message: 'Your mental health matters—the right workplace can support it.',
-        actionable: 'Seek employers with mental health benefits, flexible schedules, and supportive cultures. Remote work can reduce stress. Check out our Mental Wellbeing resources section.',
-      });
-    } else if (c.healthConsiderations === 'chronic-condition') {
-      insights.push({
-        icon: Heart,
-        title: 'Managing Health & Career',
-        message: 'Living with a chronic condition requires workplace flexibility.',
-        actionable: 'Prioritize roles with comprehensive health insurance, paid sick leave, and understanding management. Government and healthcare sector jobs often have strong benefits.',
-      });
-    }
-
-    return insights;
   }, [storedResults]);
 
   // Analyze value tensions/conflicts
@@ -478,6 +314,129 @@ function ResultsPage() {
     }
 
     return tensions.slice(0, 2); // Max 2 tensions to keep it focused
+  }, [storedResults]);
+
+  // Generate challenge-aware guidance that goes beyond echoing answers
+  const challengeGuidance = useMemo(() => {
+    if (!storedResults?.challenges) return [];
+    const c = storedResults.challenges;
+    const guidance: Array<{ icon: typeof Lightbulb; label: string; tip: string }> = [];
+
+    // Financial
+    if (c.financial === 'limited-funds' || c.financial === 'need-financial-aid') {
+      guidance.push({
+        icon: Target,
+        label: 'Finances',
+        tip: 'PA offers free workforce training through CareerLink centers and community colleges often waive fees for qualifying residents. Apprenticeships let you earn while you learn — many of your top career matches have these paths.',
+      });
+    } else if (c.financial === 'working-while-learning') {
+      guidance.push({
+        icon: Target,
+        label: 'Finances',
+        tip: 'Many employers offer tuition reimbursement — ask your current employer before paying out of pocket. Evening and online programs from PA community colleges can fit around your work schedule.',
+      });
+    } else if (c.financial === 'some-savings') {
+      guidance.push({
+        icon: Target,
+        label: 'Finances',
+        tip: 'Stretch your savings by starting with low-cost credentials (certifications, community college credits) before committing to a full degree. PA state grants and FAFSA can supplement what you have.',
+      });
+    }
+
+    // Time
+    if (c.timeAvailability === 'very-limited') {
+      guidance.push({
+        icon: Clock,
+        label: 'Time',
+        tip: 'Even 30 minutes a day adds up. Focus on one micro-credential or certification at a time. Self-paced platforms like Coursera, edX, and LinkedIn Learning let you learn in small bursts that fit your schedule.',
+      });
+    } else if (c.timeAvailability === 'evenings-weekends') {
+      guidance.push({
+        icon: Clock,
+        label: 'Time',
+        tip: 'Many PA colleges offer evening and Saturday classes designed for working adults. Online certificate programs in your top career fields can often be completed in 3-6 months on a nights-and-weekends schedule.',
+      });
+    } else if (c.timeAvailability === 'part-time') {
+      guidance.push({
+        icon: Clock,
+        label: 'Time',
+        tip: 'With part-time hours, you can pursue accelerated programs or stack short certifications toward your goals. Consider hybrid programs that mix online self-study with occasional in-person sessions.',
+      });
+    }
+
+    // Location
+    if (c.locationFlexibility === 'local-only') {
+      guidance.push({
+        icon: MapPin,
+        label: 'Location',
+        tip: 'Your local area likely has more opportunities than you think. PA workforce development boards, community colleges, and libraries offer free career services. Remote-eligible roles in your matches also keep you local while broadening options.',
+      });
+    } else if (c.locationFlexibility === 'remote-preferred') {
+      guidance.push({
+        icon: MapPin,
+        label: 'Location',
+        tip: 'Remote work is growing fast in STEM, business, and communication fields. Build a strong online presence (LinkedIn, portfolio) and target companies with established remote cultures rather than temporary arrangements.',
+      });
+    }
+
+    // Family obligations
+    if (c.familyObligations === 'childcare' || c.familyObligations === 'elder-care' || c.familyObligations === 'both') {
+      guidance.push({
+        icon: Heart,
+        label: 'Caregiving',
+        tip: 'Careers with predictable schedules, remote options, and strong benefits will serve you well. Many employers increasingly value caregiving experience as leadership and organization skills — don\'t discount what you already do.',
+      });
+    }
+
+    // Transportation
+    if (c.transportation === 'limited' || c.transportation === 'none' || c.transportation === 'public-transit') {
+      guidance.push({
+        icon: MapPin,
+        label: 'Transportation',
+        tip: 'Prioritize remote-eligible roles from your career matches. For in-person positions, many PA counties offer reduced-fare transit programs. Some trade unions and larger employers provide transportation assistance for new hires.',
+      });
+    }
+
+    // Health
+    if (c.healthConsiderations === 'physical') {
+      guidance.push({
+        icon: Heart,
+        label: 'Health',
+        tip: 'Focus on desk-based or remote roles from your career matches. Employers must provide reasonable accommodations under ADA, and PA\'s Office of Vocational Rehabilitation offers free career services, training, and job placement support.',
+      });
+    } else if (c.healthConsiderations === 'mental-health') {
+      guidance.push({
+        icon: Heart,
+        label: 'Wellbeing',
+        tip: 'The right work environment makes a real difference. Seek employers with mental health benefits and flexible schedules. Roles with autonomy and low-pressure cultures often align well — many remote positions score high here.',
+      });
+    } else if (c.healthConsiderations === 'chronic-condition') {
+      guidance.push({
+        icon: Heart,
+        label: 'Health',
+        tip: 'Target employers with comprehensive health benefits — government, healthcare, and education sectors often lead here. Flexible and remote roles give you the ability to manage your condition alongside a fulfilling career.',
+      });
+    }
+
+    // Education gaps
+    if (c.educationGaps && c.educationGaps.length > 0 && !c.educationGaps.includes('None of the above')) {
+      guidance.push({
+        icon: BookOpen,
+        label: 'Skill Gaps',
+        tip: `You identified growth areas in ${c.educationGaps.slice(0, 2).join(' and ').toLowerCase()}. Free resources like Khan Academy, your local library, and PA CareerLink workshops can close these gaps quickly — often in weeks, not months.`,
+      });
+    }
+
+    // Support system
+    if (c.supportSystem === 'limited' || c.supportSystem === 'independent') {
+      guidance.push({
+        icon: Users,
+        label: 'Support',
+        tip: 'Building a professional network is a skill, not a personality trait. Start with one connection: a career counselor at PA CareerLink, a professional association meetup, or an online community in your top career field.',
+      });
+    }
+
+    return guidance;
   }, [storedResults]);
 
   // Age-appropriate insights
@@ -630,6 +589,11 @@ function ResultsPage() {
     return resources.slice(0, 4); // Max 4 recommendations
   }, [storedResults]);
 
+  // Set of recommended resource slugs for highlighting
+  const recommendedSlugs = useMemo(() => {
+    return new Set(recommendedResources.map(r => r.slug));
+  }, [recommendedResources]);
+
   // Show loading while store is hydrating or results are being processed
   if (!hasHydrated || !storedResults || !analysis) {
     return (
@@ -655,26 +619,26 @@ function ResultsPage() {
 
   return (
     <div className="min-h-screen bg-stone-50">
-      {/* Hero Section with Extended Swoosh Pattern */}
-      <div className="relative overflow-hidden results-hero bg-gradient-to-br from-lime-900 via-lime-800 to-lime-700">
-        {/* Pattern extends behind both hero and profile card */}
-        <div className="absolute inset-0 pb-32">
+      {/* Hero Section - Light & Warm */}
+      <div className="relative overflow-hidden">
+        {/* Pattern extends behind hero and profile card */}
+        <div className="absolute inset-0">
           <ResultsPattern />
         </div>
 
         {/* Hero Content */}
         <Container className="relative z-10 pt-12 md:pt-16 pb-8">
-          <div className="text-center max-w-3xl mx-auto text-white">
-            <div className="mb-6 inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-md rounded-full border border-white/30">
-              <Award className="w-10 h-10 text-lime-300" />
+          <div className="text-center max-w-3xl mx-auto">
+            <div className="mb-6 inline-flex items-center justify-center w-20 h-20 bg-lime-100 rounded-full border-2 border-lime-300 shadow-md">
+              <Award className="w-10 h-10 text-lime-600" />
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-stone-800 mb-4">
               Your Career Assessment Results
             </h1>
-            <p className="text-xl text-lime-100 mb-2">
+            <p className="text-xl text-stone-600 mb-2">
               Hi {storedResults.basic.name}! Here's your personalized career insights.
             </p>
-            <p className="text-sm text-lime-200/70">
+            <p className="text-sm text-stone-400">
               Completed on{" "}
               {new Date(storedResults.completedAt).toLocaleDateString("en-US", {
                 year: "numeric",
@@ -685,7 +649,7 @@ function ResultsPage() {
           </div>
         </Container>
 
-        {/* Quick Profile Summary - Glass Card overlapping pattern */}
+        {/* Profile at a Glance */}
         <Container className="relative z-10 px-6 pb-12">
           {/* Migration Warning Banner */}
           {isOutdated && (
@@ -713,51 +677,63 @@ function ResultsPage() {
           )}
 
           <section className="mb-8" style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
-            <Card className="bg-white/20 backdrop-blur-lg border border-white/40 shadow-xl">
+            <Card className="bg-white/90 backdrop-blur-sm border border-stone-200/80 shadow-xl rounded-2xl">
               <CardContent className="p-6">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 bg-lime-500 rounded-full flex items-center justify-center shadow-lg">
-                    <User className="w-6 h-6 text-white" />
+                  <div className="w-10 h-10 bg-lime-500 rounded-full flex items-center justify-center shadow-md">
+                    <User className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-white drop-shadow-md">Your Profile at a Glance</h3>
-                    <p className="text-white/80">Based on your assessment responses</p>
+                    <h3 className="text-xl font-bold text-stone-800">Your Profile at a Glance</h3>
+                    <p className="text-sm text-stone-500">Based on your assessment responses</p>
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-6">
+                <div className="grid md:grid-cols-3 gap-5">
                   {/* Top Aptitudes */}
-                  <div className="bg-white/55 backdrop-blur-md rounded-lg p-4 border border-white/40 shadow-md">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Puzzle className="w-5 h-5 text-purple-600" />
-                      <h4 className="font-semibold text-stone-700">Top Aptitudes</h4>
+                  <div className="bg-white rounded-xl p-5 border border-stone-200 shadow-sm">
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                        <Puzzle className="w-4 h-4 text-purple-600" />
+                      </div>
+                      <h4 className="font-semibold text-stone-800">Top Aptitudes</h4>
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                       {topAptitudes.map((apt, i) => (
-                        <div key={apt.cluster} className="flex items-center justify-between">
-                          <span className="text-sm text-stone-600">
-                            {i + 1}. {clusterNames[apt.cluster] || apt.cluster}
-                          </span>
-                          <span className="text-xs font-bold text-lime-600">{apt.score}%</span>
+                        <div key={apt.cluster}>
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="text-sm font-medium text-stone-700">
+                              {i + 1}. {clusterNames[apt.cluster] || apt.cluster}
+                            </span>
+                            <span className="text-sm font-bold text-purple-700">{apt.score}%</span>
+                          </div>
+                          <div className="w-full bg-purple-100 rounded-full h-2">
+                            <div
+                              className="h-2 rounded-full bg-purple-500"
+                              style={{ width: `${apt.score}%` }}
+                            />
+                          </div>
                         </div>
                       ))}
                     </div>
                   </div>
 
                   {/* Top Values */}
-                  <div className="bg-white/55 backdrop-blur-md rounded-lg p-4 border border-white/40 shadow-md">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Heart className="w-5 h-5 text-pink-600" />
-                      <h4 className="font-semibold text-stone-700">What Matters Most</h4>
+                  <div className="bg-white rounded-xl p-5 border border-stone-200 shadow-sm">
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center">
+                        <Heart className="w-4 h-4 text-pink-600" />
+                      </div>
+                      <h4 className="font-semibold text-stone-800">What Matters Most</h4>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {topValues.map((value) => (
                         <span
                           key={value.label}
-                          className={`inline-flex items-center text-xs px-2 py-1 rounded-full ${
+                          className={`inline-flex items-center text-xs px-2.5 py-1.5 rounded-full font-medium ${
                             value.isTop
                               ? 'bg-pink-100 text-pink-700 border border-pink-300'
-                              : 'bg-stone-100 text-stone-600'
+                              : 'bg-stone-100 text-stone-600 border border-stone-200'
                           }`}
                         >
                           {value.isTop && <Star className="w-3 h-3 mr-1" />}
@@ -768,33 +744,41 @@ function ResultsPage() {
                   </div>
 
                   {/* Education & Status */}
-                  <div className="bg-white/55 backdrop-blur-md rounded-lg p-4 border border-white/40 shadow-md">
-                    <div className="flex items-center gap-2 mb-3">
-                      <GraduationCap className="w-5 h-5 text-lime-600" />
-                      <h4 className="font-semibold text-stone-700">Current Situation</h4>
+                  <div className="bg-white rounded-xl p-5 border border-stone-200 shadow-sm">
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="w-8 h-8 bg-lime-100 rounded-lg flex items-center justify-center">
+                        <GraduationCap className="w-4 h-4 text-lime-700" />
+                      </div>
+                      <h4 className="font-semibold text-stone-800">Current Situation</h4>
                     </div>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex items-center gap-2 text-stone-600">
-                        <span>Education:</span>
-                        <span className="font-semibold text-stone-700">
+                    <div className="space-y-3">
+                      <div>
+                        <span className="text-xs font-medium uppercase tracking-wider text-stone-400">Education</span>
+                        <p className="text-sm font-semibold text-stone-800">
                           {storedResults.basic.educationLevel.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
-                        </span>
+                        </p>
                       </div>
                       {degreeSummary.length > 0 && (
-                        <div className="text-stone-600">
-                          <span className="block">Degrees & Certifications:</span>
-                          <ul className="mt-1 list-disc list-inside text-stone-700 space-y-1">
+                        <div>
+                          <span className="text-xs font-medium uppercase tracking-wider text-stone-400">Degrees & Certifications</span>
+                          <div className="mt-1 space-y-1">
                             {degreeSummary.map((degree, index) => (
-                              <li key={`${degree}-${index}`}>{degree}</li>
+                              <p key={`${degree.name}-${index}`} className="text-sm text-stone-700 leading-snug">
+                                {degree.level ? (
+                                  <><span className="font-semibold">{degree.level}:</span> {degree.name}{degree.gpa}</>
+                                ) : (
+                                  <>{degree.name}{degree.gpa}</>
+                                )}
+                              </p>
                             ))}
-                          </ul>
+                          </div>
                         </div>
                       )}
-                      <div className="flex items-center gap-2 text-stone-600">
-                        <span>Status:</span>
-                        <span className="font-semibold text-stone-700">
+                      <div>
+                        <span className="text-xs font-medium uppercase tracking-wider text-stone-400">Employment</span>
+                        <p className="text-sm font-semibold text-stone-800">
                           {storedResults.basic.employmentStatus.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
-                        </span>
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -821,7 +805,7 @@ function ResultsPage() {
               fill="none"
               stroke="#a3e635"
               strokeWidth="2"
-              opacity="0.4"
+              opacity="0.3"
             />
           </svg>
         </div>
@@ -831,7 +815,7 @@ function ResultsPage() {
       <Container className="py-8 md:py-12 px-6">
 
         {/* Top Career Fields - Compact Display */}
-        <section className="mb-8">
+        <section className="mb-16">
           <div className="flex items-center gap-3 mb-4">
             <TrendingUp className="w-6 h-6 text-lime-600" />
             <h2 className="text-2xl font-bold text-stone-700">
@@ -877,7 +861,7 @@ function ResultsPage() {
         </section>
 
         {/* Career Matches Section - Primary Content */}
-        <section className="mb-8">
+        <section className="mb-16">
           <div className="flex items-center gap-3 mb-4">
             <Briefcase className="w-6 h-6 text-blue-600" />
             <h2 className="text-2xl font-bold text-stone-700">
@@ -931,201 +915,210 @@ function ResultsPage() {
           )}
         </section>
 
-        {/* Understanding Your Profile - Collapsible Deep Dive */}
-        <CollapsibleSection
-          title="Understanding Your Profile"
-          description="Your work style, personality insights & core values"
-          icon={User}
-          iconColor="from-purple-500 to-indigo-600"
-        >
+        {/* How You Work Best */}
+        <section className="mb-16">
+          <div className="flex items-center gap-3 mb-5">
+            <div className="p-2 rounded-lg bg-linear-to-br from-purple-500 to-indigo-600">
+              <Compass className="w-5 h-5 text-white" />
+            </div>
+            <h2 className="text-2xl font-bold text-stone-700">How You Work Best</h2>
+          </div>
+
           {workStyleProfile && (
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold text-stone-700 mb-3 flex items-center gap-2">
-                <Compass className="w-5 h-5 text-lime-600" />
-                Work Style Preferences
-              </h3>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {[
-                  { label: 'Environment', value: workStyleProfile.environment, icon: Briefcase, color: 'lime' },
-                  { label: 'Interaction', value: workStyleProfile.interaction, icon: Users, color: 'purple' },
-                  { label: 'Structure', value: workStyleProfile.structure, icon: Target, color: 'green' },
-                  { label: 'Work Pace', value: workStyleProfile.pace, icon: Clock, color: 'orange' },
-                  { label: 'Decisions', value: workStyleProfile.decisionStyle, icon: Lightbulb, color: 'yellow' },
-                  { label: 'Energy From', value: workStyleProfile.energySource, icon: Zap, color: 'pink' },
-                ].map((item) => (
-                  <div key={item.label} className="flex items-center gap-2 p-2 bg-white/60 rounded-lg border border-stone-100 text-sm">
-                    <item.icon className={`w-4 h-4 text-${item.color}-600`} />
-                    <span className="text-stone-500">{item.label}:</span>
-                    <span className="font-medium text-stone-700">{item.value}</span>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-5">
+              {[
+                { label: 'Environment', value: workStyleProfile.environment, icon: Briefcase, bg: 'bg-lime-50', border: 'border-lime-200', iconColor: 'text-lime-600' },
+                { label: 'Interaction', value: workStyleProfile.interaction, icon: Users, bg: 'bg-purple-50', border: 'border-purple-200', iconColor: 'text-purple-600' },
+                { label: 'Structure', value: workStyleProfile.structure, icon: Target, bg: 'bg-green-50', border: 'border-green-200', iconColor: 'text-green-600' },
+                { label: 'Work Pace', value: workStyleProfile.pace, icon: Clock, bg: 'bg-orange-50', border: 'border-orange-200', iconColor: 'text-orange-600' },
+                { label: 'Decisions', value: workStyleProfile.decisionStyle, icon: Lightbulb, bg: 'bg-amber-50', border: 'border-amber-200', iconColor: 'text-amber-600' },
+                { label: 'Energy From', value: workStyleProfile.energySource, icon: Zap, bg: 'bg-pink-50', border: 'border-pink-200', iconColor: 'text-pink-600' },
+              ].map((item) => (
+                <div key={item.label} className={`flex items-center gap-3 p-3 rounded-xl border ${item.bg} ${item.border}`}>
+                  <div className="shrink-0 w-9 h-9 bg-white rounded-lg flex items-center justify-center shadow-sm">
+                    <item.icon className={`w-4 h-4 ${item.iconColor}`} />
                   </div>
-                ))}
-              </div>
+                  <div className="min-w-0">
+                    <span className="text-xs font-medium uppercase tracking-wider text-stone-400 block">{item.label}</span>
+                    <span className="text-sm font-semibold text-stone-700">{item.value}</span>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
 
           {analysis?.personalityInsights && analysis.personalityInsights.length > 0 && (
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold text-stone-700 mb-3 flex items-center gap-2">
-                <Lightbulb className="w-5 h-5 text-amber-500" />
-                Personality Insights
-              </h3>
-              <ul className="space-y-2">
+            <div className="bg-stone-50 rounded-xl p-4 border border-stone-200">
+              <div className="flex items-center gap-2 mb-3">
+                <Lightbulb className="w-4 h-4 text-amber-500" />
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-stone-500">Personality Insights</h3>
+              </div>
+              <div className="grid sm:grid-cols-2 gap-x-6 gap-y-2">
                 {analysis.personalityInsights.map((insight, index) => (
-                  <li key={index} className="flex items-start gap-2 text-sm">
-                    <CheckCircle className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
+                  <div key={index} className="flex items-center gap-2 text-sm">
+                    <span className="text-stone-800 shrink-0">•</span>
                     <span className="text-stone-600">{insight}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {reasonMessage && (
-            <div className="mb-6 p-4 bg-violet-50/80 rounded-lg border border-violet-200/60">
-              <h3 className="text-lg font-semibold text-stone-700 mb-2 flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-violet-500" />
-                Why You're Here
-              </h3>
-              <blockquote className="text-stone-600 italic border-l-3 border-violet-400 pl-3 text-sm">
-                "{reasonMessage.message}"
-              </blockquote>
-            </div>
-          )}
-
-          {ageInsights && (
-            <div className="mb-6 p-4 bg-indigo-50/80 rounded-lg border border-indigo-200/60">
-              <h3 className="text-lg font-semibold text-stone-700 mb-2 flex items-center gap-2">
-                <User className="w-5 h-5 text-indigo-500" />
-                {ageInsights.title}
-              </h3>
-              <p className="text-stone-600 text-sm">{ageInsights.message}</p>
-            </div>
-          )}
-
-          {valueTensions.length > 0 && (
-            <div>
-              <h3 className="text-lg font-semibold text-stone-700 mb-3 flex items-center gap-2">
-                <Scale className="w-5 h-5 text-cyan-600" />
-                Balancing Your Values
-              </h3>
-              <div className="space-y-3">
-                {valueTensions.map((tension, index) => (
-                  <div key={index} className="p-3 bg-white/60 rounded-lg border border-cyan-200/60">
-                    <div className="flex items-center gap-2 mb-2 flex-wrap">
-                      {tension.values.map((v, i) => (
-                        <span key={v}>
-                          <span className="px-2 py-0.5 bg-cyan-100 text-cyan-700 rounded text-xs font-medium">
-                            {v}
-                          </span>
-                          {i < tension.values.length - 1 && <span className="text-stone-400 mx-1">+</span>}
-                        </span>
-                      ))}
-                    </div>
-                    <p className="text-stone-600 text-sm">{tension.insight}</p>
                   </div>
                 ))}
               </div>
             </div>
           )}
-        </CollapsibleSection>
+        </section>
 
-        {/* Your Action Plan - Collapsible */}
-        <CollapsibleSection
-          title="Your Action Plan"
-          description="Next steps, resources & personalized recommendations"
-          icon={RouteIcon}
-          iconColor="from-emerald-500 to-teal-600"
-        >
-          {pathForwardInsights.length > 0 && (
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold text-stone-700 mb-3">Based on Your Situation</h3>
-              <div className="space-y-3">
-                {pathForwardInsights.map((insight, index) => {
-                  const IconComponent = insight.icon;
-                  return (
-                    <div key={index} className="p-4 bg-white/80 rounded-lg border border-emerald-200/60">
-                      <div className="flex items-start gap-3">
-                        <div className="shrink-0 w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
-                          <IconComponent className="w-4 h-4 text-emerald-600" />
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="font-medium text-stone-700 text-sm">{insight.title}</h4>
-                          <p className="text-stone-500 text-sm mb-2">{insight.message}</p>
-                          <p className="text-emerald-700 text-xs bg-emerald-50 rounded p-2">
-                            <strong>Action:</strong> {insight.actionable}
-                          </p>
-                        </div>
+        {/* Key Insights */}
+        <section className="mb-16">
+          <div className="flex items-center gap-3 mb-5">
+            <div className="p-2 rounded-lg bg-linear-to-br from-violet-500 to-purple-600">
+              <Sparkles className="w-5 h-5 text-white" />
+            </div>
+            <h2 className="text-2xl font-bold text-stone-700">Key Insights</h2>
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-4">
+            {ageInsights && (
+              <div className="p-5 bg-indigo-50 rounded-xl border border-indigo-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <User className="w-4 h-4 text-indigo-600" />
+                  <h3 className="font-semibold text-stone-800 text-sm">{ageInsights.title}</h3>
+                </div>
+                <p className="text-stone-600 text-sm leading-relaxed">{ageInsights.message}</p>
+              </div>
+            )}
+
+            {reasonMessage && (
+              <div className="p-5 bg-violet-50 rounded-xl border border-violet-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <Sparkles className="w-4 h-4 text-violet-600" />
+                  <h3 className="font-semibold text-stone-800 text-sm">Why You're Here</h3>
+                </div>
+                <blockquote className="text-stone-600 italic text-sm leading-relaxed">
+                  "{reasonMessage.message}"
+                </blockquote>
+              </div>
+            )}
+
+            {valueTensions.map((tension, index) => (
+              <div key={index} className="p-5 bg-cyan-50 rounded-xl border border-cyan-200">
+                <div className="flex items-center gap-2 mb-2 flex-wrap">
+                  <Scale className="w-4 h-4 text-cyan-600" />
+                  {tension.values.map((v, i) => (
+                    <span key={v}>
+                      <span className="px-2 py-0.5 bg-cyan-100 text-cyan-700 rounded text-xs font-semibold">
+                        {v}
+                      </span>
+                      {i < tension.values.length - 1 && <span className="text-stone-400 mx-1">+</span>}
+                    </span>
+                  ))}
+                </div>
+                <p className="text-stone-600 text-sm leading-relaxed">{tension.insight}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Navigating Your Challenges */}
+        {challengeGuidance.length > 0 && (
+          <section className="mb-16">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="p-2 rounded-lg bg-linear-to-br from-amber-500 to-orange-600">
+                <Shield className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-stone-700">Navigating Your Challenges</h2>
+                <p className="text-sm text-stone-500">Practical guidance tailored to your situation</p>
+              </div>
+            </div>
+
+            {storedResults?.challenges?.additionalNotes && storedResults.challenges.additionalNotes.trim() !== '' && (
+              <div className="mb-4 p-4 bg-amber-50 rounded-xl border border-amber-200">
+                <div className="flex items-center gap-2 mb-1">
+                  <Lightbulb className="w-4 h-4 text-amber-600" />
+                  <span className="font-semibold text-stone-700 text-sm">You mentioned</span>
+                </div>
+                <p className="text-stone-600 text-sm italic">"{storedResults.challenges.additionalNotes}"</p>
+              </div>
+            )}
+
+            <div className="space-y-3">
+              {challengeGuidance.map((item, index) => {
+                const IconComponent = item.icon;
+                return (
+                  <div key={index} className="flex items-start gap-4 p-4 bg-white rounded-xl border border-stone-200 shadow-sm">
+                    <div className="shrink-0">
+                      <div className="w-9 h-9 bg-amber-100 rounded-lg flex items-center justify-center">
+                        <IconComponent className="w-4 h-4 text-amber-700" />
                       </div>
                     </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {storedResults?.challenges?.additionalNotes && storedResults.challenges.additionalNotes.trim() !== '' && (
-            <div className="mb-6 p-4 bg-amber-50/80 rounded-lg border border-amber-200/60">
-              <h4 className="font-medium text-stone-700 text-sm flex items-center gap-2 mb-2">
-                <Lightbulb className="w-4 h-4 text-amber-600" />
-                What You Shared
-              </h4>
-              <p className="text-stone-600 text-sm italic">"{storedResults.challenges.additionalNotes}"</p>
-            </div>
-          )}
-
-          {recommendedResources.length > 0 && (
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold text-stone-700 mb-3">Recommended Resources</h3>
-              <div className="grid sm:grid-cols-2 gap-3">
-                {recommendedResources.map((resource, index) => (
-                  <Link
-                    key={index}
-                    to="/resources/$categorySlug"
-                    params={{ categorySlug: resource.slug }}
-                    className="group block p-3 bg-white/80 rounded-lg border border-teal-200/60 hover:border-teal-400 transition-colors"
-                  >
-                    <h4 className="font-medium text-stone-700 group-hover:text-teal-600 transition-colors text-sm">
-                      {resource.title}
-                    </h4>
-                    <p className="text-xs text-stone-500">{resource.reason}</p>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {analysis?.recommendations && analysis.recommendations.length > 0 && (
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold text-stone-700 mb-3">Personalized Recommendations</h3>
-              <ul className="space-y-2">
-                {analysis.recommendations.map((recommendation, index) => (
-                  <li key={index} className="flex items-start gap-2">
-                    <div className="shrink-0 w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center mt-0.5">
-                      <span className="text-xs font-bold text-white">{index + 1}</span>
+                    <div className="min-w-0">
+                      <span className="text-xs font-semibold uppercase tracking-wider text-amber-600">{item.label}</span>
+                      <p className="text-stone-700 text-sm leading-relaxed mt-0.5">{item.tip}</p>
                     </div>
-                    <span className="text-stone-600 text-sm">{recommendation}</span>
-                  </li>
-                ))}
-              </ul>
+                  </div>
+                );
+              })}
             </div>
-          )}
+          </section>
+        )}
 
-          {analysis?.nextSteps && analysis.nextSteps.length > 0 && (
-            <div>
-              <h3 className="text-lg font-semibold text-stone-700 mb-3">Your Next Steps</h3>
-              <ol className="space-y-2">
-                {analysis.nextSteps.map((step, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <div className="shrink-0 w-6 h-6 bg-lime-100 rounded-full flex items-center justify-center">
-                      <span className="text-sm font-semibold text-lime-700">{index + 1}</span>
-                    </div>
-                    <span className="text-stone-600 text-sm pt-0.5">{step}</span>
-                  </li>
-                ))}
-              </ol>
+        {/* Your Next Steps */}
+        <section className="mb-16">
+          <div className="flex items-center gap-3 mb-5">
+            <div className="p-2 rounded-lg bg-linear-to-br from-emerald-500 to-teal-600">
+              <RouteIcon className="w-5 h-5 text-white" />
             </div>
-          )}
-        </CollapsibleSection>
+            <h2 className="text-2xl font-bold text-stone-700">Your Next Steps</h2>
+          </div>
+
+          <div className="space-y-3">
+            {analysis?.nextSteps && analysis.nextSteps.map((step, index) => (
+              <div key={index} className="flex items-start gap-4 p-4 bg-white rounded-xl border border-stone-200 shadow-sm">
+                <div className="shrink-0 w-8 h-8 bg-lime-100 rounded-full flex items-center justify-center">
+                  <span className="text-sm font-bold text-lime-700">{index + 1}</span>
+                </div>
+                <span className="text-stone-700 text-sm pt-1.5 leading-relaxed">{step}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Explore Resources - Prominent Section */}
+        <section className="mb-16 bg-stone-100 rounded-2xl p-6 md:p-8 border border-stone-200">
+          <div className="text-center mb-6">
+            <div className="inline-flex items-center justify-center w-12 h-12 bg-white rounded-full shadow-md border border-stone-200 mb-3">
+              <BookOpen className="w-6 h-6 text-blue-600" />
+            </div>
+            <h2 className="text-2xl font-bold text-stone-800">Explore Resources</h2>
+            <p className="text-stone-500 text-sm mt-1">Curated categories to support your journey</p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            {RESOURCE_CATEGORIES.map((cat) => {
+              const CatIcon = cat.icon;
+              const colors = CATEGORY_COLOR_STYLES[cat.color];
+              const isRecommended = recommendedSlugs.has(cat.slug);
+              return (
+                <Link
+                  key={cat.slug}
+                  to="/resources/$categorySlug"
+                  params={{ categorySlug: cat.slug }}
+                  className={`group relative block p-4 rounded-xl border-2 transition-all hover:shadow-md hover:scale-[1.02] ${colors.bg} ${colors.border} ${colors.borderHover}`}
+                >
+                  {isRecommended && (
+                    <span className="absolute -top-2 -right-2 px-2 py-0.5 bg-lime-500 text-white text-[10px] font-bold rounded-full shadow-sm">
+                      For You
+                    </span>
+                  )}
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center mb-2 ${colors.iconBg} border ${colors.iconBorder}`}>
+                    <CatIcon className={`w-4 h-4 ${colors.iconText}`} />
+                  </div>
+                  <h4 className="font-semibold text-stone-700 text-sm leading-tight mb-1 group-hover:text-stone-900">
+                    {cat.title}
+                  </h4>
+                  <p className="text-xs text-stone-500 leading-snug">{cat.description}</p>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
 
         {/* Actions - Hidden in print */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6 print-hidden">
@@ -1138,12 +1131,6 @@ function ResultsPage() {
             <Download className="w-5 h-5" />
             Download Results (PDF)
           </Button>
-          <Link
-            to="/resources"
-            className="inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-stone-200 text-stone-700 hover:bg-stone-300 active:bg-stone-400 focus:ring-stone-300 px-6 py-3 text-lg"
-          >
-            Explore Resources
-          </Link>
         </div>
 
         {/* Retake Assessment - Hidden in print */}
@@ -1174,27 +1161,16 @@ function ResultsPage() {
           </p>
         </div>
 
-        {/* Back Link - Hidden in print */}
-        <div className="text-center print-hidden">
-          <Link
-            to="/intake/review"
-            className="inline-flex items-center gap-2 text-stone-600 hover:text-stone-700 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Review
-          </Link>
-        </div>
-
         {/* Print-only footer */}
         <div className="print-only text-center mt-8 pt-4 border-t border-stone-200">
           <p className="text-xs text-stone-500 mb-2">
             For informational purposes only. Not professional career counseling. Consult a licensed advisor before making career decisions.
           </p>
           <p className="text-sm text-stone-600">
-            Generated from compasscoaching.org on {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+            Generated from compasscoachingpa.org on {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
           </p>
           <p className="text-xs text-stone-500 mt-1">
-            Visit compasscoaching.org for updated career matches and personalized resources.
+            Visit compasscoachingpa.org for updated career matches and personalized resources.
           </p>
         </div>
       </Container>
