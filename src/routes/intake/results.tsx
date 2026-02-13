@@ -27,7 +27,6 @@ import { useEffect, useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -665,7 +664,7 @@ function ResultsPage() {
   // Show loading while store is hydrating or results are being processed
   if (!hasHydrated || !storedResults || !analysis) {
     return (
-      <div className="min-h-screen bg-stone-50 flex items-center justify-center">
+      <div className="min-h-screen bg-stone-100 flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-lime-400 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
           <p className="text-stone-600">Loading your results...</p>
@@ -686,7 +685,7 @@ function ResultsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-stone-100">
       {/* Hero Section - Light & Warm */}
       <div className="relative overflow-hidden">
         {/* Pattern extends behind hero and profile card */}
@@ -697,7 +696,7 @@ function ResultsPage() {
         {/* Hero Content */}
         <Container className="relative z-10 pt-12 md:pt-16 pb-8">
           <div className="text-center max-w-3xl mx-auto">
-            <div className="mb-6 inline-flex items-center justify-center w-20 h-20 bg-lime-100 rounded-full border-2 border-lime-300 shadow-md">
+            <div className="mb-6 inline-flex items-center justify-center w-20 h-20 bg-stone-100 rounded-full border border-white/60 shadow-[4px_4px_10px_rgba(0,0,0,0.1),-4px_-4px_10px_rgba(255,255,255,0.95)]">
               <Award className="w-10 h-10 text-lime-600" />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-stone-800 mb-4">
@@ -721,12 +720,12 @@ function ResultsPage() {
         <Container className="relative z-10 px-6 pb-12">
           {/* Migration Warning Banner */}
           {isOutdated && (
-            <Card className="mb-8 bg-white/90 backdrop-blur-sm border border-amber-200/80 shadow-xl rounded-2xl overflow-hidden print-hidden">
+            <div className="mb-8 bg-stone-100 rounded-2xl overflow-hidden border border-white/50 shadow-[4px_4px_10px_rgba(0,0,0,0.08),-4px_-4px_10px_rgba(255,255,255,0.9)] print-hidden">
               <div className="h-1 bg-gradient-to-r from-amber-400 via-amber-500 to-orange-400" />
-              <CardContent className="p-6">
+              <div className="p-6">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
                   <div className="flex items-start gap-4 flex-1">
-                    <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center shrink-0 shadow-sm">
+                    <div className="w-10 h-10 bg-stone-100 rounded-full flex items-center justify-center shrink-0 shadow-[2px_2px_5px_rgba(0,0,0,0.08),-2px_-2px_5px_rgba(255,255,255,0.9)]">
                       <Sparkles className="w-5 h-5 text-amber-600" />
                     </div>
                     <div>
@@ -740,22 +739,21 @@ function ResultsPage() {
                   <Button
                     variant="primary"
                     size="md"
-                    className="shrink-0 bg-amber-500 hover:bg-amber-600 shadow-md"
+                    className="shrink-0 bg-amber-500 hover:bg-amber-600 shadow-[2px_2px_5px_rgba(0,0,0,0.12),-2px_-2px_5px_rgba(255,255,255,0.8)]"
                     onClick={handleRetake}
                   >
                     <RefreshCw className="w-4 h-4 mr-2" />
                     Retake Assessment
                   </Button>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           )}
 
           <section className="mb-8" style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
-            <Card className="bg-white/90 backdrop-blur-sm border border-stone-200/80 shadow-xl rounded-2xl">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-lime-500 rounded-full flex items-center justify-center shadow-md">
+            <div className="bg-stone-100 rounded-2xl p-6 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.07),inset_-3px_-3px_6px_rgba(255,255,255,0.8)] border border-white/50">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-lime-500 rounded-full flex items-center justify-center shadow-[2px_2px_6px_rgba(0,0,0,0.15),-2px_-2px_6px_rgba(255,255,255,0.9)]">
                     <User className="w-5 h-5 text-white" />
                   </div>
                   <div>
@@ -766,9 +764,9 @@ function ResultsPage() {
 
                 <div className="grid md:grid-cols-3 gap-5">
                   {/* Top Aptitudes */}
-                  <div className="bg-white rounded-xl p-5 border border-stone-200 shadow-sm">
+                  <div className="bg-purple-50/40 rounded-xl p-5 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)] border border-white/60">
                     <div className="flex items-center gap-2 mb-4">
-                      <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                      <div className="w-8 h-8 bg-purple-100/80 rounded-lg flex items-center justify-center shadow-[inset_1px_1px_2px_rgba(0,0,0,0.05),inset_-1px_-1px_2px_rgba(255,255,255,0.7)]">
                         <Puzzle className="w-4 h-4 text-purple-600" />
                       </div>
                       <h4 className="font-semibold text-stone-800">Top Aptitudes</h4>
@@ -794,9 +792,9 @@ function ResultsPage() {
                   </div>
 
                   {/* Top Values */}
-                  <div className="bg-white rounded-xl p-5 border border-stone-200 shadow-sm">
+                  <div className="bg-pink-50/40 rounded-xl p-5 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)] border border-white/60">
                     <div className="flex items-center gap-2 mb-4">
-                      <div className="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center">
+                      <div className="w-8 h-8 bg-pink-100/80 rounded-lg flex items-center justify-center shadow-[inset_1px_1px_2px_rgba(0,0,0,0.05),inset_-1px_-1px_2px_rgba(255,255,255,0.7)]">
                         <Heart className="w-4 h-4 text-pink-600" />
                       </div>
                       <h4 className="font-semibold text-stone-800">What Matters Most</h4>
@@ -819,9 +817,9 @@ function ResultsPage() {
                   </div>
 
                   {/* Education & Status */}
-                  <div className="bg-white rounded-xl p-5 border border-stone-200 shadow-sm">
+                  <div className="bg-lime-50/40 rounded-xl p-5 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)] border border-white/60">
                     <div className="flex items-center gap-2 mb-4">
-                      <div className="w-8 h-8 bg-lime-100 rounded-lg flex items-center justify-center">
+                      <div className="w-8 h-8 bg-lime-100/80 rounded-lg flex items-center justify-center shadow-[inset_1px_1px_2px_rgba(0,0,0,0.05),inset_-1px_-1px_2px_rgba(255,255,255,0.7)]">
                         <GraduationCap className="w-4 h-4 text-lime-700" />
                       </div>
                       <h4 className="font-semibold text-stone-800">Current Situation</h4>
@@ -858,8 +856,7 @@ function ResultsPage() {
                     </div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+            </div>
           </section>
         </Container>
 
@@ -873,7 +870,7 @@ function ResultsPage() {
           >
             <path
               d="M0 40 Q200 60 400 30 Q600 0 800 20 Q1000 40 1200 10 L1200 60 L0 60 Z"
-              fill="#fafaf9"
+              fill="#f5f5f4"
             />
             <path
               d="M0 40 Q200 60 400 30 Q600 0 800 20 Q1000 40 1200 10"
@@ -897,14 +894,13 @@ function ResultsPage() {
               Your Top Career Fields
             </h2>
           </div>
-          <Card className="bg-white/80 backdrop-blur-sm border border-stone-200/60">
-            <CardContent className="p-4">
+          <div className="bg-stone-100 rounded-2xl border border-white/50 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.07),inset_-3px_-3px_6px_rgba(255,255,255,0.8)] p-4">
               <div className="space-y-3">
                 {analysis?.topCareerFields.map((field, index) => (
                   <div
                     key={index}
                     className={`flex items-center gap-4 p-3 rounded-lg ${
-                      index === 0 ? 'bg-lime-50 border border-lime-200' : 'bg-stone-50'
+                      index === 0 ? 'bg-lime-50/80 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_rgba(255,255,255,0.7)] border border-lime-200/50' : 'bg-stone-50/60 shadow-[inset_1px_1px_3px_rgba(0,0,0,0.04),inset_-1px_-1px_3px_rgba(255,255,255,0.6)]'
                     }`}
                   >
                     <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${
@@ -931,8 +927,7 @@ function ResultsPage() {
                   </div>
                 ))}
               </div>
-            </CardContent>
-          </Card>
+          </div>
         </section>
 
         {/* Career Matches Section - Primary Content */}
@@ -943,7 +938,7 @@ function ResultsPage() {
               Your Personalized Career Matches
             </h2>
           </div>
-          <div className="bg-blue-50/80 border border-blue-200 rounded-lg p-3 mb-4 text-sm">
+          <div className="bg-stone-100 rounded-xl p-3 mb-4 text-sm shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_rgba(255,255,255,0.7)] border border-blue-200/50">
             <p className="text-blue-800">
               <strong>How we match:</strong> Based on your aptitudes, work style, and values.
               Scores of 60%+ indicate strong alignment.
@@ -1002,15 +997,15 @@ function ResultsPage() {
           {workStyleProfile && (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-5">
               {[
-                { label: 'Environment', value: workStyleProfile.environment, icon: Briefcase, bg: 'bg-lime-50', border: 'border-lime-200', iconColor: 'text-lime-600' },
-                { label: 'Interaction', value: workStyleProfile.interaction, icon: Users, bg: 'bg-purple-50', border: 'border-purple-200', iconColor: 'text-purple-600' },
-                { label: 'Structure', value: workStyleProfile.structure, icon: Target, bg: 'bg-green-50', border: 'border-green-200', iconColor: 'text-green-600' },
-                { label: 'Work Pace', value: workStyleProfile.pace, icon: Clock, bg: 'bg-orange-50', border: 'border-orange-200', iconColor: 'text-orange-600' },
-                { label: 'Decisions', value: workStyleProfile.decisionStyle, icon: Lightbulb, bg: 'bg-amber-50', border: 'border-amber-200', iconColor: 'text-amber-600' },
-                { label: 'Energy From', value: workStyleProfile.energySource, icon: Zap, bg: 'bg-pink-50', border: 'border-pink-200', iconColor: 'text-pink-600' },
+                { label: 'Environment', value: workStyleProfile.environment, icon: Briefcase, iconColor: 'text-lime-600', tint: 'bg-lime-50/60', accent: 'border-l-lime-400' },
+                { label: 'Interaction', value: workStyleProfile.interaction, icon: Users, iconColor: 'text-purple-600', tint: 'bg-purple-50/60', accent: 'border-l-purple-400' },
+                { label: 'Structure', value: workStyleProfile.structure, icon: Target, iconColor: 'text-green-600', tint: 'bg-green-50/60', accent: 'border-l-green-400' },
+                { label: 'Work Pace', value: workStyleProfile.pace, icon: Clock, iconColor: 'text-orange-600', tint: 'bg-orange-50/60', accent: 'border-l-orange-400' },
+                { label: 'Decisions', value: workStyleProfile.decisionStyle, icon: Lightbulb, iconColor: 'text-amber-600', tint: 'bg-amber-50/60', accent: 'border-l-amber-400' },
+                { label: 'Energy From', value: workStyleProfile.energySource, icon: Zap, iconColor: 'text-pink-600', tint: 'bg-pink-50/60', accent: 'border-l-pink-400' },
               ].filter((item) => item.value).map((item) => (
-                <div key={item.label} className={`flex items-center gap-3 p-3 rounded-xl border ${item.bg} ${item.border}`}>
-                  <div className="shrink-0 w-9 h-9 bg-white rounded-lg flex items-center justify-center shadow-sm">
+                <div key={item.label} className={`flex items-center gap-3 p-3 rounded-xl ${item.tint} border-l-3 ${item.accent} border border-white/50 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)]`}>
+                  <div className="shrink-0 w-9 h-9 bg-white/80 rounded-lg flex items-center justify-center shadow-[2px_2px_4px_rgba(0,0,0,0.06),-2px_-2px_4px_rgba(255,255,255,0.9)] border border-white/60">
                     <item.icon className={`w-4 h-4 ${item.iconColor}`} />
                   </div>
                   <div className="min-w-0">
@@ -1026,13 +1021,13 @@ function ResultsPage() {
           {workStyleProfile && (
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
               {[
-                { label: 'Learning', value: workStyleProfile.learningStyle, icon: BookOpen, bg: 'bg-blue-50', border: 'border-blue-200', iconColor: 'text-blue-600' },
-                { label: 'Stress', value: workStyleProfile.stressTolerance, icon: Shield, bg: 'bg-red-50', border: 'border-red-200', iconColor: 'text-red-600' },
-                { label: 'Technology', value: workStyleProfile.techComfort, icon: Zap, bg: 'bg-cyan-50', border: 'border-cyan-200', iconColor: 'text-cyan-600' },
-                { label: 'Conflict', value: workStyleProfile.conflictStyle, icon: Users, bg: 'bg-rose-50', border: 'border-rose-200', iconColor: 'text-rose-600' },
+                { label: 'Learning', value: workStyleProfile.learningStyle, icon: BookOpen, iconColor: 'text-blue-600', tint: 'bg-blue-50/60', accent: 'border-l-blue-400' },
+                { label: 'Stress', value: workStyleProfile.stressTolerance, icon: Shield, iconColor: 'text-red-600', tint: 'bg-red-50/60', accent: 'border-l-red-400' },
+                { label: 'Technology', value: workStyleProfile.techComfort, icon: Zap, iconColor: 'text-cyan-600', tint: 'bg-cyan-50/60', accent: 'border-l-cyan-400' },
+                { label: 'Conflict', value: workStyleProfile.conflictStyle, icon: Users, iconColor: 'text-rose-600', tint: 'bg-rose-50/60', accent: 'border-l-rose-400' },
               ].filter((item) => item.value).map((item) => (
-                <div key={item.label} className={`flex items-center gap-3 p-3 rounded-xl border ${item.bg} ${item.border}`}>
-                  <div className="shrink-0 w-9 h-9 bg-white rounded-lg flex items-center justify-center shadow-sm">
+                <div key={item.label} className={`flex items-center gap-3 p-3 rounded-xl ${item.tint} border-l-3 ${item.accent} border border-white/50 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)]`}>
+                  <div className="shrink-0 w-9 h-9 bg-white/80 rounded-lg flex items-center justify-center shadow-[2px_2px_4px_rgba(0,0,0,0.06),-2px_-2px_4px_rgba(255,255,255,0.9)] border border-white/60">
                     <item.icon className={`w-4 h-4 ${item.iconColor}`} />
                   </div>
                   <div className="min-w-0">
@@ -1045,7 +1040,7 @@ function ResultsPage() {
           )}
 
           {analysis?.personalityInsights && analysis.personalityInsights.length > 0 && (
-            <div className="bg-stone-50 rounded-xl p-4 border border-stone-200">
+            <div className="bg-amber-50/30 rounded-xl p-4 border-l-3 border-l-amber-400 border border-white/50 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.06),inset_-3px_-3px_6px_rgba(255,255,255,0.8)]">
               <div className="flex items-center gap-2 mb-3">
                 <Lightbulb className="w-4 h-4 text-amber-500" />
                 <h3 className="text-sm font-semibold uppercase tracking-wider text-stone-500">Personality Insights</h3>
@@ -1073,7 +1068,7 @@ function ResultsPage() {
 
           <div className="grid sm:grid-cols-2 gap-4">
             {ageInsights && (
-              <div className="p-5 bg-indigo-50 rounded-xl border border-indigo-200">
+              <div className="p-5 bg-indigo-50/50 rounded-xl border-l-3 border-l-indigo-400 border border-white/50 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)]">
                 <div className="flex items-center gap-2 mb-2">
                   <User className="w-4 h-4 text-indigo-600" />
                   <h3 className="font-semibold text-stone-800 text-sm">{ageInsights.title}</h3>
@@ -1083,7 +1078,7 @@ function ResultsPage() {
             )}
 
             {reasonMessage && (
-              <div className="p-5 bg-violet-50 rounded-xl border border-violet-200">
+              <div className="p-5 bg-violet-50/50 rounded-xl border-l-3 border-l-violet-400 border border-white/50 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)]">
                 <div className="flex items-center gap-2 mb-2">
                   <Sparkles className="w-4 h-4 text-violet-600" />
                   <h3 className="font-semibold text-stone-800 text-sm">Why You're Here</h3>
@@ -1095,7 +1090,7 @@ function ResultsPage() {
             )}
 
             {valueTensions.map((tension, index) => (
-              <div key={index} className="p-5 bg-cyan-50 rounded-xl border border-cyan-200">
+              <div key={index} className="p-5 bg-cyan-50/50 rounded-xl border-l-3 border-l-cyan-400 border border-white/50 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)]">
                 <div className="flex items-center gap-2 mb-2 flex-wrap">
                   <Scale className="w-4 h-4 text-cyan-600" />
                   {tension.values.map((v, i) => (
@@ -1127,7 +1122,7 @@ function ResultsPage() {
             </div>
 
             {storedResults?.challenges?.additionalNotes && storedResults.challenges.additionalNotes.trim() !== '' && (
-              <div className="mb-4 p-4 bg-amber-50 rounded-xl border border-amber-200">
+              <div className="mb-4 p-4 bg-amber-50/40 rounded-xl border-l-3 border-l-amber-300 border border-white/50 shadow-[inset_2px_2px_5px_rgba(0,0,0,0.06),inset_-2px_-2px_5px_rgba(255,255,255,0.7)]">
                 <div className="flex items-center gap-2 mb-1">
                   <Lightbulb className="w-4 h-4 text-amber-600" />
                   <span className="font-semibold text-stone-700 text-sm">You mentioned</span>
@@ -1140,9 +1135,9 @@ function ResultsPage() {
               {challengeGuidance.map((item, index) => {
                 const IconComponent = item.icon;
                 return (
-                  <div key={index} className="flex items-start gap-4 p-4 bg-white rounded-xl border border-stone-200 shadow-sm">
+                  <div key={index} className="flex items-start gap-4 p-4 bg-amber-50/40 rounded-xl border-l-3 border-l-amber-400 border border-white/50 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)]">
                     <div className="shrink-0">
-                      <div className="w-9 h-9 bg-amber-100 rounded-lg flex items-center justify-center">
+                      <div className="w-9 h-9 bg-amber-100/80 rounded-lg flex items-center justify-center shadow-[2px_2px_4px_rgba(0,0,0,0.06),-2px_-2px_4px_rgba(255,255,255,0.9)] border border-white/60">
                         <IconComponent className="w-4 h-4 text-amber-700" />
                       </div>
                     </div>
@@ -1168,8 +1163,8 @@ function ResultsPage() {
 
           <div className="space-y-3">
             {analysis?.nextSteps && analysis.nextSteps.map((step, index) => (
-              <div key={index} className="flex items-start gap-4 p-4 bg-white rounded-xl border border-stone-200 shadow-sm">
-                <div className="shrink-0 w-8 h-8 bg-lime-100 rounded-full flex items-center justify-center">
+              <div key={index} className="flex items-start gap-4 p-4 bg-emerald-50/40 rounded-xl border-l-3 border-l-emerald-400 border border-white/50 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)]">
+                <div className="shrink-0 w-8 h-8 bg-emerald-100/80 rounded-full flex items-center justify-center shadow-[2px_2px_4px_rgba(0,0,0,0.06),-2px_-2px_4px_rgba(255,255,255,0.9)] border border-white/60">
                   <span className="text-sm font-bold text-lime-700">{index + 1}</span>
                 </div>
                 <span className="text-stone-700 text-sm pt-1.5 leading-relaxed">{step}</span>
@@ -1179,9 +1174,9 @@ function ResultsPage() {
         </section>
 
         {/* Explore Resources - Prominent Section */}
-        <section className="mb-16 bg-stone-100 rounded-2xl p-6 md:p-8 border border-stone-200">
+        <section className="mb-16 bg-stone-100 rounded-2xl p-6 md:p-8 border border-white/50 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.07),inset_-3px_-3px_6px_rgba(255,255,255,0.8)]">
           <div className="text-center mb-6">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-white rounded-full shadow-md border border-stone-200 mb-3">
+            <div className="inline-flex items-center justify-center w-12 h-12 bg-stone-50 rounded-full border border-white/60 shadow-[3px_3px_7px_rgba(0,0,0,0.08),-3px_-3px_7px_rgba(255,255,255,0.9)] mb-3">
               <BookOpen className="w-6 h-6 text-blue-600" />
             </div>
             <h2 className="text-2xl font-bold text-stone-800">Explore Resources</h2>
@@ -1197,14 +1192,15 @@ function ResultsPage() {
                   key={cat.slug}
                   to="/resources/$categorySlug"
                   params={{ categorySlug: cat.slug }}
-                  className={`group relative block p-4 rounded-xl border-2 transition-all hover:shadow-md hover:scale-[1.02] ${colors.bg} ${colors.border} ${colors.borderHover}`}
+                  className={`group relative block p-4 rounded-xl border-l-[3px] border border-white/50 transition-all hover:shadow-[5px_5px_12px_rgba(0,0,0,0.1),-5px_-5px_12px_rgba(255,255,255,0.95)] hover:scale-[1.02] ${colors.bg} shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)]`}
+                  style={{ borderLeftColor: `rgb(${colors.accent})` }}
                 >
                   {isRecommended && (
                     <span className="absolute -top-2 -right-2 px-2 py-0.5 bg-lime-500 text-white text-[10px] font-bold rounded-full shadow-sm">
                       For You
                     </span>
                   )}
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center mb-2 ${colors.iconBg} border ${colors.iconBorder}`}>
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center mb-2 ${colors.iconBg} border border-white/60 shadow-[inset_1px_1px_2px_rgba(0,0,0,0.05),inset_-1px_-1px_2px_rgba(255,255,255,0.7)]`}>
                     <CatIcon className={`w-4 h-4 ${colors.iconText}`} />
                   </div>
                   <h4 className="font-semibold text-stone-700 text-sm leading-tight mb-1 group-hover:text-stone-900">
@@ -1222,7 +1218,7 @@ function ResultsPage() {
           <Button
             variant="primary"
             size="lg"
-            className="inline-flex items-center gap-2"
+            className="inline-flex items-center gap-2 shadow-[4px_4px_10px_rgba(0,0,0,0.1),-4px_-4px_10px_rgba(255,255,255,0.9)]"
             onClick={() => window.print()}
           >
             <Download className="w-5 h-5" />
@@ -1243,7 +1239,7 @@ function ResultsPage() {
         </div>
 
         {/* Legal Disclaimer */}
-        <div className="mb-8 p-4 bg-stone-100 border border-stone-300 rounded-lg text-sm">
+        <div className="mb-8 p-4 bg-stone-100 border border-white/50 rounded-xl shadow-[inset_2px_2px_5px_rgba(0,0,0,0.05),inset_-2px_-2px_5px_rgba(255,255,255,0.7)] text-sm">
           <p className="text-stone-600 leading-relaxed mb-2">
             <strong className="text-stone-700">Important:</strong> These results are for informational purposes only and
             are not professional career counseling or employment advice. Career matches are suggestions based on

@@ -160,7 +160,7 @@ export function CareerMatchesTable({
   // Sentinel for lazy loading - renders before data loads
   if (!isVisible) {
     return (
-      <div ref={sentinelRef} className="bg-white rounded-xl border border-stone-200 shadow-lg overflow-hidden min-h-[200px] flex items-center justify-center">
+      <div ref={sentinelRef} className="bg-stone-100 rounded-2xl border border-white/50 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.07),inset_-3px_-3px_6px_rgba(255,255,255,0.8)] overflow-hidden min-h-[200px] flex items-center justify-center">
         <div className="text-center text-stone-500">
           <Sparkles className="w-8 h-8 mx-auto mb-2 opacity-50" />
           <p className="text-sm">Scroll to view career matches</p>
@@ -172,7 +172,7 @@ export function CareerMatchesTable({
   // Loading state
   if (isLoading) {
     return (
-      <div ref={sentinelRef} className="bg-white rounded-xl border border-stone-200 shadow-lg overflow-hidden min-h-[200px] flex items-center justify-center">
+      <div ref={sentinelRef} className="bg-stone-100 rounded-2xl border border-white/50 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.07),inset_-3px_-3px_6px_rgba(255,255,255,0.8)] overflow-hidden min-h-[200px] flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="w-8 h-8 animate-spin text-lime-600 mx-auto mb-2" />
           <p className="text-sm text-stone-600">Finding your career matches...</p>
@@ -203,9 +203,9 @@ export function CareerMatchesTable({
   }
 
   return (
-    <div ref={sentinelRef} className="bg-white rounded-xl border border-stone-200 shadow-lg overflow-hidden">
+    <div ref={sentinelRef} className="bg-stone-100 rounded-2xl border border-white/50 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.07),inset_-3px_-3px_6px_rgba(255,255,255,0.8)] overflow-hidden">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-50 via-blue-100/50 to-stone-50 border-b border-blue-200 px-4 sm:px-6 py-3 sm:py-4">
+      <div className="bg-blue-50/40 border-b border-stone-200/50 px-4 sm:px-6 py-3 sm:py-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <div>
             <h3 className="text-base sm:text-lg font-semibold text-stone-700">
@@ -216,7 +216,7 @@ export function CareerMatchesTable({
             </p>
           </div>
           <div className="flex items-center gap-2 self-start sm:self-auto">
-            <div className="flex items-center gap-2 bg-white px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-blue-300">
+            <div className="flex items-center gap-2 bg-stone-50 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-white/60 shadow-[2px_2px_4px_rgba(0,0,0,0.06),-2px_-2px_4px_rgba(255,255,255,0.9)]">
               <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-600" />
               <span className="text-xs sm:text-sm font-medium text-blue-700">Personalized</span>
             </div>
@@ -248,7 +248,7 @@ export function CareerMatchesTable({
               {hasNextPage && index === matches.length - 3 && (
                 <div ref={loadMoreRef} className="h-0" />
               )}
-              <div className="bg-white rounded-lg shadow-sm border border-stone-200 hover:border-lime-300 hover:shadow-md transition-all duration-200">
+              <div className="bg-stone-50 rounded-xl border border-white/60 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)] hover:shadow-[4px_4px_10px_rgba(0,0,0,0.1),-4px_-4px_10px_rgba(255,255,255,0.95)] transition-all duration-200">
               {/* Main Row */}
               <div
                 className="p-4 sm:p-5 cursor-pointer"
@@ -258,7 +258,7 @@ export function CareerMatchesTable({
                   {/* Match Score */}
                   <div className="shrink-0">
                     <div
-                      className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full flex flex-col items-center justify-center ${getMatchColor(match.matchScore)} border-2 ${match.matchScore >= 80 ? 'border-lime-400' : 'border-stone-300'}`}
+                      className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full flex flex-col items-center justify-center ${getMatchColor(match.matchScore)} shadow-[inset_2px_2px_4px_rgba(0,0,0,0.08),inset_-2px_-2px_4px_rgba(255,255,255,0.7)] border border-white/50`}
                     >
                       <span className="text-xl sm:text-2xl font-bold">{match.matchScore}</span>
                       <span className="text-[9px] sm:text-[10px] font-semibold uppercase">Match</span>
@@ -344,7 +344,7 @@ export function CareerMatchesTable({
 
               {/* Expanded Details */}
               {isExpanded && match.metadata && (
-                <div className="border-t border-stone-200 bg-stone-50/50 p-4 sm:p-5">
+                <div className="border-t border-stone-200/50 bg-stone-100/60 p-4 sm:p-5">
                   <div className="grid md:grid-cols-2 gap-6">
                     {/* Salary Details */}
                     <div>
@@ -479,7 +479,7 @@ export function CareerMatchesTable({
       </div>
 
       {/* Footer with loading state */}
-      <div className="bg-stone-50 border-t border-stone-200 px-6 py-3 text-center print-hidden">
+      <div className="bg-stone-100 border-t border-stone-200/50 px-6 py-3 text-center print-hidden">
         {hasNextPage ? (
           <div className="flex items-center justify-center gap-2 text-sm text-stone-600">
             {isFetchingNextPage ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
