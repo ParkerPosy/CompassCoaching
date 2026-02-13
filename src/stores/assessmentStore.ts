@@ -272,11 +272,8 @@ export const useAssessmentResults = () =>
  * Uses Zustand persist's built-in hydration tracking.
  */
 export const useHasHydrated = () => {
-  const [hasHydrated, setHasHydrated] = useState(() => {
-    // Check if persist API is available (not during SSR)
-    if (typeof window === "undefined") return false;
-    return useAssessmentStore.persist?.hasHydrated?.() ?? false;
-  });
+  // Always start as false to match server render and avoid hydration mismatch
+  const [hasHydrated, setHasHydrated] = useState(false);
 
   useEffect(() => {
     // Skip if persist API isn't available

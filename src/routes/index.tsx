@@ -613,7 +613,7 @@ function HomePage() {
             <div className="max-w-5xl mx-auto">
               <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                 <div className="text-sm text-white/90 font-medium">
-                  © {new Date().getFullYear()} Compass Coaching. All rights reserved.
+                  © 2026 Compass Coaching. All rights reserved.
                 </div>
                 <div className="flex items-center gap-6 text-sm">
                   <Link

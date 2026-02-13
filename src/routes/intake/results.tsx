@@ -1260,7 +1260,7 @@ function ResultsPage() {
             For informational purposes only. Not professional career counseling. Consult a licensed advisor before making career decisions.
           </p>
           <p className="text-sm text-stone-600">
-            Generated from compasscoachingpa.org on {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+            Generated from compasscoachingpa.org
           </p>
           <p className="text-xs text-stone-500 mt-1">
             Visit compasscoachingpa.org for updated career matches and personalized resources.
