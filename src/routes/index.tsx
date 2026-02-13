@@ -155,7 +155,7 @@ export const Route = createFileRoute("/")({
       { name: "twitter:image", content: "https://compasscoachingpa.org/og-image.png" },
       { name: "keywords", content: "Pennsylvania career guidance, free career assessment, life guidance PA, personalized coaching, career resources Pennsylvania, mental wellbeing, career and life support" },
     ],
-    links: [{ rel: "canonical", href: "https://compasscoachingpa.org" }],
+    links: [{ rel: "canonical", href: "https://compasscoachingpa.org/" }],
     scripts: [
       {
         type: "application/ld+json",
