@@ -76,6 +76,11 @@ const values = [
     label: "Work Variety",
     description: "Diverse tasks and new challenges regularly",
   },
+  {
+    id: "motivation_driver",
+    label: "Purpose & Meaning",
+    description: "Doing work that feels personally meaningful and fulfilling",
+  },
 ];
 
 function ValuesPage() {

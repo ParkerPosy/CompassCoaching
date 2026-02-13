@@ -104,6 +104,7 @@ const VALUE_LABELS: Record<string, string> = {
   physical_activity: "Physical Activity",
   environmental_impact: "Environmental Impact",
   variety: "Variety & Change",
+  motivation_driver: "Purpose & Meaning",
 };
 
 /**
@@ -179,7 +180,41 @@ function analyzePersonality(personality: Record<string, number>): string[] {
   if (decision === 3)
     insights.push("You value collaborative decision-making processes");
 
-  return insights.slice(0, 5);
+  // Learning style
+  const learning = personality.learning_style;
+  if (learning === 1)
+    insights.push("You learn best through hands-on practice and experimentation");
+  if (learning === 2)
+    insights.push("You prefer self-directed research and reading to build understanding");
+  if (learning === 3)
+    insights.push("Visual demonstrations and video tutorials resonate most with you");
+  if (learning === 4)
+    insights.push("You thrive in structured classroom environments with direct instruction");
+
+  // Stress tolerance
+  const stress = personality.stress_tolerance;
+  if (stress === 1)
+    insights.push("You thrive under pressure and perform well with tight deadlines");
+  if (stress === 2)
+    insights.push("You handle stress well but prefer a steady, manageable pace");
+  if (stress === 3)
+    insights.push("You prefer low-pressure environments with predictable demands");
+
+  // Tech comfort
+  const tech = personality.tech_comfort;
+  if (tech === 1)
+    insights.push("You're a tech-forward learner — eager to adopt new tools and platforms");
+  if (tech === 3 || tech === 4)
+    insights.push("You prefer roles with minimal technology reliance");
+
+  // Conflict resolution
+  const conflict = personality.conflict_resolution;
+  if (conflict === 1)
+    insights.push("Your direct communication style suits management and advocacy roles");
+  if (conflict === 2)
+    insights.push("You naturally seek compromise, valuable for team coordination and mediation");
+
+  return insights.slice(0, 7);
 }
 
 /**
@@ -220,6 +255,26 @@ function generateRecommendations(
     );
     recommendations.push(
       "Consider careers with apprenticeship or on-the-job training options",
+    );
+  }
+
+  // Learning style recommendations
+  const learningStyle = results.personality?.learning_style;
+  if (learningStyle === 1) {
+    recommendations.push(
+      "Prioritize apprenticeships, internships, and hands-on training programs over lecture-based education",
+    );
+  } else if (learningStyle === 4) {
+    recommendations.push(
+      "Structured classroom programs at community colleges or trade schools may suit your learning style best",
+    );
+  }
+
+  // Timeline-aware recommendations
+  const timeline = challenges.timelineUrgency;
+  if (timeline === 'immediately' || timeline === 'within-3-months') {
+    recommendations.push(
+      "Focus on careers with short entry paths — certifications and positions that value transferable skills over formal degrees",
     );
   }
 

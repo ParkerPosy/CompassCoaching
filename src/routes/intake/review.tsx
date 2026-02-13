@@ -99,6 +99,21 @@ const supportLabels: Record<string, string> = {
   "independent": "Mostly independent",
 };
 
+const salaryMinLabels: Record<string, string> = {
+  "under-25k": "Under $25,000",
+  "25k-40k": "$25,000 – $40,000",
+  "40k-60k": "$40,000 – $60,000",
+  "60k-80k": "$60,000 – $80,000",
+  "80k-plus": "$80,000+",
+};
+
+const timelineLabels: Record<string, string> = {
+  "immediately": "Immediately",
+  "within-3-months": "Within 3 months",
+  "within-a-year": "Within a year",
+  "no-rush": "No rush — exploring long-term",
+};
+
 // Personality questions for displaying answers
 const personalityQuestions: Record<string, { text: string; options: Record<number, string> }> = {
   work_environment: {
@@ -200,6 +215,42 @@ const personalityQuestions: Record<string, { text: string; options: Record<numbe
       4: "Heavy - physically demanding work",
     },
   },
+  learning_style: {
+    text: "Learning Style",
+    options: {
+      1: "Hands-on practice and trial-and-error",
+      2: "Reading, researching, and self-study",
+      3: "Watching videos and demonstrations",
+      4: "In a classroom with an instructor",
+    },
+  },
+  stress_tolerance: {
+    text: "Stress Tolerance",
+    options: {
+      1: "I thrive under pressure and tight deadlines",
+      2: "I manage fine but prefer a calmer pace",
+      3: "I avoid high-stress environments when possible",
+      4: "It depends on the type of stress involved",
+    },
+  },
+  tech_comfort: {
+    text: "Technology Comfort",
+    options: {
+      1: "I love learning new tools and software",
+      2: "Comfortable with common apps and devices",
+      3: "I struggle with technology and avoid it",
+      4: "I prefer minimal screen time in my work",
+    },
+  },
+  conflict_resolution: {
+    text: "Conflict Resolution",
+    options: {
+      1: "Address it directly and assertively",
+      2: "Seek compromise and common ground",
+      3: "Defer to authority or established process",
+      4: "Avoid confrontation when possible",
+    },
+  },
 };
 
 // Values labels
@@ -216,6 +267,7 @@ const valuesLabels: Record<string, string> = {
   physical_activity: "Physical Activity",
   environmental_impact: "Environmental Impact",
   variety: "Work Variety",
+  motivation_driver: "Purpose & Meaning",
 };
 
 // Aptitude category labels
@@ -420,6 +472,16 @@ function ReviewPage() {
                       </dt>
                       <dd className="text-stone-700 mt-1">
                         {basicData.primaryReason}
+                      </dd>
+                    </div>
+                  )}
+                  {basicData.workExperience && basicData.workExperience.length > 0 && (
+                    <div className="md:col-span-2">
+                      <dt className="text-sm font-medium text-stone-600">
+                        Work/Volunteer Experience
+                      </dt>
+                      <dd className="text-stone-700 mt-1">
+                        {basicData.workExperience.join(", ")}
                       </dd>
                     </div>
                   )}
@@ -682,6 +744,26 @@ function ReviewPage() {
                       </dt>
                       <dd className="text-stone-700 mt-1">
                         {challengesData.educationGaps.join(", ")}
+                      </dd>
+                    </div>
+                  )}
+                  {challengesData.salaryMinimum && (
+                    <div>
+                      <dt className="text-sm font-medium text-stone-600">
+                        Minimum Salary Need
+                      </dt>
+                      <dd className="text-stone-700 mt-1">
+                        {salaryMinLabels[challengesData.salaryMinimum] || challengesData.salaryMinimum}
+                      </dd>
+                    </div>
+                  )}
+                  {challengesData.timelineUrgency && (
+                    <div>
+                      <dt className="text-sm font-medium text-stone-600">
+                        Career Timeline
+                      </dt>
+                      <dd className="text-stone-700 mt-1">
+                        {timelineLabels[challengesData.timelineUrgency] || challengesData.timelineUrgency}
                       </dd>
                     </div>
                   )}

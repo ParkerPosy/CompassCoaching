@@ -126,6 +126,46 @@ const questions = [
       { value: 4, label: "Heavy - physically demanding work" },
     ],
   },
+  {
+    id: "learning_style",
+    text: "How do you learn best?",
+    options: [
+      { value: 1, label: "Hands-on practice and trial-and-error" },
+      { value: 2, label: "Reading, researching, and self-study" },
+      { value: 3, label: "Watching videos and demonstrations" },
+      { value: 4, label: "In a classroom with an instructor" },
+    ],
+  },
+  {
+    id: "stress_tolerance",
+    text: "How do you handle high-pressure situations?",
+    options: [
+      { value: 1, label: "I thrive under pressure and tight deadlines" },
+      { value: 2, label: "I manage fine but prefer a calmer pace" },
+      { value: 3, label: "I avoid high-stress environments when possible" },
+      { value: 4, label: "It depends on the type of stress involved" },
+    ],
+  },
+  {
+    id: "tech_comfort",
+    text: "How comfortable are you with technology?",
+    options: [
+      { value: 1, label: "I love learning new tools and software" },
+      { value: 2, label: "Comfortable with common apps and devices" },
+      { value: 3, label: "I struggle with technology and avoid it" },
+      { value: 4, label: "I prefer minimal screen time in my work" },
+    ],
+  },
+  {
+    id: "conflict_resolution",
+    text: "When workplace disagreements arise, you typically:",
+    options: [
+      { value: 1, label: "Address it directly and assertively" },
+      { value: 2, label: "Seek compromise and common ground" },
+      { value: 3, label: "Defer to authority or established process" },
+      { value: 4, label: "Avoid confrontation when possible" },
+    ],
+  },
 ];
 
 function PersonalityPage() {

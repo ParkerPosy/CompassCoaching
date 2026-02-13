@@ -15,6 +15,7 @@ export interface BasicInfo {
   employmentStatus: string;
   primaryReason: string;
   degrees?: Degree[];
+  workExperience?: string[];
 }
 
 export interface PersonalityAnswers {
@@ -46,6 +47,8 @@ export interface ChallengesData {
   educationGaps: string[];
   supportSystem: string;
   additionalNotes: string;
+  salaryMinimum?: string;
+  timelineUrgency?: string;
 }
 
 export interface AssessmentResults {

@@ -53,7 +53,7 @@ All types are defined in src/types/assessment.ts. The store holds each section a
 | gpa | string | no | numeric only, up to 2 decimal places (regex: `/^\d*\.?\d{0,2}$/`) |
 
 ### PersonalityAnswers
-`Record<string, number>` — 11 questions, each answered 1-4.
+`Record<string, number>` — 15 questions, each answered 1-4.
 
 | Key | Question Topic |
 |-----|---------------|
@@ -68,9 +68,13 @@ All types are defined in src/types/assessment.ts. The store holds each section a
 | schedule | Standard hours vs flexible vs shifts vs on-call |
 | travel | No travel → extensive travel |
 | physical_demands | Sedentary → heavy physical |
+| learning_style | Hands-on vs reading vs video vs classroom |
+| stress_tolerance | Thrives under pressure → avoids high-stress |
+| tech_comfort | Tech enthusiast → prefers minimal screen time |
+| conflict_resolution | Direct/assertive → avoids confrontation |
 
 ### ValueRatings
-`Record<string, number>` — 12 values, each rated 1-5.
+`Record<string, number>` — 13 values, each rated 1-5.
 
 | Key | Label |
 |-----|-------|
@@ -86,6 +90,7 @@ All types are defined in src/types/assessment.ts. The store holds each section a
 | physical_activity | Physical Activity |
 | environmental_impact | Environmental Impact |
 | variety | Work Variety |
+| motivation_driver | Purpose & Meaning |
 
 ### AptitudeData
 8 career clusters, each an array of 4 self-ratings (1-5 scale). Each cluster has 4 aptitude items that users rate.
@@ -113,6 +118,8 @@ All types are defined in src/types/assessment.ts. The store holds each section a
 | educationGaps | string[] | no | free text array |
 | supportSystem | string | yes | `strong`, `some`, `limited`, `independent` |
 | additionalNotes | string | no | free text (textarea) |
+| salaryMinimum | string | no | `under-25k`, `25k-40k`, `40k-60k`, `60k-80k`, `80k-plus` |
+| timelineUrgency | string | no | `immediately`, `within-3-months`, `within-a-year`, `no-rush` |
 
 ### AssessmentResults
 Compiled from all sections on review submission.
@@ -258,14 +265,19 @@ src/lib/occupationService.ts calculates match scores and reasons.
 | 3 | Schedule/travel/physical | 15 | personality: schedule, travel, physical_demands + values: physical_activity |
 | 4 | Values alignment | 15 | values ratings vs occupation metadata.values |
 | 5 | Skills bonus | 5 | personality: decision_making vs occupation metadata.skills |
-| 6 | Text match bonus | 10 | primaryReason, additionalNotes, degree names vs occupation title/description/keywords/certifications |
+| 5b | Tech comfort | 3 | personality: tech_comfort vs occupation metadata.skills.technical |
+| 5c | Conflict/people fit | 2 | personality: conflict_resolution vs metadata.skills.leadership + workStyle.peopleInteraction |
+| 5d | Stress tolerance | 3 | personality: stress_tolerance vs inferred stress (pace + interaction + schedule) |
+| 6 | Text match bonus | 10 | primaryReason, additionalNotes, degree names, workExperience vs occupation title/description/keywords/certifications |
+| — | Salary floor penalty | varies | challenges.salaryMinimum vs occupation statewide median annual wage |
 
-Max theoretical score: ~110 points, converted to percentage.
+Max theoretical score: ~118 points, converted to percentage. Salary penalty applied post-percentage.
 
 ### Unused Data in Scoring (Improvement Opportunities)
 These are collected but NOT currently used in `calculateMatchScore`:
 - **personality.communication** — not matched against any occupation metadata
 - **personality.problem_solving** — not matched (only decision_making maps to skills)
+- **personality.learning_style** — used in analyzer recommendations, not in scoring
 - **basic.educationLevel** — not used for match scoring (only used in browse page filtering and analyzer recommendations)
 - **basic.employmentStatus** — only used in analyzer next steps text
 - **basic.ageRange** — only used for age-appropriate insights on results page
@@ -273,10 +285,12 @@ These are collected but NOT currently used in `calculateMatchScore`:
 - **challenges.transportation** — only used in path forward insights
 - **challenges.healthConsiderations** — only used in path forward insights
 - **challenges.educationGaps** — only used in path forward insights
+- **challenges.timelineUrgency** — only used in path forward insights and analyzer recommendations
+- **values.motivation_driver** — only used in values display, not mapped to occupation metadata
 
 ### Text Match Details
 - Tokenization: lowercase, strip non-alphanumeric, min 4 chars, filter stopwords
-- Sources: primaryReason + additionalNotes + degree names
+- Sources: primaryReason + additionalNotes + degree names + workExperience
 - Targets: occupation title + description + keywords + certifications
 - Scoring: 1 match = 4pts, 2 matches = 7pts, 3+ matches = 10pts
 
@@ -433,74 +447,65 @@ Candidate questions organized by the insight gap they fill. Each entry includes 
 
 ### High Priority — Fill Scoring Gaps
 
-**1. Learning Style Preference** (Personality section)
-- Question: "How do you learn best?"
-- Options: Hands-on practice / Reading & research / Video & demonstration / Classroom with instructor
-- Insight: Directly improves education pathway recommendations. Currently we recommend education paths (certificates, degrees, apprenticeships) without knowing how the user actually learns. This would let results say "Based on your hands-on learning style, apprenticeships and trade programs may be more effective than lecture-based degrees."
-- Scoring: Map to occupation metadata training requirements (OJT vs formal education)
+**1. Learning Style Preference** (Personality section) — ✅ IMPLEMENTED (v3)
+- Added as `learning_style` in personality.tsx
+- Analyzer generates learning-style-aware education recommendations
+- Scoring: Not mapped to occupation metadata (used in analyzer recommendations only)
 
-**2. Prior Work Experience** (Basic section or new Experience section)
-- Question: "Which of these have you done in a work or volunteer setting?" (multi-select)
-- Options: Managed people / Handled money or budgets / Used specialized software / Worked with customers / Built or repaired things / Taught or trained others / Wrote reports or documents / Analyzed data
-- Insight: Creates a transferable skills inventory. Huge gap — currently we score aptitude (what you think you'd like) but not experience (what you've actually done). This lets results highlight "You already have customer service and budget experience, which directly transfers to these careers."
-- Scoring: Map to occupation metadata.skills (analytical, creative, social, technical)
+**2. Prior Work Experience** (Basic section) — ✅ IMPLEMENTED (v3)
+- Added as `workExperience` multi-select in basic.tsx (optional)
+- Tokens from selected items feed into text matching for career scoring
+- Displayed on review page and results profile
 
-**3. Salary Expectations** (Basic section or Challenges section)
-- Question: "What's the minimum annual salary you need to meet your financial obligations?"
-- Options: Under $25K / $25-40K / $40-60K / $60-80K / $80K+
-- Insight: Currently we have the `income_potential` value (how much they *want*) but not what they *need*. This enables filtering out careers that can't realistically meet their floor, and highlighting when a top match exceeds expectations. Results could say "Your top matches all have median PA salaries above your $40K target."
-- Scoring: Filter or penalize occupations where the PA median wage falls below the user's stated minimum
+**3. Salary Expectations** (Challenges section) — ✅ IMPLEMENTED (v3)
+- Added as `salaryMinimum` select in challenges.tsx (optional)
+- Scoring: Post-percentage penalty when occupation median wage falls below user's stated floor
+- Results: "Exceeds your salary target" match reason when median >= 120% of floor
+- Challenge guidance tip customized to selected salary range
 
 ### Medium Priority — Deepen Insights
 
-**4. Stress & Pressure Tolerance** (Personality section)
-- Question: "How do you handle high-pressure situations?"
-- Options: I thrive under pressure / I manage but prefer less / I avoid high-stress environments / Depends on the type of stress
-- Insight: Some career clusters (healthcare, law, trades) have inherent pressure. This prevents matching someone who avoids stress to emergency medicine or litigation. Results insight: "Your preference for lower-stress environments aligns well with these methodical, planning-oriented roles."
-- Scoring: Map to occupation metadata — occupations with high-stress indicators get penalized for stress-averse users
+**4. Stress & Pressure Tolerance** (Personality section) — ✅ IMPLEMENTED (v3)
+- Added as `stress_tolerance` in personality.tsx
+- Scoring: 3-point bucket (5d) based on inferred occupation stress (pace + interaction + schedule)
+- Analyzer insight: stress-tolerance-aware personality narrative
 
-**5. Technology Comfort Level** (Personality or Aptitude section)
-- Question: "How comfortable are you with technology?"
-- Options: I love learning new tools / Comfortable with common apps / I struggle with technology / Prefer minimal screen time
-- Insight: Tech literacy affects viability of many careers across all clusters, not just STEM. An admin role requires different tech than a carpenter. Currently STEM aptitude is a proxy, but a non-STEM person might still be highly tech-literate. Results insight: "Your strong tech comfort opens doors in [non-STEM field] roles that increasingly rely on digital tools."
-- Scoring: Bonus for tech-heavy occupations, or penalty for tech-resistant users matched to digital roles
+**5. Technology Comfort Level** (Personality section) — ✅ IMPLEMENTED (v3)
+- Added as `tech_comfort` in personality.tsx
+- Scoring: 3-point bucket (5b) mapped to occupation metadata.skills.technical
+- Analyzer insight: tech-comfort narrative
 
-**6. Conflict Resolution Style** (Personality section)
-- Question: "When workplace disagreements arise, you typically:"
-- Options: Address it directly and assertively / Seek compromise and common ground / Defer to authority or process / Avoid confrontation when possible
-- Insight: Predicts fit for management, customer-facing, and team roles. Differentiates why two people with the same aptitude score succeed in different sub-roles. Results insight: "Your direct communication style is valued in [management/advocacy/sales] roles."
-- Scoring: Map to occupation metadata.workStyle.peopleInteraction and leadership requirements
+**6. Conflict Resolution Style** (Personality section) — ✅ IMPLEMENTED (v3)
+- Added as `conflict_resolution` in personality.tsx
+- Scoring: 2-point bucket (5c) mapped to metadata.skills.leadership + workStyle.peopleInteraction
+- Analyzer insight: conflict-style narrative for management/advocacy roles
 
-**7. Motivation Driver** (Values section or new question)
-- Question: "What motivates you most to do good work?"
-- Options: Seeing measurable results / Positive feedback from others / Personal mastery and growth / Making a difference for someone / Financial rewards
-- Insight: Motivational fit predicts long-term satisfaction better than skill fit. This enables a "sustainability" dimension to scoring — not just "can you do this job" but "will you stay engaged." Results insight: "Careers where you see direct impact on people score highest for your motivation profile."
-- Scoring: New scoring bucket or bonus within values alignment
+**7. Motivation Driver** (Values section) — ✅ IMPLEMENTED (v3)
+- Added as `motivation_driver` ("Purpose & Meaning") value in values.tsx
+- Not mapped to occupation metadata (display + tension detection only)
 
 ### Lower Priority — Enrich Context
 
-**8. Geographic Specificity** (Challenges section)
+**8. Geographic Specificity** (Challenges section) — DEFERRED
 - Question: "What PA county or region are you in?"
 - Options: Pre-populated county list (already available via `getAvailableCounties()`)
 - Insight: We already have PA wage data by county. Collecting this in the assessment (rather than just the results filter) would let us pre-filter matches and give localized insights: "In your county, Healthcare roles have 15% higher wages than the state average."
 - Implementation: Wire the existing county selector into the assessment store
 
-**9. Timeline Urgency** (Challenges section)
-- Question: "When do you need to be in a new role or career path?"
-- Options: Immediately / Within 3 months / Within a year / No rush — exploring long-term
-- Insight: Urgency changes which recommendations are practical. Someone who needs a job next month shouldn't be told to get a 4-year degree. Results insight: "Given your timeline, these shorter-path careers offer the fastest entry while matching your profile."
-- Scoring: Weight training-length requirements against user timeline
+**9. Timeline Urgency** (Challenges section) — ✅ IMPLEMENTED (v3)
+- Added as `timelineUrgency` select in challenges.tsx (optional)
+- Used in challenge guidance tips (results.tsx) and analyzer recommendations
+- Not mapped to occupation scoring directly
 
-**10. Expand Value Tensions** (Results page, no new questions)
-- Not a new question — extend the `valueTensions` logic in results.tsx
-- Currently only 4 tension pairs are detected
-- Add: creativity vs structure, independence vs job_security, environmental_impact vs income_potential, physical_activity vs recognition
-- Each tension provides a reconciliation insight that shows the user they don't have to choose
+**10. Expand Value Tensions** (Results page, no new questions) — ✅ IMPLEMENTED (v3)
+- Extended from 4 tension pairs to 8 (max 3 shown)
+- Added: creativity vs job_security, independence vs job_security, environmental_impact vs income_potential, physical_activity vs recognition
 
 ### Implementation Notes
 - Add questions incrementally (1-2 per release) to avoid overwhelming the UI
 - Each new question must pass the "insight test" — articulate the specific results sentence it enables before coding
-- Personality section is at 11 questions (hitting the comfort limit); new personality questions should replace or combine existing ones rather than extend
-- Values section at 12 ratings is appropriately sized; avoid growing it
-- Challenges section has room for 1-2 more selects
-- Basic section should stay minimal; consider a new "Experience" section if multiple experience questions are added
+- Personality section is at 15 questions after v3 additions (learning_style, stress_tolerance, tech_comfort, conflict_resolution); consider combining before adding more
+- Values section at 13 ratings after v3 (motivation_driver); avoid growing further
+- Challenges section now has salary minimum + timeline urgency selects; only geographic remains as candidate
+- Basic section includes optional work experience multi-select; keep other basic fields minimal
+- v3 scoring max is ~118 points (up from ~110) due to buckets 5b/5c/5d; salary penalty applies post-percentage

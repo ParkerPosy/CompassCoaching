@@ -45,6 +45,7 @@ function BasicInfoPage() {
     employmentStatus: basic?.employmentStatus || "",
     primaryReason: basic?.primaryReason || "",
     degrees: basic?.degrees || [],
+    workExperience: basic?.workExperience || [],
   };
 
   const isCollegeEducation = ["some-college", "associates", "bachelors", "masters", "trade-cert"].includes(formData.educationLevel);
@@ -69,6 +70,15 @@ function BasicInfoPage() {
     // Initialize with one empty degree when selecting college education
     if (field === "educationLevel" && ["some-college", "associates", "bachelors", "masters", "trade-cert"].includes(value) && formData.degrees.length === 0) {
       updateBasic({ degrees: [{ level: "", name: "" }] });
+    }
+  };
+
+  const handleExperienceToggle = (value: string, checked: boolean) => {
+    const current = formData.workExperience;
+    if (checked) {
+      updateBasic({ workExperience: [...current, value] });
+    } else {
+      updateBasic({ workExperience: current.filter((v) => v !== value) });
     }
   };
 
@@ -376,6 +386,43 @@ function BasicInfoPage() {
                 />
                 <p className="text-sm text-stone-500 mt-1">
                   This helps us provide more personalized recommendations.
+                </p>
+              </div>
+
+              {/* Work Experience */}
+              <div>
+                <label className="block text-sm font-medium text-stone-700 mb-3">
+                  Which of these have you done in a work or volunteer setting? (Optional, select all that apply)
+                </label>
+                <div className="space-y-2">
+                  {[
+                    "Managed people or led a team",
+                    "Handled money or budgets",
+                    "Used specialized software or tools",
+                    "Worked with customers or clients",
+                    "Built or repaired things",
+                    "Taught or trained others",
+                    "Wrote reports or documents",
+                    "Analyzed data or solved technical problems",
+                  ].map((item) => (
+                    <label
+                      key={item}
+                      className="flex items-center gap-3 p-3 rounded-lg hover:bg-stone-50"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={formData.workExperience.includes(item)}
+                        onChange={(e) =>
+                          handleExperienceToggle(item, e.target.checked)
+                        }
+                        className="w-5 h-5 text-lime-600 rounded focus:ring-lime-600 focus:ring-offset-0"
+                      />
+                      <span className="text-stone-700">{item}</span>
+                    </label>
+                  ))}
+                </div>
+                <p className="text-sm text-stone-500 mt-2">
+                  This helps us identify transferable skills you already have.
                 </p>
               </div>
             </CardContent>

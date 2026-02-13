@@ -3,7 +3,7 @@ import type { Occupation } from '@/types/wages';
 import type { AssessmentResults } from '@/types/assessment';
 import { getAllOccupations, getSpecificOccupations, getAvailableCounties as getCountiesList } from './wages.server';
 
-const TEXT_MATCH_WEIGHT = 10;
+const TEXT_MATCH_WEIGHT = 12;
 const TEXT_MATCH_MIN_TOKEN_LENGTH = 4;
 const TEXT_MATCH_STOPWORDS = new Set([
   'a', 'an', 'and', 'are', 'as', 'at', 'be', 'but', 'by', 'for', 'from', 'has', 'have', 'if',
@@ -60,7 +60,26 @@ function getAssessmentTokens(assessment: AssessmentResults): string[] {
     .map((degree) => degree.name || '')
     .join(' ');
 
-  const combined = `${primaryReason} ${additionalNotes} ${degreeNames}`.trim();
+  // Map work-experience labels to focused keywords that match occupation metadata
+  // Each keyword chosen to stem-match occupation keywords without over-matching:
+  //   budgeting(5%), teaching(7%), writing(11%) = well-targeted
+  //   Others tuned to avoid generic stems like "manag"(33%), "service"(17%)
+  const experienceKeywords: Record<string, string> = {
+    'Managed people or led a team': 'supervisory leadership',
+    'Handled money or budgets': 'budgeting accounting',
+    'Used specialized software or tools': 'specialized tools',
+    'Worked with customers or clients': 'customer client',
+    'Built or repaired things': 'repair construction trades',
+    'Taught or trained others': 'teaching instruction training',
+    'Wrote reports or documents': 'writing documentation',
+    'Analyzed data or solved technical problems': 'statistics quantitative',
+  };
+  const workExpKeywords = (assessment.basic?.workExperience || [])
+    .map((exp) => experienceKeywords[exp] || '')
+    .filter(Boolean)
+    .join(' ');
+
+  const combined = `${primaryReason} ${additionalNotes} ${degreeNames} ${workExpKeywords}`.trim();
   if (!combined) return [];
   return Array.from(new Set(extractTokens(combined)));
 }
@@ -352,6 +371,72 @@ function calculateMatchScore(
     totalScore += 5;
   }
 
+  // 5b. Tech comfort bonus (3 points)
+  maxScore += 3;
+  const techComfort = personality['tech_comfort'];
+  if (techComfort) {
+    if (techComfort === 1 && metadata.skills.technical >= 7) {
+      totalScore += 3;
+      reasons.push('Matches your tech enthusiasm');
+    } else if (techComfort === 1 && metadata.skills.technical >= 4) {
+      totalScore += 2;
+    } else if (techComfort === 3 || techComfort === 4) {
+      // Penalize tech-heavy roles for tech-averse users
+      if (metadata.skills.technical >= 7) totalScore += 0;
+      else if (metadata.skills.technical <= 3) totalScore += 3;
+      else totalScore += 1;
+    } else {
+      totalScore += 2; // Comfortable = neutral
+    }
+  } else {
+    totalScore += 2;
+  }
+
+  // 5c. Conflict resolution / people fit (2 points)
+  maxScore += 2;
+  const conflictStyle = personality['conflict_resolution'];
+  if (conflictStyle) {
+    if (conflictStyle === 1 && (metadata.skills.leadership >= 6 || metadata.workStyle.peopleInteraction === 'extensive')) {
+      totalScore += 2;
+    } else if (conflictStyle === 2 && metadata.workStyle.peopleInteraction !== 'minimal') {
+      totalScore += 2;
+    } else if (conflictStyle === 3 && metadata.workStyle.structure === 'highly_structured') {
+      totalScore += 2;
+    } else if (conflictStyle === 4 && metadata.workStyle.peopleInteraction === 'minimal') {
+      totalScore += 2;
+    } else {
+      totalScore += 1;
+    }
+  } else {
+    totalScore += 1;
+  }
+
+  // 5d. Stress tolerance adjustment (3 points)
+  maxScore += 3;
+  const stressTolerance = personality['stress_tolerance'];
+  if (stressTolerance) {
+    // Infer stress: fast pace + extensive interaction + shift/oncall schedules = high stress
+    const isHighStress = metadata.workStyle.pace === 'fast_paced' &&
+      (metadata.workStyle.peopleInteraction === 'extensive' || occupationSchedules.some((s: string) => ['oncall', 'shift'].includes(s)));
+    const isLowStress = metadata.workStyle.pace === 'methodical' && metadata.workStyle.peopleInteraction !== 'extensive';
+
+    if (stressTolerance === 1) {
+      // Thrives under pressure — bonus for high-stress roles
+      totalScore += isHighStress ? 3 : isLowStress ? 1 : 2;
+    } else if (stressTolerance === 2) {
+      // Manages but prefers calm — neutral, slight penalty for high-stress
+      totalScore += isHighStress ? 1 : 2;
+    } else if (stressTolerance === 3) {
+      // Avoids high-stress — penalize high-stress, reward low-stress
+      totalScore += isHighStress ? 0 : isLowStress ? 3 : 2;
+    } else {
+      // Depends on context — neutral
+      totalScore += 2;
+    }
+  } else {
+    totalScore += 2;
+  }
+
   // 6. Text match bonus (up to 10 points)
   const assessmentTokens = getAssessmentTokens(assessment);
   const occupationTokens = getOccupationTokens(occupation);
@@ -392,7 +477,76 @@ function calculateMatchScore(
   }
 
   const percentage = maxScore > 0 ? Math.round((totalScore / maxScore) * 100) : 0;
-  return { score: percentage, reasons };
+
+  // ── Education level alignment penalty ──
+  // Ordinal rank for user's self-reported education
+  const userEduRank: Record<string, number> = {
+    'high-school': 1,
+    'hs-graduate': 2,
+    'some-college': 3,
+    'trade-cert': 3,   // treated same as some-college / postsecondary
+    'associates': 4,
+    'bachelors': 5,
+    'masters': 6,
+  };
+  // Ordinal rank for occupation's typical entry education
+  const occEduRank: Record<string, number> = {
+    'ND': 1, 'HS': 2, 'PS': 3, 'SC': 3, 'AD': 4,
+    'BD': 5, 'BD+': 5, 'MD': 6, 'DD': 7, '#': 0,
+  };
+
+  let eduAdjustment = 0;
+  const userRank = userEduRank[assessment.basic?.educationLevel || ''] || 0;
+  const occRank = occEduRank[occupation.educationLevel] || 0;
+
+  if (userRank > 0 && occRank > 0) {
+    const gap = occRank - userRank;
+    if (gap >= 3) {
+      // Way over-educated or way under-educated
+      eduAdjustment = -8;
+    } else if (gap === 2) {
+      eduAdjustment = -5;
+    } else if (gap === 1) {
+      // Slightly under-qualified — mild nudge, still very reachable
+      eduAdjustment = -2;
+    } else if (gap === 0) {
+      // Perfect match
+      eduAdjustment = 2;
+      reasons.push('Matches your education level');
+    } else if (gap === -1) {
+      // Slightly over-qualified — no penalty
+      eduAdjustment = 0;
+    } else if (gap <= -2) {
+      // Significantly over-qualified — mild demerit (role may feel limiting)
+      eduAdjustment = -3;
+    }
+  }
+
+  let adjustedPercentage = Math.max(0, Math.min(100, percentage + eduAdjustment));
+
+  // Salary minimum penalty: reduce score if occupation median is below user's floor
+  const salaryMinimum = assessment.challenges?.salaryMinimum;
+  if (salaryMinimum && occupation.wages.statewide.annual.median) {
+    const salaryFloors: Record<string, number> = {
+      'under-25k': 0,
+      '25k-40k': 25000,
+      '40k-60k': 40000,
+      '60k-80k': 60000,
+      '80k-plus': 80000,
+    };
+    const floor = salaryFloors[salaryMinimum] || 0;
+    const median = occupation.wages.statewide.annual.median;
+    if (floor > 0 && median < floor) {
+      // Penalize proportionally — closer salaries get less penalty
+      const deficit = (floor - median) / floor;
+      adjustedPercentage = Math.max(0, Math.round(percentage * (1 - deficit * 0.4)));
+    } else if (floor > 0 && median >= floor * 1.2) {
+      // Small bonus for exceeding expectations
+      reasons.push('Exceeds your salary target');
+    }
+  }
+
+  return { score: adjustedPercentage, reasons };
 }
 
 function formatClusterName(cluster: string): string {

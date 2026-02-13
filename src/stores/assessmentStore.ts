@@ -12,7 +12,7 @@ import { persist, createJSONStorage } from "zustand/middleware";
  * Increment this when making breaking changes to the assessment structure
  * that would invalidate previous results.
  */
-export const CURRENT_ASSESSMENT_VERSION = 2;
+export const CURRENT_ASSESSMENT_VERSION = 3;
 import type {
   AptitudeData,
   AssessmentResults,
@@ -23,8 +23,8 @@ import type {
 } from "@/types/assessment";
 
 // ─── Section completion constants ─────────────────────────────────
-const PERSONALITY_QUESTIONS = 11;
-const VALUES_COUNT = 12;
+const PERSONALITY_QUESTIONS = 15;
+const VALUES_COUNT = 13;
 const APTITUDE_CLUSTERS = ["stem", "arts", "communication", "business", "healthcare", "trades", "socialServices", "law"] as const;
 const COLLEGE_EDUCATION_LEVELS = ["some-college", "associates", "bachelors", "masters", "trade-cert"];
 
@@ -333,13 +333,15 @@ export const useAssessmentProgress = (): AssessmentProgress => {
   const hasResults = results !== null;
 
   // Determine next section to complete
+  // If user has results (even outdated), always send them to results first —
+  // the results page handles the migration banner and retake flow.
   let nextSection = "/intake/basic";
-  if (!basicDone) nextSection = "/intake/basic";
+  if (hasResults) nextSection = "/intake/results";
+  else if (!basicDone) nextSection = "/intake/basic";
   else if (!personalityDone) nextSection = "/intake/personality";
   else if (!valuesDone) nextSection = "/intake/values";
   else if (!aptitudeDone) nextSection = "/intake/aptitude";
   else if (!challengesDone) nextSection = "/intake/challenges";
-  else if (hasResults) nextSection = "/intake/results";
   else nextSection = "/intake/review";
 
   const completedCount = [basicDone, personalityDone, valuesDone, aptitudeDone, challengesDone].filter(Boolean).length;

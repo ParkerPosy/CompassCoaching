@@ -1,10 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
-  AlertTriangle,
   Award,
   BookOpen,
   Briefcase,
-  CheckCircle,
   Clock,
   Compass,
   Download,
@@ -211,6 +209,10 @@ function ResultsPage() {
       schedule: ['Standard hours', 'Flexible schedule', 'Shift work', 'On-call'][p.schedule - 1] || undefined,
       travel: ['No travel', 'Occasional travel', 'Regular travel', 'Extensive travel'][p.travel - 1] || undefined,
       physicalDemands: ['Sedentary', 'Light activity', 'Moderate activity', 'Heavy physical'][p.physical_demands - 1] || undefined,
+      learningStyle: ['Hands-on learner', 'Self-study reader', 'Visual/video learner', 'Classroom learner'][p.learning_style - 1] || undefined,
+      stressTolerance: ['Thrives under pressure', 'Manages but prefers calm', 'Avoids high-stress', 'Depends on context'][p.stress_tolerance - 1] || undefined,
+      techComfort: ['Tech enthusiast', 'Comfortable with tech', 'Struggles with tech', 'Prefers minimal screen time'][p.tech_comfort - 1] || undefined,
+      conflictStyle: ['Direct & assertive', 'Compromise-seeking', 'Defers to process', 'Avoids confrontation'][p.conflict_resolution - 1] || undefined,
     };
   }, [storedResults]);
 
@@ -243,6 +245,7 @@ function ResultsPage() {
       physical_activity: 'Physical Activity',
       environmental_impact: 'Environmental Impact',
       variety: 'Variety',
+      motivation_driver: 'Purpose & Meaning',
     };
 
     return Object.entries(storedResults.values)
@@ -313,7 +316,39 @@ function ResultsPage() {
       });
     }
 
-    return tensions.slice(0, 2); // Max 2 tensions to keep it focused
+    // Creativity vs Structure (new)
+    if (v.creativity >= 4 && v.job_security >= 4) {
+      tensions.push({
+        values: ['Creativity', 'Job Security'],
+        insight: 'Creative roles within stable industries (UX design, marketing in healthcare, content in government) give you both innovation and predictability.',
+      });
+    }
+
+    // Independence vs Job Security (new)
+    if (v.independence >= 4 && v.job_security >= 4) {
+      tensions.push({
+        values: ['Independence', 'Job Security'],
+        insight: 'Remote-first companies, government consulting, and tenured academic roles offer autonomy with stability. Freelancing within a stable niche is another path.',
+      });
+    }
+
+    // Environmental Impact vs Income (new)
+    if (v.environmental_impact >= 4 && v.income_potential >= 4) {
+      tensions.push({
+        values: ['Environmental Impact', 'High Income'],
+        insight: 'Green tech, renewable energy engineering, and ESG consulting are fast-growing fields where sustainability and strong salaries go hand in hand.',
+      });
+    }
+
+    // Physical Activity vs Recognition (new)
+    if (v.physical_activity >= 4 && v.recognition >= 4) {
+      tensions.push({
+        values: ['Physical Activity', 'Recognition'],
+        insight: 'Trades supervisors, fitness directors, and sports medicine professionals combine active work with visible leadership and professional respect.',
+      });
+    }
+
+    return tensions.slice(0, 3); // Max 3 tensions to keep it focused
   }, [storedResults]);
 
   // Generate challenge-aware guidance that goes beyond echoing answers
@@ -433,6 +468,39 @@ function ResultsPage() {
         icon: Users,
         label: 'Support',
         tip: 'Building a professional network is a skill, not a personality trait. Start with one connection: a career counselor at PA CareerLink, a professional association meetup, or an online community in your top career field.',
+      });
+    }
+
+    // Salary floor
+    if (c.salaryMinimum) {
+      const salaryLabels: Record<string, string> = {
+        'under-25k': 'under $25K', '25k-40k': '$25-40K', '40k-60k': '$40-60K', '60k-80k': '$60-80K', '80k-plus': 'over $80K',
+      };
+      guidance.push({
+        icon: Target,
+        label: 'Salary Target',
+        tip: `You indicated you need ${salaryLabels[c.salaryMinimum] || c.salaryMinimum} annually. Your career matches are filtered with this in mind — look for roles where PA median wages meet or exceed this floor.`,
+      });
+    }
+
+    // Timeline urgency
+    if (c.timelineUrgency === 'immediately') {
+      guidance.push({
+        icon: Clock,
+        label: 'Timeline',
+        tip: 'With an immediate need, prioritize careers with short entry paths — certifications, temp-to-hire roles, and positions that value transferable skills over formal education. PA CareerLink can connect you with employers hiring now.',
+      });
+    } else if (c.timelineUrgency === 'within-3-months') {
+      guidance.push({
+        icon: Clock,
+        label: 'Timeline',
+        tip: 'Three months gives you time for a focused sprint: complete a short certification, build a targeted resume, and apply strategically. Avoid committing to long programs until you\'re settled.',
+      });
+    } else if (c.timelineUrgency === 'within-a-year') {
+      guidance.push({
+        icon: Clock,
+        label: 'Timeline',
+        tip: 'A year is enough time for meaningful preparation — certificate programs, associate degree credits, or building a portfolio. Use the first month to research, then commit to a concrete plan.',
       });
     }
 
@@ -653,27 +721,34 @@ function ResultsPage() {
         <Container className="relative z-10 px-6 pb-12">
           {/* Migration Warning Banner */}
           {isOutdated && (
-            <div className="mb-8 p-4 bg-amber-50/90 backdrop-blur-sm border border-amber-200 rounded-lg flex flex-col sm:flex-row items-start sm:items-center gap-4 print-hidden">
-              <div className="flex items-start gap-3 flex-1">
-                <AlertTriangle className="w-6 h-6 text-amber-600 shrink-0 mt-0.5" />
-                <div>
-                  <h3 className="font-semibold text-amber-800">Assessment Updated</h3>
-                  <p className="text-sm text-amber-700">
-                    Our career assessment has been improved since you last took it.
-                    We recommend retaking the assessment for the most accurate career matches.
-                  </p>
+            <Card className="mb-8 bg-white/90 backdrop-blur-sm border border-amber-200/80 shadow-xl rounded-2xl overflow-hidden print-hidden">
+              <div className="h-1 bg-gradient-to-r from-amber-400 via-amber-500 to-orange-400" />
+              <CardContent className="p-6">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+                  <div className="flex items-start gap-4 flex-1">
+                    <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center shrink-0 shadow-sm">
+                      <Sparkles className="w-5 h-5 text-amber-600" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-stone-800">A Better Assessment Is Here</h3>
+                      <p className="text-sm text-stone-600 mt-1 leading-relaxed">
+                        We've added new questions for more accurate career matching — including learning style,
+                        tech comfort, and salary alignment. Retake it to unlock improved results.
+                      </p>
+                    </div>
+                  </div>
+                  <Button
+                    variant="primary"
+                    size="md"
+                    className="shrink-0 bg-amber-500 hover:bg-amber-600 shadow-md"
+                    onClick={handleRetake}
+                  >
+                    <RefreshCw className="w-4 h-4 mr-2" />
+                    Retake Assessment
+                  </Button>
                 </div>
-              </div>
-              <Button
-                variant="primary"
-                size="md"
-                className="shrink-0 bg-amber-600 hover:bg-amber-700"
-                onClick={handleRetake}
-              >
-                <RefreshCw className="w-4 h-4 mr-2" />
-                Retake Assessment
-              </Button>
-            </div>
+              </CardContent>
+            </Card>
           )}
 
           <section className="mb-8" style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
@@ -933,7 +1008,29 @@ function ResultsPage() {
                 { label: 'Work Pace', value: workStyleProfile.pace, icon: Clock, bg: 'bg-orange-50', border: 'border-orange-200', iconColor: 'text-orange-600' },
                 { label: 'Decisions', value: workStyleProfile.decisionStyle, icon: Lightbulb, bg: 'bg-amber-50', border: 'border-amber-200', iconColor: 'text-amber-600' },
                 { label: 'Energy From', value: workStyleProfile.energySource, icon: Zap, bg: 'bg-pink-50', border: 'border-pink-200', iconColor: 'text-pink-600' },
-              ].map((item) => (
+              ].filter((item) => item.value).map((item) => (
+                <div key={item.label} className={`flex items-center gap-3 p-3 rounded-xl border ${item.bg} ${item.border}`}>
+                  <div className="shrink-0 w-9 h-9 bg-white rounded-lg flex items-center justify-center shadow-sm">
+                    <item.icon className={`w-4 h-4 ${item.iconColor}`} />
+                  </div>
+                  <div className="min-w-0">
+                    <span className="text-xs font-medium uppercase tracking-wider text-stone-400 block">{item.label}</span>
+                    <span className="text-sm font-semibold text-stone-700">{item.value}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Additional Work Style Details */}
+          {workStyleProfile && (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
+              {[
+                { label: 'Learning', value: workStyleProfile.learningStyle, icon: BookOpen, bg: 'bg-blue-50', border: 'border-blue-200', iconColor: 'text-blue-600' },
+                { label: 'Stress', value: workStyleProfile.stressTolerance, icon: Shield, bg: 'bg-red-50', border: 'border-red-200', iconColor: 'text-red-600' },
+                { label: 'Technology', value: workStyleProfile.techComfort, icon: Zap, bg: 'bg-cyan-50', border: 'border-cyan-200', iconColor: 'text-cyan-600' },
+                { label: 'Conflict', value: workStyleProfile.conflictStyle, icon: Users, bg: 'bg-rose-50', border: 'border-rose-200', iconColor: 'text-rose-600' },
+              ].filter((item) => item.value).map((item) => (
                 <div key={item.label} className={`flex items-center gap-3 p-3 rounded-xl border ${item.bg} ${item.border}`}>
                   <div className="shrink-0 w-9 h-9 bg-white rounded-lg flex items-center justify-center shadow-sm">
                     <item.icon className={`w-4 h-4 ${item.iconColor}`} />

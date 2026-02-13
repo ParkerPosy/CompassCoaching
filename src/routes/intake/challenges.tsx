@@ -45,6 +45,8 @@ function ChallengesPage() {
     educationGaps: challenges?.educationGaps || [],
     supportSystem: challenges?.supportSystem || "",
     additionalNotes: challenges?.additionalNotes || "",
+    salaryMinimum: challenges?.salaryMinimum || "",
+    timelineUrgency: challenges?.timelineUrgency || "",
   };
 
   const handleChange = (field: string, value: string | string[]) => {
@@ -405,6 +407,72 @@ function ChallengesPage() {
                     </SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+
+              {/* Salary Minimum */}
+              <div>
+                <label
+                  htmlFor="salaryMinimum"
+                  className="block text-sm font-medium text-stone-700 mb-2"
+                >
+                  What's the minimum annual salary you need to meet your
+                  financial obligations?
+                </label>
+                <Select
+                  value={formData.salaryMinimum || undefined}
+                  onValueChange={(value) =>
+                    handleChange("salaryMinimum", value)
+                  }
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select option" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="under-25k">Under $25,000</SelectItem>
+                    <SelectItem value="25k-40k">$25,000 – $40,000</SelectItem>
+                    <SelectItem value="40k-60k">$40,000 – $60,000</SelectItem>
+                    <SelectItem value="60k-80k">$60,000 – $80,000</SelectItem>
+                    <SelectItem value="80k-plus">$80,000+</SelectItem>
+                  </SelectContent>
+                </Select>
+                <p className="text-sm text-stone-500 mt-1">
+                  This helps us filter career matches to realistic salary ranges.
+                </p>
+              </div>
+
+              {/* Timeline Urgency */}
+              <div>
+                <label
+                  htmlFor="timelineUrgency"
+                  className="block text-sm font-medium text-stone-700 mb-2"
+                >
+                  When do you need to be in a new role or career path?
+                </label>
+                <Select
+                  value={formData.timelineUrgency || undefined}
+                  onValueChange={(value) =>
+                    handleChange("timelineUrgency", value)
+                  }
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select option" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="immediately">Immediately</SelectItem>
+                    <SelectItem value="within-3-months">
+                      Within 3 months
+                    </SelectItem>
+                    <SelectItem value="within-a-year">
+                      Within a year
+                    </SelectItem>
+                    <SelectItem value="no-rush">
+                      No rush — exploring long-term
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+                <p className="text-sm text-stone-500 mt-1">
+                  This helps us recommend career paths that match your timeline.
+                </p>
               </div>
 
               {/* Additional Notes */}

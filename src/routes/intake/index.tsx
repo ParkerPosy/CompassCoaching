@@ -55,23 +55,23 @@ function IntakePage() {
       icon: <CheckCircle className="w-6 h-6" />,
       title: "Basic Information",
       description: "Tell us about your current situation and goals",
-      duration: "2 minutes",
-      questions: 5,
+      duration: "3 minutes",
+      questions: 6,
     },
     {
       icon: <Heart className="w-6 h-6" />,
       title: "Personality & Work Style",
       description:
         "Discover your work environment and collaboration preferences",
-      duration: "5 minutes",
-      questions: 8,
+      duration: "6 minutes",
+      questions: 15,
     },
     {
       icon: <BarChart3 className="w-6 h-6" />,
       title: "Values Assessment",
       description: "Rate what matters most to you in a career",
       duration: "4 minutes",
-      questions: 12,
+      questions: 13,
     },
     {
       icon: <Briefcase className="w-6 h-6" />,
@@ -85,7 +85,7 @@ function IntakePage() {
       title: "Challenges & Constraints",
       description: "Share obstacles that may impact your career path",
       duration: "3 minutes",
-      questions: 9,
+      questions: 11,
     },
   ];
 

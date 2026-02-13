@@ -8,6 +8,7 @@ import {
 } from "@clerk/tanstack-react-start";
 import {
   AlertCircle,
+  AlertTriangle,
   BarChart3,
   BookOpen,
   Brain,
@@ -21,6 +22,7 @@ import {
   Info,
   Mail,
   Menu,
+  RefreshCw,
   Shield,
   Target,
   User,
@@ -29,7 +31,8 @@ import {
 import { useState } from "react";
 import { CATEGORY_COLOR_STYLES, RESOURCE_CATEGORIES } from "@/data/resources";
 import { useAssessmentProgress } from "@/hooks";
-import { useHasHydrated } from "@/stores/assessmentStore";
+import { DialogService } from "@/lib/dialogService";
+import { useAssessmentStore, useHasHydrated, useIsResultsOutdated } from "@/stores/assessmentStore";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,6 +40,8 @@ export default function Header() {
   const [showResourcesMenu, setShowResourcesMenu] = useState(false);
   const hasHydrated = useHasHydrated();
   const progress = useAssessmentProgress();
+  const isOutdated = useIsResultsOutdated();
+  const clearResults = useAssessmentStore((state) => state.clearResults);
   const navigate = useNavigate();
   const { user } = useUser();
 
@@ -47,6 +52,21 @@ export default function Header() {
     setIsOpen(false);
     setShowAssessmentMenu(false);
     setShowResourcesMenu(false);
+  };
+
+  const handleUpdateAssessment = async () => {
+    const confirmed = await DialogService.confirm({
+      title: "Update Assessment?",
+      description:
+        "We've added new questions for more accurate career matching. Starting fresh will clear your current answers — your existing results stay viewable until you complete the new version.",
+      confirmLabel: "Start Fresh",
+      cancelLabel: "Not Now",
+      intent: "warning",
+    });
+    if (!confirmed) return;
+    clearResults();
+    navigate({ to: "/intake" });
+    closeMenu();
   };
 
   const handleContinueAssessment = () => {
@@ -333,7 +353,35 @@ export default function Header() {
 
             <div className="mt-3" />
 
-{hasHydrated && (!progress.isComplete || !progress.hasResults) && (
+            {hasHydrated && progress.hasResults && isOutdated ? (
+              <>
+                <Link
+                  to="/intake/results"
+                  onClick={() => setIsOpen(false)}
+                  className="w-full mb-2 px-4 py-2.5 bg-lime-500 hover:bg-lime-600 text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
+                >
+                  <BarChart3 size={20} />
+                  <span>View Results</span>
+                </Link>
+                <button
+                  type="button"
+                  onClick={handleUpdateAssessment}
+                  className="w-full mb-3 px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
+                >
+                  <RefreshCw size={20} />
+                  Update Assessment
+                </button>
+              </>
+            ) : hasHydrated && progress.hasResults ? (
+              <Link
+                to="/intake/results"
+                onClick={() => setIsOpen(false)}
+                className="w-full mb-3 px-4 py-2.5 bg-lime-500 hover:bg-lime-600 text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
+              >
+                <BarChart3 size={20} />
+                <span>My Results</span>
+              </Link>
+            ) : hasHydrated && !progress.hasResults ? (
               <button
                 type="button"
                 onClick={handleContinueAssessment}
@@ -346,18 +394,7 @@ export default function Header() {
                     ? "Submit Assessment"
                     : "Continue Assessment"}
               </button>
-            )}
-
-            {hasHydrated && progress.hasResults && (
-              <Link
-                to="/intake/results"
-                onClick={() => setIsOpen(false)}
-                className="w-full mb-3 px-4 py-2.5 bg-lime-500 hover:bg-lime-600 text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
-              >
-                <BarChart3 size={20} />
-                <span>My Results</span>
-              </Link>
-            )}
+            ) : null}
           </div>
 
           {/* Assessment Section */}
@@ -383,13 +420,25 @@ export default function Header() {
               <div className="flex items-center justify-between text-xs text-stone-600 mb-1">
                 <span>Progress</span>
                 <span>
-                  {hasHydrated ? `${completedCount}/${totalCount}` : "..."}
+                  {!hasHydrated
+                    ? "..."
+                    : isOutdated && progress.hasResults
+                      ? "Update available"
+                      : `${completedCount}/${totalCount}`}
                 </span>
               </div>
               <div className="w-full h-2 bg-stone-100 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-lime-500 transition-all duration-500 rounded-full"
-                  style={{ width: hasHydrated ? `${(completedCount / totalCount) * 100}%` : "0%" }}
+                  className={`h-full transition-all duration-500 rounded-full ${
+                    isOutdated && progress.hasResults ? "bg-amber-400" : "bg-lime-500"
+                  }`}
+                  style={{
+                    width: hasHydrated
+                      ? isOutdated && progress.hasResults
+                        ? "100%"
+                        : `${(completedCount / totalCount) * 100}%`
+                      : "0%",
+                  }}
                 />
               </div>
             </div>
@@ -397,6 +446,20 @@ export default function Header() {
 
             {/* Assessment Sections */}
             {showAssessmentMenu && (
+              hasHydrated && isOutdated && progress.hasResults ? (
+                <div className="mx-3 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                  <div className="flex items-start gap-2.5">
+                    <AlertTriangle size={16} className="text-amber-600 shrink-0 mt-0.5" />
+                    <div>
+                      <p className="text-sm font-medium text-amber-800">New questions added</p>
+                      <p className="text-xs text-amber-700 mt-1 leading-relaxed">
+                        We've improved the assessment with new questions for better career matching.
+                        Retake it to get updated, more accurate results.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ) : (
               <div className="space-y-1 pl-3">
                 {assessmentSections.map((section) => {
                   const Icon = section.icon;
@@ -441,6 +504,7 @@ export default function Header() {
                   );
                 })}
               </div>
+              )
             )}
             </div>
           </nav>
