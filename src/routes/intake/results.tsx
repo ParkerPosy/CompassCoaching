@@ -938,7 +938,7 @@ function ResultsPage() {
               Your Personalized Career Matches
             </h2>
           </div>
-          <div className="bg-stone-100 rounded-xl p-3 mb-4 text-sm shadow-[inset_2px_2px_4px_rgba(0,0,0,0.05),inset_-2px_-2px_4px_rgba(255,255,255,0.7)] border border-blue-200/50">
+          <div className="bg-blue-50/50 rounded-xl p-3 mb-4 text-sm shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)] border border-blue-100/60">
             <p className="text-blue-800">
               <strong>How we match:</strong> Based on your aptitudes, work style, and values.
               Scores of 60%+ indicate strong alignment.

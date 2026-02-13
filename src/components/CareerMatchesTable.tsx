@@ -203,23 +203,25 @@ export function CareerMatchesTable({
   }
 
   return (
-    <div ref={sentinelRef} className="bg-stone-100 rounded-2xl border border-white/50 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.07),inset_-3px_-3px_6px_rgba(255,255,255,0.8)] overflow-hidden">
+    <div ref={sentinelRef} className="bg-stone-200/70 rounded-2xl border border-white/50 shadow-[5px_5px_12px_rgba(0,0,0,0.12),-5px_-5px_12px_rgba(255,255,255,0.9)] overflow-hidden">
       {/* Header */}
-      <div className="bg-blue-50/40 border-b border-stone-200/50 px-4 sm:px-6 py-3 sm:py-4">
+      <div className="relative z-10 bg-blue-50/60 bg-gradient-to-r from-blue-100/50 to-blue-50/40 shadow-[3px_3px_8px_rgba(0,0,0,0.1),-3px_-3px_8px_rgba(255,255,255,0.9)] border-b border-blue-100/40 px-5 sm:px-8 py-4 sm:py-5">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-          <div>
-            <h3 className="text-base sm:text-lg font-semibold text-stone-700">
-              Found <span className="text-blue-950">{total}</span> Career Match{total !== 1 ? 'es' : ''}
-            </h3>
-            <p className="text-xs sm:text-sm text-stone-600">
-              Based on your assessment results {selectedCounty && `• ${selectedCounty} County`}
-            </p>
-          </div>
-          <div className="flex items-center gap-2 self-start sm:self-auto">
-            <div className="flex items-center gap-2 bg-stone-50 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-white/60 shadow-[2px_2px_4px_rgba(0,0,0,0.06),-2px_-2px_4px_rgba(255,255,255,0.9)]">
+          <div className="flex items-center gap-3">
+            <div>
+              <h3 className="text-base sm:text-lg font-semibold text-stone-700">
+                Found <span className="text-blue-950">{total}</span> Career Match{total !== 1 ? 'es' : ''}
+              </h3>
+              <p className="text-xs sm:text-sm text-stone-600">
+                Based on your assessment results {selectedCounty && `• ${selectedCounty} County`}
+              </p>
+            </div>
+            <div className="flex items-center gap-2 bg-blue-50 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-blue-100/80 shadow-[3px_3px_6px_rgba(0,0,0,0.08),-3px_-3px_6px_rgba(255,255,255,0.9)]">
               <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-600" />
               <span className="text-xs sm:text-sm font-medium text-blue-700">Personalized</span>
             </div>
+          </div>
+          <div className="flex items-center gap-2 self-start sm:self-auto">
             <Link
               to="/careers"
               className="flex items-center gap-1.5 bg-lime-600 hover:bg-lime-700 text-white px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors"
@@ -233,7 +235,7 @@ export function CareerMatchesTable({
 
       {/* Scrollable Career Cards Container */}
       <div className="max-h-[600px] overflow-y-auto">
-        <div className="p-3 sm:p-4 space-y-3">
+        <div className="p-4 sm:p-6 space-y-4">
           {matches.map((match, index) => {
             const isExpanded = expandedRows.has(match.id);
             const matchBadge = getMatchBadge(match.matchScore);
@@ -248,7 +250,7 @@ export function CareerMatchesTable({
               {hasNextPage && index === matches.length - 3 && (
                 <div ref={loadMoreRef} className="h-0" />
               )}
-              <div className="bg-stone-50 rounded-xl border border-white/60 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)] hover:shadow-[4px_4px_10px_rgba(0,0,0,0.1),-4px_-4px_10px_rgba(255,255,255,0.95)] transition-all duration-200">
+              <div className="bg-stone-50 rounded-xl border border-white/60 shadow-[4px_4px_10px_rgba(0,0,0,0.1),-4px_-4px_10px_rgba(255,255,255,0.95)] hover:shadow-[5px_5px_14px_rgba(0,0,0,0.13),-5px_-5px_14px_rgba(255,255,255,1)] transition-all duration-200">
               {/* Main Row */}
               <div
                 className="p-4 sm:p-5 cursor-pointer"
@@ -479,7 +481,7 @@ export function CareerMatchesTable({
       </div>
 
       {/* Footer with loading state */}
-      <div className="bg-stone-100 border-t border-stone-200/50 px-6 py-3 text-center print-hidden">
+      <div className="relative z-10 bg-stone-50 shadow-[3px_3px_8px_rgba(0,0,0,0.1),-3px_-3px_8px_rgba(255,255,255,0.9)] border-t border-white/60 px-6 py-4 text-center print-hidden">
         {hasNextPage ? (
           <div className="flex items-center justify-center gap-2 text-sm text-stone-600">
             {isFetchingNextPage ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
