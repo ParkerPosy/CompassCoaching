@@ -52,6 +52,13 @@ export async function initializeDatabase() {
   } catch {
     // Column already exists, ignore error
   }
+
+  // Add goals column if it doesn't exist (for existing databases)
+  try {
+    await getDb().execute(`ALTER TABLE user_notes ADD COLUMN goals TEXT DEFAULT '[]'`);
+  } catch {
+    // Column already exists, ignore error
+  }
 }
 
 // User notes types
@@ -140,4 +147,47 @@ export async function getAdminMessage(clerkId: string): Promise<string> {
   });
   const row = result.rows[0] as unknown as { admin_message: string } | undefined;
   return row?.admin_message || "";
+}
+
+// Goal type
+export interface UserGoal {
+  id: string;
+  text: string;
+  completed: boolean;
+}
+
+// Get goals for a specific user
+export async function getUserGoals(clerkId: string): Promise<UserGoal[]> {
+  const result = await getDb().execute({
+    sql: "SELECT goals FROM user_notes WHERE clerk_id = ?",
+    args: [clerkId],
+  });
+  const row = result.rows[0] as unknown as { goals: string } | undefined;
+  try {
+    return row?.goals ? JSON.parse(row.goals) : [];
+  } catch {
+    return [];
+  }
+}
+
+// Save goals for a user (admin sets text, user can toggle completed)
+export async function saveUserGoals(
+  clerkId: string,
+  goals: UserGoal[]
+): Promise<void> {
+  const goalsJson = JSON.stringify(goals);
+
+  // First try to update existing record
+  const result = await getDb().execute({
+    sql: `UPDATE user_notes SET goals = ?, updated_at = datetime('now') WHERE clerk_id = ?`,
+    args: [goalsJson, clerkId],
+  });
+
+  // If no row was updated, insert a new one
+  if (result.rowsAffected === 0) {
+    await getDb().execute({
+      sql: `INSERT INTO user_notes (clerk_id, goals, updated_at) VALUES (?, ?, datetime('now'))`,
+      args: [clerkId, goalsJson],
+    });
+  }
 }

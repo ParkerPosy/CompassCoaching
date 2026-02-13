@@ -1,11 +1,13 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { SignOutButton, useUser } from "@clerk/tanstack-react-start";
-import { User, Shield, Clock, BarChart3, Download, CheckCircle, AlertCircle, LogOut, MessageSquare } from "lucide-react";
+import { useState } from "react";
+import { User, Shield, Clock, BarChart3, Download, CheckCircle, AlertCircle, LogOut, MessageSquare, Target, Loader2 } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useAssessmentStore, useHasHydrated, useSectionCompletion } from "@/stores/assessmentStore";
+import type { UserGoal } from "@/lib/db.server";
 
 // Server function to check authentication and get admin message
 const getDashboardData = createServerFn().handler(async () => {
@@ -18,13 +20,36 @@ const getDashboardData = createServerFn().handler(async () => {
     });
   }
 
-  // Get admin message for this user
-  const { initializeDatabase, getAdminMessage } = await import("@/lib/db.server");
+  // Get admin message and goals for this user
+  const { initializeDatabase, getAdminMessage, getUserGoals } = await import("@/lib/db.server");
   await initializeDatabase();
   const adminMessage = await getAdminMessage(userId);
+  const goals = await getUserGoals(userId);
 
-  return { userId, adminMessage };
+  return { userId, adminMessage, goals };
 });
+
+// Server function to toggle a goal's completion status
+const toggleGoalCompletion = createServerFn({ method: "POST" })
+  .inputValidator((input: { goalId: string }) => input)
+  .handler(async ({ data }) => {
+    "use server";
+
+    const { auth } = await import("@clerk/tanstack-react-start/server");
+    const { userId } = await auth();
+
+    if (!userId) {
+      throw new Error("Not authenticated");
+    }
+
+    const { getUserGoals, saveUserGoals } = await import("@/lib/db.server");
+    const goals = await getUserGoals(userId);
+    const updated = goals.map((g) =>
+      g.id === data.goalId ? { ...g, completed: !g.completed } : g
+    );
+    await saveUserGoals(userId, updated);
+    return { success: true };
+  });
 
 export const Route = createFileRoute("/dashboard")({
   component: DashboardPage,
@@ -37,7 +62,7 @@ export const Route = createFileRoute("/dashboard")({
   }),
   beforeLoad: async () => await getDashboardData(),
   loader: async ({ context }) => {
-    return { userId: context.userId, adminMessage: context.adminMessage };
+    return { userId: context.userId, adminMessage: context.adminMessage, goals: context.goals };
   },
 });
 
@@ -54,7 +79,26 @@ function DashboardPage() {
 
   const hasAnyData = basic || personality || values || aptitude || challenges || results;
   const adminMessage = loaderData.adminMessage;
+  const [goals, setGoals] = useState<UserGoal[]>(loaderData.goals);
+  const [togglingId, setTogglingId] = useState<string | null>(null);
   const isLoading = !isLoaded || !hasHydrated;
+
+  const completedGoals = goals.filter((g) => g.completed).length;
+  const totalGoals = goals.length;
+  const progressPercent = totalGoals > 0 ? Math.round((completedGoals / totalGoals) * 100) : 0;
+
+  const handleToggleGoal = async (goalId: string) => {
+    setTogglingId(goalId);
+    setGoals((prev) => prev.map((g) => (g.id === goalId ? { ...g, completed: !g.completed } : g)));
+    try {
+      await toggleGoalCompletion({ data: { goalId } });
+    } catch (err) {
+      console.error("Failed to toggle goal:", err);
+      setGoals((prev) => prev.map((g) => (g.id === goalId ? { ...g, completed: !g.completed } : g)));
+    } finally {
+      setTogglingId(null);
+    }
+  };
 
   const handleDownloadResults = () => {
     const data = {
@@ -114,6 +158,68 @@ function DashboardPage() {
             </CardHeader>
             <CardContent>
               <p className="text-stone-700 whitespace-pre-wrap">{adminMessage}</p>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Goals Section - Only shown if goals exist */}
+        {goals.length > 0 && (
+          <Card className="mb-8 border-blue-200 bg-gradient-to-br from-blue-50/50 to-white">
+            <CardHeader className="pb-3">
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center gap-2 text-stone-800">
+                  <Target className="w-5 h-5 text-blue-600" />
+                  Your Goals
+                </CardTitle>
+                <span className="text-sm font-medium text-blue-600">
+                  {completedGoals}/{totalGoals} complete
+                </span>
+              </div>
+              {/* Progress bar */}
+              <div className="mt-3 h-2 bg-stone-200 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all duration-500"
+                  style={{ width: `${progressPercent}%` }}
+                />
+              </div>
+              {completedGoals === totalGoals && totalGoals > 0 && (
+                <p className="text-sm text-blue-600 font-medium mt-2 flex items-center gap-1.5">
+                  <CheckCircle className="w-4 h-4" />
+                  Amazing — you've completed all your goals!
+                </p>
+              )}
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                {goals.map((goal, index) => (
+                  <button
+                    key={goal.id}
+                    type="button"
+                    onClick={() => handleToggleGoal(goal.id)}
+                    disabled={togglingId === goal.id}
+                    className={`w-full flex items-center gap-3 p-3 rounded-lg border text-left transition-all ${
+                      goal.completed
+                        ? 'bg-blue-50 border-blue-200'
+                        : 'bg-white border-stone-200 hover:border-blue-300 hover:shadow-sm'
+                    } ${togglingId === goal.id ? 'opacity-60' : ''}`}
+                  >
+                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
+                      goal.completed
+                        ? 'bg-blue-600 border-blue-600'
+                        : 'border-stone-300'
+                    }`}>
+                      {goal.completed && <CheckCircle className="w-4 h-4 text-white" />}
+                      {togglingId === goal.id && <Loader2 className="w-3 h-3 animate-spin text-blue-600" />}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className={`text-sm font-medium ${goal.completed ? 'line-through text-stone-400' : 'text-stone-700'}`}>
+                        {goal.text}
+                      </p>
+                    </div>
+                    <span className="text-xs font-semibold text-stone-400 shrink-0">{index + 1}</span>
+                  </button>
+                ))}
+              </div>
             </CardContent>
           </Card>
         )}
