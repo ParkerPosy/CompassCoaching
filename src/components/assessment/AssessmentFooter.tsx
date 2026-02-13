@@ -191,27 +191,28 @@ export function AssessmentFooter({
         </div>
 
         {/* Navigation Buttons */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-2">
           {backTo ? (
             <Link
               to={backTo}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border-2 border-stone-300 text-stone-700 hover:bg-stone-50 transition-colors font-medium text-sm"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg border-2 border-stone-300 text-stone-700 hover:bg-stone-50 transition-colors font-medium text-xs sm:text-sm"
             >
-              <ArrowLeft className="w-4 h-4" />
+              <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               {backLabel}
             </Link>
           ) : (
             <div />
           )}
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             {showReviewButton && (
               <Link
                 to="/intake/review"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border-2 border-lime-600 text-lime-700 hover:bg-lime-50 transition-colors font-medium text-sm"
+                className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg border-2 border-lime-600 text-lime-700 hover:bg-lime-50 transition-colors font-medium text-xs sm:text-sm"
               >
-                <CheckCircle2 className="w-4 h-4" />
-                Review Answers
+                <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <span className="hidden sm:inline">Review Answers</span>
+                <span className="sm:hidden">Review</span>
               </Link>
             )}
             <Button
@@ -220,10 +221,10 @@ export function AssessmentFooter({
               size="md"
               disabled={nextDisabled}
               onClick={onNext}
-              className="inline-flex items-center gap-2"
+              className="inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm px-3 sm:px-5 py-2 sm:py-2.5"
             >
               {nextLabel}
-              {showNextArrow && <ArrowRight className="w-4 h-4" />}
+              {showNextArrow && <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
             </Button>
           </div>
         </div>

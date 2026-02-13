@@ -415,7 +415,7 @@ function BasicInfoPage() {
                         onChange={(e) =>
                           handleExperienceToggle(item, e.target.checked)
                         }
-                        className="w-5 h-5 text-lime-600 rounded focus:ring-lime-600 focus:ring-offset-0"
+                        className="w-5 h-5 min-w-5 min-h-5 shrink-0 text-lime-600 rounded focus:ring-lime-600 focus:ring-offset-0"
                       />
                       <span className="text-stone-700">{item}</span>
                     </label>

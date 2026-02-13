@@ -175,16 +175,16 @@ function ValuesPage() {
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
                     {[1, 2, 3, 4, 5].map((rating) => (
                       <button
                         key={rating}
                         type="button"
                         onClick={() => handleRating(value.id, rating)}
-                        className={`flex-1 py-3 px-4 rounded-lg border-2 font-semibold transition-all ${
+                        className={`px-4 py-2 rounded-lg border-2 transition-all font-medium ${
                           ratings[value.id] === rating
-                            ? "border-lime-600 bg-lime-600 text-white"
-                            : "border-stone-200 text-stone-600 hover:border-lime-300 hover:bg-lime-50"
+                            ? "bg-lime-600 text-white border-lime-600"
+                            : "bg-white text-stone-700 border-stone-300 hover:border-lime-600"
                         }`}
                       >
                         {rating}

@@ -351,7 +351,7 @@ function ReviewPage() {
               <Card key={i}>
                 <CardHeader>
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-stone-200 rounded-full" />
+                    <div className="w-10 h-10 shrink-0 bg-stone-200 rounded-full" />
                     <div className="h-5 bg-stone-200 rounded w-1/4" />
                   </div>
                 </CardHeader>
@@ -399,7 +399,7 @@ function ReviewPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-lime-600 rounded-full flex items-center justify-center text-white font-bold">
+                  <div className="w-10 h-10 shrink-0 bg-lime-600 rounded-full flex items-center justify-center text-white font-bold">
                     1
                   </div>
                   <CardTitle>Basic Information</CardTitle>
@@ -497,7 +497,7 @@ function ReviewPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-lime-600 rounded-full flex items-center justify-center text-white font-bold">
+                  <div className="w-10 h-10 shrink-0 bg-lime-600 rounded-full flex items-center justify-center text-white font-bold">
                     2
                   </div>
                   <CardTitle>Personality & Work Style</CardTitle>
@@ -540,7 +540,7 @@ function ReviewPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-lime-600 rounded-full flex items-center justify-center text-white font-bold">
+                  <div className="w-10 h-10 shrink-0 bg-lime-600 rounded-full flex items-center justify-center text-white font-bold">
                     3
                   </div>
                   <CardTitle>Core Values</CardTitle>
@@ -600,7 +600,7 @@ function ReviewPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-lime-600 rounded-full flex items-center justify-center text-white font-bold">
+                  <div className="w-10 h-10 shrink-0 bg-lime-600 rounded-full flex items-center justify-center text-white font-bold">
                     4
                   </div>
                   <CardTitle>Skills & Interests</CardTitle>
@@ -658,7 +658,7 @@ function ReviewPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-lime-600 rounded-full flex items-center justify-center text-white font-bold">
+                  <div className="w-10 h-10 shrink-0 bg-lime-600 rounded-full flex items-center justify-center text-white font-bold">
                     5
                   </div>
                   <CardTitle>Challenges & Constraints</CardTitle>
