@@ -1004,7 +1004,7 @@ function ResultsPage() {
                 { label: 'Decisions', value: workStyleProfile.decisionStyle, icon: Lightbulb, iconColor: 'text-amber-600', tint: 'bg-amber-50/60', accent: 'border-l-amber-400' },
                 { label: 'Energy From', value: workStyleProfile.energySource, icon: Zap, iconColor: 'text-pink-600', tint: 'bg-pink-50/60', accent: 'border-l-pink-400' },
               ].filter((item) => item.value).map((item) => (
-                <div key={item.label} className={`flex items-center gap-3 p-3 rounded-xl ${item.tint} border-l-3 ${item.accent} border border-white/50 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)]`}>
+                <div key={item.label} className={`flex items-center gap-3 p-3 rounded-xl ${item.tint} border-l-[3px] ${item.accent} border border-white/50 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)]`}>
                   <div className="shrink-0 w-9 h-9 bg-white/80 rounded-lg flex items-center justify-center shadow-[2px_2px_4px_rgba(0,0,0,0.06),-2px_-2px_4px_rgba(255,255,255,0.9)] border border-white/60">
                     <item.icon className={`w-4 h-4 ${item.iconColor}`} />
                   </div>
@@ -1026,7 +1026,7 @@ function ResultsPage() {
                 { label: 'Technology', value: workStyleProfile.techComfort, icon: Zap, iconColor: 'text-cyan-600', tint: 'bg-cyan-50/60', accent: 'border-l-cyan-400' },
                 { label: 'Conflict', value: workStyleProfile.conflictStyle, icon: Users, iconColor: 'text-rose-600', tint: 'bg-rose-50/60', accent: 'border-l-rose-400' },
               ].filter((item) => item.value).map((item) => (
-                <div key={item.label} className={`flex items-center gap-3 p-3 rounded-xl ${item.tint} border-l-3 ${item.accent} border border-white/50 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)]`}>
+                <div key={item.label} className={`flex items-center gap-3 p-3 rounded-xl ${item.tint} border-l-[3px] ${item.accent} border border-white/50 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)]`}>
                   <div className="shrink-0 w-9 h-9 bg-white/80 rounded-lg flex items-center justify-center shadow-[2px_2px_4px_rgba(0,0,0,0.06),-2px_-2px_4px_rgba(255,255,255,0.9)] border border-white/60">
                     <item.icon className={`w-4 h-4 ${item.iconColor}`} />
                   </div>
@@ -1040,7 +1040,7 @@ function ResultsPage() {
           )}
 
           {analysis?.personalityInsights && analysis.personalityInsights.length > 0 && (
-            <div className="bg-amber-50/30 rounded-xl p-4 border-l-3 border-l-amber-400 border border-white/50 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.06),inset_-3px_-3px_6px_rgba(255,255,255,0.8)]">
+            <div className="bg-amber-50/30 rounded-xl p-4 border-l-[3px] border-l-amber-400 border border-white/50 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.06),inset_-3px_-3px_6px_rgba(255,255,255,0.8)]">
               <div className="flex items-center gap-2 mb-3">
                 <Lightbulb className="w-4 h-4 text-amber-500" />
                 <h3 className="text-sm font-semibold uppercase tracking-wider text-stone-500">Personality Insights</h3>
@@ -1068,7 +1068,7 @@ function ResultsPage() {
 
           <div className="grid sm:grid-cols-2 gap-4">
             {ageInsights && (
-              <div className="p-5 bg-indigo-50/50 rounded-xl border-l-3 border-l-indigo-400 border border-white/50 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)]">
+              <div className="p-5 bg-indigo-50/50 rounded-xl border-l-[3px] border-l-indigo-400 border border-white/50 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)]">
                 <div className="flex items-center gap-2 mb-2">
                   <User className="w-4 h-4 text-indigo-600" />
                   <h3 className="font-semibold text-stone-800 text-sm">{ageInsights.title}</h3>
@@ -1078,7 +1078,7 @@ function ResultsPage() {
             )}
 
             {reasonMessage && (
-              <div className="p-5 bg-violet-50/50 rounded-xl border-l-3 border-l-violet-400 border border-white/50 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)]">
+              <div className="p-5 bg-violet-50/50 rounded-xl border-l-[3px] border-l-violet-400 border border-white/50 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)]">
                 <div className="flex items-center gap-2 mb-2">
                   <Sparkles className="w-4 h-4 text-violet-600" />
                   <h3 className="font-semibold text-stone-800 text-sm">Why You're Here</h3>
@@ -1090,7 +1090,7 @@ function ResultsPage() {
             )}
 
             {valueTensions.map((tension, index) => (
-              <div key={index} className="p-5 bg-cyan-50/50 rounded-xl border-l-3 border-l-cyan-400 border border-white/50 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)]">
+              <div key={index} className="p-5 bg-cyan-50/50 rounded-xl border-l-[3px] border-l-cyan-400 border border-white/50 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)]">
                 <div className="flex items-center gap-2 mb-2 flex-wrap">
                   <Scale className="w-4 h-4 text-cyan-600" />
                   {tension.values.map((v, i) => (
@@ -1122,7 +1122,7 @@ function ResultsPage() {
             </div>
 
             {storedResults?.challenges?.additionalNotes && storedResults.challenges.additionalNotes.trim() !== '' && (
-              <div className="mb-4 p-4 bg-amber-50/40 rounded-xl border-l-3 border-l-amber-300 border border-white/50 shadow-[inset_2px_2px_5px_rgba(0,0,0,0.06),inset_-2px_-2px_5px_rgba(255,255,255,0.7)]">
+              <div className="mb-4 p-4 bg-amber-50/40 rounded-xl border-l-[3px] border-l-amber-300 border border-white/50 shadow-[inset_2px_2px_5px_rgba(0,0,0,0.06),inset_-2px_-2px_5px_rgba(255,255,255,0.7)]">
                 <div className="flex items-center gap-2 mb-1">
                   <Lightbulb className="w-4 h-4 text-amber-600" />
                   <span className="font-semibold text-stone-700 text-sm">You mentioned</span>
@@ -1135,7 +1135,7 @@ function ResultsPage() {
               {challengeGuidance.map((item, index) => {
                 const IconComponent = item.icon;
                 return (
-                  <div key={index} className="flex items-start gap-4 p-4 bg-amber-50/40 rounded-xl border-l-3 border-l-amber-400 border border-white/50 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)]">
+                  <div key={index} className="flex items-start gap-4 p-4 bg-amber-50/40 rounded-xl border-l-[3px] border-l-amber-400 border border-white/50 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)]">
                     <div className="shrink-0">
                       <div className="w-9 h-9 bg-amber-100/80 rounded-lg flex items-center justify-center shadow-[2px_2px_4px_rgba(0,0,0,0.06),-2px_-2px_4px_rgba(255,255,255,0.9)] border border-white/60">
                         <IconComponent className="w-4 h-4 text-amber-700" />
@@ -1163,7 +1163,7 @@ function ResultsPage() {
 
           <div className="space-y-3">
             {analysis?.nextSteps && analysis.nextSteps.map((step, index) => (
-              <div key={index} className="flex items-start gap-4 p-4 bg-emerald-50/40 rounded-xl border-l-3 border-l-emerald-400 border border-white/50 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)]">
+              <div key={index} className="flex items-start gap-4 p-4 bg-emerald-50/40 rounded-xl border-l-[3px] border-l-emerald-400 border border-white/50 shadow-[3px_3px_7px_rgba(0,0,0,0.07),-3px_-3px_7px_rgba(255,255,255,0.9)]">
                 <div className="shrink-0 w-8 h-8 bg-emerald-100/80 rounded-full flex items-center justify-center shadow-[2px_2px_4px_rgba(0,0,0,0.06),-2px_-2px_4px_rgba(255,255,255,0.9)] border border-white/60">
                   <span className="text-sm font-bold text-lime-700">{index + 1}</span>
                 </div>
