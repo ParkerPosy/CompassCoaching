@@ -60,6 +60,20 @@ export async function initializeDatabase() {
     // Column already exists, ignore error
   }
 
+  // Add sort_order column if it doesn't exist
+  try {
+    await getDb().execute(`ALTER TABLE user_notes ADD COLUMN sort_order INTEGER DEFAULT 0`);
+  } catch {
+    // Column already exists
+  }
+
+  // Add is_active_mentee column if it doesn't exist
+  try {
+    await getDb().execute(`ALTER TABLE user_notes ADD COLUMN is_active_mentee INTEGER DEFAULT 0`);
+  } catch {
+    // Column already exists
+  }
+
   // Create events table
   await getDb().execute(`
     CREATE TABLE IF NOT EXISTS events (
@@ -98,6 +112,8 @@ export interface UserNote {
   email: string | null;
   notes: string;
   admin_message: string;
+  sort_order: number;
+  is_active_mentee: number;
   created_at: string;
   updated_at: string;
 }
@@ -105,7 +121,7 @@ export interface UserNote {
 // Get all user notes from database
 export async function getAllUserNotes(): Promise<UserNote[]> {
   const result = await getDb().execute(
-    "SELECT * FROM user_notes ORDER BY created_at DESC"
+    "SELECT * FROM user_notes ORDER BY sort_order ASC, created_at DESC"
   );
   return result.rows as unknown as UserNote[];
 }
@@ -215,6 +231,7 @@ export interface UserGoal {
   id: string;
   text: string;
   completed: boolean;
+  completedAt: string | null;
 }
 
 // Get goals for a specific user
@@ -398,4 +415,43 @@ export function expandRecurringEvents(events: CalendarEvent[]): ExpandedEvent[] 
   }
 
   return expanded;
+}
+
+// ── Sort Order & Active Mentee ───────────────────────────────
+
+// Batch-update sort order for users after drag-and-drop reorder
+export async function updateUserSortOrder(
+  orderedIds: { clerkId: string; sortOrder: number }[]
+): Promise<void> {
+  for (const { clerkId, sortOrder } of orderedIds) {
+    // Update existing record or insert a minimal one
+    const result = await getDb().execute({
+      sql: `UPDATE user_notes SET sort_order = ?, updated_at = datetime('now') WHERE clerk_id = ?`,
+      args: [sortOrder, clerkId],
+    });
+    if (result.rowsAffected === 0) {
+      await getDb().execute({
+        sql: `INSERT INTO user_notes (clerk_id, sort_order, updated_at) VALUES (?, ?, datetime('now'))`,
+        args: [clerkId, sortOrder],
+      });
+    }
+  }
+}
+
+// Toggle active mentee status for a user
+export async function toggleActiveMentee(
+  clerkId: string,
+  isActive: boolean
+): Promise<void> {
+  const value = isActive ? 1 : 0;
+  const result = await getDb().execute({
+    sql: `UPDATE user_notes SET is_active_mentee = ?, updated_at = datetime('now') WHERE clerk_id = ?`,
+    args: [value, clerkId],
+  });
+  if (result.rowsAffected === 0) {
+    await getDb().execute({
+      sql: `INSERT INTO user_notes (clerk_id, is_active_mentee, updated_at) VALUES (?, ?, datetime('now'))`,
+      args: [clerkId, value],
+    });
+  }
 }

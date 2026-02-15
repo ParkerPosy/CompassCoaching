@@ -20,6 +20,7 @@ import {
 import type { UserGoal } from "@/lib/db.server";
 import { Container } from "@/components/layout/container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -220,7 +221,7 @@ function AdminUserPage() {
   const handleAddGoal = () => {
     setGoals((prev) => [
       ...prev,
-      { id: crypto.randomUUID(), text: "", completed: false },
+      { id: crypto.randomUUID(), text: "", completed: false, completedAt: null },
     ]);
     setSavedGoals(false);
   };
@@ -232,11 +233,6 @@ function AdminUserPage() {
 
   const handleGoalTextChange = (id: string, text: string) => {
     setGoals((prev) => prev.map((g) => (g.id === id ? { ...g, text } : g)));
-    setSavedGoals(false);
-  };
-
-  const handleGoalToggle = (id: string) => {
-    setGoals((prev) => prev.map((g) => (g.id === id ? { ...g, completed: !g.completed } : g)));
     setSavedGoals(false);
   };
 
@@ -386,204 +382,237 @@ function AdminUserPage() {
           </CardContent>
         </Card>
 
-        {/* Message to User Card (Visible to User) */}
-        <Card className="mb-6 border-lime-200 bg-lime-50/30">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <MessageSquare className="w-5 h-5 text-lime-600" />
-              Message to User
-              <span className="text-xs font-normal text-lime-700 bg-lime-100 px-2 py-0.5 rounded">
-                Visible on their dashboard
-              </span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-stone-600 mb-4">
-              This message will be displayed on the user's dashboard. Use it to share personalized guidance,
-              resources, or follow-up information after a coaching session.
-            </p>
-            <Textarea
-              value={adminMessage}
-              onChange={(e) => {
-                setAdminMessage(e.target.value);
-                setSavedMessage(false);
-              }}
-              placeholder="Enter a message for this user..."
-              className={`min-h-32 mb-4 ${messageIsDirty ? "border-amber-400 bg-amber-50" : ""}`}
-            />
-            <div className="flex items-center justify-between">
-              <p className="text-xs text-stone-500">
-                {messageIsDirty && "You have unsaved changes"}
-              </p>
-              <Button
-                variant={savedMessage ? "secondary" : messageIsDirty ? "primary" : "outline"}
-                onClick={handleSaveMessage}
-                disabled={savingMessage || !messageIsDirty}
-              >
-                {savingMessage ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                    Saving...
-                  </>
-                ) : savedMessage ? (
-                  <>
-                    <Check className="w-4 h-4 mr-2" />
-                    Saved
-                  </>
-                ) : (
-                  <>
-                    <Save className="w-4 h-4 mr-2" />
-                    Save Message
-                  </>
-                )}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Goals Card */}
-        <Card className="mb-6 border-blue-200 bg-blue-50/30">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Target className="w-5 h-5 text-blue-600" />
+        {/* Message, Goals & Notes Tabs */}
+        <Tabs defaultValue="message">
+          <TabsList>
+            <TabsTrigger value="message">
+              <MessageSquare className="w-4 h-4" />
+              Message
+              {messageIsDirty && <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />}
+            </TabsTrigger>
+            <TabsTrigger value="goals">
+              <Target className="w-4 h-4" />
               Goals
-              <span className="text-xs font-normal text-blue-700 bg-blue-100 px-2 py-0.5 rounded">
-                Visible on their dashboard
-              </span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-stone-600 mb-4">
-              Create actionable goals for this user. They can mark them complete on their dashboard.
-            </p>
+              {goalsIsDirty && <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />}
+            </TabsTrigger>
+            <TabsTrigger value="notes">
+              <FileText className="w-4 h-4" />
+              Notes
+              {notesIsDirty && <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />}
+            </TabsTrigger>
+          </TabsList>
 
-            {goals.length === 0 ? (
-              <div className="text-center py-6 bg-white rounded-lg border border-dashed border-stone-300">
-                <Target className="w-8 h-8 text-stone-300 mx-auto mb-2" />
-                <p className="text-sm text-stone-500">No goals yet. Add one to get started.</p>
-              </div>
-            ) : (
-              <div className="space-y-2 mb-4">
-                {goals.map((goal, index) => (
-                  <div key={goal.id} className="flex items-center gap-3 bg-white rounded-lg border border-stone-200 p-3">
-                    <span className="text-xs font-semibold text-stone-400 w-5 text-center shrink-0">{index + 1}</span>
-                    <input
-                      type="checkbox"
-                      checked={goal.completed}
-                      onChange={() => handleGoalToggle(goal.id)}
-                      className="w-4 h-4 rounded border-stone-300 text-blue-600 focus:ring-blue-500 shrink-0 cursor-pointer"
-                    />
-                    <input
-                      type="text"
-                      value={goal.text}
-                      onChange={(e) => handleGoalTextChange(goal.id, e.target.value)}
-                      placeholder="Enter a goal..."
-                      className={`flex-1 text-sm border-0 bg-transparent focus:ring-0 focus:outline-none text-stone-700 placeholder:text-stone-400 ${goal.completed ? 'line-through text-stone-400' : ''}`}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveGoal(goal.id)}
-                      className="text-stone-400 hover:text-red-500 transition-colors shrink-0 p-1"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+          {/* Message Tab */}
+          <TabsContent value="message">
+            <Card className="border-lime-200 bg-lime-50/30">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <MessageSquare className="w-5 h-5 text-lime-600" />
+                  Message to User
+                  <span className="text-xs font-normal text-lime-700 bg-lime-100 px-2 py-0.5 rounded">
+                    Visible on their dashboard
+                  </span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-stone-600 mb-4">
+                  This message will be displayed on the user's dashboard. Use it to share personalized guidance,
+                  resources, or follow-up information after a coaching session.
+                </p>
+                <Textarea
+                  value={adminMessage}
+                  onChange={(e) => {
+                    setAdminMessage(e.target.value);
+                    setSavedMessage(false);
+                  }}
+                  placeholder="Enter a message for this user..."
+                  className={`min-h-32 mb-4 ${messageIsDirty ? "border-amber-400 bg-amber-50" : ""}`}
+                />
+                <div className="flex items-center justify-between">
+                  <p className="text-xs text-stone-500">
+                    {messageIsDirty && "You have unsaved changes"}
+                  </p>
+                  <Button
+                    variant={savedMessage ? "secondary" : messageIsDirty ? "primary" : "outline"}
+                    onClick={handleSaveMessage}
+                    disabled={savingMessage || !messageIsDirty}
+                  >
+                    {savingMessage ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                        Saving...
+                      </>
+                    ) : savedMessage ? (
+                      <>
+                        <Check className="w-4 h-4 mr-2" />
+                        Saved
+                      </>
+                    ) : (
+                      <>
+                        <Save className="w-4 h-4 mr-2" />
+                        Save Message
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Goals Tab */}
+          <TabsContent value="goals">
+            <Card className="border-blue-200 bg-blue-50/30">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Target className="w-5 h-5 text-blue-600" />
+                  Goals
+                  <span className="text-xs font-normal text-blue-700 bg-blue-100 px-2 py-0.5 rounded">
+                    Visible on their dashboard
+                  </span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-stone-600 mb-4">
+                  Create actionable goals for this user. They can mark them complete on their dashboard.
+                </p>
+
+                {goals.length === 0 ? (
+                  <div className="text-center py-6 bg-white rounded-lg border border-dashed border-stone-300">
+                    <Target className="w-8 h-8 text-stone-300 mx-auto mb-2" />
+                    <p className="text-sm text-stone-500">No goals yet. Add one to get started.</p>
                   </div>
-                ))}
-              </div>
-            )}
-
-            <button
-              type="button"
-              onClick={handleAddGoal}
-              className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 font-medium mt-3 mb-4 transition-colors"
-            >
-              <Plus className="w-4 h-4" />
-              Add Goal
-            </button>
-
-            <div className="flex items-center justify-between">
-              <p className="text-xs text-stone-500">
-                {goalsIsDirty && "You have unsaved changes"}
-              </p>
-              <Button
-                variant={savedGoals ? "secondary" : goalsIsDirty ? "primary" : "outline"}
-                onClick={handleSaveGoals}
-                disabled={savingGoals || !goalsIsDirty}
-              >
-                {savingGoals ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                    Saving...
-                  </>
-                ) : savedGoals ? (
-                  <>
-                    <Check className="w-4 h-4 mr-2" />
-                    Saved
-                  </>
                 ) : (
-                  <>
-                    <Save className="w-4 h-4 mr-2" />
-                    Save Goals
-                  </>
+                  <div className="space-y-2 mb-4">
+                    {goals.map((goal, index) => (
+                      <div key={goal.id} className="flex items-center gap-3 bg-white rounded-lg border border-stone-200 p-3">
+                        <span className="text-xs font-semibold text-stone-400 w-5 text-center shrink-0">{index + 1}</span>
+                        <div className={`w-4 h-4 rounded border shrink-0 flex items-center justify-center ${
+                          goal.completed
+                            ? "bg-blue-600 border-blue-600"
+                            : "border-stone-300 bg-white"
+                        }`}>
+                          {goal.completed && <Check className="w-3 h-3 text-white" />}
+                        </div>
+                        <input
+                          type="text"
+                          value={goal.text}
+                          onChange={(e) => handleGoalTextChange(goal.id, e.target.value)}
+                          placeholder="Enter a goal..."
+                          className={`flex-1 text-sm border-0 bg-transparent focus:ring-0 focus:outline-none text-stone-700 placeholder:text-stone-400 ${goal.completed ? 'line-through text-stone-400' : ''}`}
+                        />
+                        {goal.completedAt && (
+                          <span className="text-xs text-stone-400 shrink-0">
+                            {new Date(goal.completedAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                          </span>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveGoal(goal.id)}
+                          className="text-stone-400 hover:text-red-500 transition-colors shrink-0 p-1"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                 )}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
 
-        {/* Internal Notes Card (Admin Only) */}
-        <Card className="border-stone-300">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <FileText className="w-5 h-5 text-stone-600" />
-              Internal Notes
-              <span className="text-xs font-normal text-stone-500 bg-stone-100 px-2 py-0.5 rounded">
-                Admin only
-              </span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-stone-600 mb-4">
-              Private notes about this user. These are only visible to admins.
-            </p>
-            <Textarea
-              value={notes}
-              onChange={(e) => {
-                setNotes(e.target.value);
-                setSavedNotes(false);
-              }}
-              placeholder="Add private notes about this user..."
-              className={`min-h-32 mb-4 ${notesIsDirty ? "border-amber-400 bg-amber-50" : ""}`}
-            />
-            <div className="flex items-center justify-between">
-              <p className="text-xs text-stone-500">
-                {notesIsDirty && "You have unsaved changes"}
-              </p>
-              <Button
-                variant={savedNotes ? "secondary" : notesIsDirty ? "primary" : "outline"}
-                onClick={handleSaveNotes}
-                disabled={savingNotes || !notesIsDirty}
-              >
-                {savingNotes ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                    Saving...
-                  </>
-                ) : savedNotes ? (
-                  <>
-                    <Check className="w-4 h-4 mr-2" />
-                    Saved
-                  </>
-                ) : (
-                  <>
-                    <Save className="w-4 h-4 mr-2" />
-                    Save Notes
-                  </>
-                )}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+                <button
+                  type="button"
+                  onClick={handleAddGoal}
+                  className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 font-medium mt-3 mb-4 transition-colors"
+                >
+                  <Plus className="w-4 h-4" />
+                  Add Goal
+                </button>
+
+                <div className="flex items-center justify-between">
+                  <p className="text-xs text-stone-500">
+                    {goalsIsDirty && "You have unsaved changes"}
+                  </p>
+                  <Button
+                    variant={savedGoals ? "secondary" : goalsIsDirty ? "primary" : "outline"}
+                    onClick={handleSaveGoals}
+                    disabled={savingGoals || !goalsIsDirty}
+                  >
+                    {savingGoals ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                        Saving...
+                      </>
+                    ) : savedGoals ? (
+                      <>
+                        <Check className="w-4 h-4 mr-2" />
+                        Saved
+                      </>
+                    ) : (
+                      <>
+                        <Save className="w-4 h-4 mr-2" />
+                        Save Goals
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Notes Tab */}
+          <TabsContent value="notes">
+            <Card className="border-stone-300">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="w-5 h-5 text-stone-600" />
+                  Internal Notes
+                  <span className="text-xs font-normal text-stone-500 bg-stone-100 px-2 py-0.5 rounded">
+                    Admin only
+                  </span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-stone-600 mb-4">
+                  Private notes about this user. These are only visible to admins.
+                </p>
+                <Textarea
+                  value={notes}
+                  onChange={(e) => {
+                    setNotes(e.target.value);
+                    setSavedNotes(false);
+                  }}
+                  placeholder="Add private notes about this user..."
+                  className={`min-h-32 mb-4 ${notesIsDirty ? "border-amber-400 bg-amber-50" : ""}`}
+                />
+                <div className="flex items-center justify-between">
+                  <p className="text-xs text-stone-500">
+                    {notesIsDirty && "You have unsaved changes"}
+                  </p>
+                  <Button
+                    variant={savedNotes ? "secondary" : notesIsDirty ? "primary" : "outline"}
+                    onClick={handleSaveNotes}
+                    disabled={savingNotes || !notesIsDirty}
+                  >
+                    {savingNotes ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                        Saving...
+                      </>
+                    ) : savedNotes ? (
+                      <>
+                        <Check className="w-4 h-4 mr-2" />
+                        Saved
+                      </>
+                    ) : (
+                      <>
+                        <Save className="w-4 h-4 mr-2" />
+                        Save Notes
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </Container>
     </div>
   );

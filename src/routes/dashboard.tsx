@@ -45,7 +45,13 @@ const toggleGoalCompletion = createServerFn({ method: "POST" })
     const { getUserGoals, saveUserGoals } = await import("@/lib/db.server");
     const goals = await getUserGoals(userId);
     const updated = goals.map((g) =>
-      g.id === data.goalId ? { ...g, completed: !g.completed } : g
+      g.id === data.goalId
+        ? {
+            ...g,
+            completed: !g.completed,
+            completedAt: !g.completed ? new Date().toISOString() : null,
+          }
+        : g
     );
     await saveUserGoals(userId, updated);
     return { success: true };
@@ -89,12 +95,12 @@ function DashboardPage() {
 
   const handleToggleGoal = async (goalId: string) => {
     setTogglingId(goalId);
-    setGoals((prev) => prev.map((g) => (g.id === goalId ? { ...g, completed: !g.completed } : g)));
+    setGoals((prev) => prev.map((g) => (g.id === goalId ? { ...g, completed: !g.completed, completedAt: !g.completed ? new Date().toISOString() : null } : g)));
     try {
       await toggleGoalCompletion({ data: { goalId } });
     } catch (err) {
       console.error("Failed to toggle goal:", err);
-      setGoals((prev) => prev.map((g) => (g.id === goalId ? { ...g, completed: !g.completed } : g)));
+      setGoals((prev) => prev.map((g) => (g.id === goalId ? { ...g, completed: !g.completed, completedAt: !g.completed ? new Date().toISOString() : null } : g)));
     } finally {
       setTogglingId(null);
     }

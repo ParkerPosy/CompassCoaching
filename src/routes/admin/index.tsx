@@ -1,7 +1,7 @@
 import { createFileRoute, redirect, useRouter, Link } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { useUser } from "@clerk/tanstack-react-start";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import {
   Shield,
   Users,
@@ -23,7 +23,29 @@ import {
   Pencil,
   X,
   Repeat,
+  GripVertical,
+  UserCheck,
+  FileText,
+  Target,
+  MessageSquare,
 } from "lucide-react";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { Container } from "@/components/layout/container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -48,6 +70,8 @@ interface UserNote {
   name: string | null;
   email: string | null;
   notes: string;
+  sort_order: number;
+  is_active_mentee: number;
   created_at: string;
   updated_at: string;
 }
@@ -60,6 +84,12 @@ interface MergedUser {
   lastActiveAt: string | null;
   notes: string;
   isInDatabase: boolean;
+  sortOrder: number;
+  isActiveMentee: boolean;
+  hasNotes: boolean;
+  hasGoals: boolean;
+  hasAdminMessage: boolean;
+  lastGoalCompletedAt: string | null;
 }
 
 interface AdminStats {
@@ -137,6 +167,35 @@ const getAdminData = createServerFn().handler(async (): Promise<AdminData> => {
       notesMap.set(note.clerk_id, note);
     }
 
+    // Parse goals helper
+    const parseGoals = (goalsStr: string | undefined | null): boolean => {
+      if (!goalsStr) return false;
+      try {
+        const arr = JSON.parse(goalsStr);
+        return Array.isArray(arr) && arr.length > 0;
+      } catch {
+        return false;
+      }
+    };
+
+    // Get last goal completed timestamp
+    const getLastGoalCompletedAt = (goalsStr: string | undefined | null): string | null => {
+      if (!goalsStr) return null;
+      try {
+        const arr = JSON.parse(goalsStr);
+        if (!Array.isArray(arr)) return null;
+        let latest: string | null = null;
+        for (const g of arr) {
+          if (g.completedAt && (!latest || g.completedAt > latest)) {
+            latest = g.completedAt;
+          }
+        }
+        return latest;
+      } catch {
+        return null;
+      }
+    };
+
     const mergedUsers: MergedUser[] = usersResponse.data.map((u) => {
       const dbNote = notesMap.get(u.id);
       return {
@@ -147,6 +206,12 @@ const getAdminData = createServerFn().handler(async (): Promise<AdminData> => {
         lastActiveAt: u.lastActiveAt ? new Date(u.lastActiveAt).toISOString() : null,
         notes: dbNote?.notes || "",
         isInDatabase: !!dbNote,
+        sortOrder: dbNote?.sort_order ?? 9999,
+        isActiveMentee: !!(dbNote?.is_active_mentee),
+        hasNotes: !!(dbNote?.notes && dbNote.notes.trim().length > 0),
+        hasGoals: parseGoals((dbNote as any)?.goals),
+        hasAdminMessage: !!((dbNote as any)?.admin_message && (dbNote as any).admin_message.trim().length > 0),
+        lastGoalCompletedAt: getLastGoalCompletedAt((dbNote as any)?.goals),
       };
     });
 
@@ -161,7 +226,7 @@ const getAdminData = createServerFn().handler(async (): Promise<AdminData> => {
         recentSignups: usersResponse.data.filter((u) => new Date(u.createdAt) > thirtyDaysAgo).length,
         activeThisWeek: usersResponse.data.filter((u) => u.lastActiveAt && new Date(u.lastActiveAt) > sevenDaysAgo).length,
       },
-      users: mergedUsers,
+      users: mergedUsers.sort((a, b) => a.sortOrder - b.sortOrder),
       events: dbEvents,
     };
   } catch (error) {
@@ -176,30 +241,25 @@ const getAdminData = createServerFn().handler(async (): Promise<AdminData> => {
   }
 });
 
-// Server function to save user notes
-const saveUserNote = createServerFn({ method: "POST" })
-  .inputValidator((input: { clerkId: string; name: string | null; email: string | null; notes: string }) => input)
+// Server function to update user sort order (batch)
+const updateSortOrderFn = createServerFn({ method: "POST" })
+  .inputValidator((input: { orderedIds: { clerkId: string; sortOrder: number }[] }) => input)
   .handler(async ({ data }) => {
     "use server";
+    await verifyAdmin();
+    const { updateUserSortOrder } = await import("@/lib/db.server");
+    await updateUserSortOrder(data.orderedIds);
+    return { success: true };
+  });
 
-    const { auth, clerkClient } = await import("@clerk/tanstack-react-start/server");
-    const { userId } = await auth();
-
-    if (!userId) {
-      throw new Error("Not authenticated");
-    }
-
-    // Get user from Clerk to check publicMetadata
-    const client = await clerkClient();
-    const currentUser = await client.users.getUser(userId);
-    const role = (currentUser.publicMetadata as { role?: string })?.role;
-
-    if (role !== "admin") {
-      throw new Error("Not authorized");
-    }
-
-    const { upsertUserNote } = await import("@/lib/db.server");
-    await upsertUserNote(data.clerkId, data.name, data.email, data.notes);
+// Server function to toggle active mentee status
+const toggleMenteeFn = createServerFn({ method: "POST" })
+  .inputValidator((input: { clerkId: string; isActive: boolean }) => input)
+  .handler(async ({ data }) => {
+    "use server";
+    await verifyAdmin();
+    const { toggleActiveMentee } = await import("@/lib/db.server");
+    await toggleActiveMentee(data.clerkId, data.isActive);
     return { success: true };
   });
 
@@ -291,6 +351,138 @@ export const Route = createFileRoute("/admin/")({
   loader: async () => await getAdminData(),
 });
 
+// ── Sortable User Row ────────────────────────────────────────
+
+function SortableUserRow({
+  userRow,
+  onToggleMentee,
+  queuePosition,
+}: {
+  userRow: MergedUser;
+  onToggleMentee: (clerkId: string) => void;
+  queuePosition: number | null;
+}) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: userRow.clerkId });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    zIndex: isDragging ? 50 : undefined,
+  };
+
+  return (
+    <tr
+      ref={setNodeRef}
+      style={style}
+      className={`border-b border-stone-100 ${
+        !userRow.isInDatabase ? "bg-amber-50/50" : ""
+      } ${isDragging ? "bg-stone-100" : ""}`}
+    >
+      {/* Drag handle */}
+      <td className="py-3 px-2 w-10">
+        <button
+          {...attributes}
+          {...listeners}
+          className="cursor-grab active:cursor-grabbing p-1 rounded hover:bg-stone-200 text-stone-400 hover:text-stone-600 transition-colors"
+          title="Drag to reorder"
+        >
+          <GripVertical className="w-4 h-4" />
+        </button>
+      </td>
+
+      {/* Queue / Status */}
+      <td className="py-3 px-2 w-14 text-center">
+        {userRow.isActiveMentee ? (
+          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-lime-100 text-lime-700 text-xs font-medium">
+            <UserCheck className="w-3 h-3" />
+            Active
+          </span>
+        ) : queuePosition !== null ? (
+          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-stone-200 text-stone-600 text-xs font-semibold" title={`Queue position ${queuePosition}`}>
+            {queuePosition}
+          </span>
+        ) : null}
+      </td>
+
+      {/* Active mentee checkbox */}
+      <td className="py-3 px-2 w-10 text-center">
+        <input
+          type="checkbox"
+          checked={userRow.isActiveMentee}
+          onChange={() => onToggleMentee(userRow.clerkId)}
+          className="w-4 h-4 rounded border-stone-300 text-lime-600 focus:ring-lime-500 cursor-pointer accent-lime-600"
+          title={userRow.isActiveMentee ? "Remove from active mentees" : "Mark as active mentee"}
+        />
+      </td>
+
+      {/* User info */}
+      <td className="py-3 px-4">
+        <div className="flex items-center gap-3">
+          {!userRow.isInDatabase && (
+            <div className="shrink-0" title="New user - not yet saved to database">
+              <UserPlus className="w-4 h-4 text-amber-500" />
+            </div>
+          )}
+          <div>
+            <p className="font-medium text-stone-700">{userRow.name || "No name"}</p>
+            <p className="text-sm text-stone-500">{userRow.email || "No email"}</p>
+          </div>
+        </div>
+      </td>
+
+      {/* Info indicators */}
+      <td className="py-3 px-3">
+        <div className="flex items-center gap-2">
+          <span title={userRow.hasNotes ? "Has counseling notes" : "No notes yet"}>
+            <FileText
+              className={`w-4 h-4 ${userRow.hasNotes ? "text-blue-500" : "text-stone-300"}`}
+            />
+          </span>
+          <span title={userRow.hasGoals ? "Has goals set" : "No goals yet"}>
+            <Target
+              className={`w-4 h-4 ${userRow.hasGoals ? "text-lime-600" : "text-stone-300"}`}
+            />
+          </span>
+          <span title={userRow.hasAdminMessage ? "Has admin message" : "No admin message"}>
+            <MessageSquare
+              className={`w-4 h-4 ${userRow.hasAdminMessage ? "text-purple-500" : "text-stone-300"}`}
+            />
+          </span>
+        </div>
+      </td>
+
+      {/* Last Active */}
+      <td className="py-3 px-4 text-sm text-stone-600">
+        {userRow.lastActiveAt
+          ? new Date(userRow.lastActiveAt).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            })
+          : "Never"}
+      </td>
+
+      {/* View button */}
+      <td className="py-3 px-4 text-right">
+        <Link to="/admin/user/$userId" params={{ userId: userRow.clerkId }}>
+          <Button variant="primary" size="sm">
+            <Eye className="w-4 h-4" />
+            View
+          </Button>
+        </Link>
+      </td>
+    </tr>
+  );
+}
+
 function AdminPage() {
   const { user, isLoaded } = useUser();
   const router = useRouter();
@@ -300,10 +492,59 @@ function AdminPage() {
   const storedResults = useAssessmentStore((state) => state.results);
   const progress = useAssessmentProgress();
 
-  // Local state for dirty notes (unsaved changes)
-  const [localNotes, setLocalNotes] = useState<Record<string, string>>({});
-  const [savingUsers, setSavingUsers] = useState<Set<string>>(new Set());
-  const [savedUsers, setSavedUsers] = useState<Set<string>>(new Set());
+  // User ordering state (local copy for DnD reordering)
+  const [userOrder, setUserOrder] = useState<MergedUser[]>(users);
+  const activeMentees = useMemo(() => userOrder.filter((u) => u.isActiveMentee), [userOrder]);
+  const userIds = useMemo(() => userOrder.map((u) => u.clerkId), [userOrder]);
+
+  // DnD sensors
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
+
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    const oldIndex = userOrder.findIndex((u) => u.clerkId === active.id);
+    const newIndex = userOrder.findIndex((u) => u.clerkId === over.id);
+    const reordered = arrayMove(userOrder, oldIndex, newIndex);
+    setUserOrder(reordered);
+
+    // Persist new sort order
+    try {
+      await updateSortOrderFn({
+        data: {
+          orderedIds: reordered.map((u, i) => ({ clerkId: u.clerkId, sortOrder: i })),
+        },
+      });
+    } catch (err) {
+      console.error("Failed to save sort order:", err);
+    }
+  };
+
+  const handleToggleMentee = async (clerkId: string) => {
+    const user = userOrder.find((u) => u.clerkId === clerkId);
+    if (!user) return;
+    const newValue = !user.isActiveMentee;
+
+    // Optimistic update
+    setUserOrder((prev) =>
+      prev.map((u) => (u.clerkId === clerkId ? { ...u, isActiveMentee: newValue } : u))
+    );
+
+    try {
+      await toggleMenteeFn({ data: { clerkId, isActive: newValue } });
+    } catch (err) {
+      console.error("Failed to toggle mentee:", err);
+      // Revert on error
+      setUserOrder((prev) =>
+        prev.map((u) => (u.clerkId === clerkId ? { ...u, isActiveMentee: !newValue } : u))
+      );
+    }
+  };
+
   const [resetConfirmed, setResetConfirmed] = useState(false);
 
   // Event management state
@@ -425,65 +666,6 @@ function AdminPage() {
     setJimmyConfirmed(true);
     setTimeout(() => setJimmyConfirmed(false), 2000);
   };
-
-  const handleNotesChange = (clerkId: string, notes: string) => {
-    setLocalNotes((prev) => ({ ...prev, [clerkId]: notes }));
-    // Clear the saved indicator when user starts typing again
-    setSavedUsers((prev) => {
-      const next = new Set(prev);
-      next.delete(clerkId);
-      return next;
-    });
-  };
-
-  const handleSave = async (userRow: MergedUser) => {
-    const notes = localNotes[userRow.clerkId] ?? userRow.notes;
-
-    setSavingUsers((prev) => new Set(prev).add(userRow.clerkId));
-
-    try {
-      await saveUserNote({
-        data: {
-          clerkId: userRow.clerkId,
-          name: userRow.name,
-          email: userRow.email,
-          notes,
-        },
-      });
-
-      // Clear from local state after successful save
-      setLocalNotes((prev) => {
-        const next = { ...prev };
-        delete next[userRow.clerkId];
-        return next;
-      });
-
-      // Show saved indicator
-      setSavedUsers((prev) => new Set(prev).add(userRow.clerkId));
-
-      // Refresh the data to update isInDatabase status
-      await router.invalidate();
-
-      // Clear saved indicator after 2 seconds
-      setTimeout(() => {
-        setSavedUsers((prev) => {
-          const next = new Set(prev);
-          next.delete(userRow.clerkId);
-          return next;
-        });
-      }, 2000);
-    } catch (err) {
-      console.error("Failed to save notes:", err);
-    } finally {
-      setSavingUsers((prev) => {
-        const next = new Set(prev);
-        next.delete(userRow.clerkId);
-        return next;
-      });
-    }
-  };
-
-  const isDirty = (clerkId: string) => localNotes[clerkId] !== undefined;
 
   // ── Event Handlers ─────────────────────────────────────────
 
@@ -657,145 +839,122 @@ function AdminPage() {
               </Card>
             </div>
 
+            {/* Active Mentees */}
+            {activeMentees.length > 0 && (
+              <Card className="mb-6">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <UserCheck className="w-5 h-5 text-lime-600" />
+                    Active Mentees
+                    <span className="ml-1 text-sm font-normal text-stone-500">({activeMentees.length})</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                    {activeMentees.map((mentee) => (
+                      <Link
+                        key={mentee.clerkId}
+                        to="/admin/user/$userId"
+                        params={{ userId: mentee.clerkId }}
+                        className="flex items-center gap-3 p-3 rounded-lg border border-lime-200 bg-lime-50/50 hover:bg-lime-100/60 transition-colors"
+                      >
+                        <div className="w-8 h-8 bg-lime-600 rounded-full flex items-center justify-center text-white text-sm font-medium shrink-0">
+                          {(mentee.name || "?")[0].toUpperCase()}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="font-medium text-stone-700 truncate">{mentee.name || "No name"}</p>
+                          {mentee.lastGoalCompletedAt ? (
+                            <p className="text-xs text-lime-600 truncate">
+                              Last goal checked {new Date(mentee.lastGoalCompletedAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                            </p>
+                          ) : (
+                            <p className="text-xs text-stone-500 truncate">{mentee.email || "No email"}</p>
+                          )}
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
             {/* Users Table */}
             <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Users className="w-5 h-5 text-lime-600" />
-              Registered Users
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-stone-200">
-                    <th className="text-left py-3 px-4 text-sm font-medium text-stone-500">User</th>
-                    <th className="text-left py-3 px-4 text-sm font-medium text-stone-500">Joined</th>
-                    <th className="text-left py-3 px-4 text-sm font-medium text-stone-500">Last Active</th>
-                    <th className="text-left py-3 px-4 text-sm font-medium text-stone-500 min-w-64">Notes</th>
-                    <th className="text-left py-3 px-4 text-sm font-medium text-stone-500 w-24">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.map((userRow) => {
-                    const currentNotes = localNotes[userRow.clerkId] ?? userRow.notes;
-                    const isSaving = savingUsers.has(userRow.clerkId);
-                    const isSaved = savedUsers.has(userRow.clerkId);
-                    const hasUnsavedChanges = isDirty(userRow.clerkId);
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Users className="w-5 h-5 text-lime-600" />
+                  Registered Users
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b border-stone-200">
+                          <th className="w-10 py-3 px-2" />
+                          <th className="w-14 py-3 px-2 text-center text-sm font-medium text-stone-500">Queue</th>
+                          <th className="w-10 py-3 px-2 text-center text-sm font-medium text-stone-500">
+                            <UserCheck className="w-4 h-4 mx-auto text-stone-400" />
+                          </th>
+                          <th className="text-left py-3 px-4 text-sm font-medium text-stone-500">User</th>
+                          <th className="text-left py-3 px-3 text-sm font-medium text-stone-500">Info</th>
+                          <th className="text-left py-3 px-4 text-sm font-medium text-stone-500">Last Active</th>
+                          <th className="text-right py-3 px-4 text-sm font-medium text-stone-500 w-24" />
+                        </tr>
+                      </thead>
+                      <SortableContext items={userIds} strategy={verticalListSortingStrategy}>
+                        <tbody>
+                          {(() => {
+                            let queueNum = 0;
+                            return userOrder.map((userRow) => {
+                              const queuePosition = userRow.isActiveMentee
+                                ? null
+                                : ++queueNum;
+                              return (
+                                <SortableUserRow
+                                  key={userRow.clerkId}
+                                  userRow={userRow}
+                                  onToggleMentee={handleToggleMentee}
+                                  queuePosition={queuePosition}
+                                />
+                              );
+                            });
+                          })()}
+                          {userOrder.length === 0 && (
+                            <tr>
+                              <td colSpan={7} className="py-8 text-center text-stone-500">
+                                No users found
+                              </td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </SortableContext>
+                    </table>
+                  </DndContext>
+                </div>
 
-                    return (
-                      <tr
-                        key={userRow.clerkId}
-                        className={`border-b border-stone-100 ${
-                          !userRow.isInDatabase
-                            ? "bg-amber-50/50 border-l-4 border-l-amber-400"
-                            : ""
-                        }`}
-                      >
-                        <td className="py-4 px-4">
-                          <div className="flex items-center gap-3">
-                            {!userRow.isInDatabase && (
-                              <div className="shrink-0" title="New user - not yet saved to database">
-                                <UserPlus className="w-4 h-4 text-amber-500" />
-                              </div>
-                            )}
-                            <div>
-                              <Link
-                                to="/admin/user/$userId"
-                                params={{ userId: userRow.clerkId }}
-                                className="font-medium text-stone-700 hover:text-lime-600 transition-colors"
-                              >
-                                {userRow.name || "No name"}
-                              </Link>
-                              <p className="text-sm text-stone-500">{userRow.email || "No email"}</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="py-4 px-4 text-sm text-stone-600">
-                          {new Date(userRow.createdAt).toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                          })}
-                        </td>
-                        <td className="py-4 px-4 text-sm text-stone-600">
-                          {userRow.lastActiveAt
-                            ? new Date(userRow.lastActiveAt).toLocaleDateString("en-US", {
-                                month: "short",
-                                day: "numeric",
-                                year: "numeric",
-                              })
-                            : "Never"}
-                        </td>
-                        <td className="py-4 px-4">
-                          <Textarea
-                            value={currentNotes}
-                            onChange={(e) => handleNotesChange(userRow.clerkId, e.target.value)}
-                            placeholder="Add notes about this user..."
-                            className={`min-h-16 text-sm ${
-                              hasUnsavedChanges ? "border-amber-400 bg-amber-50" : ""
-                            }`}
-                          />
-                        </td>
-                        <td className="py-4 px-4">
-                          <div className="flex flex-col gap-2">
-                            <Link to="/admin/user/$userId" params={{ userId: userRow.clerkId }}>
-                              <Button variant="outline" size="sm" className="w-full">
-                                <Eye className="w-4 h-4" />
-                                View
-                              </Button>
-                            </Link>
-                            <Button
-                              variant={isSaved ? "secondary" : hasUnsavedChanges ? "primary" : "outline"}
-                              size="sm"
-                              onClick={() => handleSave(userRow)}
-                              disabled={isSaving}
-                              className="w-full"
-                            >
-                              {isSaving ? (
-                                <Loader2 className="w-4 h-4 animate-spin" />
-                              ) : isSaved ? (
-                                <>
-                                  <Check className="w-4 h-4" />
-                                  Saved
-                                </>
-                              ) : (
-                                <>
-                                  <Save className="w-4 h-4" />
-                                  Save
-                                </>
-                              )}
-                            </Button>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                  {users.length === 0 && (
-                    <tr>
-                      <td colSpan={5} className="py-8 text-center text-stone-500">
-                        No users found
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-
-            {/* Legend */}
-            <div className="mt-4 pt-4 border-t border-stone-200 flex items-center gap-6 text-sm text-stone-500">
-              <div className="flex items-center gap-2">
-                <UserPlus className="w-4 h-4 text-amber-500" />
-                <span>New user (not yet in database)</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded border-2 border-amber-400 bg-amber-50" />
-                <span>Unsaved changes</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+                {/* Legend */}
+                <div className="mt-4 pt-4 border-t border-stone-200 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-stone-500">
+                  <div className="flex items-center gap-2">
+                    <GripVertical className="w-4 h-4 text-stone-400" />
+                    <span>Drag to reorder</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-stone-200 text-stone-600 text-[10px] font-semibold">3</span>
+                    <span>Queue position</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <FileText className="w-3.5 h-3.5 text-blue-500" />
+                    <span>Notes</span>
+                    <Target className="w-3.5 h-3.5 text-lime-600 ml-1.5" />
+                    <span>Goals</span>
+                    <MessageSquare className="w-3.5 h-3.5 text-purple-500 ml-1.5" />
+                    <span>Message</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           {/* ── Events Tab ────────────────────────────────── */}
