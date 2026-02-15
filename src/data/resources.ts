@@ -865,7 +865,7 @@ export const RESOURCE_CATEGORIES: ResourceCategory[] = [
     description: "Build connections and expand your professional network",
     path: "/resources/networking",
     slug: "networking",
-    color: "pink",
+    color: "sky",
   },
   // Job Seeking Tools
   {
@@ -874,7 +874,7 @@ export const RESOURCE_CATEGORIES: ResourceCategory[] = [
     description: "Practice questions and strategies to ace interviews",
     path: "/resources/interview-prep",
     slug: "interview-prep",
-    color: "purple",
+    color: "slate",
   },
 ];
 
