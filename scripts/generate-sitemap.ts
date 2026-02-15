@@ -46,6 +46,7 @@ const routes = [
   { path: "/contact", priority: 0.7, changefreq: "monthly", lastmod: getLastmod(join("contact", "index.tsx")) },
   { path: "/contact/join", priority: 0.6, changefreq: "monthly", lastmod: getLastmod(join("contact", "join.tsx")) },
   { path: "/careers", priority: 0.9, changefreq: "weekly", lastmod: getLastmod("careers.tsx") },
+  { path: "/events", priority: 0.7, changefreq: "weekly", lastmod: getLastmod("events.tsx") },
   { path: "/resources", priority: 0.9, changefreq: "weekly", lastmod: getLastmod(join("resources", "index.tsx")) },
   { path: "/intake", priority: 0.8, changefreq: "monthly", lastmod: getLastmod(join("intake", "index.tsx")) },
 

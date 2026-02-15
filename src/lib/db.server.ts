@@ -59,6 +59,21 @@ export async function initializeDatabase() {
   } catch {
     // Column already exists, ignore error
   }
+
+  // Create events table
+  await getDb().execute(`
+    CREATE TABLE IF NOT EXISTS events (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      description TEXT DEFAULT '',
+      start_date TEXT NOT NULL,
+      end_date TEXT,
+      start_time TEXT,
+      end_time TEXT,
+      created_at TEXT DEFAULT (datetime('now')),
+      updated_at TEXT DEFAULT (datetime('now'))
+    )
+  `);
 }
 
 // User notes types
@@ -149,6 +164,19 @@ export async function getAdminMessage(clerkId: string): Promise<string> {
   return row?.admin_message || "";
 }
 
+// Event type
+export interface CalendarEvent {
+  id: number;
+  title: string;
+  description: string;
+  start_date: string;
+  end_date: string | null;
+  start_time: string | null;
+  end_time: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
 // Goal type
 export interface UserGoal {
   id: string;
@@ -190,4 +218,69 @@ export async function saveUserGoals(
       args: [clerkId, goalsJson],
     });
   }
+}
+
+// ── Events CRUD ──────────────────────────────────────────────
+
+// Get all events (public, no auth needed)
+export async function getAllEvents(): Promise<CalendarEvent[]> {
+  const result = await getDb().execute(
+    "SELECT * FROM events ORDER BY start_date ASC, start_time ASC"
+  );
+  return result.rows as unknown as CalendarEvent[];
+}
+
+// Get upcoming events (public, for calendar display)
+export async function getUpcomingEvents(): Promise<CalendarEvent[]> {
+  const result = await getDb().execute({
+    sql: `SELECT * FROM events
+          WHERE start_date >= date('now', '-1 day')
+             OR (end_date IS NOT NULL AND end_date >= date('now', '-1 day'))
+          ORDER BY start_date ASC, start_time ASC`,
+    args: [],
+  });
+  return result.rows as unknown as CalendarEvent[];
+}
+
+// Create a new event (admin only — auth checked in server function)
+export async function createEvent(
+  title: string,
+  description: string,
+  startDate: string,
+  endDate: string | null,
+  startTime: string | null,
+  endTime: string | null
+): Promise<number> {
+  const result = await getDb().execute({
+    sql: `INSERT INTO events (title, description, start_date, end_date, start_time, end_time)
+          VALUES (?, ?, ?, ?, ?, ?)`,
+    args: [title, description, startDate, endDate, startTime, endTime],
+  });
+  return Number(result.lastInsertRowid);
+}
+
+// Update an event (admin only)
+export async function updateEvent(
+  id: number,
+  title: string,
+  description: string,
+  startDate: string,
+  endDate: string | null,
+  startTime: string | null,
+  endTime: string | null
+): Promise<void> {
+  await getDb().execute({
+    sql: `UPDATE events SET title = ?, description = ?, start_date = ?, end_date = ?,
+          start_time = ?, end_time = ?, updated_at = datetime('now')
+          WHERE id = ?`,
+    args: [title, description, startDate, endDate, startTime, endTime, id],
+  });
+}
+
+// Delete an event (admin only)
+export async function deleteEvent(id: number): Promise<void> {
+  await getDb().execute({
+    sql: "DELETE FROM events WHERE id = ?",
+    args: [id],
+  });
 }

@@ -13,6 +13,7 @@ import {
   BookOpen,
   Brain,
   Briefcase,
+  CalendarDays,
   CheckCircle2,
   ChevronDown,
   ChevronRight,
@@ -323,6 +324,19 @@ export default function Header() {
             >
               <Briefcase size={20} />
               <span>PA Career Explorer</span>
+            </Link>
+
+            <Link
+              to="/events"
+              onClick={() => closeMenu()}
+              className="flex items-center gap-3 p-3 rounded-lg hover:bg-stone-50 transition-colors mb-1 text-stone-700"
+              activeProps={{
+                className:
+                  "flex items-center gap-3 p-3 rounded-lg bg-lime-50 text-lime-700 transition-colors mb-1 font-medium",
+              }}
+            >
+              <CalendarDays size={20} />
+              <span>Events</span>
             </Link>
 
             <Link

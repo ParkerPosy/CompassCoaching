@@ -18,11 +18,16 @@ import {
   Settings,
   Eye,
   DatabaseZap,
+  CalendarDays,
+  Plus,
+  Pencil,
+  X,
 } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { useAssessmentStore, useAssessmentProgress, CURRENT_ASSESSMENT_VERSION } from "@/stores/assessmentStore";
 
 // Types for admin data
@@ -56,7 +61,29 @@ interface AdminData {
   userId: string;
   stats: AdminStats;
   users: MergedUser[];
+  events: AdminCalendarEvent[];
   error?: string;
+}
+
+interface AdminCalendarEvent {
+  id: number;
+  title: string;
+  description: string;
+  start_date: string;
+  end_date: string | null;
+  start_time: string | null;
+  end_time: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+interface EventFormData {
+  title: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  startTime: string;
+  endTime: string;
 }
 
 // Server function to check admin role and fetch all data
@@ -81,13 +108,14 @@ const getAdminData = createServerFn().handler(async (): Promise<AdminData> => {
   }
 
   // Dynamic import of database module
-  const { initializeDatabase, getAllUserNotes } = await import("@/lib/db.server");
+  const { initializeDatabase, getAllUserNotes, getAllEvents } = await import("@/lib/db.server");
   await initializeDatabase();
 
   try {
     const client = await clerkClient();
     const usersResponse = await client.users.getUserList({ limit: 100 });
     const dbNotes = await getAllUserNotes();
+    const dbEvents = await getAllEvents();
 
     const notesMap = new Map<string, UserNote>();
     for (const note of dbNotes) {
@@ -119,6 +147,7 @@ const getAdminData = createServerFn().handler(async (): Promise<AdminData> => {
         activeThisWeek: usersResponse.data.filter((u) => u.lastActiveAt && new Date(u.lastActiveAt) > sevenDaysAgo).length,
       },
       users: mergedUsers,
+      events: dbEvents,
     };
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -126,6 +155,7 @@ const getAdminData = createServerFn().handler(async (): Promise<AdminData> => {
       userId,
       stats: { totalUsers: 0, recentSignups: 0, activeThisWeek: 0 },
       users: [],
+      events: [],
       error: "Unable to fetch user data",
     };
   }
@@ -158,6 +188,66 @@ const saveUserNote = createServerFn({ method: "POST" })
     return { success: true };
   });
 
+// Helper: Verify admin role for event mutations
+async function verifyAdmin() {
+  const { auth, clerkClient } = await import("@clerk/tanstack-react-start/server");
+  const { userId } = await auth();
+  if (!userId) throw new Error("Not authenticated");
+  const client = await clerkClient();
+  const currentUser = await client.users.getUser(userId);
+  const role = (currentUser.publicMetadata as { role?: string })?.role;
+  if (role !== "admin") throw new Error("Not authorized");
+}
+
+// Server function to create an event
+const createEventFn = createServerFn({ method: "POST" })
+  .inputValidator((input: {
+    title: string;
+    description: string;
+    startDate: string;
+    endDate: string | null;
+    startTime: string | null;
+    endTime: string | null;
+  }) => input)
+  .handler(async ({ data }) => {
+    "use server";
+    await verifyAdmin();
+    const { initializeDatabase, createEvent } = await import("@/lib/db.server");
+    await initializeDatabase();
+    const id = await createEvent(data.title, data.description, data.startDate, data.endDate, data.startTime, data.endTime);
+    return { success: true, id };
+  });
+
+// Server function to update an event
+const updateEventFn = createServerFn({ method: "POST" })
+  .inputValidator((input: {
+    id: number;
+    title: string;
+    description: string;
+    startDate: string;
+    endDate: string | null;
+    startTime: string | null;
+    endTime: string | null;
+  }) => input)
+  .handler(async ({ data }) => {
+    "use server";
+    await verifyAdmin();
+    const { updateEvent } = await import("@/lib/db.server");
+    await updateEvent(data.id, data.title, data.description, data.startDate, data.endDate, data.startTime, data.endTime);
+    return { success: true };
+  });
+
+// Server function to delete an event
+const deleteEventFn = createServerFn({ method: "POST" })
+  .inputValidator((input: { id: number }) => input)
+  .handler(async ({ data }) => {
+    "use server";
+    await verifyAdmin();
+    const { deleteEvent } = await import("@/lib/db.server");
+    await deleteEvent(data.id);
+    return { success: true };
+  });
+
 export const Route = createFileRoute("/admin/")({
   component: AdminPage,
   head: () => ({
@@ -178,7 +268,7 @@ function AdminPage() {
   const { user, isLoaded } = useUser();
   const router = useRouter();
   const loaderData = Route.useLoaderData();
-  const { stats, error, users } = loaderData;
+  const { stats, error, users, events } = loaderData;
   const clearAll = useAssessmentStore((state) => state.clearAll);
   const storedResults = useAssessmentStore((state) => state.results);
   const progress = useAssessmentProgress();
@@ -188,6 +278,14 @@ function AdminPage() {
   const [savingUsers, setSavingUsers] = useState<Set<string>>(new Set());
   const [savedUsers, setSavedUsers] = useState<Set<string>>(new Set());
   const [resetConfirmed, setResetConfirmed] = useState(false);
+
+  // Event management state
+  const emptyEventForm: EventFormData = { title: "", description: "", startDate: "", endDate: "", startTime: "", endTime: "" };
+  const [showEventForm, setShowEventForm] = useState(false);
+  const [editingEventId, setEditingEventId] = useState<number | null>(null);
+  const [eventForm, setEventForm] = useState<EventFormData>(emptyEventForm);
+  const [eventSaving, setEventSaving] = useState(false);
+  const [deletingEventId, setDeletingEventId] = useState<number | null>(null);
   const [populateConfirmed, setPopulateConfirmed] = useState(false);
   const [jimmyConfirmed, setJimmyConfirmed] = useState(false);
 
@@ -359,6 +457,84 @@ function AdminPage() {
   };
 
   const isDirty = (clerkId: string) => localNotes[clerkId] !== undefined;
+
+  // ── Event Handlers ─────────────────────────────────────────
+
+  const openNewEventForm = () => {
+    setEditingEventId(null);
+    setEventForm(emptyEventForm);
+    setShowEventForm(true);
+  };
+
+  const openEditEventForm = (event: AdminCalendarEvent) => {
+    setEditingEventId(event.id);
+    setEventForm({
+      title: event.title,
+      description: event.description || "",
+      startDate: event.start_date,
+      endDate: event.end_date || "",
+      startTime: event.start_time || "",
+      endTime: event.end_time || "",
+    });
+    setShowEventForm(true);
+  };
+
+  const cancelEventForm = () => {
+    setShowEventForm(false);
+    setEditingEventId(null);
+    setEventForm(emptyEventForm);
+  };
+
+  const handleEventSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!eventForm.title || !eventForm.startDate) return;
+    setEventSaving(true);
+    try {
+      const payload = {
+        title: eventForm.title,
+        description: eventForm.description,
+        startDate: eventForm.startDate,
+        endDate: eventForm.endDate || null,
+        startTime: eventForm.startTime || null,
+        endTime: eventForm.endTime || null,
+      };
+      if (editingEventId) {
+        await updateEventFn({ data: { id: editingEventId, ...payload } });
+      } else {
+        await createEventFn({ data: payload });
+      }
+      cancelEventForm();
+      await router.invalidate();
+    } catch (err) {
+      console.error("Failed to save event:", err);
+    } finally {
+      setEventSaving(false);
+    }
+  };
+
+  const handleDeleteEvent = async (id: number) => {
+    setDeletingEventId(id);
+    try {
+      await deleteEventFn({ data: { id } });
+      await router.invalidate();
+    } catch (err) {
+      console.error("Failed to delete event:", err);
+    } finally {
+      setDeletingEventId(null);
+    }
+  };
+
+  const formatEventDate = (dateStr: string) => {
+    const [y, m, d] = dateStr.split("-").map(Number);
+    return new Date(y, m - 1, d).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  };
+
+  const formatEventTime = (timeStr: string) => {
+    const [hours, minutes] = timeStr.split(":").map(Number);
+    const period = hours >= 12 ? "PM" : "AM";
+    const h = hours % 12 || 12;
+    return minutes === 0 ? `${h} ${period}` : `${h}:${minutes.toString().padStart(2, "0")} ${period}`;
+  };
 
   return (
     <div className="min-h-screen bg-stone-50 py-12 px-6">
@@ -569,6 +745,218 @@ function AdminPage() {
                 <span>Unsaved changes</span>
               </div>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* ── Events Management ─────────────────────────────── */}
+        <Card className="mb-8">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="flex items-center gap-2">
+                <CalendarDays className="w-5 h-5 text-cyan-600" />
+                Events Management
+              </CardTitle>
+              {!showEventForm && (
+                <Button variant="primary" size="sm" onClick={openNewEventForm}>
+                  <Plus className="w-4 h-4" />
+                  Add Event
+                </Button>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent>
+            {/* Event Form */}
+            {showEventForm && (
+              <form onSubmit={handleEventSubmit} className="mb-6 p-4 bg-stone-50 rounded-lg border border-stone-200">
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="font-medium text-stone-700">
+                    {editingEventId ? "Edit Event" : "New Event"}
+                  </h4>
+                  <button type="button" onClick={cancelEventForm} className="p-1 hover:bg-stone-200 rounded transition-colors">
+                    <X className="w-4 h-4 text-stone-500" />
+                  </button>
+                </div>
+
+                <div className="grid gap-4">
+                  {/* Title */}
+                  <div>
+                    <label htmlFor="event-title" className="block text-sm font-medium text-stone-600 mb-1">
+                      Title <span className="text-red-500">*</span>
+                    </label>
+                    <Input
+                      id="event-title"
+                      value={eventForm.title}
+                      onChange={(e) => setEventForm((f) => ({ ...f, title: e.target.value }))}
+                      placeholder="e.g. Career Workshop"
+                      required
+                    />
+                  </div>
+
+                  {/* Description */}
+                  <div>
+                    <label htmlFor="event-desc" className="block text-sm font-medium text-stone-600 mb-1">
+                      Description
+                    </label>
+                    <Textarea
+                      id="event-desc"
+                      value={eventForm.description}
+                      onChange={(e) => setEventForm((f) => ({ ...f, description: e.target.value }))}
+                      placeholder="Optional details about the event..."
+                      className="min-h-20"
+                    />
+                  </div>
+
+                  {/* Date Row */}
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="event-start-date" className="block text-sm font-medium text-stone-600 mb-1">
+                        Start Date <span className="text-red-500">*</span>
+                      </label>
+                      <Input
+                        id="event-start-date"
+                        type="date"
+                        value={eventForm.startDate}
+                        onChange={(e) => setEventForm((f) => ({ ...f, startDate: e.target.value }))}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="event-end-date" className="block text-sm font-medium text-stone-600 mb-1">
+                        End Date <span className="text-stone-400 font-normal">(for multi-day)</span>
+                      </label>
+                      <Input
+                        id="event-end-date"
+                        type="date"
+                        value={eventForm.endDate}
+                        onChange={(e) => setEventForm((f) => ({ ...f, endDate: e.target.value }))}
+                        min={eventForm.startDate}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Time Row */}
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="event-start-time" className="block text-sm font-medium text-stone-600 mb-1">
+                        Start Time <span className="text-stone-400 font-normal">(optional)</span>
+                      </label>
+                      <Input
+                        id="event-start-time"
+                        type="time"
+                        value={eventForm.startTime}
+                        onChange={(e) => setEventForm((f) => ({ ...f, startTime: e.target.value }))}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="event-end-time" className="block text-sm font-medium text-stone-600 mb-1">
+                        End Time <span className="text-stone-400 font-normal">(optional)</span>
+                      </label>
+                      <Input
+                        id="event-end-time"
+                        type="time"
+                        value={eventForm.endTime}
+                        onChange={(e) => setEventForm((f) => ({ ...f, endTime: e.target.value }))}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex items-center gap-3 pt-2">
+                    <Button type="submit" variant="primary" disabled={eventSaving || !eventForm.title || !eventForm.startDate}>
+                      {eventSaving ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <Save className="w-4 h-4" />
+                      )}
+                      {editingEventId ? "Update Event" : "Create Event"}
+                    </Button>
+                    <Button type="button" variant="outline" onClick={cancelEventForm}>
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              </form>
+            )}
+
+            {/* Events List */}
+            {events.length > 0 ? (
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b border-stone-200">
+                      <th className="text-left py-3 px-4 text-sm font-medium text-stone-500">Event</th>
+                      <th className="text-left py-3 px-4 text-sm font-medium text-stone-500">Date</th>
+                      <th className="text-left py-3 px-4 text-sm font-medium text-stone-500">Time</th>
+                      <th className="text-left py-3 px-4 text-sm font-medium text-stone-500 w-28">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {events.map((evt) => {
+                      const isPast = (evt.end_date || evt.start_date) < new Date().toISOString().split("T")[0];
+                      return (
+                        <tr
+                          key={evt.id}
+                          className={`border-b border-stone-100 ${isPast ? "opacity-50" : ""}`}
+                        >
+                          <td className="py-3 px-4">
+                            <div className="font-medium text-stone-700 text-sm">{evt.title}</div>
+                            {evt.description && (
+                              <div className="text-xs text-stone-500 mt-0.5 line-clamp-1">{evt.description}</div>
+                            )}
+                          </td>
+                          <td className="py-3 px-4 text-sm text-stone-600 whitespace-nowrap">
+                            {formatEventDate(evt.start_date)}
+                            {evt.end_date && evt.end_date !== evt.start_date && (
+                              <> – {formatEventDate(evt.end_date)}</>
+                            )}
+                          </td>
+                          <td className="py-3 px-4 text-sm text-stone-600 whitespace-nowrap">
+                            {evt.start_time ? (
+                              <>
+                                {formatEventTime(evt.start_time)}
+                                {evt.end_time && <> – {formatEventTime(evt.end_time)}</>}
+                              </>
+                            ) : (
+                              <span className="text-stone-400">All day</span>
+                            )}
+                          </td>
+                          <td className="py-3 px-4">
+                            <div className="flex items-center gap-1">
+                              <button
+                                type="button"
+                                onClick={() => openEditEventForm(evt)}
+                                className="p-1.5 hover:bg-stone-100 rounded transition-colors text-stone-500 hover:text-stone-700"
+                                title="Edit event"
+                              >
+                                <Pencil className="w-4 h-4" />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => handleDeleteEvent(evt.id)}
+                                disabled={deletingEventId === evt.id}
+                                className="p-1.5 hover:bg-red-50 rounded transition-colors text-stone-400 hover:text-red-600"
+                                title="Delete event"
+                              >
+                                {deletingEventId === evt.id ? (
+                                  <Loader2 className="w-4 h-4 animate-spin" />
+                                ) : (
+                                  <Trash2 className="w-4 h-4" />
+                                )}
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="py-8 text-center text-stone-500">
+                <CalendarDays className="w-8 h-8 mx-auto mb-2 text-stone-300" />
+                <p className="text-sm">No events yet. Click "Add Event" to create one.</p>
+              </div>
+            )}
           </CardContent>
         </Card>
 

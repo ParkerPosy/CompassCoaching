@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as EventsRouteImport } from './routes/events'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -40,6 +41,11 @@ const TermsRoute = TermsRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsRoute = EventsRouteImport.update({
+  id: '/events',
+  path: '/events',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -149,6 +155,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/careers': typeof CareersRoute
   '/dashboard': typeof DashboardRoute
+  '/events': typeof EventsRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
   '/contact/join': typeof ContactJoinRoute
@@ -172,6 +179,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/careers': typeof CareersRoute
   '/dashboard': typeof DashboardRoute
+  '/events': typeof EventsRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
   '/contact/join': typeof ContactJoinRoute
@@ -197,6 +205,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/careers': typeof CareersRoute
   '/dashboard': typeof DashboardRoute
+  '/events': typeof EventsRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
   '/contact/join': typeof ContactJoinRoute
@@ -223,6 +232,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/careers'
     | '/dashboard'
+    | '/events'
     | '/privacy'
     | '/terms'
     | '/contact/join'
@@ -246,6 +256,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/careers'
     | '/dashboard'
+    | '/events'
     | '/privacy'
     | '/terms'
     | '/contact/join'
@@ -270,6 +281,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/careers'
     | '/dashboard'
+    | '/events'
     | '/privacy'
     | '/terms'
     | '/contact/join'
@@ -295,6 +307,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   CareersRoute: typeof CareersRoute
   DashboardRoute: typeof DashboardRoute
+  EventsRoute: typeof EventsRoute
   PrivacyRoute: typeof PrivacyRoute
   TermsRoute: typeof TermsRoute
   ContactJoinRoute: typeof ContactJoinRoute
@@ -326,6 +339,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -489,6 +509,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   CareersRoute: CareersRoute,
   DashboardRoute: DashboardRoute,
+  EventsRoute: EventsRoute,
   PrivacyRoute: PrivacyRoute,
   TermsRoute: TermsRoute,
   ContactJoinRoute: ContactJoinRoute,
