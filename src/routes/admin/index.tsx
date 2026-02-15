@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -577,8 +578,8 @@ function AdminPage() {
             </div>
             <h1 className="text-3xl font-bold text-stone-700">Admin Dashboard</h1>
           </div>
-          <p className="text-stone-600">
-            Welcome{isLoaded && user?.firstName ? `, ${user.firstName}` : ""}. View platform statistics and user activity.
+          <p className="text-stone-600 max-w-2xl">
+            Welcome{isLoaded && user?.firstName ? `, ${user.firstName}` : ""}. Manage registered users and counseling notes, create and schedule community events, and access developer tools for testing.
           </p>
         </div>
 
@@ -593,53 +594,71 @@ function AdminPage() {
           </div>
         )}
 
-        {/* Stats Grid */}
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <Users className="w-6 h-6 text-blue-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-stone-500">Total Users</p>
-                  <p className="text-2xl font-bold text-stone-700">{stats.totalUsers}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        <Tabs defaultValue="users">
+          <TabsList>
+            <TabsTrigger value="users">
+              <Users className="w-4 h-4" />
+              Users
+            </TabsTrigger>
+            <TabsTrigger value="events">
+              <CalendarDays className="w-4 h-4" />
+              Events
+            </TabsTrigger>
+            <TabsTrigger value="devtools">
+              <Settings className="w-4 h-4" />
+              Dev Tools
+            </TabsTrigger>
+          </TabsList>
 
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-lime-100 rounded-lg flex items-center justify-center">
-                  <Clock className="w-6 h-6 text-lime-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-stone-500">New This Month</p>
-                  <p className="text-2xl font-bold text-stone-700">{stats.recentSignups}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          {/* ── Users Tab ─────────────────────────────────── */}
+          <TabsContent value="users">
+            {/* Stats Grid */}
+            <div className="grid md:grid-cols-3 gap-6 mb-8">
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                      <Users className="w-6 h-6 text-blue-600" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-stone-500">Total Users</p>
+                      <p className="text-2xl font-bold text-stone-700">{stats.totalUsers}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
 
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                  <Activity className="w-6 h-6 text-purple-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-stone-500">Active This Week</p>
-                  <p className="text-2xl font-bold text-stone-700">{stats.activeThisWeek}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-lime-100 rounded-lg flex items-center justify-center">
+                      <Clock className="w-6 h-6 text-lime-600" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-stone-500">New This Month</p>
+                      <p className="text-2xl font-bold text-stone-700">{stats.recentSignups}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
 
-        {/* Users Table */}
-        <Card className="mb-8">
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                      <Activity className="w-6 h-6 text-purple-600" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-stone-500">Active This Week</p>
+                      <p className="text-2xl font-bold text-stone-700">{stats.activeThisWeek}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Users Table */}
+            <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Users className="w-5 h-5 text-lime-600" />
@@ -777,9 +796,11 @@ function AdminPage() {
             </div>
           </CardContent>
         </Card>
+          </TabsContent>
 
-        {/* ── Events Management ─────────────────────────────── */}
-        <Card className="mb-8">
+          {/* ── Events Tab ────────────────────────────────── */}
+          <TabsContent value="events">
+        <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="flex items-center gap-2">
@@ -1034,9 +1055,148 @@ function AdminPage() {
             )}
           </CardContent>
         </Card>
+          </TabsContent>
+
+          {/* ── Dev Tools Tab ─────────────────────────────── */}
+          <TabsContent value="devtools">
+        {/* Dev Tools */}
+        <Card className="border-2 border-stone-200 bg-stone-50 overflow-hidden">
+          <div className="bg-stone-700 px-4 py-2 flex items-center gap-2">
+            <div className="flex items-center gap-1.5">
+              <div className="w-3 h-3 rounded-full bg-red-400" />
+              <div className="w-3 h-3 rounded-full bg-amber-400" />
+              <div className="w-3 h-3 rounded-full bg-lime-400" />
+            </div>
+            <span className="text-xs font-mono text-stone-400 ml-2">compass-admin ~/devtools</span>
+          </div>
+          <CardContent className="p-5">
+            <div className="flex items-center gap-2 text-xs text-stone-500 uppercase tracking-wider mb-4 font-mono">
+              <Settings className="w-3.5 h-3.5" />
+              Assessment State
+            </div>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              {/* State */}
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-mono">
+                <span className="text-stone-500">progress:</span>
+                <span className="text-stone-700 font-medium">{progress.percentComplete}%</span>
+                <span className="text-stone-500">results:</span>
+                <span className={storedResults ? "text-lime-600 font-medium" : "text-stone-400"}>{storedResults ? "saved" : "null"}</span>
+                {storedResults && storedResults.version !== CURRENT_ASSESSMENT_VERSION && (
+                  <span className="text-amber-500 text-xs">(outdated)</span>
+                )}
+              </div>
+
+              {/* Actions */}
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const state = useAssessmentStore.getState();
+                    navigator.clipboard.writeText(JSON.stringify({
+                      basic: state.basic,
+                      personality: state.personality,
+                      values: state.values,
+                      aptitude: state.aptitude,
+                      challenges: state.challenges,
+                      results: state.results,
+                    }, null, 2));
+                  }}
+                  className="p-2 rounded-lg border border-stone-200 hover:bg-stone-100 text-stone-500 hover:text-stone-700 transition-colors"
+                  title="Copy state to clipboard"
+                >
+                  <Copy className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={handlePopulateTestData}
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-stone-200 hover:bg-lime-50 hover:border-lime-300 text-sm font-mono transition-colors"
+                  title="Populate all sections with Parker's test data"
+                >
+                  {populateConfirmed ? (
+                    <>
+                      <Check className="w-4 h-4 text-lime-600" />
+                      <span className="text-lime-600">loaded</span>
+                    </>
+                  ) : (
+                    <>
+                      <DatabaseZap className="w-4 h-4 text-stone-400" />
+                      <span className="text-stone-600">Parker</span>
+                    </>
+                  )}
+                </button>
+                <button
+                  type="button"
+                  onClick={handlePopulateJimmy}
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-stone-200 hover:bg-lime-50 hover:border-lime-300 text-sm font-mono transition-colors"
+                  title="Populate all sections with Jimmy's test data (no degrees)"
+                >
+                  {jimmyConfirmed ? (
+                    <>
+                      <Check className="w-4 h-4 text-lime-600" />
+                      <span className="text-lime-600">loaded</span>
+                    </>
+                  ) : (
+                    <>
+                      <DatabaseZap className="w-4 h-4 text-stone-400" />
+                      <span className="text-stone-600">Jimmy</span>
+                    </>
+                  )}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleResetAssessment}
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-stone-200 hover:bg-red-50 hover:border-red-300 text-sm font-mono transition-colors"
+                >
+                  {resetConfirmed ? (
+                    <>
+                      <Check className="w-4 h-4 text-lime-600" />
+                      <span className="text-lime-600">done</span>
+                    </>
+                  ) : (
+                    <>
+                      <Trash2 className="w-4 h-4 text-stone-400" />
+                      <span className="text-stone-600">Reset</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* External Services */}
+            <div className="mt-4 pt-4 border-t border-stone-200">
+              <div className="text-xs text-stone-500 uppercase tracking-wider mb-2 font-mono">External Services</div>
+              <div className="flex flex-col sm:flex-row gap-4 text-xs">
+                <div className="flex items-center gap-2">
+                  <a
+                    href="https://dashboard.clerk.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-lime-600 hover:text-lime-700 font-medium transition-colors"
+                  >
+                    Clerk <ExternalLink className="w-3 h-3" />
+                  </a>
+                  <span className="text-stone-500">— User accounts & login</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <a
+                    href="https://vercel.com/dashboard"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-lime-600 hover:text-lime-700 font-medium transition-colors"
+                  >
+                    Vercel <ExternalLink className="w-3 h-3" />
+                  </a>
+                  <span className="text-stone-500">— Website hosting & deploys</span>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+          </TabsContent>
+        </Tabs>
 
         {/* Platform Overview */}
-        <Card className="border-stone-200 bg-stone-50/50">
+        <Card className="border-stone-200 bg-stone-50/50 mt-8">
           <CardHeader>
             <CardTitle className="text-lg">How This Platform Works</CardTitle>
           </CardHeader>
@@ -1059,138 +1219,9 @@ function AdminPage() {
             <div>
               <h4 className="font-medium text-stone-700 mb-1">Admin Notes</h4>
               <p>
-                Use the table above to track notes about users you've counseled. Notes are saved to the database
+                Use the Users tab to track notes about users you've counseled. Notes are saved to the database
                 and persist across sessions. Users cannot see these notes.
               </p>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Dev Tools */}
-        <Card className="border-stone-700 bg-stone-900 text-stone-300">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2 text-xs text-stone-500 uppercase tracking-wider mb-3">
-              <Settings className="w-3.5 h-3.5" />
-              Dev Tools
-            </div>
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              {/* State */}
-              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
-                <span className="text-stone-500">Your Assessment</span>
-                <span>
-                  Progress: <span className="text-white font-medium">{progress.percentComplete}%</span>
-                </span>
-                <span>
-                  Results: <span className={storedResults ? "text-lime-400" : "text-stone-500"}>{storedResults ? "Saved" : "None"}</span>
-                  {storedResults && storedResults.version !== CURRENT_ASSESSMENT_VERSION && (
-                    <span className="text-amber-400 ml-1">(outdated)</span>
-                  )}
-                </span>
-              </div>
-
-              {/* Actions */}
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    const state = useAssessmentStore.getState();
-                    navigator.clipboard.writeText(JSON.stringify({
-                      basic: state.basic,
-                      personality: state.personality,
-                      values: state.values,
-                      aptitude: state.aptitude,
-                      challenges: state.challenges,
-                      results: state.results,
-                    }, null, 2));
-                  }}
-                  className="p-2 rounded hover:bg-stone-700 text-stone-400 hover:text-stone-200 transition-colors"
-                  title="Copy state to clipboard"
-                >
-                  <Copy className="w-4 h-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={handlePopulateTestData}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded bg-stone-700 hover:bg-stone-600 text-sm transition-colors"
-                  title="Populate all sections with Parker's test data"
-                >
-                  {populateConfirmed ? (
-                    <>
-                      <Check className="w-4 h-4 text-lime-400" />
-                      <span className="text-lime-400">Loaded</span>
-                    </>
-                  ) : (
-                    <>
-                      <DatabaseZap className="w-4 h-4 text-stone-400" />
-                      <span>Parker</span>
-                    </>
-                  )}
-                </button>
-                <button
-                  type="button"
-                  onClick={handlePopulateJimmy}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded bg-stone-700 hover:bg-stone-600 text-sm transition-colors"
-                  title="Populate all sections with Jimmy's test data (no degrees)"
-                >
-                  {jimmyConfirmed ? (
-                    <>
-                      <Check className="w-4 h-4 text-lime-400" />
-                      <span className="text-lime-400">Loaded</span>
-                    </>
-                  ) : (
-                    <>
-                      <DatabaseZap className="w-4 h-4 text-stone-400" />
-                      <span>Jimmy</span>
-                    </>
-                  )}
-                </button>
-                <button
-                  type="button"
-                  onClick={handleResetAssessment}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded bg-stone-700 hover:bg-stone-700 text-sm transition-colors"
-                >
-                  {resetConfirmed ? (
-                    <>
-                      <Check className="w-4 h-4 text-lime-400" />
-                      <span className="text-lime-400">Done</span>
-                    </>
-                  ) : (
-                    <>
-                      <Trash2 className="w-4 h-4 text-stone-400" />
-                      <span>Reset Data</span>
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* External Services */}
-            <div className="mt-3 pt-3 border-t border-stone-700">
-              <div className="text-xs text-stone-600 mb-2">External Services</div>
-              <div className="flex flex-col sm:flex-row gap-4 text-xs">
-                <div className="flex items-center gap-2">
-                  <a
-                    href="https://dashboard.clerk.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-stone-400 hover:text-stone-200 transition-colors"
-                  >
-                    Clerk <ExternalLink className="w-3 h-3" />
-                  </a>
-                  <span className="text-stone-600">— User accounts & login</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <a
-                    href="https://vercel.com/dashboard"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-stone-400 hover:text-stone-200 transition-colors"
-                  >
-                    Vercel <ExternalLink className="w-3 h-3" />
-                  </a>
-                  <span className="text-stone-600">— Website hosting & deploys</span>
-                </div>
-              </div>
             </div>
           </CardContent>
         </Card>

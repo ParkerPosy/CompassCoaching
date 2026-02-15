@@ -20,6 +20,7 @@ export {
   SelectTrigger,
   SelectValue,
 } from "./select";
+export { Tabs, TabsList, TabsTrigger, TabsContent } from "./tabs";
 export type { TextareaProps } from "./textarea";
 export { Textarea } from "./textarea";
 export type { TimePickerProps } from "./time-picker";
