@@ -303,8 +303,10 @@ Homepage
 │   ├── By Occupation (/salaries/[occupation])
 │   └── By County (/salaries/[occupation]/[county])
 └── Resources (/resources)
-    ├── Career Guidance (/resources/career-guidance)
-    └── Salary Negotiation (/resources/salary-negotiation)
+    ├── Career Exploration (/resources/career-exploration)
+    ├── Education & Training (/resources/education-training)
+    ├── Interview Preparation (/resources/interview-prep)
+    └── Workplace Success (/resources/workplace-success)
 ```
 
 ### Anchor Text Best Practices

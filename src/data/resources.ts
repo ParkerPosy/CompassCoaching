@@ -3,15 +3,10 @@ import {
   Activity,
   Award,
   Book,
-  BookOpen,
-  Briefcase,
-  DollarSign,
-  FileText,
   GraduationCap,
   Heart,
   Landmark,
   Smile,
-  Target,
   TrendingUp,
   Users,
 } from "lucide-react";
@@ -147,17 +142,12 @@ export interface ResourceCategory {
 // Category names
 export const CATEGORY_NAMES = {
   CAREER_EXPLORATION: "Career Exploration",
-  RESUME_COVER_LETTERS: "Resume & Cover Letters",
   INTERVIEW_PREPARATION: "Interview Preparation",
-  JOB_SEARCH: "Job Search Strategies",
-  PROFESSIONAL_DEVELOPMENT: "Professional Development",
   NETWORKING: "Networking",
-  SALARY_NEGOTIATION: "Salary & Negotiation",
   EDUCATION_TRAINING: "Education & Training",
   CAREER_TRANSITIONS: "Career Transitions",
   WORKPLACE_SUCCESS: "Workplace Success",
   FINANCIAL_AID: "Financial Aid & Planning",
-  SKILLS_DEVELOPMENT: "Skills Development",
   MENTAL_WELLBEING: "Mental Wellbeing",
   RELATIONSHIPS: "Relationships & Communication",
   HEALTHY_LIVING: "Healthy Living",
@@ -346,49 +336,6 @@ export const ALL_RESOURCES: Resource[] = [
     active: false,
   },
 
-  // Skills Development (6) - Personal growth
-  {
-    title: "Discovering Your Potential: Skills Assessment",
-    type: RESOURCE_TYPES.DOWNLOAD,
-    format: "pdf",
-    category: CATEGORY_NAMES.SKILLS_DEVELOPMENT,
-    active: false,
-  },
-  {
-    title: "Core Human Skills Assessment",
-    type: RESOURCE_TYPES.TOOL,
-    completionTime: "15 min",
-    category: CATEGORY_NAMES.SKILLS_DEVELOPMENT,
-    active: false,
-  },
-  {
-    title: "Future-Ready Skills Guide",
-    type: RESOURCE_TYPES.ARTICLE,
-    readTime: "20 min",
-    category: CATEGORY_NAMES.SKILLS_DEVELOPMENT,
-    active: false,
-  },
-  {
-    title: "Free Learning Pathways",
-    type: RESOURCE_TYPES.DIRECTORY,
-    category: CATEGORY_NAMES.SKILLS_DEVELOPMENT,
-    active: false,
-  },
-  {
-    title: "Technical Skills Development",
-    type: RESOURCE_TYPES.ARTICLE,
-    readTime: "30 min",
-    category: CATEGORY_NAMES.SKILLS_DEVELOPMENT,
-    active: false,
-  },
-  {
-    title: "Showcasing Your Growth: Portfolio Guide",
-    type: RESOURCE_TYPES.ARTICLE,
-    readTime: "25 min",
-    category: CATEGORY_NAMES.SKILLS_DEVELOPMENT,
-    active: false,
-  },
-
   // Career Exploration (6) - Direction and purpose
   {
     title: "Discovering Your Calling",
@@ -520,51 +467,23 @@ export const ALL_RESOURCES: Resource[] = [
     category: CATEGORY_NAMES.EDUCATION_TRAINING,
     active: false,
   },
-
-  // Professional Development (6) - Continuous growth
+  // Consolidated from Skills Development
   {
-    title: "Creating Your Growth Plan",
-    type: RESOURCE_TYPES.DOWNLOAD,
-    format: "pdf",
-    category: CATEGORY_NAMES.PROFESSIONAL_DEVELOPMENT,
-    active: false,
-  },
-  {
-    title: "Mastering Your Time",
-    type: RESOURCE_TYPES.ARTICLE,
-    readTime: "15 min",
-    category: CATEGORY_NAMES.PROFESSIONAL_DEVELOPMENT,
-    active: false,
-  },
-  {
-    title: "Finding & Being a Mentor",
-    type: RESOURCE_TYPES.ARTICLE,
-    readTime: "20 min",
-    category: CATEGORY_NAMES.PROFESSIONAL_DEVELOPMENT,
-    active: false,
-  },
-  {
-    title: "Developing Leadership",
+    title: "Technical Skills Development",
     type: RESOURCE_TYPES.ARTICLE,
     readTime: "30 min",
-    category: CATEGORY_NAMES.PROFESSIONAL_DEVELOPMENT,
+    category: CATEGORY_NAMES.EDUCATION_TRAINING,
     active: false,
   },
   {
-    title: "Essential Technology Skills",
+    title: "Showcasing Your Growth: Portfolio Guide",
     type: RESOURCE_TYPES.ARTICLE,
-    readTime: "20 min",
-    category: CATEGORY_NAMES.PROFESSIONAL_DEVELOPMENT,
-    active: false,
-  },
-  {
-    title: "Free Certifications Directory",
-    type: RESOURCE_TYPES.DIRECTORY,
-    category: CATEGORY_NAMES.PROFESSIONAL_DEVELOPMENT,
+    readTime: "25 min",
+    category: CATEGORY_NAMES.EDUCATION_TRAINING,
     active: false,
   },
 
-  // Workplace Success (6) - Thriving at work
+  // Workplace Success - Thriving at work
   {
     title: "Understanding Your Workplace Rights",
     type: RESOURCE_TYPES.ARTICLE,
@@ -604,6 +523,36 @@ export const ALL_RESOURCES: Resource[] = [
     title: "Preparing for Growth Conversations",
     type: RESOURCE_TYPES.DOWNLOAD,
     format: "pdf",
+    category: CATEGORY_NAMES.WORKPLACE_SUCCESS,
+    active: false,
+  },
+  // Consolidated from Professional Development
+  {
+    title: "Creating Your Growth Plan",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "pdf",
+    category: CATEGORY_NAMES.WORKPLACE_SUCCESS,
+    active: false,
+  },
+  {
+    title: "Developing Leadership",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "30 min",
+    category: CATEGORY_NAMES.WORKPLACE_SUCCESS,
+    active: false,
+  },
+  // Consolidated from Salary & Negotiation
+  {
+    title: "Understanding Total Compensation",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "xlsx",
+    category: CATEGORY_NAMES.WORKPLACE_SUCCESS,
+    active: false,
+  },
+  {
+    title: "Evaluating Counter Offers",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "15 min",
     category: CATEGORY_NAMES.WORKPLACE_SUCCESS,
     active: false,
   },
@@ -739,94 +688,30 @@ export const ALL_RESOURCES: Resource[] = [
     category: CATEGORY_NAMES.NETWORKING,
     active: false,
   },
-
-  // Job Search Strategies (6) - Practical hunting
+  // Consolidated from Professional Development
   {
-    title: "Strategic Job Search Planning",
+    title: "Finding & Being a Mentor",
     type: RESOURCE_TYPES.ARTICLE,
-    readTime: "30 min",
-    category: CATEGORY_NAMES.JOB_SEARCH,
+    readTime: "20 min",
+    category: CATEGORY_NAMES.NETWORKING,
     active: false,
   },
+  // Consolidated from Job Search Strategies
   {
-    title: "Staying Organized in Your Search",
-    type: RESOURCE_TYPES.DOWNLOAD,
-    format: "xlsx",
-    category: CATEGORY_NAMES.JOB_SEARCH,
+    title: "Where to Find Opportunities",
+    type: RESOURCE_TYPES.DIRECTORY,
+    category: CATEGORY_NAMES.NETWORKING,
     active: false,
   },
   {
     title: "Making Your Profile Discoverable",
     type: RESOURCE_TYPES.ARTICLE,
     readTime: "25 min",
-    category: CATEGORY_NAMES.JOB_SEARCH,
-    active: false,
-  },
-  {
-    title: "Where to Find Opportunities",
-    type: RESOURCE_TYPES.DIRECTORY,
-    category: CATEGORY_NAMES.JOB_SEARCH,
-    active: false,
-  },
-  {
-    title: "Accessing Hidden Opportunities",
-    type: RESOURCE_TYPES.ARTICLE,
-    readTime: "15 min",
-    category: CATEGORY_NAMES.JOB_SEARCH,
-    active: false,
-  },
-  {
-    title: "Realistic Search Timeline",
-    type: RESOURCE_TYPES.DOWNLOAD,
-    format: "pdf",
-    category: CATEGORY_NAMES.JOB_SEARCH,
+    category: CATEGORY_NAMES.NETWORKING,
     active: false,
   },
 
-  // Resume & Cover Letters (6) - Application tools
-  {
-    title: "Telling Your Professional Story",
-    type: RESOURCE_TYPES.ARTICLE,
-    readTime: "25 min",
-    category: CATEGORY_NAMES.RESUME_COVER_LETTERS,
-    active: false,
-  },
-  {
-    title: "Resume Templates",
-    type: RESOURCE_TYPES.DOWNLOAD,
-    format: "docx",
-    category: CATEGORY_NAMES.RESUME_COVER_LETTERS,
-    active: false,
-  },
-  {
-    title: "Cover Letter Templates",
-    type: RESOURCE_TYPES.DOWNLOAD,
-    format: "docx",
-    category: CATEGORY_NAMES.RESUME_COVER_LETTERS,
-    active: false,
-  },
-  {
-    title: "Powerful Language Guide",
-    type: RESOURCE_TYPES.DIRECTORY,
-    category: CATEGORY_NAMES.RESUME_COVER_LETTERS,
-    active: false,
-  },
-  {
-    title: "Final Review Checklist",
-    type: RESOURCE_TYPES.CHECKLIST,
-    completionTime: "5 min",
-    category: CATEGORY_NAMES.RESUME_COVER_LETTERS,
-    active: false,
-  },
-  {
-    title: "Getting Past Automated Screens",
-    type: RESOURCE_TYPES.ARTICLE,
-    readTime: "15 min",
-    category: CATEGORY_NAMES.RESUME_COVER_LETTERS,
-    active: false,
-  },
-
-  // Interview Preparation (6) - Tactical skills
+  // Interview Preparation - Tactical skills
   {
     title: "Calming Interview Nerves",
     type: RESOURCE_TYPES.ARTICLE,
@@ -869,47 +754,34 @@ export const ALL_RESOURCES: Resource[] = [
     category: CATEGORY_NAMES.INTERVIEW_PREPARATION,
     active: false,
   },
-
-  // Salary & Negotiation (6) - Advocating for yourself
+  // Consolidated from Resume & Cover Letters
   {
-    title: "Knowing Your Market Value",
-    type: RESOURCE_TYPES.DIRECTORY,
-    category: CATEGORY_NAMES.SALARY_NEGOTIATION,
-    active: false,
-  },
-  {
-    title: "Understanding Total Compensation",
+    title: "Resume Templates",
     type: RESOURCE_TYPES.DOWNLOAD,
-    format: "xlsx",
-    category: CATEGORY_NAMES.SALARY_NEGOTIATION,
+    format: "docx",
+    category: CATEGORY_NAMES.INTERVIEW_PREPARATION,
     active: false,
   },
+  {
+    title: "Cover Letter Templates",
+    type: RESOURCE_TYPES.DOWNLOAD,
+    format: "docx",
+    category: CATEGORY_NAMES.INTERVIEW_PREPARATION,
+    active: false,
+  },
+  {
+    title: "Getting Past Automated Screens",
+    type: RESOURCE_TYPES.ARTICLE,
+    readTime: "15 min",
+    category: CATEGORY_NAMES.INTERVIEW_PREPARATION,
+    active: false,
+  },
+  // Consolidated from Salary & Negotiation
   {
     title: "Negotiation Strategies",
     type: RESOURCE_TYPES.ARTICLE,
     readTime: "30 min",
-    category: CATEGORY_NAMES.SALARY_NEGOTIATION,
-    active: false,
-  },
-  {
-    title: "Negotiation Conversations",
-    type: RESOURCE_TYPES.DOWNLOAD,
-    format: "docx",
-    category: CATEGORY_NAMES.SALARY_NEGOTIATION,
-    active: false,
-  },
-  {
-    title: "Evaluating Counter Offers",
-    type: RESOURCE_TYPES.ARTICLE,
-    readTime: "15 min",
-    category: CATEGORY_NAMES.SALARY_NEGOTIATION,
-    active: false,
-  },
-  {
-    title: "Asking for What You Deserve",
-    type: RESOURCE_TYPES.DOWNLOAD,
-    format: "docx",
-    category: CATEGORY_NAMES.SALARY_NEGOTIATION,
+    category: CATEGORY_NAMES.INTERVIEW_PREPARATION,
     active: false,
   },
 ];
@@ -935,14 +807,6 @@ export const RESOURCE_CATEGORIES: ResourceCategory[] = [
   },
   // Growth: Skills & Knowledge
   {
-    icon: BookOpen,
-    title: CATEGORY_NAMES.SKILLS_DEVELOPMENT,
-    description: "Resources to build in-demand skills",
-    path: "/resources/skills-development",
-    slug: "skills-development",
-    color: "lime",
-  },
-  {
     icon: GraduationCap,
     title: CATEGORY_NAMES.CAREER_EXPLORATION,
     description: "Discover careers that match your interests and skills",
@@ -967,14 +831,6 @@ export const RESOURCE_CATEGORIES: ResourceCategory[] = [
     path: "/resources/education-training",
     slug: "education-training",
     color: "blue",
-  },
-  {
-    icon: Briefcase,
-    title: CATEGORY_NAMES.PROFESSIONAL_DEVELOPMENT,
-    description: "Build skills and advance your career",
-    path: "/resources/professional-development",
-    slug: "professional-development",
-    color: "cyan",
   },
   {
     icon: Award,
@@ -1012,36 +868,12 @@ export const RESOURCE_CATEGORIES: ResourceCategory[] = [
   },
   // Job Seeking Tools
   {
-    icon: Target,
-    title: CATEGORY_NAMES.JOB_SEARCH,
-    description: "Effective techniques to find and land opportunities",
-    path: "/resources/job-search",
-    slug: "job-search",
-    color: "sky",
-  },
-  {
-    icon: FileText,
-    title: CATEGORY_NAMES.RESUME_COVER_LETTERS,
-    description: "Templates and guides for professional applications",
-    path: "/resources/resume-cover-letters",
-    slug: "resume-cover-letters",
-    color: "slate",
-  },
-  {
     icon: Users,
     title: CATEGORY_NAMES.INTERVIEW_PREPARATION,
     description: "Practice questions and strategies to ace interviews",
     path: "/resources/interview-prep",
     slug: "interview-prep",
     color: "purple",
-  },
-  {
-    icon: DollarSign,
-    title: CATEGORY_NAMES.SALARY_NEGOTIATION,
-    description: "Know your worth and negotiate with confidence",
-    path: "/resources/salary-negotiation",
-    slug: "salary-negotiation",
-    color: "yellow",
   },
 ];
 

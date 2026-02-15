@@ -588,12 +588,12 @@ function ResultsPage() {
       });
     }
 
-    // Education gaps → Skills Development
+    // Education gaps → Education & Training
     if (c.educationGaps && c.educationGaps.length > 0 && !c.educationGaps.includes('None of the above')) {
       resources.push({
-        title: 'Skills Development',
-        slug: 'skills-development',
-        reason: 'Free resources to strengthen foundational skills',
+        title: 'Education & Training',
+        slug: 'education-training',
+        reason: 'Programs, certifications, and skills to build your credentials',
       });
     }
 
@@ -624,14 +624,9 @@ function ResultsPage() {
     // Job seeking basics for unemployed
     if (basic.employmentStatus === 'unemployed') {
       resources.push({
-        title: 'Resume & Cover Letters',
-        slug: 'resume-cover-letters',
-        reason: 'Create professional applications that stand out',
-      });
-      resources.push({
         title: 'Interview Preparation',
         slug: 'interview-prep',
-        reason: 'Practice questions and strategies to ace interviews',
+        reason: 'Resume templates, interview strategies, and negotiation skills',
       });
     }
 
@@ -644,12 +639,12 @@ function ResultsPage() {
       });
     }
 
-    // Always useful: Professional Development
+    // Always useful: Workplace Success
     if (resources.length < 4) {
       resources.push({
-        title: 'Professional Development',
-        slug: 'professional-development',
-        reason: 'Build skills and advance your career',
+        title: 'Workplace Success',
+        slug: 'workplace-success',
+        reason: 'Thrive at work with leadership, growth plans, and compensation insights',
       });
     }
 
