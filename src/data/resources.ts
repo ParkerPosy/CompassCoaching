@@ -2,10 +2,11 @@ import type { LucideIcon } from "lucide-react";
 import {
   Activity,
   Award,
-  Book,
+  Compass,
   GraduationCap,
   Heart,
   Landmark,
+  MessageSquare,
   Smile,
   TrendingUp,
   Users,
@@ -807,7 +808,7 @@ export const RESOURCE_CATEGORIES: ResourceCategory[] = [
   },
   // Growth: Skills & Knowledge
   {
-    icon: GraduationCap,
+    icon: Compass,
     title: CATEGORY_NAMES.CAREER_EXPLORATION,
     description: "Discover careers that match your interests and skills",
     path: "/resources/career-exploration",
@@ -825,7 +826,7 @@ export const RESOURCE_CATEGORIES: ResourceCategory[] = [
   },
   // Continued Learning & Development
   {
-    icon: Book,
+    icon: GraduationCap,
     title: CATEGORY_NAMES.EDUCATION_TRAINING,
     description: "Find programs, certifications, and courses",
     path: "/resources/education-training",
@@ -868,7 +869,7 @@ export const RESOURCE_CATEGORIES: ResourceCategory[] = [
   },
   // Job Seeking Tools
   {
-    icon: Users,
+    icon: MessageSquare,
     title: CATEGORY_NAMES.INTERVIEW_PREPARATION,
     description: "Practice questions and strategies to ace interviews",
     path: "/resources/interview-prep",
