@@ -70,10 +70,24 @@ export async function initializeDatabase() {
       end_date TEXT,
       start_time TEXT,
       end_time TEXT,
+      recurrence_type TEXT DEFAULT 'none',
+      recurrence_end_date TEXT,
       created_at TEXT DEFAULT (datetime('now')),
       updated_at TEXT DEFAULT (datetime('now'))
     )
   `);
+
+  // Add recurrence columns if they don't exist (for existing databases)
+  try {
+    await getDb().execute(`ALTER TABLE events ADD COLUMN recurrence_type TEXT DEFAULT 'none'`);
+  } catch {
+    // Column already exists
+  }
+  try {
+    await getDb().execute(`ALTER TABLE events ADD COLUMN recurrence_end_date TEXT`);
+  } catch {
+    // Column already exists
+  }
 }
 
 // User notes types
@@ -164,6 +178,9 @@ export async function getAdminMessage(clerkId: string): Promise<string> {
   return row?.admin_message || "";
 }
 
+// Recurrence types
+export type RecurrenceType = "none" | "weekly" | "biweekly" | "monthly";
+
 // Event type
 export interface CalendarEvent {
   id: number;
@@ -173,8 +190,24 @@ export interface CalendarEvent {
   end_date: string | null;
   start_time: string | null;
   end_time: string | null;
+  recurrence_type: RecurrenceType;
+  recurrence_end_date: string | null;
   created_at: string;
   updated_at: string;
+}
+
+// Expanded event instance (for calendar display)
+export interface ExpandedEvent {
+  id: number;
+  parent_id: number;
+  title: string;
+  description: string;
+  start_date: string;
+  end_date: string | null;
+  start_time: string | null;
+  end_time: string | null;
+  is_recurring: boolean;
+  recurrence_type: RecurrenceType;
 }
 
 // Goal type
@@ -249,12 +282,14 @@ export async function createEvent(
   startDate: string,
   endDate: string | null,
   startTime: string | null,
-  endTime: string | null
+  endTime: string | null,
+  recurrenceType: RecurrenceType = "none",
+  recurrenceEndDate: string | null = null
 ): Promise<number> {
   const result = await getDb().execute({
-    sql: `INSERT INTO events (title, description, start_date, end_date, start_time, end_time)
-          VALUES (?, ?, ?, ?, ?, ?)`,
-    args: [title, description, startDate, endDate, startTime, endTime],
+    sql: `INSERT INTO events (title, description, start_date, end_date, start_time, end_time, recurrence_type, recurrence_end_date)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+    args: [title, description, startDate, endDate, startTime, endTime, recurrenceType, recurrenceEndDate],
   });
   return Number(result.lastInsertRowid);
 }
@@ -267,13 +302,16 @@ export async function updateEvent(
   startDate: string,
   endDate: string | null,
   startTime: string | null,
-  endTime: string | null
+  endTime: string | null,
+  recurrenceType: RecurrenceType = "none",
+  recurrenceEndDate: string | null = null
 ): Promise<void> {
   await getDb().execute({
     sql: `UPDATE events SET title = ?, description = ?, start_date = ?, end_date = ?,
-          start_time = ?, end_time = ?, updated_at = datetime('now')
+          start_time = ?, end_time = ?, recurrence_type = ?, recurrence_end_date = ?,
+          updated_at = datetime('now')
           WHERE id = ?`,
-    args: [title, description, startDate, endDate, startTime, endTime, id],
+    args: [title, description, startDate, endDate, startTime, endTime, recurrenceType, recurrenceEndDate, id],
   });
 }
 
@@ -283,4 +321,81 @@ export async function deleteEvent(id: number): Promise<void> {
     sql: "DELETE FROM events WHERE id = ?",
     args: [id],
   });
+}
+
+// ── Recurrence Expansion ─────────────────────────────────────
+
+function addDays(dateStr: string, days: number): string {
+  const [y, m, d] = dateStr.split("-").map(Number);
+  const date = new Date(y, m - 1, d);
+  date.setDate(date.getDate() + days);
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+}
+
+function addMonths(dateStr: string, months: number): string {
+  const [y, m, d] = dateStr.split("-").map(Number);
+  const date = new Date(y, m - 1 + months, d);
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+}
+
+/**
+ * Expand recurring events into individual ExpandedEvent instances.
+ * Non-recurring events pass through as-is. Recurring events generate
+ * occurrences up to recurrence_end_date (or 6 months from now as fallback).
+ */
+export function expandRecurringEvents(events: CalendarEvent[]): ExpandedEvent[] {
+  const expanded: ExpandedEvent[] = [];
+  const fallbackEnd = addDays(new Date().toISOString().split("T")[0], 180);
+
+  for (const event of events) {
+    const base: Omit<ExpandedEvent, "id" | "start_date" | "end_date"> = {
+      parent_id: event.id,
+      title: event.title,
+      description: event.description,
+      start_time: event.start_time,
+      end_time: event.end_time,
+      is_recurring: event.recurrence_type !== "none",
+      recurrence_type: event.recurrence_type,
+    };
+
+    if (event.recurrence_type === "none") {
+      expanded.push({
+        ...base,
+        id: event.id,
+        start_date: event.start_date,
+        end_date: event.end_date,
+      });
+      continue;
+    }
+
+    const endLimit = event.recurrence_end_date || fallbackEnd;
+    const daySpan = event.end_date
+      ? Math.round((new Date(event.end_date).getTime() - new Date(event.start_date).getTime()) / 86400000)
+      : 0;
+
+    let cursor = event.start_date;
+    let instanceId = event.id * 10000; // unique IDs for expanded instances
+
+    while (cursor <= endLimit) {
+      expanded.push({
+        ...base,
+        id: instanceId++,
+        start_date: cursor,
+        end_date: daySpan > 0 ? addDays(cursor, daySpan) : null,
+      });
+
+      // Advance cursor based on recurrence type
+      if (event.recurrence_type === "weekly") {
+        cursor = addDays(cursor, 7);
+      } else if (event.recurrence_type === "biweekly") {
+        cursor = addDays(cursor, 14);
+      } else if (event.recurrence_type === "monthly") {
+        cursor = addMonths(cursor, 1);
+      } else {
+        break;
+      }
+    }
+  }
+
+  return expanded;
 }

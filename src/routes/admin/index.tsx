@@ -22,12 +22,22 @@ import {
   Plus,
   Pencil,
   X,
+  Repeat,
 } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
+import { DatePicker } from "@/components/ui/date-picker";
+import { TimePicker } from "@/components/ui/time-picker";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useAssessmentStore, useAssessmentProgress, CURRENT_ASSESSMENT_VERSION } from "@/stores/assessmentStore";
 
 // Types for admin data
@@ -73,6 +83,8 @@ interface AdminCalendarEvent {
   end_date: string | null;
   start_time: string | null;
   end_time: string | null;
+  recurrence_type: string;
+  recurrence_end_date: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -84,6 +96,8 @@ interface EventFormData {
   endDate: string;
   startTime: string;
   endTime: string;
+  recurrenceType: string;
+  recurrenceEndDate: string;
 }
 
 // Server function to check admin role and fetch all data
@@ -208,13 +222,19 @@ const createEventFn = createServerFn({ method: "POST" })
     endDate: string | null;
     startTime: string | null;
     endTime: string | null;
+    recurrenceType: string;
+    recurrenceEndDate: string | null;
   }) => input)
   .handler(async ({ data }) => {
     "use server";
     await verifyAdmin();
     const { initializeDatabase, createEvent } = await import("@/lib/db.server");
     await initializeDatabase();
-    const id = await createEvent(data.title, data.description, data.startDate, data.endDate, data.startTime, data.endTime);
+    const id = await createEvent(
+      data.title, data.description, data.startDate, data.endDate,
+      data.startTime, data.endTime,
+      data.recurrenceType as any, data.recurrenceEndDate,
+    );
     return { success: true, id };
   });
 
@@ -228,12 +248,18 @@ const updateEventFn = createServerFn({ method: "POST" })
     endDate: string | null;
     startTime: string | null;
     endTime: string | null;
+    recurrenceType: string;
+    recurrenceEndDate: string | null;
   }) => input)
   .handler(async ({ data }) => {
     "use server";
     await verifyAdmin();
     const { updateEvent } = await import("@/lib/db.server");
-    await updateEvent(data.id, data.title, data.description, data.startDate, data.endDate, data.startTime, data.endTime);
+    await updateEvent(
+      data.id, data.title, data.description, data.startDate, data.endDate,
+      data.startTime, data.endTime,
+      data.recurrenceType as any, data.recurrenceEndDate,
+    );
     return { success: true };
   });
 
@@ -280,7 +306,7 @@ function AdminPage() {
   const [resetConfirmed, setResetConfirmed] = useState(false);
 
   // Event management state
-  const emptyEventForm: EventFormData = { title: "", description: "", startDate: "", endDate: "", startTime: "", endTime: "" };
+  const emptyEventForm: EventFormData = { title: "", description: "", startDate: "", endDate: "", startTime: "", endTime: "", recurrenceType: "none", recurrenceEndDate: "" };
   const [showEventForm, setShowEventForm] = useState(false);
   const [editingEventId, setEditingEventId] = useState<number | null>(null);
   const [eventForm, setEventForm] = useState<EventFormData>(emptyEventForm);
@@ -475,6 +501,8 @@ function AdminPage() {
       endDate: event.end_date || "",
       startTime: event.start_time || "",
       endTime: event.end_time || "",
+      recurrenceType: event.recurrence_type || "none",
+      recurrenceEndDate: event.recurrence_end_date || "",
     });
     setShowEventForm(true);
   };
@@ -497,6 +525,8 @@ function AdminPage() {
         endDate: eventForm.endDate || null,
         startTime: eventForm.startTime || null,
         endTime: eventForm.endTime || null,
+        recurrenceType: eventForm.recurrenceType,
+        recurrenceEndDate: eventForm.recurrenceEndDate || null,
       };
       if (editingEventId) {
         await updateEventFn({ data: { id: editingEventId, ...payload } });
@@ -812,11 +842,11 @@ function AdminPage() {
                       <label htmlFor="event-start-date" className="block text-sm font-medium text-stone-600 mb-1">
                         Start Date <span className="text-red-500">*</span>
                       </label>
-                      <Input
+                      <DatePicker
                         id="event-start-date"
-                        type="date"
                         value={eventForm.startDate}
-                        onChange={(e) => setEventForm((f) => ({ ...f, startDate: e.target.value }))}
+                        onChange={(v) => setEventForm((f) => ({ ...f, startDate: v }))}
+                        placeholder="Pick start date"
                         required
                       />
                     </div>
@@ -824,11 +854,11 @@ function AdminPage() {
                       <label htmlFor="event-end-date" className="block text-sm font-medium text-stone-600 mb-1">
                         End Date <span className="text-stone-400 font-normal">(for multi-day)</span>
                       </label>
-                      <Input
+                      <DatePicker
                         id="event-end-date"
-                        type="date"
                         value={eventForm.endDate}
-                        onChange={(e) => setEventForm((f) => ({ ...f, endDate: e.target.value }))}
+                        onChange={(v) => setEventForm((f) => ({ ...f, endDate: v }))}
+                        placeholder="Optional end date"
                         min={eventForm.startDate}
                       />
                     </div>
@@ -840,24 +870,61 @@ function AdminPage() {
                       <label htmlFor="event-start-time" className="block text-sm font-medium text-stone-600 mb-1">
                         Start Time <span className="text-stone-400 font-normal">(optional)</span>
                       </label>
-                      <Input
+                      <TimePicker
                         id="event-start-time"
-                        type="time"
                         value={eventForm.startTime}
-                        onChange={(e) => setEventForm((f) => ({ ...f, startTime: e.target.value }))}
+                        onChange={(v) => setEventForm((f) => ({ ...f, startTime: v }))}
+                        placeholder="Start time"
                       />
                     </div>
                     <div>
                       <label htmlFor="event-end-time" className="block text-sm font-medium text-stone-600 mb-1">
                         End Time <span className="text-stone-400 font-normal">(optional)</span>
                       </label>
-                      <Input
+                      <TimePicker
                         id="event-end-time"
-                        type="time"
                         value={eventForm.endTime}
-                        onChange={(e) => setEventForm((f) => ({ ...f, endTime: e.target.value }))}
+                        onChange={(v) => setEventForm((f) => ({ ...f, endTime: v }))}
+                        placeholder="End time"
                       />
                     </div>
+                  </div>
+
+                  {/* Recurrence Row */}
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="event-recurrence" className="block text-sm font-medium text-stone-600 mb-1">
+                        Recurrence
+                      </label>
+                      <Select
+                        value={eventForm.recurrenceType}
+                        onValueChange={(v) => setEventForm((f) => ({ ...f, recurrenceType: v, recurrenceEndDate: v === "none" ? "" : f.recurrenceEndDate }))}
+                      >
+                        <SelectTrigger id="event-recurrence">
+                          <SelectValue placeholder="No repeat" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="none">Does not repeat</SelectItem>
+                          <SelectItem value="weekly">Weekly</SelectItem>
+                          <SelectItem value="biweekly">Every 2 weeks</SelectItem>
+                          <SelectItem value="monthly">Monthly</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    {eventForm.recurrenceType !== "none" && (
+                      <div>
+                        <label htmlFor="event-recurrence-end" className="block text-sm font-medium text-stone-600 mb-1">
+                          Repeat Until
+                        </label>
+                        <DatePicker
+                          id="event-recurrence-end"
+                          value={eventForm.recurrenceEndDate}
+                          onChange={(v) => setEventForm((f) => ({ ...f, recurrenceEndDate: v }))}
+                          placeholder="End of recurrence"
+                          min={eventForm.startDate}
+                        />
+                      </div>
+                    )}
                   </div>
 
                   {/* Actions */}
@@ -899,7 +966,15 @@ function AdminPage() {
                           className={`border-b border-stone-100 ${isPast ? "opacity-50" : ""}`}
                         >
                           <td className="py-3 px-4">
-                            <div className="font-medium text-stone-700 text-sm">{evt.title}</div>
+                            <div className="font-medium text-stone-700 text-sm flex items-center gap-1.5">
+                              {evt.title}
+                              {evt.recurrence_type && evt.recurrence_type !== "none" && (
+                                <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-medium bg-cyan-100 text-cyan-700 rounded-full">
+                                  <Repeat size={10} />
+                                  {evt.recurrence_type}
+                                </span>
+                              )}
+                            </div>
                             {evt.description && (
                               <div className="text-xs text-stone-500 mt-0.5 line-clamp-1">{evt.description}</div>
                             )}

@@ -1,11 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { useState } from "react";
+import * as HoverCard from "@radix-ui/react-hover-card";
 import {
   Calendar,
   ChevronLeft,
   ChevronRight,
   Clock,
+  Repeat,
 } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,23 +16,27 @@ const HOSTNAME = "https://compasscoachingpa.org";
 
 // ── Types ────────────────────────────────────────────────────
 
-interface CalendarEvent {
+interface ExpandedEvent {
   id: number;
+  parent_id: number;
   title: string;
   description: string;
   start_date: string;
   end_date: string | null;
   start_time: string | null;
   end_time: string | null;
+  is_recurring: boolean;
+  recurrence_type: string;
 }
 
 // ── Server Functions (read-only, no auth) ─────────────────────
 
-const getPublicEvents = createServerFn().handler(async (): Promise<CalendarEvent[]> => {
+const getPublicEvents = createServerFn().handler(async (): Promise<ExpandedEvent[]> => {
   "use server";
-  const { initializeDatabase, getAllEvents } = await import("@/lib/db.server");
+  const { initializeDatabase, getAllEvents, expandRecurringEvents } = await import("@/lib/db.server");
   await initializeDatabase();
-  return await getAllEvents();
+  const raw = await getAllEvents();
+  return expandRecurringEvents(raw);
 });
 
 // ── Route ─────────────────────────────────────────────────────
@@ -203,7 +209,7 @@ function EventsPage() {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
   // Build a map of date → events for quick lookup
-  const eventsByDate = new Map<string, CalendarEvent[]>();
+  const eventsByDate = new Map<string, ExpandedEvent[]>();
   for (const event of events) {
     // For multi-day events, add them to each day in the range
     const start = new Date(event.start_date + "T00:00:00");
@@ -366,12 +372,51 @@ function EventsPage() {
                         {/* Event dots / pills */}
                         <div className="mt-0.5 space-y-0.5">
                           {dayEvents.slice(0, 3).map((evt) => (
-                            <div
-                              key={evt.id}
-                              className="text-[10px] sm:text-xs leading-tight px-1.5 py-0.5 rounded bg-cyan-100 text-cyan-800 truncate font-medium"
-                            >
-                              {evt.title}
-                            </div>
+                            <HoverCard.Root key={evt.id} openDelay={200} closeDelay={100}>
+                              <HoverCard.Trigger asChild>
+                                <div
+                                  className="text-[10px] sm:text-xs leading-tight px-1.5 py-0.5 rounded bg-cyan-100 text-cyan-800 truncate font-medium cursor-pointer hover:bg-cyan-200 transition-colors flex items-center gap-0.5"
+                                >
+                                  {evt.is_recurring && <Repeat size={10} className="shrink-0 text-cyan-600" />}
+                                  <span className="truncate">{evt.title}</span>
+                                </div>
+                              </HoverCard.Trigger>
+                              <HoverCard.Portal>
+                                <HoverCard.Content
+                                  sideOffset={8}
+                                  align="start"
+                                  className="z-50 w-64 rounded-xl border-2 border-stone-200 bg-white p-4 shadow-lg animate-in fade-in-0 zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-in-from-bottom-2"
+                                >
+                                  <div className="space-y-2">
+                                    <div className="flex items-start gap-2">
+                                      <h4 className="font-semibold text-stone-700 text-sm leading-snug flex-1">{evt.title}</h4>
+                                      {evt.is_recurring && (
+                                        <span className="shrink-0 inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-medium bg-cyan-100 text-cyan-700 rounded-full">
+                                          <Repeat size={10} />
+                                          {evt.recurrence_type}
+                                        </span>
+                                      )}
+                                    </div>
+                                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-stone-500">
+                                      <span className="flex items-center gap-1">
+                                        <Calendar size={12} className="text-cyan-600" />
+                                        {formatDateRange(evt.start_date, evt.end_date)}
+                                      </span>
+                                      {evt.start_time && (
+                                        <span className="flex items-center gap-1">
+                                          <Clock size={12} className="text-cyan-600" />
+                                          {formatTimeRange(evt.start_time, evt.end_time)}
+                                        </span>
+                                      )}
+                                    </div>
+                                    {evt.description && (
+                                      <p className="text-xs text-stone-600 leading-relaxed line-clamp-3">{evt.description}</p>
+                                    )}
+                                  </div>
+                                  <HoverCard.Arrow className="fill-white" />
+                                </HoverCard.Content>
+                              </HoverCard.Portal>
+                            </HoverCard.Root>
                           ))}
                           {dayEvents.length > 3 && (
                             <div className="text-[10px] text-stone-500 px-1.5">
@@ -446,7 +491,7 @@ function EventsPage() {
 
 // ── Event Card ──────────────────────────────────────────────
 
-function EventCard({ event, compact }: { event: CalendarEvent; compact?: boolean }) {
+function EventCard({ event, compact }: { event: ExpandedEvent; compact?: boolean }) {
   const timeDisplay = formatTimeRange(event.start_time, event.end_time);
   const dateDisplay = formatDateRange(event.start_date, event.end_date);
   const isTodayEvent = isToday(event.start_date);
@@ -465,8 +510,9 @@ function EventCard({ event, compact }: { event: CalendarEvent; compact?: boolean
               </div>
             </div>
             <div className="min-w-0">
-              <h4 className="font-medium text-stone-700 text-sm leading-snug">
+              <h4 className="font-medium text-stone-700 text-sm leading-snug flex items-center gap-1.5">
                 {event.title}
+                {event.is_recurring && <Repeat size={12} className="text-cyan-500 shrink-0" />}
               </h4>
               {timeDisplay && (
                 <p className="text-xs text-stone-500 mt-1 flex items-center gap-1">
@@ -486,7 +532,15 @@ function EventCard({ event, compact }: { event: CalendarEvent; compact?: boolean
       <CardContent className="p-5">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
-            <h4 className="font-semibold text-stone-700 text-base mb-1">{event.title}</h4>
+            <h4 className="font-semibold text-stone-700 text-base mb-1 flex items-center gap-2">
+              {event.title}
+              {event.is_recurring && (
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-medium bg-cyan-100 text-cyan-700 rounded-full">
+                  <Repeat size={11} />
+                  {event.recurrence_type}
+                </span>
+              )}
+            </h4>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-stone-500 mb-2">
               <span className="flex items-center gap-1.5">
                 <Calendar size={14} className="text-cyan-600" />
