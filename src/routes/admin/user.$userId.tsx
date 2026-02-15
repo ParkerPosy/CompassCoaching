@@ -1,6 +1,6 @@
 import { createFileRoute, redirect, Link, useRouter } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import {
   Shield,
   ArrowLeft,
@@ -224,12 +224,23 @@ function SortableGoalRow({
   index,
   onTextChange,
   onRemove,
+  onEnterCreate,
+  autoFocus,
 }: {
   goal: UserGoal;
   index: number;
   onTextChange: (id: string, text: string) => void;
   onRemove: (id: string) => void;
+  onEnterCreate: () => void;
+  autoFocus?: boolean;
 }) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (autoFocus && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [autoFocus]);
   const {
     attributes,
     listeners,
@@ -268,9 +279,16 @@ function SortableGoalRow({
         {goal.completed && <Check className="w-3 h-3 text-white" />}
       </div>
       <input
+        ref={inputRef}
         type="text"
         value={goal.text}
         onChange={(e) => onTextChange(goal.id, e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            onEnterCreate();
+          }
+        }}
         placeholder="Enter a goal..."
         className={`flex-1 text-sm border-0 bg-transparent focus:ring-0 focus:outline-none text-stone-700 placeholder:text-stone-400 ${goal.completed ? 'line-through text-stone-400' : ''}`}
       />
@@ -305,6 +323,8 @@ function AdminUserPage() {
   const [savedNotes, setSavedNotes] = useState(false);
   const [savedGoals, setSavedGoals] = useState(false);
 
+  const [autoFocusGoalId, setAutoFocusGoalId] = useState<string | null>(null);
+
   const messageIsDirty = adminMessage !== user.adminMessage;
   const notesIsDirty = notes !== user.notes;
   const goalsIsDirty = JSON.stringify(goals) !== JSON.stringify(user.goals);
@@ -326,10 +346,12 @@ function AdminUserPage() {
   };
 
   const handleAddGoal = () => {
+    const newId = crypto.randomUUID();
     setGoals((prev) => [
       ...prev,
-      { id: crypto.randomUUID(), text: "", completed: false, completedAt: null },
+      { id: newId, text: "", completed: false, completedAt: null },
     ]);
+    setAutoFocusGoalId(newId);
     setSavedGoals(false);
   };
 
@@ -599,6 +621,8 @@ function AdminUserPage() {
                             index={index}
                             onTextChange={handleGoalTextChange}
                             onRemove={handleRemoveGoal}
+                            onEnterCreate={handleAddGoal}
+                            autoFocus={goal.id === autoFocusGoalId}
                           />
                         ))}
                       </div>
