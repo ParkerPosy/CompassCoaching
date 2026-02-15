@@ -4,7 +4,7 @@
  *
  * CORE MISSION: Free career and life guidance through personalized assessment
  * PRIMARY OFFERING: Assessment → Personalized resources → Actionable guidance
- * SUPPORTING FEATURES: PA wage data, 90+ resources, expert guidance
+ * SUPPORTING FEATURES: PA wage data, 70+ resources, expert guidance
  *
  * BEST PRACTICES:
  * 1. Title Tags: Always use | as separator. Standard pages 50-60 chars, backlink pages can be longer.
@@ -42,12 +42,12 @@ export const HOME_SEO = {
 
   // Alternative hero (more action-oriented)
   heroSubheadingAlt:
-    'Free for all Pennsylvanians. Discover your path with personalized coaching and 90+ resources for career and life success.',
+    'Free for all Pennsylvanians. Discover your path with personalized coaching and 70+ resources for career and life success.',
 
   // Open Graph / Social Media
   ogTitle: 'Free Career & Life Guidance for Pennsylvania | Compass Coaching',
   ogDescription:
-    'Navigate your future with confidence. Free personalized assessment, 90+ resources, and expert guidance for career & life. Serving all of Pennsylvania.',
+    'Navigate your future with confidence. Free personalized assessment, 70+ resources, and expert guidance for career & life. Serving all of Pennsylvania.',
 
   // Schema.org structured data
   structuredData: {
@@ -72,7 +72,7 @@ export const HOME_SEO = {
       price: '0',
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
-      description: 'Free personalized career and life guidance with assessment and 90+ curated resources',
+      description: 'Free personalized career and life guidance with assessment and 70+ curated resources',
     },
   },
 } as const;
@@ -88,7 +88,7 @@ export const ASSESSMENT_SEO = {
 export const RESOURCES_SEO = {
   title: 'Free Career & Life Resources for PA | Compass Coaching',
   description:
-    '90+ free resources for Pennsylvania residents: career exploration, resume building, interview prep, mental wellbeing, relationships, healthy living & more.',
+    '70+ free resources for Pennsylvania residents: career exploration, interview prep, mental wellbeing, relationships, healthy living & more.',
 } as const;
 
 // Salary/Wage Data SEO (Supporting Feature)

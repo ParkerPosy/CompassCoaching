@@ -7,7 +7,7 @@ A free, donation-funded non-profit career and life guidance platform dedicated t
 Compass Coaching is a 100% free platform designed to give back to those who need it most. Serving all 67 counties across Pennsylvania, we help you:
 - **Discover Your Path**: Get personalized career matches through our comprehensive assessment
 - **Know Your Worth**: Access real Pennsylvania wage data for 810+ occupations across all counties
-- **Access 90+ Resources**: Free resources across career guidance and life wellbeing
+- **Access 70+ Resources**: Free resources across career guidance and life wellbeing
 - **Gain Life-Changing Insights**: Understand your personality, values, and unique strengths
 - **Build Your Future**: Create actionable plans for career and personal growth
 - **Track Your Progress**: Visual indicators showing your journey forward
@@ -105,7 +105,7 @@ Multi-step assessment covering:
 - Challenges and concerns
 
 ### 3. Resource Library
-15 categories with 6 resources each:
+10 categories with resources each:
 
 **Career Guidance:**
 - Career Exploration
@@ -177,7 +177,7 @@ npm run test        # Run tests
 ### Completed ✅
 - Core routing structure
 - Assessment flow (5 steps)
-- Resource library (90 resources across 15 categories)
+- Resource library (70+ resources across 10 categories)
 - Career guidance resources (12 categories)
 - Life guidance resources (3 categories)
 - Centralized data management

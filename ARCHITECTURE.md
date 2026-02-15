@@ -134,8 +134,8 @@ data/
 └── resources.ts            # Resource definitions
     ├── RESOURCE_TYPES      # Type constants
     ├── CATEGORY_NAMES      # Category constants (career + life guidance)
-    ├── ALL_RESOURCES       # Master resource list (90 resources)
-    ├── RESOURCE_CATEGORIES # Category metadata (15 categories with colors)
+    ├── ALL_RESOURCES       # Master resource list (70+ resources)
+    ├── RESOURCE_CATEGORIES # Category metadata (10 categories with colors)
     ├── CategoryColor       # Type for 15 available category colors
     ├── CATEGORY_COLOR_STYLES # Complete Tailwind class mappings per color
     └── Helper functions    # Data access functions

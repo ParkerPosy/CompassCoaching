@@ -394,7 +394,7 @@ function CareersPage() {
                 <li className="flex items-start gap-2">
                   <span className="text-lime-600 font-bold">•</span>
                   <span>
-                    <strong>Explore resources:</strong> Access 90+ free guides for
+                    <strong>Explore resources:</strong> Access 70+ free guides for
                     career development and life wellbeing
                   </span>
                 </li>

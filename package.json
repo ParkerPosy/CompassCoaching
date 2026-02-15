@@ -12,7 +12,8 @@
     "lint": "biome lint",
     "check": "biome check",
     "parse:wages": "tsx scripts/parse-wage-data.ts",
-    "examine:wages": "tsx scripts/examine-wage-data.ts"
+    "examine:wages": "tsx scripts/examine-wage-data.ts",
+    "generate:og": "tsx scripts/generate-og-image.ts"
   },
   "dependencies": {
     "@clerk/tanstack-react-start": "^0.29.1",
@@ -52,6 +53,7 @@
     "@vitejs/plugin-react": "^5.0.4",
     "jsdom": "^27.0.0",
     "png-to-ico": "^3.0.1",
+    "sharp": "^0.34.5",
     "tsx": "^4.21.0",
     "typescript": "^5.7.2",
     "vite": "^7.1.7",

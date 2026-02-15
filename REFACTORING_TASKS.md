@@ -93,7 +93,7 @@ Compass Coaching is a career and life guidance platform. Resources span career g
 - [x] Added `CategoryColor` type with 15 unique colors
 - [x] Added `color` property to `ResourceCategory` interface
 - [x] Created `CATEGORY_COLOR_STYLES` with full Tailwind class mappings
-- [x] Assigned meaningful colors to all 15 categories
+- [x] Assigned meaningful colors to all 10 categories
 - [x] Updated resource pages to use category colors (hero, cards, CTA)
 - [x] Added focus and active state styling for CTA buttons
 - [x] Updated navigation panel icons to use category colors
@@ -109,7 +109,7 @@ Compass Coaching is a career and life guidance platform. Resources span career g
 
 The centralized resource data doesn't include descriptions. We should:
 - [ ] Add `description` field to Resource interface
-- [ ] Populate descriptions for all 90 resources
+- [ ] Populate descriptions for all 74 resources
 - [ ] Update dynamic page to display descriptions
 
 ### 7. Extract Assessment Data

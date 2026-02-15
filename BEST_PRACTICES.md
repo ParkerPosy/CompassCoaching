@@ -189,7 +189,7 @@ export default function MyComponent({ prop1, prop2 }: ComponentProps) {
 // src/data/resources.ts
 export const RESOURCE_TYPES = { ... } as const
 export const CATEGORY_NAMES = { ... } as const  // career + life guidance categories
-export const ALL_RESOURCES: Resource[] = [ ... ] // 90 resources across 15 categories
+export const ALL_RESOURCES: Resource[] = [ ... ] // 70+ resources across 10 categories
 
 // Helper functions for data access
 export function getResourcesByCategory(category: string): Resource[] {

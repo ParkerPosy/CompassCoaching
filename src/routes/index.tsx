@@ -182,7 +182,7 @@ function HomePage() {
       icon: <BookOpen className="w-8 h-8 text-blue-600" />,
       title: "Tailored Resources",
       description:
-        "Get matched to the right resources from our library of 90+ guides, tools, and articles for career growth and life wellbeing.",
+        "Get matched to the right resources from our library of 70+ guides, tools, and articles for career growth and life wellbeing.",
     },
     {
       icon: <Target className="w-8 h-8 text-blue-600" />,
@@ -211,7 +211,7 @@ function HomePage() {
   ];
 
   const stats = [
-    { value: "90+", label: "Free Resources" },
+    { value: "70+", label: "Free Resources" },
     { value: "5-Step", label: "Assessment" },
     { value: "810+", label: "PA Careers" },
     { value: "100%", label: "Free Forever" },
