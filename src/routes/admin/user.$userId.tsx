@@ -1,6 +1,6 @@
 import { createFileRoute, redirect, Link, useRouter } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import {
   Shield,
   ArrowLeft,
@@ -16,7 +16,25 @@ import {
   Target,
   Plus,
   Trash2,
+  GripVertical,
 } from "lucide-react";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import type { UserGoal } from "@/lib/db.server";
 import { Container } from "@/components/layout/container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -199,6 +217,79 @@ export const Route = createFileRoute("/admin/user/$userId")({
   loader: async ({ params }) => await getSingleUserData({ data: { userId: params.userId } }),
 });
 
+// ── Sortable Goal Row ────────────────────────────────────────
+
+function SortableGoalRow({
+  goal,
+  index,
+  onTextChange,
+  onRemove,
+}: {
+  goal: UserGoal;
+  index: number;
+  onTextChange: (id: string, text: string) => void;
+  onRemove: (id: string) => void;
+}) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: goal.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    zIndex: isDragging ? 50 : undefined,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`flex items-center gap-3 bg-white rounded-lg border border-stone-200 p-3 ${isDragging ? "shadow-md" : ""}`}
+    >
+      <button
+        {...attributes}
+        {...listeners}
+        className="cursor-grab active:cursor-grabbing p-0.5 rounded hover:bg-stone-100 text-stone-400 hover:text-stone-600 transition-colors shrink-0"
+      >
+        <GripVertical className="w-4 h-4" />
+      </button>
+      <span className="text-xs font-semibold text-stone-400 w-5 text-center shrink-0">{index + 1}</span>
+      <div className={`w-4 h-4 rounded border shrink-0 flex items-center justify-center ${
+        goal.completed
+          ? "bg-blue-600 border-blue-600"
+          : "border-stone-300 bg-white"
+      }`}>
+        {goal.completed && <Check className="w-3 h-3 text-white" />}
+      </div>
+      <input
+        type="text"
+        value={goal.text}
+        onChange={(e) => onTextChange(goal.id, e.target.value)}
+        placeholder="Enter a goal..."
+        className={`flex-1 text-sm border-0 bg-transparent focus:ring-0 focus:outline-none text-stone-700 placeholder:text-stone-400 ${goal.completed ? 'line-through text-stone-400' : ''}`}
+      />
+      {goal.completedAt && (
+        <span className="text-xs text-stone-400 shrink-0">
+          {new Date(goal.completedAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+        </span>
+      )}
+      <button
+        type="button"
+        onClick={() => onRemove(goal.id)}
+        className="text-stone-400 hover:text-red-500 transition-colors shrink-0 p-1"
+      >
+        <Trash2 className="w-4 h-4" />
+      </button>
+    </div>
+  );
+}
+
 function AdminUserPage() {
   const router = useRouter();
   const { user, error } = Route.useLoaderData();
@@ -217,6 +308,22 @@ function AdminUserPage() {
   const messageIsDirty = adminMessage !== user.adminMessage;
   const notesIsDirty = notes !== user.notes;
   const goalsIsDirty = JSON.stringify(goals) !== JSON.stringify(user.goals);
+
+  // DnD for goals
+  const goalSensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
+  const goalIds = useMemo(() => goals.map((g) => g.id), [goals]);
+
+  const handleGoalDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const oldIndex = goals.findIndex((g) => g.id === active.id);
+    const newIndex = goals.findIndex((g) => g.id === over.id);
+    setGoals(arrayMove(goals, oldIndex, newIndex));
+    setSavedGoals(false);
+  };
 
   const handleAddGoal = () => {
     setGoals((prev) => [
@@ -482,39 +589,21 @@ function AdminUserPage() {
                     <p className="text-sm text-stone-500">No goals yet. Add one to get started.</p>
                   </div>
                 ) : (
-                  <div className="space-y-2 mb-4">
-                    {goals.map((goal, index) => (
-                      <div key={goal.id} className="flex items-center gap-3 bg-white rounded-lg border border-stone-200 p-3">
-                        <span className="text-xs font-semibold text-stone-400 w-5 text-center shrink-0">{index + 1}</span>
-                        <div className={`w-4 h-4 rounded border shrink-0 flex items-center justify-center ${
-                          goal.completed
-                            ? "bg-blue-600 border-blue-600"
-                            : "border-stone-300 bg-white"
-                        }`}>
-                          {goal.completed && <Check className="w-3 h-3 text-white" />}
-                        </div>
-                        <input
-                          type="text"
-                          value={goal.text}
-                          onChange={(e) => handleGoalTextChange(goal.id, e.target.value)}
-                          placeholder="Enter a goal..."
-                          className={`flex-1 text-sm border-0 bg-transparent focus:ring-0 focus:outline-none text-stone-700 placeholder:text-stone-400 ${goal.completed ? 'line-through text-stone-400' : ''}`}
-                        />
-                        {goal.completedAt && (
-                          <span className="text-xs text-stone-400 shrink-0">
-                            {new Date(goal.completedAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
-                          </span>
-                        )}
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveGoal(goal.id)}
-                          className="text-stone-400 hover:text-red-500 transition-colors shrink-0 p-1"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
+                  <DndContext sensors={goalSensors} collisionDetection={closestCenter} onDragEnd={handleGoalDragEnd}>
+                    <SortableContext items={goalIds} strategy={verticalListSortingStrategy}>
+                      <div className="space-y-2 mb-4">
+                        {goals.map((goal, index) => (
+                          <SortableGoalRow
+                            key={goal.id}
+                            goal={goal}
+                            index={index}
+                            onTextChange={handleGoalTextChange}
+                            onRemove={handleRemoveGoal}
+                          />
+                        ))}
                       </div>
-                    ))}
-                  </div>
+                    </SortableContext>
+                  </DndContext>
                 )}
 
                 <button
