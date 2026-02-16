@@ -357,7 +357,7 @@ function EventsPage() {
                         type="button"
                         key={key}
                         onClick={() => setSelectedDate(isSelected ? null : key)}
-                        className={`border-b border-r border-stone-200 min-h-20 sm:min-h-24 p-1.5 sm:p-2 text-left transition-colors relative
+                        className={`border-b border-r border-stone-200 min-h-20 sm:min-h-24 p-1.5 sm:p-2 text-left align-top transition-colors relative flex flex-col
                           ${isTodayCell ? "bg-cyan-50/60" : ""}
                           ${isSelected ? "bg-cyan-100/80 ring-2 ring-cyan-500 ring-inset" : "hover:bg-stone-50"}
                         `}
@@ -456,32 +456,31 @@ function EventsPage() {
           </div>
 
           {/* Sidebar — Upcoming Events */}
-          <div>
-            <h3 className="text-lg font-semibold text-stone-700 mb-4 flex items-center gap-2">
-              <Clock size={18} className="text-cyan-600" />
-              Upcoming Events
-            </h3>
-            {upcomingEvents.length > 0 ? (
-              <div className="space-y-3">
-                {upcomingEvents.slice(0, 10).map((event) => (
-                  <EventCard key={event.id} event={event} compact />
-                ))}
-                {upcomingEvents.length > 10 && (
-                  <p className="text-sm text-stone-500 text-center pt-2">
-                    +{upcomingEvents.length - 10} more events
-                  </p>
+          <div className="lg:sticky lg:top-6 lg:self-start">
+            <Card className="lg:max-h-[calc(100vh-3rem)] lg:flex lg:flex-col">
+              <div className="p-4 pb-0 shrink-0">
+                <h3 className="text-lg font-semibold text-stone-700 flex items-center gap-2">
+                  <Clock size={18} className="text-cyan-600" />
+                  Upcoming Events
+                </h3>
+              </div>
+              <div className="p-4 overflow-y-auto">
+                {upcomingEvents.length > 0 ? (
+                  <div className="space-y-3">
+                    {upcomingEvents.map((event) => (
+                      <EventCard key={event.id} event={event} compact />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="py-6 text-center text-stone-500 text-sm">
+                    <Calendar className="w-6 h-6 mx-auto mb-2 text-stone-300" />
+                    No upcoming events scheduled yet.
+                    <br />
+                    Check back soon!
+                  </div>
                 )}
               </div>
-            ) : (
-              <Card>
-                <CardContent className="p-6 text-center text-stone-500 text-sm">
-                  <Calendar className="w-6 h-6 mx-auto mb-2 text-stone-300" />
-                  No upcoming events scheduled yet.
-                  <br />
-                  Check back soon!
-                </CardContent>
-              </Card>
-            )}
+            </Card>
           </div>
         </div>
       </Container>
